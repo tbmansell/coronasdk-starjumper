@@ -1,0 +1,250 @@
+{
+"skeleton": { "spine": "1.9.15", "hash": "1fM6GO5+kGwQKnXXQ7ZdB6o8Xas", "width": 961.86, "height": 640.36 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "FOG", "parent": "root", "length": 214, "x": -1.5, "y": 6, "rotation": 90 },
+	{ "name": "OFF", "parent": "root", "length": 195.87, "x": 185.65, "y": 230.39, "rotation": -128.21 },
+	{ "name": "ON", "parent": "root", "length": 180.57, "x": 261.23, "y": 150.09, "rotation": -132.16 }
+],
+"ik": [],
+"slots": [
+	{ "name": "Jump - Focus Mode FOG", "bone": "FOG", "color": "ffffffb8", "attachment": "Jump - Focus Mode FOG" },
+	{ "name": "Jump - Focus Mode OFF", "bone": "OFF", "attachment": "Jump - Focus Mode OFF" },
+	{ "name": "Jump - Focus Mode ON", "bone": "ON", "color": "ffffff00", "attachment": "Jump - Focus Mode ON" }
+],
+"skins": {
+	"default": {
+		"Jump - Focus Mode FOG": {
+			"Jump - Focus Mode FOG": { "rotation": -90, "width": 960, "height": 640 }
+		},
+		"Jump - Focus Mode ON": {
+			"Jump - Focus Mode ON": { "x": 281.94, "y": -96.89, "rotation": 132.16, "width": 960, "height": 640 }
+		},
+		"Jump - Focus Mode OFF": {
+			"Jump - Focus Mode OFF": { "x": 291.73, "y": -7.87, "rotation": 128.21, "width": 960, "height": 640 }
+		}
+	}
+},
+"animations": {
+	"Movie": {
+		"slots": {
+			"Jump - Focus Mode FOG": {
+				"color": [
+					{ "time": 0, "color": "ffffff73" },
+					{ "time": 2, "color": "ffffffb8" },
+					{ "time": 4, "color": "ffffff73" },
+					{ "time": 6, "color": "ffffffb8" },
+					{ "time": 8, "color": "ffffff73" },
+					{ "time": 10, "color": "ffffffb8" },
+					{ "time": 12, "color": "ffffff73" },
+					{ "time": 14, "color": "ffffffb8" },
+					{ "time": 16, "color": "ffffff73" }
+				]
+			},
+			"Jump - Focus Mode ON": {
+				"color": [
+					{ "time": 0, "color": "ffffff33" },
+					{ "time": 2, "color": "ffffffff" },
+					{ "time": 4, "color": "ffffff33" },
+					{ "time": 6, "color": "ffffffff" },
+					{ "time": 8, "color": "ffffff33" },
+					{ "time": 10, "color": "ffffffff" },
+					{ "time": 12, "color": "ffffff33" },
+					{ "time": 14, "color": "ffffffff" },
+					{ "time": 16, "color": "ffffff33" }
+				]
+			},
+			"Jump - Focus Mode OFF": {
+				"color": [
+					{ "time": 0, "color": "ffffff59" },
+					{ "time": 2, "color": "ffffff00" },
+					{ "time": 4, "color": "ffffff59" },
+					{ "time": 6, "color": "ffffff00" },
+					{ "time": 8, "color": "ffffff59" },
+					{ "time": 10, "color": "ffffff00" },
+					{ "time": 12, "color": "ffffff59" },
+					{ "time": 14, "color": "ffffff00" },
+					{ "time": 16, "color": "ffffff59" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0, "curve": "stepped" },
+					{ "time": 8, "angle": 0, "curve": "stepped" },
+					{ "time": 12, "angle": 0, "curve": "stepped" },
+					{ "time": 16, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 8, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 12, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 16, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 8, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 12, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 16, "x": 1, "y": 1 }
+				]
+			},
+			"FOG": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0, "curve": "stepped" },
+					{ "time": 8, "angle": 0, "curve": "stepped" },
+					{ "time": 12, "angle": 0, "curve": "stepped" },
+					{ "time": 16, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 8, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 12, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 16, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 8, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 12, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 16, "x": 1, "y": 1 }
+				]
+			},
+			"OFF": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0, "curve": "stepped" },
+					{ "time": 8, "angle": 0, "curve": "stepped" },
+					{ "time": 12, "angle": 0, "curve": "stepped" },
+					{ "time": 16, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 8, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 12, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 16, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 8, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 12, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 16, "x": 1, "y": 1 }
+				]
+			},
+			"ON": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0, "curve": "stepped" },
+					{ "time": 8, "angle": 0, "curve": "stepped" },
+					{ "time": 12, "angle": 0, "curve": "stepped" },
+					{ "time": 16, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 8, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 12, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 16, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 8, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 12, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 16, "x": 1, "y": 1 }
+				]
+			}
+		}
+	},
+	"Standard": {
+		"slots": {
+			"Jump - Focus Mode FOG": {
+				"color": [
+					{ "time": 0, "color": "ffffff73" },
+					{ "time": 2, "color": "ffffffb8" },
+					{ "time": 4, "color": "ffffff73" }
+				]
+			},
+			"Jump - Focus Mode ON": {
+				"color": [
+					{ "time": 0, "color": "ffffff33" },
+					{ "time": 2, "color": "ffffffff" },
+					{ "time": 4, "color": "ffffff33" }
+				]
+			},
+			"Jump - Focus Mode OFF": {
+				"color": [
+					{ "time": 0, "color": "ffffff59" },
+					{ "time": 2, "color": "ffffff00" },
+					{ "time": 4, "color": "ffffff59" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1 }
+				]
+			},
+			"FOG": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1 }
+				]
+			},
+			"OFF": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1 }
+				]
+			},
+			"ON": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 4, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 4, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 4, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

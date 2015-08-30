@@ -1,0 +1,157 @@
+{
+"skeleton": {
+	"hash": "3jOlIfcpHE+2apH3AdbLtYdH0VQ",
+	"spine": "2.0.23",
+	"width": 218.52,
+	"height": 200.91,
+	"images": "C:/Users/Slacky/Dropbox/Games/Tilt/Effects/Jetpack Boost"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Flame", "parent": "root", "length": 94.33, "x": 6, "y": 8.99, "rotation": -109.76 },
+	{ "name": "Jetpack Flame Alt", "parent": "root", "length": 84.6, "x": -5.16, "y": 0.97, "rotation": -108.7 },
+	{ "name": "Left Smoke", "parent": "root", "length": 81.93, "x": -14, "y": 12.99, "rotation": -156.41 },
+	{ "name": "Right Smoke", "parent": "root", "length": 92.11, "x": 18.99, "y": -10, "rotation": -69.29 }
+],
+"slots": [
+	{ "name": "jetpackboost-flame2", "bone": "Flame", "attachment": "jetpackboost-flame" },
+	{ "name": "right-2", "bone": "Right Smoke", "color": "ffffffa6", "attachment": "right-2" },
+	{ "name": "left-1", "bone": "Left Smoke", "color": "ffffffa7", "attachment": "left-1" },
+	{ "name": "jetpackboost-flame-alt", "bone": "Jetpack Flame Alt", "attachment": "jetpackboost-flame-alt" }
+],
+"skins": {
+	"default": {
+		"jetpackboost-flame-alt": {
+			"jetpackboost-flame-alt": { "x": 49.56, "y": 7.02, "rotation": 108.7, "width": 95, "height": 156 }
+		},
+		"jetpackboost-flame2": {
+			"jetpackboost-flame": { "x": 63.49, "y": 3.66, "rotation": 109.76, "width": 91, "height": 156 }
+		},
+		"left-1": {
+			"left-1": { "x": 24.1, "y": -7.26, "rotation": 156.41, "width": 122, "height": 161 }
+		},
+		"right-2": {
+			"right-2": { "x": 22.6, "y": 3.21, "scaleX": 0.617, "scaleY": 0.617, "rotation": 69.29, "width": 178, "height": 221 }
+		}
+	}
+},
+"animations": {
+	"Standard": {
+		"slots": {
+			"jetpackboost-flame2": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.0666, "color": "ffffff00" },
+					{ "time": 0.1333, "color": "ffffffff" },
+					{ "time": 0.2, "color": "ffffff00" },
+					{ "time": 0.2666, "color": "ffffffff" },
+					{ "time": 0.3333, "color": "ffffff00" },
+					{ "time": 0.4, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"jetpackboost-flame-alt": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.0666, "color": "ffffffff" },
+					{ "time": 0.1333, "color": "ffffff00" },
+					{ "time": 0.2, "color": "ffffffff" },
+					{ "time": 0.2666, "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"left-1": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffbb" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"right-2": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffbb" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			},
+			"Flame": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.3333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.3333, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.255, "y": 0.335 },
+					{ "time": 0.3333, "x": 1, "y": 1 }
+				]
+			},
+			"Right Smoke": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -0.49, "y": 24.45 },
+					{ "time": 0.4333, "x": 12.21, "y": -39.68, "curve": "stepped" },
+					{ "time": 0.6666, "x": 12.21, "y": -39.68 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.3333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			},
+			"Left Smoke": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 11.47, "y": 10.97 },
+					{ "time": 0.4333, "x": -21.37, "y": -27.47, "curve": "stepped" },
+					{ "time": 0.6666, "x": -21.37, "y": -27.47 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.3333, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.6666, "x": 1, "y": 1 }
+				]
+			},
+			"Jetpack Flame Alt": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.3333, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 6.14, "y": 4.09 },
+					{ "time": 0.3333, "x": 0, "y": -6.15 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.273, "y": 0.423 },
+					{ "time": 0.3333, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

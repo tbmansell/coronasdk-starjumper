@@ -1,0 +1,64 @@
+{
+"skeleton": { "spine": "1.9.17", "hash": "AYESknrnD1jJzmKb6zQCowp2Qng", "width": 155.08, "height": 217.05 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Frame", "parent": "root", "length": 112.07, "x": 0.5, "y": 40, "rotation": 91.8 },
+	{ "name": "Wheel", "parent": "root", "length": 105, "x": -0.5, "y": 3, "rotation": 89.54 }
+],
+"slots": [
+	{ "name": "deathslide-wheel", "bone": "Wheel", "attachment": "deathslide-wheel" },
+	{ "name": "deathslide-frame", "bone": "Frame", "attachment": "deathslide-frame" }
+],
+"skins": {
+	"default": {
+		"deathslide-frame": {
+			"deathslide-frame": { "x": -69.96, "y": 2.21, "rotation": -91.8, "width": 155, "height": 217 }
+		},
+		"deathslide-wheel": {
+			"deathslide-wheel": { "rotation": -89.54, "width": 128, "height": 128 }
+		}
+	}
+},
+"animations": {
+	"Deathslide-FAST": {
+		"bones": {
+			"Wheel": {
+				"rotate": [
+					{ "time": 0, "angle": -89.54 },
+					{ "time": 0.2, "angle": 180.45 },
+					{ "time": 0.4, "angle": 90.45 },
+					{ "time": 0.6, "angle": 0.45 },
+					{ "time": 0.8, "angle": -89.54 }
+				]
+			}
+		}
+	},
+	"Deathslide-MEDIUM": {
+		"bones": {
+			"Wheel": {
+				"rotate": [
+					{ "time": 0, "angle": -89.54 },
+					{ "time": 0.4, "angle": 180.45 },
+					{ "time": 0.8, "angle": 90.45 },
+					{ "time": 1.2, "angle": 0.45 },
+					{ "time": 1.6, "angle": -89.54 }
+				]
+			}
+		}
+	},
+	"Deathslide-SLOW": {
+		"bones": {
+			"Wheel": {
+				"rotate": [
+					{ "time": 0, "angle": -89.54 },
+					{ "time": 0.6666, "angle": 180.45 },
+					{ "time": 1.3333, "angle": 90.45 },
+					{ "time": 2, "angle": 0.45 },
+					{ "time": 2.6666, "angle": -89.54 }
+				]
+			}
+		}
+	},
+	"Standard": {}
+}
+}

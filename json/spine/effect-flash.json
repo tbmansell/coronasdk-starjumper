@@ -1,0 +1,203 @@
+{
+"skeleton": {
+	"hash": "l7DHR9T4O5vMOvkpjPr7ciF91Qo",
+	"spine": "2.0.23",
+	"width": 234.75,
+	"height": 322,
+	"images": "C:/Users/Slacky/Dropbox/Games/Tilt/Effects/Player Ablity Flash"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Bubble1", "parent": "root", "length": 81.11, "x": 8.24, "y": 3.78, "scaleX": 0.5, "scaleY": 0.5, "rotation": 38.21 },
+	{ "name": "Bubble12", "parent": "root", "length": 81.11, "x": 8.24, "y": 3.78, "scaleX": 0.5, "scaleY": 0.5, "rotation": 38.21 },
+	{ "name": "Bubble2", "parent": "root", "length": 63.05, "x": 1.96, "y": -4.29, "scaleX": 0.8, "scaleY": 0.8, "rotation": 309.57 },
+	{ "name": "Bubble3", "parent": "root", "length": 52.03, "x": -3.42, "y": -5.18, "rotation": -144.16 },
+	{ "name": "Bubble4", "parent": "root", "length": 51.69, "x": -0.72, "y": 0.19, "rotation": 128.49 },
+	{ "name": "Bubble42", "parent": "root", "length": 51.69, "x": -0.72, "y": 0.19, "rotation": 128.49 },
+	{ "name": "player-abilty-flash", "parent": "root", "length": 120, "x": 1, "y": -1, "rotation": 90 }
+],
+"slots": [
+	{ "name": "Green Man running pose", "bone": "root" },
+	{ "name": "player-ability-bubble1", "bone": "Bubble1", "color": "ffffff00", "attachment": "player-ability-bubble1" },
+	{ "name": "player-ability-bubble12", "bone": "Bubble12", "color": "ffffff00", "attachment": "player-ability-bubble1" },
+	{ "name": "player-ability-bubble2", "bone": "Bubble2", "color": "ffffff00", "attachment": "player-ability-bubble2" },
+	{ "name": "player-ability-bubble3", "bone": "Bubble3", "color": "ffffff00", "attachment": "player-ability-bubble3" },
+	{ "name": "player-ability-bubble4", "bone": "Bubble4", "color": "ffffff00", "attachment": "player-ability-bubble4" },
+	{ "name": "player-ability-bubble42", "bone": "Bubble42", "color": "ffffff00", "attachment": "player-ability-bubble4" },
+	{ "name": "player-ability-flash2", "bone": "player-abilty-flash", "color": "ffffffa1", "attachment": "player-ability-flash" }
+],
+"skins": {
+	"default": {
+		"player-ability-bubble1": {
+			"player-ability-bubble1": { "x": 28, "y": -10.43, "rotation": -38.21, "width": 61, "height": 60 }
+		},
+		"player-ability-bubble12": {
+			"player-ability-bubble1": { "x": -44.46, "y": 3.82, "rotation": -38.21, "width": 61, "height": 60 }
+		},
+		"player-ability-bubble2": {
+			"player-ability-bubble2": { "rotation": 50.41, "width": 61, "height": 60 }
+		},
+		"player-ability-bubble3": {
+			"player-ability-bubble3": { "scaleX": 1.2, "scaleY": 1.2, "rotation": 144.16, "width": 61, "height": 60 }
+		},
+		"player-ability-bubble4": {
+			"player-ability-bubble4": { "rotation": -128.49, "width": 61, "height": 60 }
+		},
+		"player-ability-bubble42": {
+			"player-ability-bubble4": { "scaleX": 1.078, "scaleY": 0.999, "rotation": -128.49, "width": 61, "height": 60 }
+		},
+		"player-ability-flash2": {
+			"player-ability-flash": { "x": 22.62, "y": -3.92, "rotation": -90, "width": 626, "height": 644 }
+		}
+	}
+},
+"animations": {
+	"stone": {
+		"slots": {
+			"player-ability-bubble1": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.2, "color": "ffffffa4" },
+					{ "time": 0.4333, "color": "ffffff00" }
+				]
+			},
+			"player-ability-bubble2": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.2, "color": "ffffffa4" },
+					{ "time": 0.3666, "color": "ffffff00" }
+				]
+			},
+			"player-ability-bubble3": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.2, "color": "ffffffa4" },
+					{ "time": 0.5666, "color": "ffffff00" }
+				]
+			},
+			"player-ability-bubble4": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.2, "color": "ffffffa4" },
+					{ "time": 0.3, "color": "ffffff00" }
+				]
+			},
+			"player-ability-bubble12": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.2666, "color": "ffffffff" },
+					{ "time": 0.4333, "color": "ffffff00" }
+				]
+			},
+			"player-ability-bubble42": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.1333, "color": "ffffff00" },
+					{ "time": 0.2333, "color": "ffffffa4" },
+					{ "time": 0.5, "color": "ffffff00" }
+				]
+			},
+			"player-ability-flash2": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 0.1666, "color": "ffffff5b" },
+					{ "time": 0.2666, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"player-abilty-flash": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.2666, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.2666, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.2666, "x": 2, "y": 1.5 },
+					{ "time": 1, "x": 0, "y": 0 }
+				]
+			},
+			"Bubble4": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.3, "x": -204.68, "y": 220.93 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Bubble3": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.5666, "x": -383.38, "y": -269.66 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Bubble2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.3666, "x": 285.91, "y": -259.92 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Bubble1": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.4333, "x": 324.89, "y": 269.66 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Bubble12": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 0.5, "x": 576, "y": 149.99 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Bubble42": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.1333, "x": 0, "y": 0 },
+					{ "time": 0.5, "x": -373.41, "y": 16.88 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

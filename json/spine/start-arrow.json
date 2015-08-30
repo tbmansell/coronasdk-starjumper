@@ -1,0 +1,128 @@
+{
+"bones": [
+	{ "name": "root" },
+	{ "name": "Arrow", "parent": "root", "length": 224, "x": -106.5, "y": 0.99 },
+	{ "name": "Cloud1", "parent": "root", "length": 179.01, "x": -65.49, "y": -96, "rotation": 90.45 },
+	{ "name": "Cloud2", "parent": "root", "length": 181.01, "x": -0.5, "y": -96, "rotation": 90.45 },
+	{ "name": "Cloud3", "parent": "root", "length": 174, "x": 63.49, "y": -94, "rotation": 90 }
+],
+"slots": [
+	{ "name": "Arrow", "bone": "Arrow", "attachment": "Arrow" },
+	{ "name": "cloud1", "bone": "Cloud1", "attachment": "cloud1" },
+	{ "name": "cloud2", "bone": "Cloud2", "attachment": "cloud2" },
+	{ "name": "cloud3", "bone": "Cloud3", "attachment": "cloud3" }
+],
+"skins": {
+	"default": {
+		"Arrow": {
+			"Arrow": { "x": 118, "y": 3, "width": 300, "height": 200 }
+		},
+		"cloud1": {
+			"cloud1": { "x": 88.01, "y": 1.3, "rotation": -90.45, "width": 222, "height": 275 }
+		},
+		"cloud2": {
+			"cloud2": { "x": 88.96, "y": -4.69, "rotation": -90.45, "width": 336, "height": 275 }
+		},
+		"cloud3": {
+			"cloud3": { "x": 75.99, "rotation": -90, "width": 232, "height": 275 }
+		}
+	}
+},
+"animations": {
+	"Pulse": {
+		"slots": {
+			"Arrow": {
+				"color": [
+					{ "time": 0, "color": "ffffffa2" },
+					{ "time": 0.6666, "color": "ffffff60" },
+					{ "time": 1.3333, "color": "ffffffa2" }
+				]
+			},
+			"cloud1": {
+				"color": [
+					{ "time": 0, "color": "5eff0000" },
+					{ "time": 0.6666, "color": "50ff4ae1" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"cloud2": {
+				"color": [
+					{ "time": 0, "color": "45ff0100" },
+					{ "time": 0.5, "color": "39ff12db" },
+					{ "time": 1.3333, "color": "ffffff00" }
+				]
+			},
+			"cloud3": {
+				"color": [
+					{ "time": 0, "color": "74ff0fd4" },
+					{ "time": 0.6333, "color": "ffffff0c" },
+					{ "time": 0.6666, "color": "00ff0c00" },
+					{ "time": 1.3333, "color": "74ff0fd9" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Arrow": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Cloud1": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -11.4, "y": 17.57 },
+					{ "time": 1.3333, "x": 158.17, "y": 98 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Cloud2": {
+				"rotate": [
+					{ "time": 0, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": -46.4, "y": -8.42 },
+					{ "time": 1.3333, "x": 7, "y": 65.99 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 }
+				]
+			},
+			"Cloud3": {
+				"rotate": [
+					{ "time": 0, "angle": 16.58 }
+				],
+				"translate": [
+					{ "time": 0, "x": -62.01, "y": 61.97 },
+					{ "time": 0.6333, "x": -116.91, "y": 110.8 },
+					{ "time": 0.6666, "x": -2.57, "y": 5.91 },
+					{ "time": 1.3333, "x": -62.01, "y": 61.97 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1.539 }
+				]
+			}
+		}
+	}
+}
+}

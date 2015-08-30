@@ -1,0 +1,56 @@
+{
+"skeleton": {
+	"hash": "K82+iNzImxbNZNW9qsaQtGyWQpw",
+	"spine": "2.0.23",
+	"width": 53.4,
+	"height": 28.8,
+	"images": "C:/Users/Slacky/Dropbox/Games/Tilt/Effects/Level-Select-zone-pulse"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "length": 147, "y": 0.99, "scaleX": 0.2, "scaleY": 0.2, "rotation": 90 }
+],
+"slots": [
+	{ "name": "pulse", "bone": "bone", "attachment": "pulse" }
+],
+"skins": {
+	"default": {
+		"pulse": {
+			"pulse": { "x": -35, "y": -1.5, "rotation": -90, "width": 267, "height": 144 }
+		}
+	}
+},
+"animations": {
+	"Standard": {
+		"slots": {
+			"pulse": {
+				"color": [
+					{ "time": 0, "color": "ffffff88" },
+					{ "time": 0.3666, "color": "ffffffff" },
+					{ "time": 1, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.1666, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"bone": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1, "angle": 0, "curve": "stepped" },
+					{ "time": 1.1666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.1666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 2.3, "y": 2.3 },
+					{ "time": 1, "x": 5, "y": 5, "curve": "stepped" },
+					{ "time": 1.1666, "x": 5, "y": 5 }
+				]
+			}
+		}
+	}
+}
+}

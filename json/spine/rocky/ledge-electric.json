@@ -1,0 +1,211 @@
+{
+"skeleton": { "spine": "1.9.14", "hash": "2Gx5oppYaNG6MJM2KW+sjn4wwL4", "width": 340.31, "height": 83.21 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "Antennae", "parent": "root", "length": 314.16, "x": -155.48, "y": 59.77 },
+	{ "name": "Bulbs Off", "parent": "root", "length": 186, "x": -103.43, "y": 16.41 },
+	{ "name": "Bulbs On", "parent": "root", "length": 186, "x": -103.43, "y": 16.41 }
+],
+"ik": [],
+"slots": [
+	{ "name": "ledge-electric-bulbs-off", "bone": "Bulbs Off", "attachment": "ledge-electric-bulbs-off" },
+	{ "name": "ledge-electric-bulbs-off2", "bone": "Bulbs On", "color": "ffffff00", "attachment": "ledge-electric-bulbs-on" },
+	{ "name": "ledge-electric", "bone": "root", "attachment": "ledge-electric" },
+	{ "name": "ledge-electric-strike1", "bone": "root", "attachment": "ledge-electric-strike1" },
+	{ "name": "ledge-electric-strike2", "bone": "root" },
+	{ "name": "ledge-electric-strike3", "bone": "root", "attachment": "ledge-electric-strike3" },
+	{ "name": "ledge-electric-antennae", "bone": "Antennae", "attachment": "ledge-electric-antennae" }
+],
+"skins": {
+	"default": {
+		"ledge-electric-bulbs-off": {
+			"ledge-electric-bulbs-off": { "x": 96.38, "y": -0.35, "width": 288, "height": 64 }
+		},
+		"ledge-electric": {
+			"ledge-electric": { "x": -0.5, "y": 26.19, "width": 340, "height": 82 }
+		},
+		"ledge-electric-antennae": {
+			"ledge-electric-antennae": { "x": 155.29, "y": -9.99, "width": 340, "height": 35 }
+		},
+		"ledge-electric-bulbs-off2": {
+			"ledge-electric-bulbs-on": { "x": 96.38, "y": -0.35, "width": 288, "height": 64 }
+		},
+		"ledge-electric-strike1": {
+			"ledge-electric-strike1": { "x": -2.33, "y": 54.72, "width": 339, "height": 81 }
+		},
+		"ledge-electric-strike2": {
+			"ledge-electric-strike2": { "x": -0.5, "y": 67.99, "width": 335, "height": 82 }
+		},
+		"ledge-electric-strike3": {
+			"ledge-electric-strike3": { "x": -1.33, "y": 73.54, "width": 339, "height": 88 }
+		}
+	}
+},
+"animations": {
+	"Activated": {
+		"slots": {
+			"ledge-electric-bulbs-off2": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.1666, "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff00" },
+					{ "time": 0.6666, "color": "ffffffff" },
+					{ "time": 0.8333, "color": "ffffff00" },
+					{ "time": 1, "color": "ffffffff" }
+				]
+			},
+			"ledge-electric-strike1": {
+				"attachment": [
+					{ "time": 0, "name": "ledge-electric-strike1" },
+					{ "time": 0.0666, "name": null },
+					{ "time": 0.1333, "name": "ledge-electric-strike1" },
+					{ "time": 0.1666, "name": null },
+					{ "time": 0.2, "name": null },
+					{ "time": 0.2666, "name": "ledge-electric-strike1" },
+					{ "time": 0.3, "name": null },
+					{ "time": 0.3333, "name": null },
+					{ "time": 0.4, "name": null },
+					{ "time": 0.4333, "name": null },
+					{ "time": 0.4666, "name": "ledge-electric-strike1" },
+					{ "time": 0.5, "name": null },
+					{ "time": 0.5333, "name": null },
+					{ "time": 0.6, "name": null },
+					{ "time": 0.6333, "name": null },
+					{ "time": 0.6666, "name": "ledge-electric-strike1" },
+					{ "time": 0.7333, "name": null },
+					{ "time": 0.7666, "name": null },
+					{ "time": 0.8, "name": "ledge-electric-strike1" },
+					{ "time": 0.8333, "name": null },
+					{ "time": 0.8666, "name": null },
+					{ "time": 0.9333, "name": null },
+					{ "time": 1, "name": null }
+				],
+				"color": [
+					{ "time": 0.1666, "color": "ffffff01" },
+					{ "time": 1, "color": "ffffffff" }
+				]
+			},
+			"ledge-electric-strike3": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.0666, "name": null },
+					{ "time": 0.1333, "name": null },
+					{ "time": 0.1666, "name": null },
+					{ "time": 0.2, "name": "ledge-electric-strike3" },
+					{ "time": 0.2666, "name": null },
+					{ "time": 0.3, "name": null },
+					{ "time": 0.3333, "name": null },
+					{ "time": 0.4, "name": null },
+					{ "time": 0.4333, "name": null },
+					{ "time": 0.4666, "name": null },
+					{ "time": 0.5, "name": null },
+					{ "time": 0.5333, "name": null },
+					{ "time": 0.6, "name": "ledge-electric-strike3" },
+					{ "time": 0.6333, "name": null },
+					{ "time": 0.6666, "name": null },
+					{ "time": 0.7333, "name": null },
+					{ "time": 0.7666, "name": null },
+					{ "time": 0.8, "name": null },
+					{ "time": 0.8333, "name": null },
+					{ "time": 0.8666, "name": "ledge-electric-strike3" },
+					{ "time": 0.9333, "name": null },
+					{ "time": 1, "name": null }
+				],
+				"color": [
+					{ "time": 0.1666, "color": "ffffff01" },
+					{ "time": 1, "color": "ffffffff" }
+				]
+			},
+			"ledge-electric-antennae": {
+				"color": [
+					{ "time": 0, "color": "ffffffff" },
+					{ "time": 0.1666, "color": "ffffff01" },
+					{ "time": 0.3333, "color": "ffffffff" },
+					{ "time": 0.5, "color": "ffffff01" },
+					{ "time": 0.6666, "color": "ffffffff" },
+					{ "time": 0.8333, "color": "ffffff01" },
+					{ "time": 1, "color": "ffffffff" }
+				]
+			},
+			"ledge-electric-strike2": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 0.0666, "name": "ledge-electric-strike2" },
+					{ "time": 0.1333, "name": null },
+					{ "time": 0.1666, "name": null },
+					{ "time": 0.2, "name": null },
+					{ "time": 0.2666, "name": null },
+					{ "time": 0.3, "name": null },
+					{ "time": 0.3333, "name": "ledge-electric-strike2" },
+					{ "time": 0.4, "name": "ledge-electric-strike2" },
+					{ "time": 0.4333, "name": null },
+					{ "time": 0.4666, "name": null },
+					{ "time": 0.5, "name": null },
+					{ "time": 0.5333, "name": "ledge-electric-strike2" },
+					{ "time": 0.6, "name": null },
+					{ "time": 0.6333, "name": null },
+					{ "time": 0.6666, "name": null },
+					{ "time": 0.7333, "name": "ledge-electric-strike2" },
+					{ "time": 0.7666, "name": null },
+					{ "time": 0.8, "name": null },
+					{ "time": 0.8333, "name": null },
+					{ "time": 0.8666, "name": null },
+					{ "time": 0.9333, "name": "ledge-electric-strike2" },
+					{ "time": 1, "name": null }
+				],
+				"color": [
+					{ "time": 0.1666, "color": "ffffff01" },
+					{ "time": 1, "color": "ffffffff" }
+				]
+			}
+		}
+	},
+	"Standard": {
+		"slots": {
+			"ledge-electric-bulbs-off2": {
+				"color": [
+					{ "time": 0.1666, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.8333, "color": "ffffff00" },
+					{ "time": 1.3333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.5, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"ledge-electric-strike1": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 2, "name": null }
+				],
+				"color": [
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"ledge-electric-strike3": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 2, "name": null }
+				],
+				"color": [
+					{ "time": 2, "color": "ffffffff" }
+				]
+			},
+			"ledge-electric-antennae": {
+				"color": [
+					{ "time": 0, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 2, "color": "ffffff00" }
+				]
+			},
+			"ledge-electric-strike2": {
+				"attachment": [
+					{ "time": 0, "name": null },
+					{ "time": 2, "name": null }
+				],
+				"color": [
+					{ "time": 2, "color": "ffffffff" }
+				]
+			}
+		}
+	}
+}
+}
