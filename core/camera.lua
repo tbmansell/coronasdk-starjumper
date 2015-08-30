@@ -120,6 +120,11 @@ function Perspective.createView(numLayers)
 		if isFocus==true then
 			view:setFocus(obj)
 		end
+
+		-- This is for objects that area created when game scaled out, so they are resized back in correctly
+	    if self.scaleMode then
+	        obj.scaleFactor = 1/self.scaleImage
+	    end
 		
 		--Moves an object to a layer
 		function obj:toLayer(newLayer)

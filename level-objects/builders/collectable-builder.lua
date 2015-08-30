@@ -151,7 +151,7 @@ function collectableBuilder:newGear(camera, spec, x, y, ledge)
     gear.originalScale  = 0.3
     
     function gear:setPhysics(scale)
-        local s = 70 * scale
+        local s = 70 * self.originalScale * scale
         physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}})
     end
 
@@ -191,7 +191,7 @@ function collectableBuilder:newNegable(camera, spec, x, y, ledge)
     negable.originalScale  = 0.3
     
     function negable:setPhysics(scale)
-        local s = 70 * scale
+        local s = 70 * self.originalScale * scale
         physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}})
     end
 
@@ -221,7 +221,7 @@ function collectableBuilder:newKey(camera, spec, x, y, ledge)
     key.originalScale  = 0.3
 
     function key:setPhysics(scale)
-        local s = 70 * scale
+        local s = 70 * self.originalScale * scale
         physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}})
     end
 
@@ -369,7 +369,7 @@ function collectableBuilder:setupCommon(camera, collectable, spec, collisionHand
         collectable.image.height = collectable.image.height * scale
     end
         
-    collectable:setPhysics(scale)
+    collectable:setPhysics(camera.scaleImage)
 
     if spec.onLedge and ledge then
         collectable:moveTo((spec.x or 0) + x,  ledge:topEdge() - (collectable:height()/2))

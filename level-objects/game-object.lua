@@ -427,10 +427,10 @@ function gameObject:scale(camera)
     local move  = camera.scalePosition
 
     if self.image then
-        scale = scale * self.originalScale
         self.scaled = scale
 
         local xvel, yvel = 0, 0
+        local scaleImage = (self.image.scaleFactor or 1)
 
         if self.inPhysics then
             xvel, yvel = self.image:getLinearVelocity()
@@ -447,8 +447,8 @@ function gameObject:scale(camera)
             self.preScaleHeight = self.image.height
         end
 
-        self.image.xScale = scale
-        self.image.yScale = scale
+        self.image.xScale = scale * scaleImage
+        self.image.yScale = scale * scaleImage
 
         if self.flipXAxis then self:flipX() end
         if self.flipYAxis then self:flipY() end

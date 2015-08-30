@@ -36,7 +36,7 @@ function emitter:setNextEmit()
     if type(self.timer) == "table" then
         self.emitWhen = math_random(self.timer[1], self.timer[2])
     else
-        self.emitWhen = emitter.timer
+        self.emitWhen = self.timer
     end
 
     after(self.emitWhen, function() self:checkEmit() end)

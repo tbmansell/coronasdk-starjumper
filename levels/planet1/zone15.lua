@@ -23,6 +23,7 @@ local levelData = {
 
         {object="ledge", x=300, y=-100, size="medium3"},
             {object="randomizer", onLedge=true, items={{100,gearReverseJump}}},
+            {object="randomizer", onLedge=true, items={{100,blue}}, x=70},
 
         {object="ledge", x=300, y=-200, size="big3", rotation=-15, triggerLedgeIds={5}},
             -- top row of blocks

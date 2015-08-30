@@ -2,6 +2,7 @@ local levelData = {
     name             = "hard to stomach",
     ceiling          = -display.contentHeight-400,
     timeBonusSeconds = 75,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {1, 2, 3, 4},
@@ -18,9 +19,9 @@ local levelData = {
         {object="ledge", x=300, y=-130, size="small2"},
             {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Orange", kinetic="bounce", onLedge=true},
 
-            {object="scenery", x=110, y=-850, type="fg-tree-4-yellow", size=1.2},
-            {object="scenery", x=210, y=-100, type="fg-rock-2", size=1.2},
-            {object="scenery", x=860, y=-750, type="fg-tree-1-yellow", size=1.2},
+            {object="scenery", x=120,  y=-790, type="fg-tree-4-yellow", size=1.2},
+            {object="scenery", x=210,  y=-100, type="fg-rock-2", size=1.2},
+            {object="scenery", x=860,  y=-750, type="fg-tree-1-yellow", size=1.2},
             {object="scenery", x=1000, y=-85, type="fg-rock-1", size=1.2},
             {object="rings", color=aqua, pattern={ {-200,-120}, {0,-320,color=pink}, {0,-370} }},
 
@@ -29,7 +30,6 @@ local levelData = {
         {object="ledge", x=300,  y=-170, size="small2"},
 
         {object="ledge", x=-300, y=-190, size="small"},
-
             {object="enemy", type="stomach", x=-250, y=275, size=0.8, 
                 shooting={minWait=2, maxWait=4, velocity={varyX=50, varyY=10}, itemsMax=10, ammo={negDizzy, negTrajectory}},
                 behaviour={mode=stateSleeping, awaken=3},

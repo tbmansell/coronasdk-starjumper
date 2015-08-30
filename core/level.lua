@@ -338,11 +338,12 @@ function level:createElementsFromData(source, jumpObject)
                 jumpObject:bind(element)
 
                 if item.y == nil then
-                    local yAdjust = 0
-                    if element.isScenery then yAdjust = 3 end
-
-                    element.image.anchorY = 1
-                    element:y(jumpObject:topEdge() + yAdjust)
+                    if element.isScenery then
+                        element.image.anchorY = 1
+                        element:y(jumpObject:topEdge() + 3)
+                    else
+                        element:y(jumpObject:topEdge() - element.image.height/2)
+                    end
                 end
 
                 if item.regenerate then
