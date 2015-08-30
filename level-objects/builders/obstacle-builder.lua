@@ -136,7 +136,7 @@ function obstacleBuilder:newRopeSwing(camera, spec, prev)
     swing.movement.center  = new_circle(swing:x() - swing.length, swing:y() - swing.length, 7)
     swing.movement.center:setFillColor(0.25,0.25,0.25)
 
-    swing:setMovement(camera)
+    swing:moveNow()
     camera:add(swing.movement.center, 3)
 
     return swing

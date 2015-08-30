@@ -384,7 +384,7 @@ function collectableBuilder:setupCommon(camera, collectable, spec, collisionHand
     if collectable.movement then
         collectable.movement.originalX = spec.x
         collectable.movement.originalY = spec.y
-        collectable:setMovement(camera)
+        collectable:moveNow()
     end
 
     collectable.image.collision = collisionHandler

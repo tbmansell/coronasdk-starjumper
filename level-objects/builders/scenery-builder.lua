@@ -261,7 +261,7 @@ function sceneryBuilder:newLiveBackground(camera, spec)
 
     livebgr.inPhysics   = false
     livebgr.image.alpha = 0  -- must be faded in
-    livebgr:setMovement()
+    livebgr:moveNow()
 
     if livebgr.direction == right then
         livebgr:changeDirection()

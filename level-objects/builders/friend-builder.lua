@@ -132,7 +132,7 @@ function friendBuilder:newBossUfo(camera, spec, x, y)
     end
 
     if friend.movement then
-    	friend:setMovement(camera)
+    	friend:moveNow()
     end
 
     -- Allow items to be optionally excluded from the camera or made the camera focus

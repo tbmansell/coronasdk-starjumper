@@ -501,7 +501,6 @@ function gameObject:setMovement(camera, movement, drawPath)
     self.movement = movement or self.movement
    
     setupMovingItem(self)
-    self.isMoving = true
 
     -- disable draw here for any object that has specified dontDraw
     if self.movement.dontDraw then

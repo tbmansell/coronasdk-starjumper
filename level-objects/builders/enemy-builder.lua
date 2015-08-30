@@ -344,7 +344,7 @@ function enemyBuilder:setupCommonEnemy(camera, spec, x, y, jumpObject, enemy)
         enemy.movement.originalY = spec.y
         
         if enemy.mode ~= stateSleeping and enemy.mode ~= stateWaiting then
-            enemy:setMovement(camera)
+            enemy:moveNow()
         end
     end
 

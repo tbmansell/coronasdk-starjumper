@@ -315,7 +315,7 @@ end
 function ledgeBuilder:setupPathLedge(camera, ledge)
     if ledge.movement then
         ledge.movement.draw = true
-    	ledge:setMovement(camera)
+        ledge:moveNow()
     end
 
     if ledge.rotating then
