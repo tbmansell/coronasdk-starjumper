@@ -427,13 +427,22 @@ function newObjectsLoader:load(level)
 
 
     function level:scaleWarpChase(scalePosition)
-        warp.image.y = warp.image.y * scalePosition
+        self:scaleWarpImage(warp, scalePosition)
+
+        for i=1, #warpFollowers do
+            self:scaleWarpImage(warpFollowers[i], scalePosition)
+        end
+    end
+
+
+    function level:scaleWarpImage(item, scalePosition)
+        item.image.y = item.image.y * scalePosition
 
         -- Just scaling as above doesnt position correctly: making these adjustments keeps it in the same position
         if scalePosition < 1 then
-            warp.image.y = warp.image.y + 120
+            item.image.y = item.image.y + 120
         else
-            warp.image.y = warp.image.y - 200
+            item.image.y = item.image.y - 200
         end
     end
 

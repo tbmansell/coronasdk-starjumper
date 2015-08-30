@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.9.10"
+globalBuildVersion 		   = "0.9.11"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global FPS counter
