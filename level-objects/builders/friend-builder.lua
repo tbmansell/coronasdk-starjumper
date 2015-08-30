@@ -74,6 +74,11 @@ function friendBuilder:newFuzzy(camera, spec, x, y, ledge)
     friend.colorCode     = colorCodes[friend.color]
     friend.originalScale = size
 
+    if camera.scaleMode then
+        local scale = friend.originalScale * camera.scaleImage
+        friend.image:scale(scale, scale)
+    end
+
     friend:setPhysics(camera.scaleImage)
     friend:moveTo((spec.x or 0) + x, (spec.y or 0) + y)
     friend:setDelayTillNextChange()

@@ -367,6 +367,10 @@ function collectableBuilder:setupCommon(camera, collectable, spec, collisionHand
         -- dont use scale() as it doesnt update the images width and height
         collectable.image.width  = collectable.image.width  * scale
         collectable.image.height = collectable.image.height * scale
+
+        if camera.scaleMode and collectable.isSpine then
+            collectable.image:scale(scale, scale)
+        end
     end
         
     collectable:setPhysics(camera.scaleImage)
