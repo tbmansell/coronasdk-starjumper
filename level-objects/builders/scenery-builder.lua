@@ -70,10 +70,11 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
 
     builder:deepCopy(sceneryDef, scenery)
 
-    scenery.isScenery     = true
-    scenery.alpha         = spec.alpha or 1
-    scenery.originalScale = scale
-    scenery.inPhysics     = false
+    scenery.isScenery         = true
+    scenery.alpha             = spec.alpha or 1
+    scenery.originalScale     = scale
+    scenery.image.scaleFactor = scale
+    scenery.inPhysics         = false
 
     if scale ~= 1 then
         scenery.image:scale(scale, scale)

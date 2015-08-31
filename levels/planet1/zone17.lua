@@ -19,7 +19,7 @@ local levelData = {
         {object="ledge", x=300, y=-130, size="small2"},
             {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Orange", kinetic="bounce", onLedge=true},
 
-            {object="scenery", x=120,  y=-790, type="fg-tree-4-yellow", size=1.2},
+            {object="scenery", x=120,  y=-830, type="fg-tree-4-yellow", size=1.2},
             {object="scenery", x=210,  y=-100, type="fg-rock-2", size=1.2},
             {object="scenery", x=860,  y=-750, type="fg-tree-1-yellow", size=1.2},
             {object="scenery", x=1000, y=-85, type="fg-rock-1", size=1.2},

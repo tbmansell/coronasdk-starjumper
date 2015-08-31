@@ -2,7 +2,7 @@ local levelData = {
     name             = "what goes up...",
     timeBonusSeconds = 80,
     ceiling          = -display.contentHeight*2,
-    startLedge       = 4,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {3, 4, 1, 2},
@@ -14,6 +14,9 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
             {object="scenery", x=-50,  y=-950,  type="fg-tree-2-yellow",  layer=4, size=1.2},
+            {object="scenery", x=150,  y=-880,  type="fg-tree-2-yellow",  layer=4, size=1},
+            {object="scenery", x=300,  y=-880,  type="fg-tree-2-yellow",  layer=2, size=1},
+
             {object="spike",   x=280,  y=-770,  type="fg-spikes-float-1", size=0.5, physics={shape={-100,40, 3360,40, 3360,120, -100,120}} },
             {object="scenery", x=400,  y=-770,  type="fg-spikes-float-1", size=0.5, layer=2, copy=12, gap=-80},
             {object="wall",    x=700,  y=-1000, type="fg-wall-divider",   physics={shapeOffset={bottom=-30, left=50},   bounce=1}, rotation=90},
