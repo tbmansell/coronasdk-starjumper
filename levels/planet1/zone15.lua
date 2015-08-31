@@ -57,9 +57,9 @@ local levelData = {
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=150, yforce=150, arc=65, num=5}},
 
             -- EMITTER
-            {object="emitter", x=370, y=-1600, timer=4000, limit=nil, force={0,0,-45}, emitFrom={0, -100},
+            --[[{object="emitter", x=370, y=-1600, timer=4000, limit=nil, force={0,0,-45}, emitFrom={0, -100},
                 item={object="wall", type="fg-rock-3", size=0.6, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}}
-            },
+            },]]
 
         {object="ledge", x=550, y=0, size="big2", flip="x"},
             {object="scenery", x=-130, y=-105, type="fg-foilage-3-yellow", layer=2, size=0.5, copy=3, gap=-10, onLedge=true},

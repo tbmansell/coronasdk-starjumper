@@ -69,7 +69,7 @@ function ropeswing:redraw(camera)
 end
 
 
-function ropeswing:drawToScale(camera)
+--[[function ropeswing:drawToScale(camera)
     local move   = camera.scalePosition
     local center = self.movement.center
     local centerX, centerY = center.x, center.y
@@ -83,7 +83,7 @@ function ropeswing:drawToScale(camera)
 
     self.movement.center = center
     self.length = self.length * move
-end
+end]]
 
 
 function ropeswing:getVelocity()

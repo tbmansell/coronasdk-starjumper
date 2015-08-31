@@ -13,10 +13,12 @@ local collection = {
 	-- size()
 	-- add()
 	-- remove()
+	-- get()
+	-- contains()
 	-- clear()
 	-- destroy()
 	-- forEach()
-	-- scaleEach()
+	-- scale()
 	-- destroyStage()
 	-- getTargetName()
 	-- pauseTimers()
@@ -35,8 +37,15 @@ end
 -- Add an object to this collection: let the collection do the object linkage to save functions on every object
 -- This function is to allow objects to belong to multiple collections, so it does not modify the objects id
 -- @param object to add
+-- @return bool - true if added, false if already in the collection an not re-added
 ----
 function collection:add(object)
+	-- first check that the object is not already in the list: otherwise the model is broken as we have it in twice and cant remove it
+	if self:contains(object) then
+		print("WARNING: object "..tostring(object.key).." already exists in collection "..tostring(self.name))
+		return false
+	end
+
 	local newId = #self.items + 1
 	
 	-- create a reference to this collection in the added object, so they can remove themselves from it
@@ -46,6 +55,7 @@ function collection:add(object)
 	}
 
 	self.items[newId] = object
+	return true
 end
 
 
@@ -71,6 +81,23 @@ end
 ----
 function collection:get(id)
 	return self.items[id]
+end
+
+
+-- Determines if the object passed is currently in this collection
+-- @param objectToFind - to find
+-- @return bool  - true if found
+function collection:contains(objectToFind)
+	local items = self.items
+	local num   = #items
+
+	for i=1,num do
+		local object = items[i]
+		if object and object ~= -1 and object.key == objectToFind.key then
+			return true
+		end
+	end
+	return false
 end
 
 

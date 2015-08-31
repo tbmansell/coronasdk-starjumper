@@ -38,7 +38,12 @@ end
 
 
 function deathslide:grab(player)
+    -- Guard to stop this being triggerd twice and added to movementCollection
     if self.used then return end
+
+    self.used   = true
+    self.player = player
+
     -- Stop momentum, hold  then activate the slide movement
     soundEngine:playLand(player.model)
     
@@ -46,7 +51,6 @@ function deathslide:grab(player)
     player:grabObstacle(self)
     player:loop("DeathSlide HOLD")
     player.mode = playerHang
-    self.player = player
 
     self:moveToGrabPoint(player, 0, (60 * self:getCamera().scaleImage))
     
@@ -54,7 +58,7 @@ function deathslide:grab(player)
         soundEngine:playManaged(sounds.deathslideActivated, self, 10000, -1, 1, 0, 250)  -- loop until turned off, max volume
         self:loop("Deathslide-"..self.animSpeed)
         self.started = true
-        self:moveNow()
+        self:move()
     end)
 end
 
@@ -64,8 +68,6 @@ function deathslide:movementCompleted()
     
     self:stop()
     self:animate("Standard")
-    self.started = false
-    self.used    = true
 
     if self.player then
         self.player:letGoAction()
@@ -75,13 +77,24 @@ end
 
 
 function deathslide:reset(camera)
-    if self.started or self.used then
-        local scale = camera.scaleImage
+    if self.used then
+        self.used   = false
+        self.player = nil
+    end
+
+    if self.started then
+        local scale = camera.scaleImage  -- not scalePosition as when scaled out this is > 1
+        local m     = self.movement
+
         self:movementCompleted()
-        self.used = false
-        self:moveBy(-self.movement.currentX, -self.movement.currentY)
-        self.movement.pattern = {{self.length[1]*scale, self.length[2]*scale}}
-        self:setMovement(camera, self.movement)
+        self:moveBy(-m.currentX, -m.currentY)
+        self.started = false
+
+        m.currentX   = 0
+        m.currentY   = 0
+        m.nextX      = self.length[1] * scale
+        m.nextY      = self.length[2] * scale
+        m.patternPos = 1
     end
 end
 

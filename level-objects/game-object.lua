@@ -86,7 +86,7 @@ local gameObject = {
     -- pauseMovementFinished()
     -- movementCompleted()
     -- scaleMovement()
-    -- scaleMovementPath()
+    -- removeMovementPath()
     -- emit()
     -- bindEmitter()
 }
@@ -459,7 +459,7 @@ function gameObject:scale(camera)
         if self.inPhysics then self:setPhysics(scale) end
 
         -- check if we need to scale movement:
-        if self.movement and self.isMoving then
+        if self.movement and (self.movement.draw or self.isMoving) then
             self:scaleMovement(camera)
         end
 
@@ -508,7 +508,7 @@ function gameObject:setMovement(camera, movement, drawPath)
     end
     
     if drawPath or self.movement.draw then
-        self:scaleMovementPath(camera)
+        self:scaleMovement(camera)
     end
 end
 
@@ -592,23 +592,8 @@ end
 
 -- the main scaling function to rescale a moving object
 function gameObject:scaleMovement(camera)
-    local path = self.movementPathway
-    if path then
-        -- Clear movement
-        local num  = #path
-        
-        for i=1, num do
-            camera:remove(path[i])
-            path[i]:removeSelf()
-        end
-    end
+    self:removeMovementPath(camera)
 
-    self:scaleMovementPath(camera)
-end
-
-
--- does the work of rescaling the movement pattern and redrawing the path if specified
-function gameObject:scaleMovementPath(camera)
     local moveScale    = camera.scalePosition
     local movement     = self.movement
     local pattern      = movement.pattern
@@ -655,6 +640,20 @@ function gameObject:scaleMovementPath(camera)
     movement.currentX = movement.currentX * moveScale
     movement.currentY = movement.currentY * moveScale
     movement.speed    = movement.speed    * moveScale
+end
+
+
+-- Clears movement path
+function gameObject:removeMovementPath(camera)
+    local path = self.movementPathway
+    if path then
+        local num = #path
+        
+        for i=1, num do
+            camera:remove(path[i])
+            path[i]:removeSelf()
+        end
+    end
 end
 
 
