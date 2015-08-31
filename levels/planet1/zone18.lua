@@ -2,7 +2,7 @@ local levelData = {
     name             = "what goes up...",
     timeBonusSeconds = 80,
     ceiling          = -display.contentHeight*2,
-    startLedge       = 1,
+    startLedge       = 4,
 
     backgroundOrder = {
         [bgrFront] = {3, 4, 1, 2},

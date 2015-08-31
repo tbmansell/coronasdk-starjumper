@@ -14,7 +14,7 @@ local ropeswing = {
 	-- canGrab()
 	-- grab()
 	-- redraw()
-	-- drawToScale()
+	-- *scaleMovement()
 	-- getVelocity()
 }
 
@@ -69,7 +69,8 @@ function ropeswing:redraw(camera)
 end
 
 
---[[function ropeswing:drawToScale(camera)
+-- Override base as not doesnt work with ciruclar movement
+function ropeswing:scaleMovement(camera)
     local move   = camera.scalePosition
     local center = self.movement.center
     local centerX, centerY = center.x, center.y
@@ -83,7 +84,7 @@ end
 
     self.movement.center = center
     self.length = self.length * move
-end]]
+end
 
 
 function ropeswing:getVelocity()
