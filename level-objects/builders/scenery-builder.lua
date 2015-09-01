@@ -64,20 +64,22 @@ end
 -- @return new scenery object
 ----
 function sceneryBuilder:newScenery(camera, spec, x, y)
-    local scale   = spec.size or 1
+    local size    = spec.size or 1
     local image   = new_image("images/foreground/"..spec.theme.."/"..spec.type..".png", 0,0)
     local scenery = builder:newGameObject(spec, image)
 
     builder:deepCopy(sceneryDef, scenery)
 
-    scenery.isScenery         = true
-    scenery.alpha             = spec.alpha or 1
-    scenery.originalScale     = scale
-    scenery.image.scaleFactor = scale
-    scenery.inPhysics         = false
+    scenery.isScenery     = true
+    scenery.alpha         = spec.alpha or 1
+    scenery.originalScale = size
+    scenery.inPhysics     = false
 
+    local scale = (size or 1) * camera.scaleImage
     if scale ~= 1 then
         scenery.image:scale(scale, scale)
+        --scenery.image.xScale = scale
+        --scenery.image.yScale = scale
     end
 
     if scenery.flip == "x" then scenery:flipX() end
@@ -93,11 +95,9 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
         scenery:rotate(scenery.rotation)
     end
 
-    local objectType = scenery.object
-
-    if objectType == "wall" then
+    if scenery.object == "wall" then
     	self:setupBlockingScenery(camera, scenery)
-    elseif objectType == "spike" then
+    elseif scenery.object == "spike" then
     	self:setupDeadlyScenery(camera, scenery)
     else
         scenery.layer = scenery.layer or 1
@@ -107,11 +107,6 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     local xpos = (spec.x or 0) + (x or 0) + image.width/2
     local ypos = (spec.y or 0) + (y or 0) + image.height/2
     scenery:moveTo(xpos, ypos)
-    
-    --[[if spec.anchorY then
-        scenery.image.anchorY = spec.anchorY
-        scenery:y(y)
-    end]]
 
     camera:add(scenery.image, scenery.layer, false, (scenery.fixFloor or false), (scenery.fixSky or false))
 

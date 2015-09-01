@@ -430,7 +430,7 @@ function gameObject:scale(camera)
         self.scaled = scale
 
         local xvel, yvel = 0, 0
-        local scaleImage = scale * (self.image.scaleFactor or 1)
+        local scaleImage = scale * (self.image.scaleFactor or 1) --* (self.originalScale or 1)
 
         if self.inPhysics then
             xvel, yvel = self.image:getLinearVelocity()

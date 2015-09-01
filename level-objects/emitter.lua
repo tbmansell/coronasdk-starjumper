@@ -73,8 +73,8 @@ function emitter:emit()
     local level   = hud.level
     local spec    = self:getItemToEmit()
     local object  = spec.object
-    local scale   = camera.scaleImage
-    local move    = camera.scalePosition
+    --local scale   = camera.scaleImage
+    --local move    = camera.scalePosition
     local x, y    = self:pos()
     local element = nil
 
@@ -89,10 +89,10 @@ function emitter:emit()
 
     element:moveTo(x, y)
 
-    if scale ~= 1 then
+    --[[if scale ~= 1 then
         --element:scale(camera)
         element:moveBy(element:x()*move, element:y()*move)
-    end
+    end]]
 
     self:bind(element)
 

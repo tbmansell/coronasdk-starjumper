@@ -111,7 +111,7 @@ function scenery:createPhysicsShape(scale)
 
         if p.shape == "circle" then
             local width  = self.preScaleWidth or self:width()
-            stats.radius = (width/2) * scale
+            stats.radius = (width/2) * size * scale
 
         elseif p.shape then
             stats.shape = {}
