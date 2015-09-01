@@ -32,7 +32,7 @@ local levelData = {
                 }
             },
         
-            {object="spike", x=100,  y=-1000, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=0, right=-20},   bounce=1}},     
+        {object="spike", x=100,  y=-1000, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=0, right=-20},   bounce=1}},     
 
         {object="ledge", x=270, y=-150, surface=oneshot, size="medium", destroyAfter=300, rotation=-20},
             -- ring napper
@@ -73,6 +73,9 @@ local levelData = {
             {object="key", x=0, y=-60, color="Yellow", onLedge=true},
             {object="rings", color=pink, pattern={ {-230,40} }},
 
+
+
+
             {object="emitter", x=0, y=1000, timer={3000, 6000}, limit=nil, force={ {-300, 300}, {-100, -300}, {45, 95} }, 
                 items={
                     {10, {object="scenery", layer=1, type="fg-debris-barrel-grey", size={6, 8}} },
@@ -96,7 +99,7 @@ local levelData = {
 
         {object="ledge", x=300, y=250, size="medium3"},     
 
-		{object="obstacle", type="spacerocket", x=400, y=0, angle=-30, takeoff="fast", force={1000,-900}, rotation={time=100, degrees=1}},    
+ 				{object="obstacle", type="spacerocket", x=400, y=0, angle=-30, takeoff="fast", force={1000,-900}, rotation={time=100, degrees=1}},    
 
            {object="emitter", x=600, y=-1000, timer={1000, 2000}, targetName="moveableEndScenery1", limit=nil, force={ {50, 150}, {100, 300}, {45, 90} }, 
                 items={

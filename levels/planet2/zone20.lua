@@ -3,7 +3,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -2700,
     floor            = 1000,
-    startLedge       = 1,
+    startLedge       = 18,
 
     backgroundOrder = {
         [bgrFront] = {},
@@ -122,9 +122,15 @@ local levelData = {
         
         {object="ledge", x=120, y=-130, surface="exploding"},
             {object="rings", color=aqua, trajectory={x=50, y=-150, xforce=40, yforce=60, arc=40, num=3}},
+            {object="scenery", x=150, y=-320, rotation=-15, type="fgflt-pole-3"},
 
         -- Stage 3
         {object="ledge", x=210, y=210, size="small"},
+
+      
+
+        {object="warpfield", x=350, y=100, size=0.35, radius=100, movement={steering=steeringMild, speed=3, pattern={{300,200},{-300,-200}}}},
+        
 
         {object="ledge", x=170, y=270, size="small2"},
 
@@ -139,7 +145,12 @@ local levelData = {
 
             {object="wall", x=100,  y=-1250, type="fg-wall-divider",  physics={shapeOffset={top=50, right=-20},   bounce=1}},
 
-        {object="ledge", x=420, y=200, surface="exploding"},
+
+        {object="obstacle", type="spacerocket", x=550, y=150, angle=-27, takeoff="fast", force={1100,-1200}, rotation={time=300, degrees=1}},  
+             {object="scenery", x=2150, y=-1300, rotation=7, type="fgflt-pole-1"},
+
+
+        {object="ledge", x=2200, y=-750, surface="exploding"},
             {object="wall", x=456,  y=-892, type="fg-wall-divider-halfsize", copy=2, gap=647, physics={shapeOffset={bottom=0, left=0},   bounce=1}},            
             {object="wall", x=470,  y=-450, type="fg-wall-divider-completeup", physics={shapeOffset={bottom=-30, left=50},   bounce=1}},
 

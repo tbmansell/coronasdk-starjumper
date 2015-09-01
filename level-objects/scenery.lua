@@ -101,6 +101,7 @@ end
 ----
 function scenery:createPhysicsShape(scale)
     local stats = {density=1, friction=0, bounce=0}
+    local size  = self.size or 1  -- only use scale passed in for hard figures as image size already scaled by this number
     local p     = self.physics
 
     if p then
@@ -115,19 +116,22 @@ function scenery:createPhysicsShape(scale)
         elseif p.shape then
             stats.shape = {}
             for i=1, #p.shape do
-                stats.shape[i] = p.shape[i] * scale
+                stats.shape[i] = p.shape[i] * size * scale
             end
 
         elseif p.shapeOffset then
-            local scale = self.size or 1
-            local o     = p.shapeOffset
-            local w, h  = (self:width()/2) * scale, (self:height()/2) * scale
-            local top, bot, left, right = o.top or 0, o.bottom or 0, o.left or 0, o.right or 0
+            local offset = p.shapeOffset
+            local w      = (self:width()/2)     * size
+            local h      = (self:height()/2)    * size
+            local top    = (offset.top    or 0) * scale
+            local bot    = (offset.bottom or 0) * scale
+            local left   = (offset.left   or 0) * scale
+            local right  = (offset.right  or 0) * scale
+
             stats.shape = {-w+left,-h+top, w+right,-h+top, w+right,h+bot, -w+left,h+bot}
         end
     else
-        local scale = self.size or 1
-        local w, h  = (self:width()/2) * scale, (self:height()/2) * scale
+        local w, h  = (self:width()/2) * size, (self:height()/2) * size
         stats.shape = {-w,-h, w,-h, w,h, -w,h}
     end
 

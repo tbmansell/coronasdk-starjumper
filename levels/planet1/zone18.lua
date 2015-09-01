@@ -14,13 +14,12 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
             {object="scenery", x=-50,  y=-950,  type="fg-tree-2-yellow",  layer=4, size=1.2},
-            {object="scenery", x=150,  y=-880,  type="fg-tree-2-yellow",  layer=4, size=1},
-            {object="scenery", x=300,  y=-880,  type="fg-tree-2-yellow",  layer=2, size=1},
-
             {object="spike",   x=280,  y=-770,  type="fg-spikes-float-1", size=0.5, physics={shape={-100,40, 3360,40, 3360,120, -100,120}} },
             {object="scenery", x=400,  y=-770,  type="fg-spikes-float-1", size=0.5, layer=2, copy=12, gap=-80},
+
             {object="wall",    x=700,  y=-1000, type="fg-wall-divider",   physics={shapeOffset={bottom=-30, left=50},   bounce=1}, rotation=90},
             {object="wall",    x=1600, y=-1000, type="fg-wall-divider",   physics={shapeOffset={bottom=-30, right=-50}, bounce=1}, rotation=-90},
+
             {object="wall",    x=2500, y=-300,  type="fg-wall-divider",   physics={shapeOffset={bottom=-30}, bounce=1}},
             {object="wall",    x=2500, y=-1200, type="fg-wall-divider",   physics={shapeOffset={bottom=-30}, bounce=1}, flip="y"},
             {object="spike",   x=890,  y=-1370, type="fg-spikes-float-1", size=0.5, physics={shape={-340,40, 3000,40, 3000,120, -340,120}} },

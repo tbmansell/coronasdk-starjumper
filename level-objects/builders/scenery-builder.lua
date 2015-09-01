@@ -96,9 +96,9 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     local objectType = scenery.object
 
     if objectType == "wall" then
-    	self:setupBlockingScenery(scenery)
+    	self:setupBlockingScenery(camera, scenery)
     elseif objectType == "spike" then
-    	self:setupDeadlyScenery(scenery)
+    	self:setupDeadlyScenery(camera, scenery)
     else
         scenery.layer = scenery.layer or 1
     end
@@ -122,7 +122,7 @@ end
 -- Sets up a scenery object as a blocking object where player bounces off
 -- @param scenery to configure
 ----
-function sceneryBuilder:setupBlockingScenery(scenery)
+function sceneryBuilder:setupBlockingScenery(camera, scenery)
 
     function scenery:setPhysics(s)
         local stats = self:createPhysicsShape(s)
@@ -136,7 +136,7 @@ function sceneryBuilder:setupBlockingScenery(scenery)
         physics.addBody(self.image, body, stats)
     end
 
-    scenery:setPhysics(scenery.originalScale)
+    scenery:setPhysics(camera.scaleImage)
 
     scenery.isWall    = true
     scenery.inPhysics = true
@@ -150,7 +150,7 @@ end
 -- Sets up a scenery object as a deadly object where player dies if they touch it
 -- @param scenery to setup
 ----
-function sceneryBuilder:setupDeadlyScenery(scenery)
+function sceneryBuilder:setupDeadlyScenery(camera, scenery)
 
     function scenery:setPhysics(s)
         local stats = self:createPhysicsShape(s)
@@ -165,7 +165,7 @@ function sceneryBuilder:setupDeadlyScenery(scenery)
         physics.addBody(self.image, body, stats)
     end
 
-    scenery:setPhysics(scenery.originalScale)
+    scenery:setPhysics(camera.scaleImage)
 
     scenery.isSpike   = true
     scenery.inPhysics = true

@@ -54,6 +54,8 @@ local levelData = {
             {object="gear", type=gearTrajectory},
 
         {object="ledge", x=400, y=-150, size="medium", movement={pattern={{40,-32},{-75,-72},{-35,40},{57,60}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+                 {object="scenery", x=400, y=-325, rotation=20, type="fgflt-pole-1"},
+       
 
         {object="ledge", x=300, y=-150, surface="electric"},
             {object="rings", color=aqua, trajectory={x=50, y=-175, xforce=150, yforce=30, arc=45, num=3}},
@@ -128,6 +130,7 @@ local levelData = {
 
 
         {object="obstacle", type="spacerocket", x=500, y=-150, angle=-20, takeoff="slow", force={1000,-700}, rotation={time=100, degrees=-1}},	    
+                {object="scenery", x=2200, y=-500, rotation=-11, type="fgflt-pole-2"},
 
         {object="ledge", x=1700, y=-150, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
             {object="gear", type=gearTrajectory},

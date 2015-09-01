@@ -14,13 +14,15 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-        --{object="ledge", x=280, y=200, size="big3"},
+          {object="ledge", x=280, y=200, size="big3"},
 
-        --{object="warpfield", x=-350, y=-50, size=0.75, radius=100, movement={steering=steeringMild, speed=4, pattern={{50, 0}, {-50, 0}}}},
+          {object="warpfield", x=-350, y=-50, size=0.75, radius=100, movement={steering=steeringMild, speed=4, pattern={{50, 0}, {-50, 0}}}},
+
+
 
         {object="obstacle", type="spacerocket", x=300, y=0, angle=-25, takeoff="fast", force={1000,-700}, rotation={time=100, degrees=1}},
 
-        --{object="enemy", type="greyufo", x=1800, y=-280, size=0.7 },
+            --{object="enemy", type="greyufo", x=1800, y=-280, size=0.7 },
 
 --[[
         {object="obstacle", type="spacerocket", x=300, y=0, angle=-25, timer="fast", force={600,-600}},

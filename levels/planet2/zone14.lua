@@ -3,7 +3,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -2700,
     floor            = 1000,
-    startLedge       = 1,
+    startLedge       = 13,
  
     backgroundOrder = {
         [bgrFront] = {},
@@ -102,10 +102,10 @@ local levelData = {
         {object="ledge", x=275, y=250, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
             {object="friend", type="fuzzy", x=230, y=-420, size=0.2, color="Pink", kinetic="hang", direction=left},
 
-        {object="ledge", x=190, y=-130, surface=pulley, distance=-225, speed=2, reverse="true"},
+        {object="ledge", x=190, y=-70, surface=pulley, distance=-225, speed=2, reverse="true"},
              {object="rings", color=aqua, trajectory={x=103, y=-150, xforce=100, yforce=15, arc=40, num=3}}, 
 
-        {object="ledge", x=340, y=150, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=340, y=90, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
 
         {object="ledge", x=220, y=-50, size="medsmall2"}, ---- Rotating
             {object="scenery", x=500, y=-400, type="fgflt-pole-1"},
