@@ -50,7 +50,7 @@ local levelData = {
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=40, yforce=125, arc=40, num=3}},
         
         {object="ledge", x=675, y=0, surface=oneshot, size="med-small", destroyAfter=300},
-            {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=-30, color="Orange", onLedge=true},
 
         {object="enemy", type="greyufo", x=-175, y=-400, size=0.6, 
             movement={pattern=moveTemplateHighRec, isTemplate=true, distance=725, speed=2.5, pause=500, reverse=true, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}

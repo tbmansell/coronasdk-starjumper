@@ -449,7 +449,7 @@ function scene:createZoneCompletedInfo(zone, zoneData)
         local i = 1
 
         for key,data in pairs(zone.state.fuzzies) do
-            local item  = {object="friend", type="fuzzy", x=0, y=0, color=data.color, kinetic=data.kinetic, direction=data.direction, size=0.2}
+            local item  = {object="friend", type="fuzzy", x=0, y=0, color=data.color, kinetic=data.kinetic, direction=data.direction}
             local fuzzy = friendBuilder:newFriend(camera, item, 390+((i-1)*50), 325)
             group:insert(fuzzy.image)
             spineCollection:add(fuzzy)

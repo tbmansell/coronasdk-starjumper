@@ -49,7 +49,7 @@ local planetData = {
             movement={pattern=moveTemplateLeftArc, isTemplate=true, distance=50, speed=1, pause=1500, reverse=true, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
         },
 
-        {object="friend", type="fuzzy", x=755, y=390, size=0.2, color="Pink", kinetic="hangDouble"},
+        {object="friend", type="fuzzy", x=755, y=390, color="Pink", kinetic="hangDouble"},
 
         {object="obstacle", type="electricgate", x=1150, y=320, size=0.5, timerOn=10000, timerOff=0, antishield=true},
 

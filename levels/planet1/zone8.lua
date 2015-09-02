@@ -21,7 +21,7 @@ local levelData = {
 
          --Furry Ledge
         {object="ledge", x=150, y=450, size="small2", ai={ignore=true, nextJump={[100]=2}}},
-            {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=-30, color="Orange", onLedge=true},
             {object="spike", x=300, y=-300, type="fg-spikes-float-3", physics={shape="circle", bounce=1}},
 
         {object="ledge", x=1, y=-400, rotation=10},

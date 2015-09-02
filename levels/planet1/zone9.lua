@@ -23,7 +23,7 @@ local levelData = {
         {object="ledge", x=365, y=175, surface="collapsing"},
 
         {object="ledge", x=200, y=-100, surface="collapsing"},
-            {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=-30, color="Orange", onLedge=true},
 
         {object="ledge", x=275, y=-150, surface="collapsing"},
             {object="wall",    x=250, y=-175, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=1}},

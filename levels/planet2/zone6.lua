@@ -33,7 +33,7 @@ local levelData = {
 
         --Fuzzy
         {object="ledge", x=200, y=280, size="medium3"},
-            {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="White", onLedge=true},
+            {object="friend", type="fuzzy", color="White", onLedge=true},
 
         {object="ledge", x=700, y=-250, size="small2", positionFromLedge=4},
             {object="enemy", type="greynapper", skin="ring-stealer", x=575, y=-100, size=0.5,

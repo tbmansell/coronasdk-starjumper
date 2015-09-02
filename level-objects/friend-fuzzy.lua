@@ -42,7 +42,8 @@ function fuzzy:setPhysics(scale)
     local frame   = "Standard"
     local bounce  = 0
     local s       = self.originalScale * scale
-    local l,t,r,b = -130*s, -200*s, 130*s, 0
+    --local l,t,r,b = -130*s, -200*s, 130*s, 0
+    local l,t,r,b = -65*s, -110*s, 65*s, 0
 
     if self.kinetic == "bounce" then
         bounce = 1

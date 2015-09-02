@@ -21,7 +21,7 @@ local levelData = {
         {object="ledge", x=300, y=-150, rotation=-20},
         
         {object="ledge", x=350, y=0, rotation=20, ai={ignore=true}},
-            {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="Pink", onLedge=true},
+            {object="friend", type="fuzzy", color="Pink", onLedge=true},
 
         {object="ledge", x=-125, y=-350, size="small"},
 

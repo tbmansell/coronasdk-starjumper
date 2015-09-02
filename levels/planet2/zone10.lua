@@ -51,7 +51,7 @@ local levelData = {
 
 -- Center Low
         {object="ledge", x=123, y=-220, size="medium", positionFromLedge=8},   
-            -- {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Green", onLedge=true},
+            -- {object="friend", type="fuzzy", x=-30, color="Green", onLedge=true},
         
  -- Above Base Level Ledges
         {object="ledge", x=200, y=120,  surface=oneshot, size="medium", destroyAfter=300, positionFromLedge=2},

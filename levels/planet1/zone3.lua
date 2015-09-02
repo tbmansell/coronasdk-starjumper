@@ -27,7 +27,7 @@ local levelData = {
             {object="gear",  type=gearTrajectory, onLedge=true},
             {object="wall",  x=300, y=-1250, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=1}},
             {object="spike", x=300, y=-10,   type="fg-spikes-float-1"},
-            {object="friend", type="fuzzy", x=335, y=-310, size=0.2, color="Pink", kinetic="hang", direction=left},
+            {object="friend", type="fuzzy", x=335, y=-310, color="Pink", kinetic="hang", direction=left},
             
         {object="ledge", x=500, y=0},
             {object="wall",    x=275, y=-200, type="fg-rock-1", physics={shape="circle", bounce=1}},

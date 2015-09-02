@@ -42,7 +42,7 @@ local levelData = {
         	{object="scenery", x=-10, y=-145, type="fg-foilage-1-yellow", size=1, layer=2, size=0.8, onLedge=true},
 
         {object="ledge", x=450, y=50, rotation=15, size="medium"},
-        	{object="friend", x=0, y=0, type="fuzzy", size=0.2, color="Orange"},
+        	{object="friend", type="fuzzy", color="Orange"},
 
 		{object="ledge", x=500, y=-150, surface="lava"},
 			{object="rings", color=pink, trajectory={x=100, y=-150, xforce=160, yforce=120, arc=70, num=5}},
@@ -83,7 +83,7 @@ local levelData = {
         	{object="rings", color=pink, trajectory={x=100, y=-150, xforce=90, yforce=60, arc=77, num=5}},
 
         {object="ledge", x=450, y=300, size="medium3"},
-        	{object="friend", x=0, y=0, type="fuzzy", size=0.2, color="Orange"},
+        	{object="friend", type="fuzzy", color="Orange"},
 
         {object="ledge", x=250, y=-200, size="medium3", movement={pattern={{1500,-450}}, reverse=true, speed=4}},
 

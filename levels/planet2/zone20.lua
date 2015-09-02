@@ -63,7 +63,7 @@ local levelData = {
         {object="ledge", x=300, y=165, surface="exploding"},
 
         {object="ledge", x=190, y=190, surface="exploding"},
-            {object="friend", type="fuzzy", x=0, y=-340, size=0.2, color="Red", kinetic="hang", direction=right},
+            {object="friend", type="fuzzy", x=0, y=-340, color="Red", kinetic="hang", direction=right},
             -- Rock above 8
             {object="wall", x=-50,  y=-575, type="fg-rock-4", size=1, rotation=-45, physics={shape="circle", friction=0.3, bounce=1}},
             {object="wall", x=-50,  y=-1000, type="fg-rock-1", size=0.8, rotation=-45, physics={shape="circle", friction=0.3, bounce=1}},

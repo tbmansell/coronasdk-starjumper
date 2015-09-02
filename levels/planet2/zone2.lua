@@ -57,7 +57,7 @@ local levelData = {
             {object="wall", x=470,  y=-400, type="fg-wall-divider-completeup", physics={shapeOffset={bottom=-30, left=50},   bounce=1}},
 
         {object="ledge", x=300, y=200, size="medium3"},
-            {object="friend", type="fuzzy", x=220, y=-345, size=0.2, color="Green", kinetic="hang", direction=left},
+            {object="friend", type="fuzzy", x=220, y=-345, color="Green", kinetic="hang", direction=left},
 
         {object="ledge", x=250, y=-40, rotation=-20},
             

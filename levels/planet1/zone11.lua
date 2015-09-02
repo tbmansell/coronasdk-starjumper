@@ -49,7 +49,7 @@ local levelData = {
         {object="ledge", x=1400, y=50, size="big"},
 
         {object="ledge", x=250, y=150, size="small2"},
-            {object="friend", x=0, type="fuzzy", onLedge=true, size=0.2, color="Orange"},
+            {object="friend", type="fuzzy", onLedge=true, color="Orange"},
 
         {object="ledge", x=300, y=-150, size="big"},
             {object="spike", x=-280, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},

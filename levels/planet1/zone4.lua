@@ -39,7 +39,7 @@ local levelData = {
             {object="scenery", x=450, y=-125, type="fg-foilage-2-yellow",layer=2, size=0.7},
 
         {object="ledge", x=300, y=-230, size="small3"},
-            {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", color="Orange", onLedge=true},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=40, yforce=125, arc=40, num=3}},
 
         {object="ledge", x=200, y=-150, rotation=-20},

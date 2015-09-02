@@ -69,7 +69,7 @@ local levelData = {
               
         {object="ledge", x=-1000, y=-350, size="big2"}, 
             {object="rings", color=aqua, pattern={ {200, -170, color=blue}, {100, 50}, {100,50} }},
-            {object="friend", type="fuzzy", x=-60, y=-50, size=0.2, color="Red", onLedge=true},
+            {object="friend", type="fuzzy", x=-60, color="Red", onLedge=true},
 
 -- Over the pit
 

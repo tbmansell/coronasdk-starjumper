@@ -74,8 +74,8 @@ function friendBuilder:newFuzzy(camera, spec, x, y, ledge)
     friend.colorCode     = colorCodes[friend.color]
     friend.originalScale = size
 
-    if camera.scaleMode then
-        local scale = friend.originalScale * camera.scaleImage
+    local scale = friend.originalScale * camera.scaleImage
+    if scale ~= 1 then
         friend.image:scale(scale, scale)
     end
 

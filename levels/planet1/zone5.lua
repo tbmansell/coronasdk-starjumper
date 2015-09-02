@@ -56,7 +56,7 @@ local levelData = {
             
         -- only easily reached with sping shoes
         {object="ledge", x=450, y=0, size="big3", ai={ignore=true}},
-            {object="friend", type="fuzzy", x=0, y=-100, size=0.2, color="Orange", kinetic="bounce"},
+            {object="friend", type="fuzzy", y=-100, color="Orange", kinetic="bounce"},
             {object="scenery", x=-100, y=-200, type="fg-foilage-2-yellow", layer=2},
 
         -- remaining ledges alternatives to not using spring shoes

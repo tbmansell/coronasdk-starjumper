@@ -99,6 +99,48 @@ end
 -- @param scale
 -- @return physics stats
 ----
+--[[
+function scenery:createPhysicsShape(scale)
+    local stats = {density=1, friction=0, bounce=0}
+    local size  = self.size or 1  -- only use scale passed in for hard figures as image size already scaled by this number
+    local p     = self.physics
+
+    if p then
+        if p.density  then stats.density  = p.density end
+        if p.friction then stats.friction = p.friction end
+        if p.bounce   then stats.bounce   = p.bounce end
+
+        if p.shape == "circle" then
+            local width  = self.preScaleWidth or self:width()
+            stats.radius = (width/2) * scale
+
+        elseif p.shape then
+            stats.shape = {}
+            for i=1, #p.shape do
+                stats.shape[i] = p.shape[i] * scale
+            end
+
+        elseif p.shapeOffset then
+            local offset = p.shapeOffset
+            local w      = (self:width()/2)
+            local h      = (self:height()/2)
+            local top    = (offset.top    or 0) * scale
+            local bot    = (offset.bottom or 0) * scale
+            local left   = (offset.left   or 0) * scale
+            local right  = (offset.right  or 0) * scale
+
+            stats.shape = {-w+left,-h+top, w+right,-h+top, w+right,h+bot, -w+left,h+bot}
+        end
+    else
+        local w, h  = (self:width()/2), (self:height()/2)
+        stats.shape = {-w,-h, w,-h, w,h, -w,h}
+    end
+
+    return stats
+end
+]]
+
+
 function scenery:createPhysicsShape(scale)
     local stats = {density=1, friction=0, bounce=0}
     local size  = self.size or 1  -- only use scale passed in for hard figures as image size already scaled by this number

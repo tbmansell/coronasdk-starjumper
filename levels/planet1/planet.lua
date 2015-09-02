@@ -38,7 +38,7 @@ local planetData = {
 
     -- Story mode zone select scene - spine objects shown
     animated = {
-        {object="friend",   type="fuzzy",         x=465,  y=198, size=0.2, color="Orange", kinetic="bounce"},
+        {object="friend",   type="fuzzy",         x=465,  y=198, color="Orange", kinetic="bounce"},
         {object="enemy",    type="brain",         x=900,  y=200, size=0.3, color="Purple", theme="rocky", behaviour={mode=stateSleeping}},
 
         {object="enemy",    type="brain",         x=950,  y=440, size=0.3, color="Purple", theme="rocky", 
@@ -67,7 +67,7 @@ local planetData = {
             movement={pattern=movePatternHorizontal, speed=0.5, distance=200, pause=1500, moveStyle=moveStyleWave}
         },
         
-        {object="friend",   type="fuzzy",            x=3330, y=380, size=0.2,  color="Blue", kinetic="hang", direction=right},
+        {object="friend",   type="fuzzy",            x=3330, y=380, color="Blue", kinetic="hang", direction=right},
         {object="player",   model=characterSkyanna,  x=3710, y=345, size=0.17, direction=left, animation="Seated"},
         {object="player",   model=characterBrainiak, x=3765, y=350, size=0.17, direction=left},
     },

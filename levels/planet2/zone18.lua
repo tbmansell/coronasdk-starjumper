@@ -63,7 +63,7 @@
         {object="ledge", x=-220, y=-190, size="medium2"},
             {object="key", x=0, y=-60, color="Blue", onLedge=true},
             {object="rings", color=white, pattern={ {-200,-350}}},
-            {object="friend", type="fuzzy", x=50, y=60, size=0.2, color="Pink", kinetic="hang", direction=left},
+            {object="friend", type="fuzzy", x=50, y=60, color="Pink", kinetic="hang", direction=left},
 
         {object="ledge", x=220, y=-125, surface="ramp"},   
             {object="rings", color=aqua, pattern={ {650,100}, {100,35}, {100,35}}},
@@ -95,7 +95,7 @@
         {object="ledge", x=180, y=-200, size="med-small", surface=oneshot, destroyAfter=300},
                     
         {object="ledge", x=-300, y=-185, size="med-small", surface=oneshot, destroyAfter=300},
-            {object="friend", type="fuzzy", x=-50, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=-50, color="Orange", onLedge=true},
 
         {object="ledge", x=700, y=-600, type="finish"}
     },

@@ -47,7 +47,7 @@ local levelData = {
             {object="rings", color=pink, pattern={ {90,-75}}},
 
         {object="ledge", x=-90, y=10, surface="collapsing"},
-            {object="friend", type="fuzzy", x=80, y=-50, size=0.2, color="White", onLedge=true},
+            {object="friend", type="fuzzy", x=80, color="White", onLedge=true},
           
         {object="obstacle", type="ropeswing", x=-100, y=-250, direction=right, length=200, movement={speed=1, arcStart=220, arc=100}},
           

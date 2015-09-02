@@ -91,7 +91,7 @@ local levelData = {
         {object="ledge", x=-135, y=-278, size="medsmall"}, 
 
         {object="ledge", x=-235, y=-90, size="small"}, 
-            {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="Aqua", onLedge=true},
+            {object="friend", type="fuzzy", color="Aqua", onLedge=true},
 
         {object="ledge", x=975, y=165, type="finish", postionFromLedge=9}
     },

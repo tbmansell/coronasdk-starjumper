@@ -68,7 +68,7 @@ local levelData = {
             {object="scenery", x=0, y=-500, layer=2, type="fg-flowers-6-yellow", layer=2, size=0.7, rotation=-15, flip="y"},
 
         {object="ledge", x=350, y=-225, size="medium"},
-            {object="friend", type="fuzzy", x=-70, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=-70, color="Orange", onLedge=true},
             
             {object="enemy", type="brain", x=200, y=-150, size=0.5, color="Purple",
                 behaviour={mode=stateSleeping, awaken=0},

@@ -80,7 +80,7 @@ local levelData = {
         {object="ledge", x=390, y=155, size="small3"},
 
          {object="ledge", x=300, y=-85, surface="collapsing", movement={pattern={{0,250}}, reverse=true, speed=3, pause=2000}}, 
-            {object="friend", type="fuzzy", x=230, y=30, size=0.2, color="Yellow", kinetic="hang", direction=right},
+            {object="friend", type="fuzzy", x=230, y=30, color="Yellow", kinetic="hang", direction=right},
 
         {object="ledge", x=220, y=370, size="medsmall3", rotation=20}, 
             {object="rings", color=aqua, pattern={ {650,-50}, {200, 80}, {200, 80} }}, 

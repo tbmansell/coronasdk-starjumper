@@ -82,7 +82,7 @@ local levelData = {
         {object="ledge", x=-275, y=475, surface=pulley, distance=1500, speed=5, reverse="true", regenerate="true"},
             {object="rings", color=aqua, pattern={ {200,-150}, {40,-120,color=white}, {40,120} }},
             {object="rings", color=aqua, trajectory={x=30, y=650, xforce=40, yforce=125, arc=40, num=3}},
-            {object="friend", type="fuzzy", x=-50, y=-50, size=0.2, color="White", onLedge=true},
+            {object="friend", type="fuzzy", x=-50, color="White", onLedge=true},
 
         {object="ledge", x=275, y=500, type="finish", fromLedgePosition=1}
     },

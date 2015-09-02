@@ -68,7 +68,7 @@ local levelData = {
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=70, yforce=50, arc=70, num=3}},
 
         {object="ledge", x=1, y=450, size="medsmall3"},
-            {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="Red", onLedge=true},
+            {object="friend", type="fuzzy", color="Red", onLedge=true},
 
         {object="ledge", x=320, y=220, size="big3", rotation=-10, positionFromLedge=8}, 
             {object="wall", x=350,  y=-350, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},

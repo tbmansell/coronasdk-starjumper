@@ -78,8 +78,8 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     local scale = (size or 1) * camera.scaleImage
     if scale ~= 1 then
         scenery.image:scale(scale, scale)
-        --scenery.image.xScale = scale
-        --scenery.image.yScale = scale
+        --scenery.image.width  = scenery.image.width  * scale
+        --scenery.image.height = scenery.image.height * scale
     end
 
     if scenery.flip == "x" then scenery:flipX() end

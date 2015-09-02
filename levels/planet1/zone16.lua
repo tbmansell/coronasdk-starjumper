@@ -43,7 +43,7 @@ local levelData = {
         
         {object="obstacle", x=250, y=-400, type="pole", length=500},
             {object="wall", x=-80, y=-300, type="fg-rock-1", physics={shape="circle", bounce=1}},
-            {object="friend", type="fuzzy", x=-50, y=-100, size=0.2, color="Pink", kinetic="hang", direction=left},
+            {object="friend", type="fuzzy", x=-50, y=-100, color="Pink", kinetic="hang", direction=left},
 
         {object="ledge", x=0, y=250, surface="collapsing", ai={ignore=true}},
 

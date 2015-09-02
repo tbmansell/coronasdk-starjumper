@@ -100,7 +100,7 @@ local levelData = {
         {object="spike", x=870,  y=-1117, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, right=-20}, bounce=1}},  
 
         {object="ledge", x=275, y=250, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
-            {object="friend", type="fuzzy", x=230, y=-420, size=0.2, color="Pink", kinetic="hang", direction=left},
+            {object="friend", type="fuzzy", x=230, y=-420, color="Pink", kinetic="hang", direction=left},
 
         {object="ledge", x=190, y=-70, surface=pulley, distance=-225, speed=2, reverse="true"},
              {object="rings", color=aqua, trajectory={x=103, y=-150, xforce=100, yforce=15, arc=40, num=3}}, 

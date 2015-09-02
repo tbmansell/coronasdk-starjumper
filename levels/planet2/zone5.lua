@@ -37,7 +37,7 @@ local levelData = {
             {object="spike", x=340,  y=-430, type="fg-spikes-row-big", rotation=-90, physics={shapeOffset={top=20, left=-30}}},
 
         {object="ledge", x=-310, y=-220, size="small2"}, 
-            {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="Pink", onLedge=true},
+            {object="friend", type="fuzzy", color="Pink", onLedge=true},
 
         {object="ledge", x=300, y=150, surface="collapsing", positionFromLedge=4},
             {object="rings", color=pink, pattern={ {80,-80} }},

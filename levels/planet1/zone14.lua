@@ -76,7 +76,7 @@ local levelData = {
 
         -- dead end, need pole to return to 15
         {object="ledge", x=-300, y=-270, surface="collapsing"},
-            {object="friend", x=0, y=-50, type="fuzzy", size=0.2, color="Yellow", onLedge=true},
+            {object="friend", type="fuzzy", color="Yellow", onLedge=true},
 
         {object="obstacle", type="pole", x=330, y=-400, length=300},
 
@@ -93,7 +93,7 @@ local levelData = {
             {object="scenery", x=1,    y=-160, type="fg-foilage-1-green", layer=2, size=0.6, onLedge=true},
             {object="scenery", x=-140, y=-150, type="fg-foilage-1-green", layer=2, size=0.5, onLedge=true},
             {object="scenery", x=-300, y=-500, type="fg-wall-l2", flip="y", layer=3},
-            {object="friend",  x=250,  y=-300, type="fuzzy", size=0.2, color="Red", kinetic="hang"},
+            {object="friend",  x=250,  y=-300, type="fuzzy", color="Red", kinetic="hang"},
 
         {object="ledge", x=750, y=-40, surface="lava", rotation=5},
         

@@ -29,7 +29,7 @@ local levelData = {
         
         ---secret Fuzzy Ledge
         {object="ledge", x=-300, y=600, size="small", invisible={invisibleFor=6000, visibleFor=500, alpha=0.3}},
-           {object="friend", type="fuzzy", x=0, y=-50, size=0.2, color="Orange", onLedge=true},    
+           {object="friend", type="fuzzy", color="Orange", onLedge=true},    
 
         {object="ledge", x=150, y=-200, size="medium"}, 
         {object="scenery", x=50, y=-85, type="fg-foilage-3-yellow",layer=2, size=0.8},

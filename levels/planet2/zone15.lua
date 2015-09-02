@@ -64,7 +64,7 @@ local levelData = {
         {object="ledge", x=290, y=200, size="small"},
             
         {object="ledge", x=20, y=400, size="small"},
-            {object="friend", type="fuzzy", x=30, y=-50, size=0.2, color="Pink", onLedge=true},
+            {object="friend", type="fuzzy", x=30, color="Pink", onLedge=true},
             
         {object="ledge", x=-325, y=230, size="medsmall", keylock="Yellow", triggerObstacleIds={1}, positionFromLedge=10},
 

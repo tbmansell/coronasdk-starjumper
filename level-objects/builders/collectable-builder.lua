@@ -305,7 +305,7 @@ function collectableBuilder:newRandomizer(camera, spec, x, y, ledge)
     randomizer.collected    = false
 
     function randomizer:setPhysics(s)
-        physics.addBody(self.image, "static", {density=1, friction=0, bounce=0, isSensor=true, shape={-26*s,-52*s, 45*s,-52*s, 45*s,0, -26*s,0}})
+        physics.addBody(self.image, "static", {density=1, friction=0, bounce=0, isSensor=true, shape={-26*s,-52*s, 26*s,-52*s, 26*s,0, -26*s,0}})
     end
 
     -- Triggers the randomizer
@@ -364,13 +364,7 @@ end
 function collectableBuilder:setupCommon(camera, collectable, spec, collisionHandler, x, y, ledge)
     local scale = (collectable.originalScale or 1) * camera.scaleImage
     if scale ~= 1 then
-        -- dont use scale() as it doesnt update the images width and height
-        collectable.image.width  = collectable.image.width  * scale
-        collectable.image.height = collectable.image.height * scale
-
-        if camera.scaleMode and collectable.isSpine then
-            collectable.image:scale(scale, scale)
-        end
+        collectable.image:scale(scale, scale)
     end
         
     collectable:setPhysics(camera.scaleImage)
