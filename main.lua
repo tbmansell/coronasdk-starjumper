@@ -50,8 +50,8 @@ state.data.holocubes = 100
 
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
-	state.data.zoneSelected   = 3
+	state.data.planetSelected = 2
+	state.data.zoneSelected   = 11
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack

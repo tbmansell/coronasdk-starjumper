@@ -59,7 +59,8 @@ end
 -- @param camera
 ----
 function ledgeCollection:reset(player, camera)
-	local scale = camera.scaleImage
+	----local scale = camera.scaleImage
+    --local scale = camera.scalePosition
    	local items = self.items
 	local num   = #items
 
@@ -67,20 +68,22 @@ function ledgeCollection:reset(player, camera)
 		local ledge = items[i]
 
 		if validObject(ledge) then
+            if ledge.surface == pulley and ledge.triggered then
+                ledge.triggered = false
+                ledge:stop()
+                --ledge:moveBy(-ledge.movement.currentX*scale, -ledge.movement.currentY*scale)
+                ledge:moveBy(-ledge.movement.currentX, -ledge.movement.currentY)
+
+            elseif ledge.surface == exploding then
+                ledge:visible(1)
+            end
+
 			if ledge.isSpine and not ledge.dontReset then
                 ledge:pose()
                 ledge:loop("Standard")
                 ledge:solid()
                 ledge.deadly    = false
                 ledge.triggered = false
-            end
-			
-			if ledge.surface == pulley and ledge.isMoving then
-                ledge:moveBy(-ledge.movement.currentX*scale, -ledge.movement.currentY*scale)
-                self.movementCollection:remove(ledge)
-
-			elseif ledge.surface == exploding then
-                ledge:visible(1)
             end
 
             -- restore invisible ledges that player is not standing on
