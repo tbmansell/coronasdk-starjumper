@@ -42,7 +42,6 @@ function fuzzy:setPhysics(scale)
     local frame   = "Standard"
     local bounce  = 0
     local s       = self.originalScale * scale
-    --local l,t,r,b = -130*s, -200*s, 130*s, 0
     local l,t,r,b = -65*s, -110*s, 65*s, 0
 
     if self.kinetic == "bounce" then
@@ -52,9 +51,9 @@ function fuzzy:setPhysics(scale)
         sensor = true
 
         if self.direction == left then
-            l,t,r,b = -60*s,  -200*s, 180*s, 120*s
+            l,t,r,b = -50*s,  -170*s, 120*s, 100*s
         else
-            l,t,r,b = -160*s, -200*s, 60*s, 120*s
+            l,t,r,b = -120*s, -170*s, 50*s, 100*s
         end
     elseif self.kinetic == "hangDouble" then
         body  = "static"

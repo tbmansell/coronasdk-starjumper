@@ -64,7 +64,7 @@ local levelData = {
                 movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}},
 
         {object="ledge", x=350, y=50, size="medium4"},
-            {object="friend", type="fuzzy", x=0, y=-250, size=0.2, color="Orange", kinetic="bounce", onLedge=true},
+            {object="friend", type="fuzzy", x=0, y=-250, size=0.5, color="Orange", kinetic="bounce", onLedge=true},
             {object="enemy",  type="heart", x=0, y=130,  size=0.5, color="Red", behaviour={mode=stateSleeping}},
 
         {object="ledge", x=500, y=-50, size="medium2"},

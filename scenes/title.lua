@@ -156,17 +156,10 @@ function scene:rollCredits()
         self:addCredit("ian jay & toby mansell")
         self:addCredit("brothers in battle")
 
-        self:addCredit("testers and ear lenders", true)
-        self:addCredit("gerry costello - vm tester")
-        self:addCredit("rhys mansell - game breaker")
-        self:addCredit("kevin ray - morale booster")
-        self:addCredit("laura nash - opinionator")
-
         self:addCredit("special thanks to", true)
         self:addCredit("corona labs - technology platform")
         self:addCredit("esoteric software - spine animation tech")
         self:addCredit("x-pressive games - text candy")
-        self:addCredit("caleb p - project perspective")
         self:addCredit("dudes who gave us free sound effects")
 
         self:addCredit("game bugs", true)

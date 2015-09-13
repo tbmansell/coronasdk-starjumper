@@ -61,7 +61,7 @@ local levelData = {
         {object="ledge", x=300, y=-150, surface=pulley, distance=250, speed=1, reverse="true"},
             {object="scenery", x=435, y=-400, type="fgflt-pole-2"},
             {object="wall",    x=-50, y=-450, type="fg-rock-4", size=1, rotation=-45, physics={shape="circle", friction=0.3, bounce=1}},
-            {object="friend", type="fuzzy", x=15, y=-200, size=0.2, color="White", kinetic="hang", direction=left},
+            {object="friend", type="fuzzy", x=15, y=-200, color="White", kinetic="hang", direction=left},
 
         {object="ledge", x=240, y=150, surface=pulley, distance=-150, speed=1, reverse="true"},
             {object="rings", color=red, pattern={ {250,-400}}},

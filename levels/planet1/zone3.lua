@@ -1,6 +1,7 @@
 local levelData = {
     name             = "fuzzies in need",
     timeBonusSeconds = 35,
+    startLedge       = 5,
 
     backgroundOrder = {
         [bgrFront] = {3, 4, 1, 2},
@@ -13,7 +14,7 @@ local levelData = {
         {object="ledge", type="start"},
 
         {object="ledge", x=345, y=-120, size="medium3", pointsPos=left},
-            {object="friend", type="fuzzy", x=-30, y=-50, size=0.2, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=-30, y=-50, color="Orange", onLedge=true},
             {object="rings", color=aqua, pattern={ {400,-230}, {0,-75}, {75,0}, {0,75} }},
             {object="scenery", x=150, y=-150, type="fg-tree-6-yellow", size=1, flip="x"},             
 

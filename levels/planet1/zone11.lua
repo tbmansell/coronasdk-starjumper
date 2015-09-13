@@ -74,7 +74,7 @@ local levelData = {
         {object="obstacle", type="deathslide", x=200, y=-300, length={1600,350}, speed=4, animSpeed="MEDIUM"},
 
         {object="ledge", x=-500, y=200, size="small"},
-            {object="friend", x=0, y=0, type="fuzzy", size=0.2, color="White"},
+            {object="friend", x=0, y=0, type="fuzzy", color="White"},
             {object="scenery", x=720, y=-272, type="fg-spikes-4",layer=2, size=1},
 
         {object="ledge", x=370, y=0, type="finish"}
