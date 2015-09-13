@@ -98,4 +98,26 @@ function particles:showEmitter(camera, name, x, y, duration, alpha, layer)
 end
 
 
+function particles:scale(camera)
+    for _,emitter in pairs(createdEmitters) do
+        if emitter then
+            local scale = camera.scalePosition
+
+            emitter.x = emitter.x * scale
+            emitter.y = emitter.y * scale
+
+            -- Doesnt work for emitters:
+            --emitter.xScale = scale
+            --emitter.yScale = scale
+
+            emitter.startParticleSize  = emitter.startParticleSize  * scale
+            emitter.finishParticleSize = emitter.finishParticleSize * scale
+
+            emitter.startParticleSizeVariance  = emitter.startParticleSizeVariance  * scale
+            emitter.finishParticleSizeVariance = emitter.finishParticleSizeVariance * scale
+        end
+    end
+end
+
+
 return particles

@@ -1,7 +1,6 @@
 local levelData = {
     name             = "fuzzies in need",
     timeBonusSeconds = 35,
-    startLedge       = 5,
 
     backgroundOrder = {
         [bgrFront] = {3, 4, 1, 2},
