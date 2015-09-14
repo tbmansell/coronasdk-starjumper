@@ -447,15 +447,16 @@ function ledge:shake(camera)
 end
 
 
--- Called when a oneway movement has completed and movement should be stopped (or pervious movement should be resumed)
+-- Called when a oneway movement has completed and movement should be stopped (or previous movement should be resumed)
 function ledge:movementCompleted()
-    if self.stashedMovement then
+    -- ensure that shaking a pulley ledge does not trigger it to move after it has been reset (as has an existing movement pattern)
+    if self.stashedMovement and (self.surface ~= pulley or self.triggeredPulley) then
         -- resume movement for moving ledges
         self.movement        = self.stashedMovement
         self.stashedMovement = nil
 
-    elseif self.surface ~= pulley then
-    	self:stop()
+    else
+        self:stop()
     end
 
     self.isShaking = false
@@ -668,9 +669,15 @@ function ledge:activatePulleyLedge(target)
     self:animate("Activated")
 
     after(self.duration or 1000, function()
-        soundEngine:playManaged(sounds.ledgePulleyActivated, self, 2000)
+        -- If shaking then stop that and reset for new movement
+        if self.isShaking then
+            self:stop()
+        end
 
-        self:setMovement(self:getCamera(), {pattern=movePatternVertical, speed=self.speed or 5, distance=self.distance or 1000, oneWay=true, dontDraw=true})
+        soundEngine:playManaged(sounds.ledgePulleyActivated, self, 2000)
+        
+        self.triggeredPulley = true
+        self:moveNow({pattern=movePatternVertical, speed=(self.speed or 5), distance=(self.distance or 1000), oneWay=true})
     end)
 end
 

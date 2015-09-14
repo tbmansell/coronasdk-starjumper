@@ -394,17 +394,11 @@ local function moveItemPatternXY(item)
     if m.style or m.moveStyle then
         modifyItemByMovementStyle(item, movementModeMoving)
     end
-
-    if item.logMovement then
-        m.movedX = m.movedX + moveX
-        m.movedY = m.movedY + moveY
-    end
-
     
     -- Apply initial overspill to movement if it exists:
-    --[[if m.overspillX ~= 0 or m.overspillY ~= 0 then
-        print("Added overspill ("..m.overspillX..", "..m.overspillY..") X: "..moveX.."+"..m.overspillX.."="..(moveX + m.overspillX).." Y: "..moveY.."+"..m.overspillY.."="..(moveY + m.overspillY))
-    end]]
+    --if m.overspillX ~= 0 or m.overspillY ~= 0 then
+    --    print("Added overspill ("..m.overspillX..", "..m.overspillY..") X: "..moveX.."+"..m.overspillX.."="..(moveX + m.overspillX).." Y: "..moveY.."+"..m.overspillY.."="..(moveY + m.overspillY))
+    --end
 
     -- Apply overspill movement here which is untracked (so as not to disrupt the nextXY pos)
     if m.overspillX ~= 0 then
@@ -575,11 +569,6 @@ function setupMovingItem(item)
         m.pattern   = parseMovementPattern(m.pattern, m.distance)
     end
 
-    if item.logMovement then
-        m.movedX = 0
-        m.movedY = 0
-    end
-
     -- setup the movement to the first point
     m.nextX = m.pattern[m.patternPos][1]
     m.nextY = m.pattern[m.patternPos][2]
@@ -691,7 +680,6 @@ function cloneMovement(m)
         distance   = m.distance, 
         moveStyle  = m.moveStyle,
         pauseStyle = m.pauseStyle,
-        logMovement= m.logMovement,
         arcStart   = m.arcStart,
         arc        = m.arc,
         steering   = m.steering

@@ -59,8 +59,6 @@ end
 -- @param camera
 ----
 function ledgeCollection:reset(player, camera)
-	----local scale = camera.scaleImage
-    --local scale = camera.scalePosition
    	local items = self.items
 	local num   = #items
 
@@ -68,10 +66,9 @@ function ledgeCollection:reset(player, camera)
 		local ledge = items[i]
 
 		if validObject(ledge) then
-            if ledge.surface == pulley and ledge.triggered then
-                ledge.triggered = false
+            if ledge.surface == pulley and ledge.triggeredPulley then
+                ledge.triggeredPulley = false
                 ledge:stop()
-                --ledge:moveBy(-ledge.movement.currentX*scale, -ledge.movement.currentY*scale)
                 ledge:moveBy(-ledge.movement.currentX, -ledge.movement.currentY)
 
             elseif ledge.surface == exploding then

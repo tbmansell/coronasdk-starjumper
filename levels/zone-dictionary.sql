@@ -66,7 +66,6 @@ local levelData = {
     	distance	-- shorthand for specifying how far to move for movePatternHorizontal, movePatternVertical or movePatternCircular
     	moveStyle   -- adjusts the movement to look more natural when moving such as wave or swing
     	pauseStyle  -- when element is paused, adjusts movement to avoid them appearing completely still
-    	logMovement	-- true to store how far element has moved in movedX and movedY attributes
     	arcStart	-- for movePatternCircular: start angle (degrees)
     	arc			-- for movePatternCircular: how far to swing (degrees) from arcStart
     	dontDraw    -- true to not draw the movement path
