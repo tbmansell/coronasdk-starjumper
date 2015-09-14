@@ -17,6 +17,7 @@ local ledgeBuilder = {
 	-- positionLedge()
 	-- setupCommonLedge()
 	-- setupPathLedge()
+    -- setupMovementShortcuts()
     -- setupRotatedLedge()
 	-- newLedgeKeylock()
 }
@@ -314,6 +315,8 @@ end
 ----
 function ledgeBuilder:setupPathLedge(camera, ledge)
     if ledge.movement then
+        self:setupMovementShortcuts(ledge)
+
         ledge.movement.draw = true
         ledge:moveNow()
     end
@@ -345,6 +348,23 @@ function ledgeBuilder:setupPathLedge(camera, ledge)
 
     if ledge.rotation or ledge.rotating then
         self:setupRotatedLedge(ledge)
+    end
+end
+
+
+-- Sets up movements based on shortcut names, to save lots of repeated stuff in the levels
+-- @param ledge
+----
+function ledgeBuilder:setupMovementShortcuts(ledge)
+    local m = ledge.movement
+
+    -- Short cuts for bobbing ledges:
+    if m.bobbingPattern then
+        -- NOTE: bobbing patterns should loop so they dont require reverse=true to keep things simple
+        ledge.punyMover = true
+        ledge.movement  = {
+            pattern=m.bobbingPattern, isTemplate=true, pause=0, dontDraw=true, distance=m.distance, speed=m.speed, steering=(m.steering or steeringSmall)
+        }
     end
 end
 

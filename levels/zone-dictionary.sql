@@ -59,6 +59,7 @@ local levelData = {
     		speed   -- change speed to new value from that set in movement {} tag
     		}, ...
     	}
+    	bobbingPattern -- special attribute which replaces most other movement attributes (including pattern), used for small movement only in-screen
        *speed       -- amount elements moves per frame
     	pause       -- time in milliseconds to wait when reaching each point in the pattern
     	reverse     -- true if element should revesre the pattern when reaching the end

@@ -97,6 +97,8 @@ function collectable.eventCollideWarpField(self, event)
     local other = event.other.object
     local warp  = self.object
 
+    if other == nil then return end
+
     if event.phase == "began" then
         if not other.touchJoint and not other.immuneWarpFields then
             after(10, function()

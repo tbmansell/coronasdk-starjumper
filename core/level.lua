@@ -267,6 +267,8 @@ function level:createElements(levelElements)
     self:createEventHandlers()
 
     spineStore:load(spineCollection)
+    -- set boundaries to normal (unscaled) mode
+    builder:setCollectionBoundaries()
 
     return jumpObject
 end
@@ -698,7 +700,7 @@ end
 -- scales all items in the level
 ----
 function level:scaleAll()
-    levelFloor.x = 100 --levelFloor.x * camera.scalePosition
+    levelFloor.x = 100
     levelFloor.y = levelFloor.y * camera.scalePosition
 
     ledgeCollection:scale(camera)
@@ -716,6 +718,8 @@ function level:scaleAll()
     elseif warpChase then
         self:scaleWarpChase(camera.scalePosition)
     end
+
+    builder:setCollectionBoundaries(camera.scaleMode)
 end
 
 

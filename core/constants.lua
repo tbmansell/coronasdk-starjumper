@@ -514,12 +514,16 @@ moveTemplateLeanedUp     = { {1,0.5} }
 moveTemplateTriangleDown = { {0.5,0.5}, {0.5,-0.5}, {-1,0} }
 moveTemplateTriangleUp   = { {0.5,-0.5}, {0.5,0.5}, {-1,0} }
 
-moveTemplateBobUp1       = { {0.5,-1},  {0.5,1} }
-moveTemplateBobUp2       = { {0.75,-1}, {0.75,1} }
-moveTemplateBobUp3       = { {1,-1},    {1,1} }
-moveTemplateBobDown1     = { {0.5,1},   {0.5,-1} }
-moveTemplateBobDown2     = { {0.75,1},  {0.75,-1} }
-moveTemplateBobDown3     = { {1,1},     {1,-1} }
+-- bobbing patterns that loop on themselves (no need to set reverse)
+moveTemplateBobUp1       = { {0.5,-1},  {0.5,1},   {-0.5,-1},  {-0.5,1} }
+moveTemplateBobUp2       = { {0.75,-1}, {0.75,1},  {-0.75,-1}, {-0.75,1} }
+moveTemplateBobUp3       = { {1,-1},    {1,1},     {-1,-1},    {-1,1} }
+moveTemplateBobDown1     = { {0.5,1},   {0.5,-1},  {-0.5,1},   {-0.5,-1} }
+moveTemplateBobDown2     = { {0.75,1},  {0.75,-1}, {-0.75,1},  {-0.75,-1} }
+moveTemplateBobDown3     = { {1,1},     {1,-1},    {-1,1},     {-1,-1} }
+moveTemplateBobDiamond1  = { {1,1},     {1,-1},    {-1,-1},    {-1,1} }
+moveTemplateBobDiamond2  = { {0.5,1},   {0.5,-1},  {-0.5,-1},  {-0.5,1} }
+moveTemplateBobDiamond3  = { {1,0.5},   {1,-0.5},  {-1,-0.5},  {-1,0.5} }
 
 moveTemplateSquare       = { {0,0.5}, {0.5,0}, {0,-0.5}, {-0.5,0} }
 moveTemplateDiamond      = { {0.5,0.5}, {0.5,-0.5}, {-0.5,-0.5}, {-0.5,0.5} }

@@ -9,6 +9,7 @@ local masterCollection = require("level-objects.collections.master-collection")
 local builder = {
 	-- Methods:
 	-----------
+	-- setCollectionBoundaries()
 	-- deepCopy()
 	-- newClone()
 	-- newGameObject()
@@ -19,10 +20,46 @@ local builder = {
 	-- newMovementCollection()
 }
 
+-- Local vars for performance
+-- (x >= -300 and x <= 1200 and y >= -200 and y <= 800)
+local constLeftNormal   = -300
+local constRightNormal  = 1200
+local constTopNormal    = -200
+local constBottomNormal = 800
+
+local constLeftScaled   = -300
+local constRightScaled  = 1200
+local constTopScaled    = -200
+local constBottomScaled = 800
+
+local leftBoundary   = constLeftNormal
+local rightBoundary  = constRightNormal
+local topBoundary    = constTopNormal
+local bottomBoundary = constBottomNormal
+
 
 -- Aliases
 local new_image 		= display.newImage
 local move_item_pattern = moveItemPattern
+
+
+-- Global function to scale the boundaries used for movement and animation
+-- @param bool scale - nil or false to set normal boundaries, true to set scaled boundaries
+----
+function builder:setCollectionBoundaries(scale)
+	if scale then
+		leftBoundary   = constLeftScaled
+		rightBoundary  = constRightScaled
+		topBoundary    = constTopScaled
+		bottomBoundary = constBottomScaled
+	else
+		leftBoundary   = constLeftNormal
+		rightBoundary  = constRightNormal
+		topBoundary    = constTopNormal
+		bottomBoundary = constBottomNormal
+	end
+end
+
 
 
 -- Performs a deep copy of the original into the target (used when target is an existing object)
@@ -236,10 +273,10 @@ function builder:newSpineCollection()
 
 	        if object and object ~= -1 and object.inGame then
 	        	-- Check if image on-screen (or close to on-screen for fast movement)
-	        	local image   = object.image
-	            local x, y    = image.x, image.y
+	        	local image = object.image
+	            local x, y  = image.x, image.y
 
-	            if not visibleOnly or object.alwaysAnimate or (x >= -300 and x <= 1200 and y >= -200 and y <= 800) then
+	            if not visibleOnly or object.alwaysAnimate or (x >= leftBoundary and x <= rightBoundary and y >= topBoundary and y <= bottomBoundary) then
 		            object.state:update(delta)
 		            object.state:apply(object.skeleton)
 		            object.skeleton:updateWorldTransform()
@@ -256,7 +293,6 @@ end
 -- TODO: move all the required code from movement.lua into its own collection
 ----
 function builder:newMovementCollection()
-	--local coll = self:newCollection("movement") WARNING: this ends up replacing object.movement - no idea why
 	local coll = self:newCollection("movementSet")
 
 	-- Essentially just calls the global moveItemPattern() on each object
@@ -266,8 +302,19 @@ function builder:newMovementCollection()
 
 	    for i=1,num do
 	        local object = items[i]
+
 	        if object and object ~= -1 then
-	        	move_item_pattern(camera, object, delta)
+	        	-- objects marked punyMover=true only move if visible on-screen for performance
+	        	if object.punyMover then
+	        		local x, y = object.image.x, object.image.y
+
+	        		if (x >= leftBoundary and x <= rightBoundary and y >= topBoundary and y <= bottomBoundary) then
+	        			move_item_pattern(camera, object, delta)
+	        		end
+	        	else
+	        		-- All other objects always move regardless of where they are on level
+	        		move_item_pattern(camera, object, delta)
+	        	end
 	        end
 	    end
 	end
@@ -292,7 +339,7 @@ function builder:newParticleEmitterCollection()
 	        if object and object ~= -1 and object.inGame and object.boundEmitter then
                 local x, y = object.image.x, object.image.y
                 
-                if (x >= -300 and x <= 1200 and y >= -200 and y <= 800) then
+                if (x >= leftBoundary and x <= rightBoundary and y >= topBoundary and y <= bottomBoundary) then
                     if not object.boundEmitterOn then
                         object.boundEmitterOn = true
                         object.boundEmitter:start()

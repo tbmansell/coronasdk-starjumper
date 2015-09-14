@@ -68,7 +68,7 @@ local levelData = {
             {object="key", x=-30, y=-60, color="Yellow", onLedge=true},     
 
         {object="ledge", x=250, y=-125, size="medbig3", rotating={limit=20, speed=25}},
-            {object="friend", type="fuzzy", x=30, color="Orange", onLedge=true},
+            {object="friend", type="fuzzy", x=30, y=-50, color="Orange", onLedge=true},
   
 --  2nd row                
         {object="ledge", x=360, y=275, size="small2", positionFromLedge=5},

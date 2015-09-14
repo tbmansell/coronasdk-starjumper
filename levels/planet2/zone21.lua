@@ -1,5 +1,5 @@
 local levelData = {
-    name             = "Strobe Runner",
+    name             = "strobe runner",
     timeBonusSeconds = 28,
     ceiling          = -2700,
     floor            = 1000,
@@ -27,20 +27,24 @@ local levelData = {
             },
 
         -- Phase 1
-        {object="ledge", x=320, y=-150, size="medbig2", rotation=-20}, 
+        {object="ledge", x=320, y=-150, size="medbig2", rotation=-20, movement={bobbingPattern=moveTemplateBobDiamond3, speed=1, distance=50}},
             
         {object="ledge", x=230, y=-200, size="big2"}, ---- Rotating
             {object="scenery", x=300, y=-400, type="fgflt-pole-1"},
+            {object="warpfield", x=250, y=-150, size=0.5, radius=100, movement={steering=steeringMild, speed=2, pattern={{0,-300}, {575,0}, {0,300}, {0,-300}, {-575,0}, {0,300}}}},    
 
         {object="ledge", x=275, y=-220, size="big2", rotation=-20},  ---Rotating
             {object="wall", x=456,  y=-842, type="fg-wall-divider-halfsize", copy=2, gap=647, physics={shapeOffset={bottom=0, left=0},   bounce=1}},            
             {object="wall", x=470,  y=-400, type="fg-wall-divider-completeup", physics={shapeOffset={bottom=-30, left=50},   bounce=1}},
             {object="rings", color=pink, pattern={ {500,-150}}},
 
-        {object="ledge", x=275, y=180, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        --{object="ledge", x=275, y=180, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=275, y=180, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
+        
             {object="scenery", x=300, y=-400, type="fgflt-pole-4"},
 
-        {object="ledge", x=285, y=150, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        --{object="ledge", x=285, y=150, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=285, y=150, size="medium", movement={bobbingPattern=moveTemplateBobDown3, speed=1, distance=50}},
             
         {object="ledge", x=260, y=-200, size="medbig2", rotation=-15, ai={jumpVelocity={600,700}}},
             {object="rings", color=aqua, trajectory={x=100, y=-150, xforce=130, yforce=15, arc=40, num=3}},
@@ -53,7 +57,7 @@ local levelData = {
                     {90,  {object="scenery", layer=4, type="fg-bg-rock-3", size={2, 5}} },
                     {100, {object="scenery", layer=4, type="fg-debris-ufo-right", size={6, 8}} },
                 }
-            },  
+            },
 
         -- Phase 2
         {object="ledge", x=500, y=0, size="medbig2", rotation=15},    
@@ -124,7 +128,7 @@ local levelData = {
             direction     = left,
             startSequence = "taunt",
             startTaunt    = 1,
-            startLedge    = 2,
+            startLedge    = 1,
             lives         = 10,
             waitingTimer  = 14,         -- 3.5 seconds before AI starts
             personality   = {

@@ -3,7 +3,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -3000,
     floor            = 1800,
-    startLedge       = 1,
+    startLedge       = 6,
 
     backgroundOrder = {
         [bgrFront] = {},
@@ -33,7 +33,7 @@ local levelData = {
             },
             {object="wall", x=580,  y=-1300, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             
-        {object="ledge", x=300, y=-1, surface=pulley, distance=-1000, speed=1, reverse="true"},
+        {object="ledge", x=300, surface=pulley, distance=-1000, speed=1, reverse="true"},
             {object="wall", x=190,  y=-1700, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="spike", x=-50,  y=-1200, type="fg-spikes-float-2", size=1.4, physics={shape={-20,-100, 65,150, 0,40, -50,150}}, flip="y"},
 
