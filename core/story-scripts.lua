@@ -1,5 +1,5 @@
 local scripts = {
-	--[[["cutscene-planet1-intro"] = {
+	["cutscene-planet1-intro"] = {
 		forced   = true,
 		alpha    = 0.01,
 		sequence = {
@@ -9,7 +9,7 @@ local scripts = {
 			{delay=4000, speaker=characterGygax,  dir=right, text="Yes, I will indeed be staying here to monitor your training. My it does look cold out there..."},
 			{delay=15000, type="finish"},
 		},
-	},]]
+	},
 	["cutscene-planet2-intro"] = {
 		forced   = true,
 		alpha    = 0.01,
@@ -26,10 +26,10 @@ local scripts = {
 		alpha    = 0.01,
 		close    = "right",
 		sequence = {
-			{delay=5000, speaker=characterNewton, dir=right, text="Woohoo I just rocked! I think I just beat you didn't I? Didn't I?"},
-			{delay=6000, speaker=characterSkyanna,  dir=left,  text="Hmm... You did good kid, but don't get cocky. It's going to get tougher out there"},
-			{delay=6000, speaker=characterNewton, dir=right, text="So does this mean you are going to help me? I would love to have you along to show me the ropes"},
-			{delay=8000, speaker=characterSkyanna,  dir=left,  text="You talk a lot kid... but I'm in", y=80},
+			{delay=5000, speaker=characterNewton,  dir=right, text="Woohoo I just rocked! I think I just beat you didn't I? Didn't I?"},
+			{delay=6000, speaker=characterSkyanna, dir=left,  text="Hmm... You did good kid, but don't get cocky. It's going to get tougher out there"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="So does this mean you are going to help me? I would love to have you along to show me the ropes"},
+			{delay=8000, speaker=characterSkyanna, dir=left,  text="You talk a lot kid... but I'm in", y=80},
 		}
 	},
 

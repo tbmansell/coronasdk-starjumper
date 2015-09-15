@@ -4,7 +4,7 @@ local cameraLoader = require("core.camera")
 local anim         = require("core.animations")
 local soundEngine  = require("core.sound-engine")
 local stories      = require("core.story")
-local particles     = require("core.particles")
+local particles    = require("core.particles")
 local builder      = require("level-objects.builders.builder")
 
 -- local variables for performance
@@ -43,11 +43,10 @@ function scene:loadCutScene()
     state.data.game = levelStartShowCase
 
     -- Create global game objects
-    camera = cameraLoader.createView()
+    camera       = cameraLoader.createView()
     -- Create global and cleanup after this scene
     cameraHolder = { camera = camera }
-
-    level  = require("core.level")
+    level        = require("core.level")
 
     level:new(camera, state.data.gameSelected, state.data.planetSelected, state.data.zoneSelected)
     level:createElements()
@@ -64,10 +63,9 @@ function scene:setupCamera()
     if level.data.cameraBounds then
         level:createCustomWidth(level.data.cameraBounds[1], level.data.cameraBounds[2])
     end
-    ---
+
     camera:setAlpha(0)
     camera:setParallax(1.1, 1, 1, 1, 0.2, 0.15, 0.1, 0.05)
-    camera:transitionAlpha(1, 2000)
 
     if level.data.cameraBounds then
         camera:applyBounds(false)
@@ -130,10 +128,12 @@ end
 
 
 function scene:playCutScene()
-    -- delay to stop bg tearing: as moving the scene straight away causes problems
-    --after(2000, function() camera:track() end)
-    camera:track()
+    -- Allow the scene to play out but keep it hidden by the scene transition and slowly fade scene in
+    globalSceneTransitionGroup:toFront()
+    camera:setAlpha(1)
+    clearSceneTransition(1000)
 
+    camera:track()
     physics:start()
 
     local pauseHandler  = function() end
@@ -142,11 +142,11 @@ function scene:playCutScene()
     stories:start("cutscene-planet"..state.data.planetSelected..state.data.zoneSelected, pauseHandler, resumeHandler)
 
     if level.data.customEvent then
-        local event     = level.data.customEvent
+        local event  = level.data.customEvent
         -- Allow custom code to access these
-        scene.player    = player
+        scene.player = player
         --scene.aiPlayers = aiPlayers
-        scene.level     = level
+        scene.level  = level
 
         after(event.delay, function() event.start(scene) end)
     end

@@ -254,7 +254,6 @@ end
 function scene:setupCamera()
     camera:setParallax(1.1, 1, 1, 1, 0.2, 0.15, 0.1, 0.05)
     camera:setBounds(-300, level.endXPos, level.data.floor+100, level.data.ceiling)
-    camera:transitionAlpha(1, 2000)
     camera:setFocusOffset(250, 50)
 end
 

@@ -258,9 +258,16 @@ end
 
 
 -- Clear the mid-screen scene
-function clearSceneTransition()
-    globalSceneTransitionGroup:removeSelf()
-    globalSceneTransitionGroup = display.newGroup()
+function clearSceneTransition(time)
+    if time then
+        transition.to(globalSceneTransitionGroup, {alpha=0, time=time, onComplete=function()
+            globalSceneTransitionGroup:removeSelf()
+            globalSceneTransitionGroup = display.newGroup()
+        end})
+    else
+        globalSceneTransitionGroup:removeSelf()
+        globalSceneTransitionGroup = display.newGroup()
+    end
 end
 
 

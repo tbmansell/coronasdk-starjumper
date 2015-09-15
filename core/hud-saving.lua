@@ -63,7 +63,7 @@ function hud:nextLevel()
     after(1000, function()
         -- check if completed last zone, if so go to the outro scene
         if state.data.zoneSelected == #hud.level.planetDetails.zones then
-            state.data.zoneSelected = "outro"
+            state.data.zoneSelected = "-outro"
             storyboard:gotoScene("scenes.cutscene", {effect="fade"})
         else
             state.data.zoneSelected = state.data.zoneSelected + 1

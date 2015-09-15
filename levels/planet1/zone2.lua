@@ -2,7 +2,6 @@ local levelData = {
     name             = "out on your own!",
     timeBonusSeconds = 28,
     playerStart      = playerStartWalk,
-    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},

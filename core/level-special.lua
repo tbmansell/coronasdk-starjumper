@@ -125,7 +125,7 @@ function newObjectsLoader:load(level)
     -- Do all work to Load backgrounds in from file and set backgrounds for level
     function level:createBackgrounds(camera)
         backgroundImages = {}
-        
+
         for key=bgrFront, bgrSky do
             backgroundImages[key] = {}
 
@@ -137,14 +137,14 @@ function newObjectsLoader:load(level)
                     self:createBackgroundImage(camera, key, i, i, xpos)
                     xpos = xpos + self.bgrWidth
                     -- Fix visual tearing of sky bgr showing black background by overlapping
-                    if key == bgrSky then xpos = xpos - i end
+                    xpos = xpos - 1
                 end
 
                 for i=1, count do
                     self:createBackgroundImage(camera, key, i, i+count, xpos)
                     xpos = xpos + self.bgrWidth
                     -- Fix visual tearing of sky bgr showing black background by overlapping
-                    if key == bgrSky then xpos = xpos - i end
+                    xpos = xpos - 1
                 end
             end
         end
@@ -202,13 +202,14 @@ function newObjectsLoader:load(level)
                     if prev == 0 then prev = #list end
 
                     local follow = list[prev]
-                    img.x = follow.x + follow.width
+                    img.x = follow.x + follow.width - 1
+
                 elseif img.x + bgrWidth + bgrWidthHalf > rightSwapLimit then
                     local prev = i + 1
                     if prev > count then prev = 1 end
 
                     local follow = list[prev]
-                    img.x = follow.x - follow.width
+                    img.x = follow.x - follow.width + 1
                 end
             end
         end

@@ -44,22 +44,23 @@ sounds:loadRandom()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
---storyboard:gotoScene("scenes.title")
+storyboard:gotoScene("scenes.title")
 state.data.holocubes = 100
 
-
+--[[
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = "-intro"
+	state.data.zoneSelected   = 2
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack
 	--state.data.gameSelected = gameTypeClimbChase
 	--state.data.gameSelected = gameTypeTimeRunner
 	--state.data.gameSelected = gameTypeArcadeRacer
-	--storyboard:gotoScene("scenes.play-zone")
-	storyboard:gotoScene("scenes.cutscene")
+	storyboard:gotoScene("scenes.play-zone")
+	--storyboard:gotoScene("scenes.cutscene")
 
 -- Show debug info
 	--timer.performWithDelay(1000, displayPerformance, 0)
+]]
