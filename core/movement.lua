@@ -261,21 +261,13 @@ local function reachedPatternPoint(item)
     local reachedX, reachedY = false, false
     
 
-    if m.nextX == 0 then
-        reachedX = true
-    elseif m.nextXRight then
-        reachedX = (curX >= nextX)
-    elseif curX <= nextX then
-        reachedX = true
-    end
+    if     m.nextX == 0  then reachedX = true
+    elseif m.nextXRight  then reachedX = (curX >= nextX)
+    elseif curX <= nextX then reachedX = true end
 
-    if m.nextY == 0 then
-        reachedY = true
-    elseif m.nextYDown then
-        reachedY = (curY >= nextY)
-    elseif curY <= nextY then
-        reachedY = true
-    end
+    if     m.nextY == 0  then reachedY = true
+    elseif m.nextYDown   then reachedY = (curY >= nextY)
+    elseif curY <= nextY then reachedY = true end
 
     if reachedX and reachedY then
         if not m.steering then
@@ -382,8 +374,8 @@ local function moveItemPatternXY(item)
     if steering then
         local steeringX, steeringY = getSteering(m, steering)
         
-        moveX = (moveX + steeringX) --* m.pointSpeed
-        moveY = (moveY + steeringY) --* m.pointSpeed
+        moveX = (moveX + steeringX)
+        moveY = (moveY + steeringY)
         m.speedX, m.speedY = moveX, moveY
     end
 
@@ -628,10 +620,16 @@ function moveItemPattern(camera, item, delta)
         -- look for the next position to move to (or reverse or loop if at end of pattern)
         if selectNextPatternPosition(item, delta) then
             -- check if we should delay before moving to the next position
-            item:pauseMovement(m.pattern[m.patternPos].pause or m.pause)
+            local pause = m.pattern[m.patternPos].pause or m.pause
+            item:pauseMovement(pause)
 
             if item.nextPositionStarted then
                 item:nextPositionStarted()
+            end
+
+            -- If not pausing then still perform movement pattern this loop - otherwise you get a jerkying motion if an item is the camera focus
+            if pause == nil or pause == 0 then
+                moveItemPatternXY(item)
             end
         else
             -- If returns false we are done moving

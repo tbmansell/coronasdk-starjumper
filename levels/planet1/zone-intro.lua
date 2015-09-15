@@ -10,22 +10,17 @@ local levelData = {
     },
 
     elements = {
-        {object="friend", x=250, y=-250, type="ufoboss", isCameraFocus=true, animation="Standard", hasPassenger=true, playerModel=characterNewton,
+        {object="friend", x=250, y=250, type="ufoboss", isCameraFocus=true, animation="Standard", hasPassenger=true, playerModel=characterNewton,
             movement={
                 speed=10,
                 pause=0,
                 pattern = {
-                    {100, 100},
-                    {100, -100},
+                    {150, 150},
+                    {150, -150},
                 },
                 steering={cap=0.5, mass=150, radius=50}
             }
         },
-    },
-
-    movement = {
-        speedX = 4,
-        speedY = 0,
     },
 }
 

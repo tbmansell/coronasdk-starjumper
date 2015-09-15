@@ -66,12 +66,12 @@ function ufoBoss:reachedPatternPoint()
         local gear    = utils.percentFrom(dropper.gear)
         local amount  = state:gear(gearSlots[gear], gear)
 
-        if amount < (dropper.limit or 1) then
+        if amount < (dropper.limit or 1) and hud.level then
             hud.level:generateGear(self:x(), self:y(), gear)
         end
 
-        after((dropper.wait or 3000), function() 
-            self.waitingForNextDrop=false 
+        after((dropper.wait or 3000), function()
+            self.waitingForNextDrop=false
         end)
     end
 end

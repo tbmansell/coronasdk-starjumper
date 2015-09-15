@@ -50,16 +50,16 @@ state.data.holocubes = 100
 
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 21
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = "-intro"
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack
 	--state.data.gameSelected = gameTypeClimbChase
 	--state.data.gameSelected = gameTypeTimeRunner
 	--state.data.gameSelected = gameTypeArcadeRacer
-	storyboard:gotoScene("scenes.play-zone")
-	--storyboard:gotoScene("scenes.cutscene")
+	--storyboard:gotoScene("scenes.play-zone")
+	storyboard:gotoScene("scenes.cutscene")
 
 -- Show debug info
 	--timer.performWithDelay(1000, displayPerformance, 0)

@@ -197,7 +197,7 @@ function Perspective.createView(numLayers)
 		local focusX, focusY = nil, nil
 		local confX, confY   = -confFocus.x + ccx, -confFocus.y + ccy
 
---		print("trackFocusForcing confY="..confY)
+		--print("trackFocusForcing confY="..confY)
 
         for i=1,numLayers do
             local g = layer[i]
@@ -423,22 +423,22 @@ function Perspective.createView(numLayers)
 		if x1 > 0 then
 			force = true
 			offsetX = leftRightLimit + x1
---			print("force left: "..offsetX.." leftRightLimit="..leftRightLimit.." x1="..x1)
+			print("force left: "..offsetX.." leftRightLimit="..leftRightLimit.." x1="..x1)
 		elseif x2 < cw then
 			force = true
 			offsetX = leftRightLimit - (cw - x2)
---			print("force right: "..offsetX)
+			print("force right: "..offsetX)
 		end
 
 		if y1 < ch then
 			force = true
 			offsetY = upDownLimit + (ch - y1)
 			--if offsetY < 80 then offsetY = 80 end
---			print("force bottom: offsetY="..offsetY.." upDownLimit="..upDownLimit.." y1="..y1)
+			print("force bottom: offsetY="..offsetY.." upDownLimit="..upDownLimit.." y1="..y1)
 		elseif y2 > 0 then
 			force = true
 			offsetY = upDownLimit - y2
---			print("force top: "..offsetY)
+			print("force top: "..offsetY)
 		end
 
 
@@ -452,7 +452,7 @@ function Perspective.createView(numLayers)
 		local offsetY = upDownLimit
 		
 		if offsetY > 80 then
---			print("Forcing offsetY to 80")
+			print("Forcing offsetY to 80")
 			self:setFocusOffset(offsetX, 80)
 		end		
 	end

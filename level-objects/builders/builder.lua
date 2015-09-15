@@ -32,10 +32,10 @@ local constRightScaled  = 1200
 local constTopScaled    = -200
 local constBottomScaled = 800
 
-local leftBoundary   = constLeftNormal
-local rightBoundary  = constRightNormal
-local topBoundary    = constTopNormal
-local bottomBoundary = constBottomNormal
+local leftBoundary      = constLeftNormal
+local rightBoundary     = constRightNormal
+local topBoundary       = constTopNormal
+local bottomBoundary    = constBottomNormal
 
 
 -- Aliases

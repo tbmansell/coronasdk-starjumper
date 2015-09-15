@@ -130,8 +130,9 @@ end
 
 
 function scene:playCutScene()
-    -- delay to stop bg tearing: as moving the scene straight awau causes problems
-    after(2000, function() camera:track() end)
+    -- delay to stop bg tearing: as moving the scene straight away causes problems
+    --after(2000, function() camera:track() end)
+    camera:track()
 
     physics:start()
 

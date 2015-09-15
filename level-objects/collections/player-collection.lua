@@ -291,45 +291,42 @@ function playerCollection:checkOffScreenIndicator()
 	    local marker = player.raceIndicator
 	    local x, y   = player:pos()
 
-	    if player.camera.scaleMode then
-	        -- ...
-	    else
-	        if x < -100 or x > 1000 or y < 0 or y > 700 then
-	            local rank = player.arcadeRaceRank
+        -- TODO: use constants for scaling
+        if x < -100 or x > 1000 or y < 0 or y > 700 then
+            local rank = player.arcadeRaceRank
 
-	            if rank then
-	                if not marker then
-	                    -- create the indicator icon for the first time only
-	                    local char   = characterData[player.model]
-	                    marker       = display.newGroup()
-	                    marker.icon  = display.newImage(marker, "images/hud/player-indicator-"..char.name..".png", 0, 0)
-	                    marker.text  = newText(marker, rank, -10, 10, 0.6, char.color, "CENTER")
-	                    marker.icon.alpha  = 0.8
-	                    player.raceIndicator = marker
-	                elseif tostring(rank) ~= marker.text:getText() then
-	                    -- update the indicator with the new rank
-	                    marker.text:setText(rank)
-	                end
+            if rank then
+                if not marker then
+                    -- create the indicator icon for the first time only
+                    local char   = characterData[player.model]
+                    marker       = display.newGroup()
+                    marker.icon  = display.newImage(marker, "images/hud/player-indicator-"..char.name..".png", 0, 0)
+                    marker.text  = newText(marker, rank, -10, 10, 0.6, char.color, "CENTER")
+                    marker.icon.alpha  = 0.8
+                    player.raceIndicator = marker
+                elseif tostring(rank) ~= marker.text:getText() then
+                    -- update the indicator with the new rank
+                    marker.text:setText(rank)
+                end
 
-	                local adjust = player.indicatorAdjustment
+                local adjust = player.indicatorAdjustment
 
-	                -- position the indicator
-	                if     x > 930 then marker.x = 930 - adjust
-	                elseif x < 30  then marker.x = 30  + adjust
-	                else   marker.x = x  end
+                -- position the indicator
+                if     x > 930 then marker.x = 930 - adjust
+                elseif x < 30  then marker.x = 30  + adjust
+                else   marker.x = x  end
 
-	                if     y < 30  then marker.y = 30  + adjust
-	                elseif y > 600 then marker.y = 600 - adjust
-	                else   marker.y = y - 40 end
+                if     y < 30  then marker.y = 30  + adjust
+                elseif y > 600 then marker.y = 600 - adjust
+                else   marker.y = y - 40 end
 
-	                if marker.alpha == 0 then marker.alpha = 1 end
-	            end
-	            
-	        elseif marker and marker.alpha ~= 0 then
-	            -- on screen from off screen
-	            marker.alpha = 0
-	        end
-	    end
+                if marker.alpha == 0 then marker.alpha = 1 end
+            end
+            
+        elseif marker and marker.alpha ~= 0 then
+            -- on screen from off screen
+            marker.alpha = 0
+        end
 	end
 end
 
