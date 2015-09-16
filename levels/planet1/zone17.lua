@@ -2,7 +2,7 @@ local levelData = {
     name             = "hard to stomach",
     ceiling          = -display.contentHeight-400,
     timeBonusSeconds = 75,
-    startLedge       = 1,
+    startLedge       = 9,
 
     backgroundOrder = {
         [bgrFront] = {1, 2, 3, 4},
@@ -31,7 +31,7 @@ local levelData = {
 
         {object="ledge", x=-300, y=-190, size="small"},
             {object="enemy", type="stomach", x=-250, y=275, size=0.8, 
-                shooting={minWait=2, maxWait=4, velocity={varyX=50, varyY=10}, itemsMax=10, ammo={negDizzy, negTrajectory}},
+                shooting={minWait=2, maxWait=4, velocity={varyX=50, varyY=10}, itemsMax=3, ammo={negDizzy, negTrajectory}},
                 behaviour={mode=stateSleeping, awaken=3},
                 movement={pattern=movePatternVertical, distance=-500, speed=2, pause=1000, moveStyle=moveStyleSwayBig}
             },

@@ -40,11 +40,11 @@ local ch	= display.contentHeight
 local drm	= display.remove
 
 
---[[local camlab1=display.newText("", 230, 130)
-local camlab2=display.newText("", 130, 150)
-local camlab3=display.newText("", 195, 170)
-local camlab4=display.newText("", 220, 190)
-local camlab5=display.newText("", 240, 210)]]
+local camlab1=display.newText({text=".", x=130, y=130, size=16, align="left", width=200})
+local camlab2=display.newText({text=".", x=130, y=150, size=16, align="left", width=200})
+local camlab3=display.newText({text=".", x=130, y=170, size=16, align="left", width=200})
+local camlab4=display.newText({text=".", x=130, y=190, size=16, align="left", width=200})
+local camlab5=display.newText({text=".", x=130, y=210, size=16, align="left", width=200})
 
 
 local Perspective={
@@ -294,11 +294,11 @@ function Perspective.createView(numLayers)
 			isTracking = true
 			Runtime:addEventListener("enterFrame", view.trackFocus)
 		end
-		--[[camlab1:toFront()
+		camlab1:toFront()
 		camlab2:toFront()
 		camlab3:toFront()
 		camlab4:toFront()
-		camlab5:toFront()]]
+		camlab5:toFront()
 	end
 	
 
@@ -392,22 +392,22 @@ function Perspective.createView(numLayers)
 		local xdiff  = (g.x - (g.x - (-view.CONF.focus.x + ccx) * g.parallaxRatio) * view.CONF.damping)
 		local ydiff  = (g.y - (g.y - (-view.CONF.focus.y + ccy) * g.parallaxRatio) * view.CONF.damping)
 
-		--[[local mr = math.round
+		local mr = math.round
 		local b1, b2, b3, b4 = bound1.x, bound1.y, bound1.x+xdiff, bound1.y+ydiff
 		local b5, b6, b7, b8 = bound2.x, bound2.y, bound2.x+xdiff, bound2.y+ydiff
 		camlab1.text = "level bounds (x,x,y,y): "..leftBoundary..", "..rightBoundary..", "..bottomBoundary..", "..topBoundary
 		camlab2.text = "ccx="..mr(ccx).." ccy="..mr(ccy)
 		camlab3.text = "leftRightLimit="..mr(leftRightLimit).." upDownLimit="..mr(upDownLimit)
 		camlab4.text = "bound1 actual="..mr(b1)..", "..mr(b2).." moved="..mr(b3)..", "..mr(b4)
-		camlab5.text = "bound2 actual="..mr(b5)..", "..mr(b6).." moved="..mr(b7)..", "..mr(b8)]]
+		camlab5.text = "bound2 actual="..mr(b5)..", "..mr(b6).." moved="..mr(b7)..", "..mr(b8)
 
 		local hitLeft   = (bound1.x + xdiff > 0)
 		local hitBottom = (bound1.y + ydiff < ch)
 		local hitRight  = (bound2.x + xdiff < cw)
 		local hitTop    = (bound2.y + ydiff > 0)
 
-		--if hitLeft  or hitBottom then camlab4:setFillColor(1,0,0) else camlab4:setFillColor(1,1,1) end
-		--if hitRight or hitTop    then camlab5:setFillColor(1,0,0) else camlab5:setFillColor(1,1,1) end
+		if hitLeft  or hitBottom then camlab4:setFillColor(1,0,0) else camlab4:setFillColor(1,1,1) end
+		if hitRight or hitTop    then camlab5:setFillColor(1,0,0) else camlab5:setFillColor(1,1,1) end
 
         return (hitLeft or hitRight), (hitBottom or hitTop)
 	end

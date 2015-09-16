@@ -48,6 +48,7 @@ local gameObject = {
     -- bind()
     -- queueBind()
     -- release()
+    -- numBoundItems()
     -- detachFromLedge()
     -- detachFromOther()
     -- x()
@@ -237,6 +238,21 @@ function gameObject:release(object)
     else
         object.attachedOther = nil
     end
+end
+
+
+-- Gets number of bound items
+-- @return int
+----
+function gameObject:numBoundItems()
+    local num=0
+
+    for key,object in pairs(self.boundItems) do
+        if object then 
+            num = num + 1 
+        end
+    end
+    return num
 end
 
 

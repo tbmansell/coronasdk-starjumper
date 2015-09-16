@@ -32,15 +32,18 @@ function playerCollection:checkMovement(delta)
 	    local mode   = player.mode
 
 	    if mode == playerRun and ledge and ledge.inGame then
-	    	self:checkRunMovement(player, ledge)
+	    	self:checkRunMovement(player, ledge, delta)
 	        
 	    elseif mode == playerWalk then
-	    	self:checkWalkMovement(player)
+	    	self:checkWalkMovement(player, delta)
+
         elseif mode == playerGrappling then
             self:drawGrappleHook(player)
+
         elseif mode == playerOnVehicle then
             if player.vehicleImage then
-                player.vehicleImage.x, player.vehicleImage.y = player.image.x, player.image.y-25
+                player.vehicleImage.x = player.image.x      * delta
+                player.vehicleImage.y = (player.image.y-25) * delta
             end
 	    else
     	    local correctBy = player.correctBy
@@ -56,8 +59,8 @@ function playerCollection:checkMovement(delta)
 end
 
 
-function playerCollection:checkRunMovement(player, ledge)
-	local x      = player.image.x + player.runSpeed
+function playerCollection:checkRunMovement(player, ledge, delta)
+	local x      = player.image.x + (player.runSpeed * delta)
     local lx     = ledge.image.x 
     local length = ledge:width()/2
 
@@ -69,7 +72,7 @@ function playerCollection:checkRunMovement(player, ledge)
 end
 
 
-function playerCollection:checkWalkMovement(player)
+function playerCollection:checkWalkMovement(player, delta)
     local x         = player.image.x
     local walkSpeed = player.walkSpeed
     local walked    = player.walked
@@ -81,8 +84,8 @@ function playerCollection:checkWalkMovement(player)
     end
 
     if (walked > 0 and walked < walkUntil) or (walked < 0 and walked > walkUntil) then
-        player.walked  = walked + walkSpeed
-        player.image.x = x + walkSpeed
+        player.walked  = walked + (walkSpeed * delta)
+        player.image.x = x      + (walkSpeed * delta)
     else
         -- Were forced to do this and the load gear cos otherwise when walking backward his head stays backward
         player:pose()

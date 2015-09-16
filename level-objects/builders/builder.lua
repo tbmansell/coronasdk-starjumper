@@ -260,13 +260,27 @@ end
 function builder:newSpineCollection()
 	local coll = self:newCollection("spineSet")
 
+	coll.lastTime = 0
+
+	-- Compute time in seconds since last frame. Spine delta is worked out differently from movement
+	-- @return float
+	----
+	function coll:getDeltaTime(event)
+	    local currentTime = event.time / 1000
+	    local delta       = currentTime - self.lastTime
+	    self.lastTime     = currentTime
+
+	    return delta
+	end
+
 	-- Loops through each item and updates its spine animation state
 	-- @param delta
 	-- @param visibleOnly - if true will only animate items in the viewport, if false will animate all items
 	----
-	function coll:animateEach(delta, visibleOnly)
+	function coll:animateEach(event, visibleOnly)
 		local items = self.items
 	    local num   = #items
+	    local delta = self:getDeltaTime(event)
 
 	    for i=1,num do
 	        local object = items[i]

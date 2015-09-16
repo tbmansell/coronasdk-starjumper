@@ -771,12 +771,14 @@ function level.updateFrame(event)
     globalFPS = globalFPS + 1
 
     -- Compute time in seconds since last frame.
-    local currentTime = event.time / 1000
+    local currentTime = event.time / (1000 / 60)
     local delta       = currentTime - lastTime
     lastTime          = currentTime
 
+    --print("original delta="..delta.." new delta="..getDeltaTime())
+
     check_background_movement(delta)
-    check_spine_animation(spineCollection, delta, true)
+    check_spine_animation(spineCollection, event, true)
     check_moving_objects(movingCollection, delta, camera)
     check_moving_players(playerCollection, delta)
 

@@ -181,7 +181,7 @@ local function getNextPointVelocity(curX, curY, nextX, nextY, speed)
 end
 
 
-local function setupNextPointSpeed(item, nextPoint, delta)
+local function setupNextPointSpeed(item, nextPoint)
     local m        = item.movement
     local steering = m.steering
     local minSpeed = m.minSpeed
@@ -362,12 +362,12 @@ local function selectPositionOf(item, target, offsetX, offsetY)
 end
 
 
-local function moveItemPatternXY(item)
+local function moveItemPatternXY(item, delta)
     local m        = item.movement
     local steering = m.steering
     local image    = item.image
-    local moveX    = m.speedX or 0
-    local moveY    = m.speedY or 0
+    local moveX    = (m.speedX or 0) * delta
+    local moveY    = (m.speedY or 0) * delta
 
     if image == nil then return end
 
@@ -380,8 +380,8 @@ local function moveItemPatternXY(item)
     end
 
     -- Log movement here
-    m.currentX = m.currentX + moveX  --+ delta
-    m.currentY = m.currentY + moveY  --+ delta
+    m.currentX = m.currentX + moveX
+    m.currentY = m.currentY + moveY
 
     if m.style or m.moveStyle then
         modifyItemByMovementStyle(item, movementModeMoving)
@@ -404,8 +404,8 @@ local function moveItemPatternXY(item)
     end
 
     -- Move the actual image with any overspill applied
-    image.x = image.x + moveX  --+ delta
-    image.y = image.y + moveY  --+ delta
+    image.x = image.x + moveX
+    image.y = image.y + moveY
 
     if item.isLedge or item.isObstacle then
         moveAttachedItems(item, moveX, moveY)
@@ -501,7 +501,7 @@ local function selectNextPatternPosition(item)
     end
 
     m.currentX, m.currentY = 0, 0
-    setupNextPointSpeed(item, nextPoint, delta)
+    setupNextPointSpeed(item, nextPoint)
     return true
 end
 
@@ -564,7 +564,7 @@ function setupMovingItem(item)
     -- setup the movement to the first point
     m.nextX = m.pattern[m.patternPos][1]
     m.nextY = m.pattern[m.patternPos][2]
-    setupNextPointSpeed(item, m.pattern, 1)
+    setupNextPointSpeed(item, m.pattern)
 end
 
 
@@ -618,7 +618,7 @@ function moveItemPattern(camera, item, delta)
         end
 
         -- look for the next position to move to (or reverse or loop if at end of pattern)
-        if selectNextPatternPosition(item, delta) then
+        if selectNextPatternPosition(item) then
             -- check if we should delay before moving to the next position
             local pause = m.pattern[m.patternPos].pause or m.pause
             item:pauseMovement(pause)
@@ -629,14 +629,14 @@ function moveItemPattern(camera, item, delta)
 
             -- If not pausing then still perform movement pattern this loop - otherwise you get a jerkying motion if an item is the camera focus
             if pause == nil or pause == 0 then
-                moveItemPatternXY(item)
+                moveItemPatternXY(item, delta)
             end
         else
             -- If returns false we are done moving
             return item:movementCompleted()
         end
     else
-		moveItemPatternXY(item)
+		moveItemPatternXY(item, delta)
     end
 end
 
