@@ -338,6 +338,7 @@ function level:createElementsFromData(source, jumpObject)
 
             -- Bind non jumpObjects to a jumpObject here after they've been added to their master collections:
             if element and not item.inPhysics and (item.onLedge or item.regenerate) then
+                print("jumpObject: "..jumpObject.key.." element: "..element.key)
                 jumpObject:bind(element)
 
                 if item.y == nil then
@@ -433,8 +434,11 @@ function level:createFriend(item, jumpObject, zoneState)
     local friend = friendBuilder:newFriend(camera, item, x, y, jumpObject)
 
     if friend then
-        friendCollection:add(friend, zoneState)
-        hasFriends = true
+        if friendCollection:add(friend, zoneState) then
+            hasFriends = true
+        else
+            return nil
+        end
     end
     
     return friend

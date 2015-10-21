@@ -22,7 +22,7 @@ local levelData = {
             {object="scenery", x=120,  y=-830, type="fg-tree-4-yellow", size=1.2},
             {object="scenery", x=210,  y=-100, type="fg-rock-2", size=1.2},
             {object="scenery", x=860,  y=-750, type="fg-tree-1-yellow", size=1.2},
-            {object="scenery", x=1000, y=-85, type="fg-rock-1", size=1.2},
+            {object="scenery", x=1000, y=-85,  type="fg-rock-1", size=1.2},
             {object="rings", color=aqua, pattern={ {-200,-120}, {0,-320,color=pink}, {0,-370} }},
 
         {object="ledge", x=-300, y=-150, size="small"},
@@ -37,7 +37,7 @@ local levelData = {
             },
 
         {object="ledge", x=-300, y=150, size="small", positionFromLedge=4, ai={ignore=true}},
-            {object="gear", type=gearGloves, y=-40, onLedge=true},
+            {object="gear", type=gearGloves, onLedge=true},
 
         {object="ledge", x=300, y=-200, size="small2", positionFromLedge=6},
 
@@ -54,7 +54,7 @@ local levelData = {
         {object="ledge", x=200, y=-150, size="medium3"},
 
             {object="enemy", type="stomach", x=400, y=-200, size=0.7, 
-                shooting={minWait=1, maxWait=3, velocity={varyX=200, varyY=100}, itemsMax=10, ammo={negDizzy, negTrajectory, negBooster}},
+                shooting={minWait=1, maxWait=3, velocity={varyX=200, varyY=100}, itemsMax=3, ammo={negDizzy, negTrajectory, negBooster}},
                 behaviour={mode=stateSleeping, awaken=2, range=6, atRange=stateResetting},
                 movement={pattern=movePatternFollow, followXOnly=true, speed=5, pause=1000, moveStyle="sway-small"}
             },
