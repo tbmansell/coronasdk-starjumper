@@ -121,6 +121,9 @@ function player:readyJump()
         if curve.showGrid then
             curve:drawJumpGrid(self:getCamera(), self)
         end
+
+        -- turn camera bounds off when jumping as currently locks if one axis hits a boundary
+        self:getCamera():applyBounds(false)
     end
 end
 

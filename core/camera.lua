@@ -40,13 +40,13 @@ local ch	= display.contentHeight
 local drm	= display.remove
 
 local debugGroup = ng()
---[[
+
 local camlab1=newText(debugGroup, ".", 30, 130, 0.35, "white", "LEFT")
 local camlab2=newText(debugGroup, ".", 30, 150, 0.35, "white", "LEFT")
 local camlab3=newText(debugGroup, ".", 30, 170, 0.35, "white", "LEFT")
 local camlab4=newText(debugGroup, ".", 30, 190, 0.35, "white", "LEFT")
 local camlab5=newText(debugGroup, ".", 30, 210, 0.35, "white", "LEFT")
-]]
+
 
 local Perspective={
 	version="1.4.2",
@@ -197,8 +197,6 @@ function Perspective.createView(numLayers)
 	function view.trackFocusForcing(conf, confFocus)
 		local focusX, focusY = nil, nil
 		local confX, confY   = -confFocus.x + ccx, -confFocus.y + ccy
-
-		--print("trackFocusForcing confY="..confY)
 
         for i=1,numLayers do
             local g = layer[i]
@@ -392,19 +390,19 @@ function Perspective.createView(numLayers)
 		local mr = math.round
 		local b1, b2, b3, b4 = bound1.x, bound1.y, bound1.x+xdiff, bound1.y+ydiff
 		local b5, b6, b7, b8 = bound2.x, bound2.y, bound2.x+xdiff, bound2.y+ydiff
-		--camlab1:setText("level bounds (x,x,y,y): "..mr(leftBoundary)..", "..mr(rightBoundary)..", "..mr(bottomBoundary)..", "..mr(topBoundary))
-		--camlab2:setText("ccx="..mr(ccx).." ccy="..mr(ccy))
-		--camlab3:setText("left-right-limit="..mr(leftRightLimit).." up-down-limit="..mr(upDownLimit))
-		--camlab4:setText("bound1 actual="..mr(b1)..", "..mr(b2).." moved="..mr(b3)..", "..mr(b4))
-		--camlab5:setText("bound2 actual="..mr(b5)..", "..mr(b6).." moved="..mr(b7)..", "..mr(b8))
+		camlab1:setText("level bounds (x,x,y,y): "..mr(leftBoundary)..", "..mr(rightBoundary)..", "..mr(bottomBoundary)..", "..mr(topBoundary))
+		camlab2:setText("ccx="..mr(ccx).." ccy="..mr(ccy))
+		camlab3:setText("left-right-limit="..mr(leftRightLimit).." up-down-limit="..mr(upDownLimit))
+		camlab4:setText("bound1 actual="..mr(b1)..", "..mr(b2).." moved="..mr(b3)..", "..mr(b4))
+		camlab5:setText("bound2 actual="..mr(b5)..", "..mr(b6).." moved="..mr(b7)..", "..mr(b8))
 
 		local hitLeft   = (bound1.x + xdiff > 0)
 		local hitBottom = (bound1.y + ydiff < ch)
 		local hitRight  = (bound2.x + xdiff < cw)
 		local hitTop    = (bound2.y + ydiff > 0)
 
-		--if hitLeft  or hitBottom then camlab4:setColor(255,0,0) else camlab4:setColor(255,255,255) end
-		--if hitRight or hitTop    then camlab5:setColor(255,0,0) else camlab5:setColor(255,255,255) end
+		if hitLeft  or hitBottom then camlab4:setColor(255,0,0) else camlab4:setColor(255,255,255) end
+		if hitRight or hitTop    then camlab5:setColor(255,0,0) else camlab5:setColor(255,255,255) end
 
         return (hitLeft or hitRight), (hitBottom or hitTop)
 	end
@@ -438,7 +436,7 @@ function Perspective.createView(numLayers)
 			print("force top: "..offsetY)
 		end
 
-
+		-- this line is locking the camera on all axis even if trying to jump and only hit one y axis: needs reviewing
 		self:setFocusOffset(offsetX, offsetY)
 		return force
 	end
@@ -498,8 +496,9 @@ function Perspective.createView(numLayers)
            newX > display.contentCenterX - leftRightLimit
         then
             ccx = newX
+            --print("Camera Moved: changeX="..changeX)
         else
-        	print("Camera Move Blocked: changeX="..changeX.." ccx="..ccx.." newX="..newX.." rightLimit="..(display.contentCenterX + leftRightLimit).." leftLimit="..(display.contentCenterX - leftRightLimit))
+        	--print("Camera Move Blocked: changeX="..changeX.." ccx="..ccx.." newX="..newX.." rightLimit="..(display.contentCenterX + leftRightLimit).." leftLimit="..(display.contentCenterX - leftRightLimit))
         end
     end
 
