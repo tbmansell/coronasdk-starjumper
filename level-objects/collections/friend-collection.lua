@@ -50,6 +50,7 @@ function friendCollection:add(friend, zoneState)
     self:addToSpineCollection(friend)
     self:addToMovementCollection(friend)
     self:tallyFuzzies(friend)
+    return true
 end
 
 

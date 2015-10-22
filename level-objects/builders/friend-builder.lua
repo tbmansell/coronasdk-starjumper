@@ -44,7 +44,7 @@ function friendBuilder:newFriend(camera, spec, x, y, ledge)
 	if spec.type == "fuzzy" and state.data.gameSelected == gameTypeStory then 
 		return self:newFuzzy(camera, spec, x, y, ledge)
 	elseif spec.type == "ufoboss" then
-		return self:newBossUfo(camera, spec, x, y)
+        return self:newBossUfo(camera, spec, x, y)
 	end
 end
 

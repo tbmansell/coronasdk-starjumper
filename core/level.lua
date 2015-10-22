@@ -338,7 +338,6 @@ function level:createElementsFromData(source, jumpObject)
 
             -- Bind non jumpObjects to a jumpObject here after they've been added to their master collections:
             if element and not item.inPhysics and (item.onLedge or item.regenerate) then
-                print("jumpObject: "..jumpObject.key.." element: "..element.key)
                 jumpObject:bind(element)
 
                 if item.y == nil then
@@ -778,8 +777,6 @@ function level.updateFrame(event)
     local currentTime = event.time / (1000 / 60)
     local delta       = currentTime - lastTime
     lastTime          = currentTime
-
-    --print("original delta="..delta.." new delta="..getDeltaTime())
 
     check_background_movement(delta)
     check_spine_animation(spineCollection, event, true)

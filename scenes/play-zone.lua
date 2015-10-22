@@ -402,7 +402,7 @@ function scene:startLevelSequence(player, startGameCallback)
         elseif startSequence == playerStartFall then
             local spec      = {object="friend", type="ufoboss", x=0, y=0, size=0.7, hasPassenger=true, playerModel=player.model, noSound=true}
             local spaceship = level:createFriend(spec, level.startLedge)
-
+            
             player:fallFromShip(camera, spaceship, startGameCallback)
         else
             player:standingReady(startGameCallback)

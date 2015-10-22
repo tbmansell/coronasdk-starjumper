@@ -2,7 +2,6 @@ local levelData = {
     name             = "hard to stomach",
     ceiling          = -display.contentHeight-400,
     timeBonusSeconds = 75,
-    startLedge       = 9,
 
     backgroundOrder = {
         [bgrFront] = {1, 2, 3, 4},
