@@ -112,7 +112,6 @@ local function sceneTouchEvent(event)
         scene:handleJump(event)
     elseif not cameraDragging and (player:isDead() or event.phase == "ended" or event.phase == "cancelled") then
         -- Ensure the jump is always cleared up
-        camera:applyBounds(true)
         curve:clearUp(camera)
     elseif playerMode == playerReady or playerMode == playerWalk then --or playerMode == playerHang then
         -- look around the level
@@ -486,8 +485,6 @@ function scene:handleJump(event)
         scene:jumpPreperationMoving(event)
 
     elseif event.phase == "ended" or event.phase == "cancelled" then
-        camera:applyBounds(true)
-
         -- if locked then we dont allow the jump to turn into a run until they are near the jump point
         if curve.lock and not allowPlayerAction("jump", nil, {player=player, event=event}) then
             curve:clearUp(camera)
@@ -515,7 +512,6 @@ function scene:jumpPreperationMoving(event)
             player:cancelThrow()
         end
 
-        camera:applyBounds(true)
         return
     end
 

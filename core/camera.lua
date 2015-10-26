@@ -390,6 +390,7 @@ function Perspective.createView(numLayers)
 		local mr = math.round
 		local b1, b2, b3, b4 = bound1.x, bound1.y, bound1.x+xdiff, bound1.y+ydiff
 		local b5, b6, b7, b8 = bound2.x, bound2.y, bound2.x+xdiff, bound2.y+ydiff
+
 		camlab1:setText("level bounds (x,x,y,y): "..mr(leftBoundary)..", "..mr(rightBoundary)..", "..mr(bottomBoundary)..", "..mr(topBoundary))
 		camlab2:setText("ccx="..mr(ccx).." ccy="..mr(ccy))
 		camlab3:setText("left-right-limit="..mr(leftRightLimit).." up-down-limit="..mr(upDownLimit))
@@ -414,30 +415,32 @@ function Perspective.createView(numLayers)
 		local x1, y1  = bound1.x, bound1.y
 		local x2, y2  = bound2.x, bound2.y
 		local force   = false
+		local forceX  = false
+		local forceY  = false
 
 		if x1 > 0 then
-			force = true
+			force   = true
+			forceX  = true
 			offsetX = leftRightLimit + x1
-			print("force left: "..offsetX.." leftRightLimit="..leftRightLimit.." x1="..x1)
 		elseif x2 < cw then
-			force = true
+			force   = true
+			forceX  = true
 			offsetX = leftRightLimit - (cw - x2)
-			print("force right: "..offsetX)
 		end
 
 		if y1 < ch then
-			force = true
+			force   = true
+			forceY  = true
 			offsetY = upDownLimit + (ch - y1)
-			--if offsetY < 80 then offsetY = 80 end
-			print("force bottom: offsetY="..offsetY.." upDownLimit="..upDownLimit.." y1="..y1)
 		elseif y2 > 0 then
-			force = true
+			force   = true
+			forceY  = true
 			offsetY = upDownLimit - y2
-			print("force top: "..offsetY)
 		end
 
-		-- this line is locking the camera on all axis even if trying to jump and only hit one y axis: needs reviewing
-		self:setFocusOffset(offsetX, offsetY)
+		if forceX then self:setFocusOffsetX(offsetX) end
+		if forceY then self:setFocusOffsetY(offsetY) end
+
 		return force
 	end
 
@@ -447,9 +450,26 @@ function Perspective.createView(numLayers)
 		local offsetY = upDownLimit
 		
 		if offsetY > 80 then
-			print("Forcing offsetY to 80")
 			self:setFocusOffset(offsetX, 80)
-		end		
+		end
+	end
+
+
+	function view:setFocusOffset(x, y)
+		self:setFocusOffsetX(x)
+		self:setFocusOffsetY(y)
+	end
+
+
+	function view:setFocusOffsetX(x)
+		leftRightLimit = x
+		ccx	= display.contentCenterX - x
+	end
+
+
+	function view:setFocusOffsetY(y)
+		upDownLimit = y
+		ccy	= display.contentCenterY + y
 	end
 
 
@@ -501,14 +521,6 @@ function Perspective.createView(numLayers)
         	--print("Camera Move Blocked: changeX="..changeX.." ccx="..ccx.." newX="..newX.." rightLimit="..(display.contentCenterX + leftRightLimit).." leftLimit="..(display.contentCenterX - leftRightLimit))
         end
     end
-
-
-	function view:setFocusOffset(x, y)
-		leftRightLimit = x
-		upDownLimit    = y
-		ccx	= display.contentCenterX - x
-		ccy	= display.contentCenterY + y
-	end
 	
 
 	--Get a layer
