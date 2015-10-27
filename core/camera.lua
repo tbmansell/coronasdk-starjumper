@@ -40,13 +40,13 @@ local ch	= display.contentHeight
 local drm	= display.remove
 
 local debugGroup = ng()
-
+--[[
 local camlab1=newText(debugGroup, ".", 30, 130, 0.35, "white", "LEFT")
 local camlab2=newText(debugGroup, ".", 30, 150, 0.35, "white", "LEFT")
 local camlab3=newText(debugGroup, ".", 30, 170, 0.35, "white", "LEFT")
 local camlab4=newText(debugGroup, ".", 30, 190, 0.35, "white", "LEFT")
 local camlab5=newText(debugGroup, ".", 30, 210, 0.35, "white", "LEFT")
-
+]]
 
 local Perspective={
 	version="1.4.2",
@@ -390,20 +390,20 @@ function Perspective.createView(numLayers)
 		local mr = math.round
 		local b1, b2, b3, b4 = bound1.x, bound1.y, bound1.x+xdiff, bound1.y+ydiff
 		local b5, b6, b7, b8 = bound2.x, bound2.y, bound2.x+xdiff, bound2.y+ydiff
-
+		--[[
 		camlab1:setText("level bounds (x,x,y,y): "..mr(leftBoundary)..", "..mr(rightBoundary)..", "..mr(bottomBoundary)..", "..mr(topBoundary))
 		camlab2:setText("ccx="..mr(ccx).." ccy="..mr(ccy))
 		camlab3:setText("left-right-limit="..mr(leftRightLimit).." up-down-limit="..mr(upDownLimit))
 		camlab4:setText("bound1 actual="..mr(b1)..", "..mr(b2).." moved="..mr(b3)..", "..mr(b4))
 		camlab5:setText("bound2 actual="..mr(b5)..", "..mr(b6).." moved="..mr(b7)..", "..mr(b8))
-
+		]]
 		local hitLeft   = (bound1.x + xdiff > 0)
 		local hitBottom = (bound1.y + ydiff < ch)
 		local hitRight  = (bound2.x + xdiff < cw)
 		local hitTop    = (bound2.y + ydiff > 0)
 
-		if hitLeft  or hitBottom then camlab4:setColor(255,0,0) else camlab4:setColor(255,255,255) end
-		if hitRight or hitTop    then camlab5:setColor(255,0,0) else camlab5:setColor(255,255,255) end
+		--if hitLeft  or hitBottom then camlab4:setColor(255,0,0) else camlab4:setColor(255,255,255) end
+		--if hitRight or hitTop    then camlab5:setColor(255,0,0) else camlab5:setColor(255,255,255) end
 
         return (hitLeft or hitRight), (hitBottom or hitTop)
 	end
@@ -440,6 +440,7 @@ function Perspective.createView(numLayers)
 
 		if forceX then self:setFocusOffsetX(offsetX) end
 		if forceY then self:setFocusOffsetY(offsetY) end
+		--self:setFocusOffset(offsetX, offsetY)
 
 		return force
 	end
@@ -584,19 +585,29 @@ function Perspective.createView(numLayers)
 			local bound2 = layer[2][2]
 
 	        if self.scaleMode then
+	        	-- scale back in
 	            self.scaleMode     = false
 	            self.scaleImage    = 1
 	            self.scalePosition = 1/0.6
 	            self.scaleVelocity = 1
 	            -- restore original speeds rather than recalc them and leave them slightly off each time
 	            setMovementStyleSpeeds()
+	            -- restore offsets (this used to avoid offsets screwing up player viewpoint when scaling in and out near a boundary)
+	            ccx, ccy 	   = LastCcx, LastCcy
+	            leftRightLimit = LastleftRightLimit
+	            upDownLimit    = LastupDownLimit
 	        else
+	        	-- scale out
 	            self.scaleMode     = true
 	            self.scaleImage    = 0.6
 	            self.scalePosition = 0.6
 	            self.scaleVelocity = 0.75
 	            -- scale movement pattern speeds
 	            scaleMovement(self.scalePosition)
+	            --record offsets (this used to avoid offsets screwing up player viewpoint when scaling in and out near a boundary)
+	            LastCcx, LastCcy   = ccx, ccy
+	            LastleftRightLimit = leftRightLimit
+	            LastupDownLimit    = upDownLimit
 	        end
 	        
 	        -- scale boundaries
