@@ -44,7 +44,17 @@ local levelData = {
             {object="wall", x=175, y=-75, type="fg-rock-3", physics={shape="circle", bounce=1}},
             {object="rings", color=aqua, trajectory={x=30, y=350, xforce=90, yforce=50, arc=50, num=2}},
 
+             {object="emitter", x=0, y=150, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
+                    movement={rangeX={-200, -1000}, rangeY={-50, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },    
+
         {object="ledge", x=340, y=0, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
+
+       
+
 
         {object="ledge", x=300, y=120, size="big2"},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=80, yforce=150, arc=75, num=5}},
@@ -55,6 +65,14 @@ local levelData = {
             {object="scenery", x=600,  y=150,  type="fg-wall-double-l2"}, 
 
         {object="ledge", x=275, y=0, movement={pattern={{500,-150}}, reverse=true,  distance=100, speed=1, pause=1000}},
+
+            {object="emitter", x=0, y=-100, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.5, 0.1, 0.3},
+                    movement={rangeX={600, 1000}, rangeY={-100, -100}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                    }
+            },   
+
 
         {object="ledge", x=900, y=-220, size="medium3"},
             {object="rings", color=pink, pattern={ {200,-200} }},

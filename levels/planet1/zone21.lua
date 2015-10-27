@@ -21,6 +21,15 @@ local levelData = {
         {object="ledge", x=300, y=-50},
 
         {object="ledge", x=300, y=-150, size="medium2"},
+
+         {object="emitter", x=0, y=-150, timer={1000, 2000}, limit=4, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.2},
+                    movement={rangeX={-600, 1000}, rangeY={-250, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },   
+
+
             --pinacle of scenery
             {object="scenery", x=0,   y=-170, type="fg-tree-4-yellow", rgb={200,100,255}},
             {object="scenery", x=200, y=200,  type="fg-wall-left"},
@@ -54,6 +63,13 @@ local levelData = {
 
         {object="ledge", x=300, y=200, size="small2"},
 
+            {object="emitter", x=0, y=-150, timer={1000, 2500}, limit=5, layer=4,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.2},
+                    movement={rangeX={-1000, 1000}, rangeY={-350, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },                  
+
         {object="ledge", x=250, y=0, surface="electric", timerOn=5000, timerOff=5000},
 
         {object="ledge", x=300, y=100, size="big2"},
@@ -76,6 +92,13 @@ local levelData = {
             {object="scenery", x=3370, y=350, type="fg-wall-right"},
 
         {object="ledge", x=350, y=0},
+
+             {object="emitter", x=0, y=-200, timer={1000, 3000}, limit=4, layer=4,
+                item={
+                    object="livebgr", type="stomach", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.6},
+                    movement={rangeX={-600, 600}, rangeY={-200, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },           
 
         {object="ledge", x=275, y=0, movement={pattern={{500,-150}}, reverse=true,  distance=100, speed=1, pause=1000}},
 

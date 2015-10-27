@@ -20,6 +20,14 @@ local levelData = {
         
         {object="ledge", x=150, y=-150, surface="electric", timerOn=1000, timerOff=8000},
            {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=70, yforce=150, arc=50, num=3}},   
+
+
+            {object="emitter", x=0, y=-125, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="stomach", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.6, 0, 0.3},
+                    movement={rangeX={-150, 1200}, rangeY={-300, 50}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },           
            
         {object="ledge", x=280, y=-175, surface="collapsing"},            
 
@@ -45,7 +53,15 @@ local levelData = {
             {object="wall", x=-80, y=-300, type="fg-rock-1", physics={shape="circle", bounce=1}},
             {object="friend", type="fuzzy", x=-50, y=-100, color="Pink", kinetic="hang", direction=left},
 
+          {object="emitter", x=-250, y=0, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="stomach", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.4},
+                    movement={rangeX={-800, 800}, rangeY={-300, 50}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },             
+
         {object="ledge", x=0, y=250, surface="collapsing", ai={ignore=true}},
+        {object="randomizer", x=-75, onLedge=true, items={{30,negBooster}, {70,gearParachute}, {100,green}}},
 
         {object="ledge", x=190, y=-180, size="medium2"},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=25, yforce=150, arc=50, num=3}}, 

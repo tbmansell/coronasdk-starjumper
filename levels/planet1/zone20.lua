@@ -2,7 +2,7 @@ local levelData = {
     name             = "so close",
     timeBonusSeconds = 90,
     ceiling          = -display.contentHeight*2,
-    startLedge       = 1,
+    startLedge       = 7,
     startAtNight     = true,
     turnDay          = true,
 
@@ -17,6 +17,14 @@ local levelData = {
         {object="ledge", type="start"},
             {object="scenery", x=200, y=-250, type="fg-flowers-5-yellow",layer=2, size=0.5, flip="x"},
             {object="scenery", x=125, y=-265, type="fg-flowers-5-yellow",layer=2, size=0.7},
+
+         {object="emitter", x=1500, y=-550, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.6, 0, 0.4},
+                    movement={rangeX={-400, 800}, rangeY={-300, 1}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },                   
+
 
         {object="ledge", x=220, y=-250, size="medium", movement={pattern=movePatternVertical, distance=400, speed=1}},
             {object="scenery", x=550, y=-85, type="fg-tree-1-yellow",layer=2, size=1.1},
@@ -58,6 +66,13 @@ local levelData = {
         {object="ledge", x=300, y=-290, size="small2"},
             {object="rings", color=aqua, trajectory={x=125, y=-100, xforce=150, yforce=-100, arc=40, num=3}},
 
+         {object="emitter", x=450, y=0, timer={1000, 2500}, limit=5, layer=4,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.2},
+                    movement={rangeX={-600, 1000}, rangeY={-450, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },          
+
         {object="ledge", x=350, y=215, surface="collapsing"},
             {object="spike", x=25,  y=-830, type="fg-spikes-float-3", size=0.5, physics={shape={-30, -65, 30,-65, 30,75, -30,75}}, rotation=-90},
             {object="spike", x=25,  y=-630, type="fg-spikes-float-3", size=0.5, physics={shape={-30, -65, 30,-65, 30,75, -30,75}}, rotation=-90},
@@ -69,9 +84,12 @@ local levelData = {
                 behaviour={mode=stateSleeping, awaken=2, range=3, atRange=stateResetting, thefts=20},
                 movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}},
 
-        {object="ledge", x=-250, y=250, size="small2"},   
+        {object="ledge", x=-250, y=250, size="small2"},  
+
+                  
 
         {object="ledge", x=350, y=235, surface="electric", timerOn=1000, timerOff=5000}, 
+        		{object="randomizer", x=-75, onLedge=true, items={{30,negTrajectory}, {70,gearFreezeTime}, {100,yellow}}},
 
         {object="ledge", x=310, y=-190, size="medium2", rotation=17, ai={loadGear=gearShield}},   
             {object="rings", color=pink, pattern={{0,-85}}},

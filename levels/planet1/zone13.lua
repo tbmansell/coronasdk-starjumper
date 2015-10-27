@@ -25,21 +25,38 @@ local levelData = {
 
         {object="ledge", x=300, y=-50, surface="lava"},
 
+          {object="emitter", x=0, y=200, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.5},
+                    movement={rangeX={-300, 600}, rangeY={-150, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },        
+
+
         {object="ledge", x=400, y=-100, size="big3"},
         	{object="rings", color=aqua, trajectory={x=25, y=-100, xforce=160, yforce=20, arc=35, num=3}},
-
-        	{object="enemy", type="heart", x=50, y=120, size=0.5, color="Red",
+            
+            {object="enemy", type="heart", x=50, y=120, size=0.5, color="Red",
                 behaviour={mode=stateSleeping, awaken=0, range=5, atRange=stateResetting, thefts=5},
                 movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
             },
-
-        {object="obstacle", type="pole", x=200, y=-50, length=300, ai={ignore=75}},
+    
+      
+        {object="obstacle", type="pole", x=200, y=100, length=300, ai={ignore=75}},
 
         {object="ledge", x=300, y=-300, size="medium"},
         	{object="scenery", x=-70, y=-145, type="fg-foilage-1-yellow", size=1, layer=4, size=0.8, onLedge=true},
         	{object="scenery", x=-10, y=-115, type="fg-flowers-6-yellow", size=1, layer=2, size=0.3, onLedge=true},
         	{object="scenery", x=40,  y=-140, type="fg-flowers-6-yellow", size=1, layer=2, size=0.7, onLedge=true},
         	{object="scenery", x=-10, y=-145, type="fg-foilage-1-yellow", size=1, layer=2, size=0.8, onLedge=true},
+
+           {object="emitter", x=0, y=100, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.5},
+                    movement={rangeX={-300, 600}, rangeY={-200, 200}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },                
+
 
         {object="ledge", x=450, y=50, rotation=15, size="medium"},
         	{object="friend", type="fuzzy", color="Orange"},
@@ -61,13 +78,13 @@ local levelData = {
         {object="ledge", x=300, y=50, surface="lava"},
         	{object="scenery", x=200, y=-50, type="fg-spikes-float-5", size=0.7, layer=2},
 
-        {object="ledge", x=250, y=50, size="medium"},
+        {object="ledge", x=250, y=-50, size="medium"},
             {object="gear", type=gearShield},
         	{object="rings", color=aqua, trajectory={x=100, y=-200, xforce=120, yforce=0, arc=35, num=3}},
 
         {object="ledge", x=300, y=-70, size="big"},
 
-        	{object="enemy", type="brain", x=0, y=50, size=0.3, color="Purple",
+        	{object="enemy", type="brain", x=0, y=100, size=0.3, color="Purple",
                 behaviour={mode=stateSleeping, awaken=0},
                 movement={pattern={{0,-300}}, reverse=true , distance=400, speed=0.3, pause=1000, moveStyle=moveStyleSway, pauseStyle=moveStyleSwaySmall}
             },
@@ -95,6 +112,13 @@ local levelData = {
             {object="spike",   x=-400, y=-1000, type="fg-spikes-float-1", size=1, flip="y", physics={shape={-90,-130, 90,-130, 0,110}}},
             {object="scenery", x=875,  y=-175,  type="fg-rock-1", size=0.7, layer=2, rotation=-10},
             {object="scenery", x=965,  y=-160,  type="fg-rock-1", size=0.4, layer=2, rotation=-80},
+
+            {object="emitter", x=-550, y=350, timer={1000, 2000}, limit=2, layer=4,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.1},
+                    movement={rangeX={0, 0}, rangeY={-400, -600}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },              
 
         {object="ledge", x=500, y=0, type="finish"}
     },

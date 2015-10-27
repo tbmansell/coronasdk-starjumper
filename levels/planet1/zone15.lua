@@ -38,10 +38,18 @@ local levelData = {
             {object="scenery", x=1600, y=455, type="fg-wall-middle", copy=3},
             {object="scenery", x=2740, y=455, type="fg-wall-right"},
 
+
+        {object="emitter", x=0, y=-125, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.3},
+                    movement={rangeX={-300, 600}, rangeY={-205, 75}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+        },            
+
         {object="ledge", x=25, y=-175, size="big", rotation=-45, ai={ignore=true}},
 
         -- #5
-        {object="ledge", x=0, y=-150, positionFromCenter=true, surface="collapsing", ai={ignore=true}},
+        {object="ledge", x=0, y=-250, positionFromCenter=true, surface="collapsing", ai={ignore=true}},
             {object="spike", x=-150, y=-160, type="fg-rock-1", size=0.6, rotation=-45, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}},
             {object="spike", x=-30,  y=-160, type="fg-rock-2", size=0.6, rotation=-45, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}},
 
@@ -74,6 +82,15 @@ local levelData = {
 
         {object="ledge", x=-250, y=-200, size="medium", invisible={invisibleFor=5500, visibleFor=200, alpha=0.1}},
             {object="friend", type="fuzzy", color="Orange", onLedge=true},
+
+
+
+            {object="emitter", x=0, y=-350, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.4},
+                    movement={rangeX={-600, 600}, rangeY={-300, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },            
 
         {object="ledge", x=-500, y=0, size="big3", flip="x"},
             {object="randomizer", onLedge=true, items={{100,blue}}},

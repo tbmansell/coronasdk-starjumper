@@ -22,6 +22,13 @@ local levelData = {
 
         {object="ledge", x=365, y=175, surface="collapsing"},
 
+             {object="emitter", x=0, y=-300, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.3},
+                    movement={rangeX={-500, 1500}, rangeY={-50, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },    
+
         {object="ledge", x=200, y=-100, surface="collapsing"},
             {object="friend", type="fuzzy", x=-30, color="Orange", onLedge=true},
 
@@ -42,6 +49,14 @@ local levelData = {
          
         {object="ledge", x=450, y=0, surface="collapsing"},
              {object="randomizer", x=-100, onLedge=true, items={{30,negBooster}, {70,gearReverseJump}, {100,gearJetpack}}},
+
+            {object="emitter", x=0, y=-300, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.4},
+                    movement={rangeX={-800, 800}, rangeY={-400, 200}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },    
+     
         
         {object="ledge", x=100, y=100, size="big3", flip="x"},
            {object="scenery", x=0, y=-185, type="fg-flowers-4-yellow",layer=2, onLedge=true},

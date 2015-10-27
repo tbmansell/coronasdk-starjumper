@@ -33,6 +33,9 @@ local levelData = {
             {object="scenery", x=0, y=-145, type="fg-flowers-3-yellow", layer=2, size=0.7, onLedge=true},
             {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=250, yforce=20, arc=40, num=5}},
 
+
+            
+
         {object="ledge", x=250, y=150, size="big2"},
 
         {object="ledge", x=200, y=-200},

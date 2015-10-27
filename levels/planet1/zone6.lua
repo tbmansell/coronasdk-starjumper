@@ -35,6 +35,14 @@ local levelData = {
             {object="scenery", x=400, y=-500, layer=2, type="fg-rock-4", size=1.2},
             {object="scenery", x=400, y=-330, layer=2, type="fg-flowers-5-yellow", layer=2, size=0.7, rotation=15, flip="y"},
 
+            {object="emitter", x=0, y=100, timer={2000, 5000}, limit=4, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
+                    movement={rangeX={-750, 750}, rangeY={-100, 100}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },    
+
+
         {object="ledge", x=0, y=330, size="medium3", movement={pattern={{500,-150}}, reverse=true, distance=200, speed=1.5, pause=2000}},  
         
         {object="ledge", x=700, y=-200, size="small"},
@@ -59,13 +67,21 @@ local levelData = {
             {object="scenery", x=950, y=300, type="fg-tree-5-yellow", size=1.2, flip="x"},  
             {object="wall",    x=-50, y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=-20}, bounce=1}},
 
-        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{500,150}}, reverse=true,  distance=200, speed=.5, pause=2000}},       
+        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{500,150}}, reverse=true,  distance=200, speed=.5, pause=2000}},
+        		  {object="randomizer", x=-60, onLedge=true, items={{30,negDizzy}, {70,gearSpringShoes}, {100,red}}},    
 
         {object="ledge", x=400, y=-100, size="medium"},
             {object="rings", color=aqua, pattern={ {-135,175}, {0,-75}, {75,0}, {0,75} }},
             {object="scenery", x=-100, y=-600, layer=2, type="fg-rock-4", size=1.2},
             {object="scenery", x=-100, y=-430, layer=2, type="fg-flowers-6-yellow", layer=2, size=0.7, rotation=15, flip="y"},
             {object="scenery", x=0, y=-500, layer=2, type="fg-flowers-6-yellow", layer=2, size=0.7, rotation=-15, flip="y"},
+
+             {object="emitter", x=0, y=-350, timer={1000, 5000}, limit=5, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
+                    movement={rangeX={-750, 750}, rangeY={-50, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },    
 
         {object="ledge", x=350, y=-225, size="medium"},
             {object="friend", type="fuzzy", x=-70, color="Orange", onLedge=true},

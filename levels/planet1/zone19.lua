@@ -23,6 +23,13 @@ local levelData = {
         {object="ledge", x=0, y=310, size="medium4"},
             {object="spike", x=100, y=-320, type="fg-spikes-float-4", size=0.5, rotation = -20, flip="x", physics={shape={-30,-75, 30,-75, 0,60}} },
 
+          {object="emitter", x=0, y=-150, timer={1000, 3000}, limit=4, layer=4,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.2},
+                    movement={rangeX={-600, 600}, rangeY={-450, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },              
+
         {object="ledge", x=-260, y=-270, size="medium3"},
             {object="rings", color=aqua, pattern={ {715,-50}, {0,100}, {0,100}, {0,100}}},
           
@@ -58,6 +65,14 @@ local levelData = {
         {object="ledge", x=250, y=-5, size="big", positionFromLedge=9, ai={loadGear=gearJetpack, jumpVelocity={300,600}, useAirGearAfter={1200,1500}}},
             {object="gear", type=gearJetpack, x=0, y=-150, regenerate=true},
             {object="rings", color=white, pattern={ {550,90}}},
+
+             {object="emitter", x=0, y=100, timer={1000, 3000}, limit=4, layer=4,
+                item={
+                    object="livebgr", type="stomach", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.6},
+                    movement={rangeX={-600, 1000}, rangeY={-150, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },               
+
             {object="scenery", x=65, y=-15, type="fg-foilage-2-yellow",layer=2, size=0.8, flip="y"},
             {object="wall",    x=500, y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=.2}},
             {object="wall",    x=500, y=200, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=.2}},

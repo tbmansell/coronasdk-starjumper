@@ -46,8 +46,17 @@ local levelData = {
 
         {object="ledge", x=-250, y=-280, rotation=10},
 
+           {object="emitter", x=-150, y=150, timer={1000, 3000}, limit=3, layer=4,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.1},
+                    movement={rangeX={-0, 175}, rangeY={-600, 300}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },            
+
+
         {object="ledge", x=-250, y=-220, rotation=7},
             {object="rings", color=pink, trajectory={x=100, y=-150, xforce=90, yforce=160, arc=65, num=5}},
+
 
         -- #8
         {object="ledge", x=400, y=-250},
@@ -69,6 +78,14 @@ local levelData = {
 
         {object="ledge", x=-200, y=-200},
             {object="scenery", x=-60,  y=-97, type="fg-foilage-3-yellow", layer=2, onLedge=true},
+
+
+            {object="emitter", x=0, y=-250, timer={1000, 3000}, limit=4, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.4},
+                    movement={rangeX={-400, 600}, rangeY={-150, 800}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },            
 
         -- merged again - #15
         {object="ledge", x=-250, y=-250, size="small3"},
