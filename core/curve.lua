@@ -333,16 +333,25 @@ end
 
 
 function curve:drawJumpGrid(camera, player)
-    grid = new_image("images/hud/jump-grid.png", player:x()+192, player:y()+61)
+    local scale   = 1 -- camera.scaleImage
+    local xoffset = 192 * scale
+    local yoffset = 61  * scale
+    local adjust  = 135 * scale
+
+    grid = new_image("images/hud/jump-grid.png", player:x()+xoffset, player:y()+yoffset)
     grid.alpha = 0
+
+    --[[if camera.scaleMode then
+        grid:scale(camera.scaleImage, camera.scaleImage)
+    end]]
 
     if player.direction == right then
         grid.direction = right
-        grid.x = grid.x - grid.width + 135
+        grid.x = grid.x - (grid.width * scale) + adjust
     else
         grid.direction = left
         grid:scale(-1,1)
-        grid.x = grid.x - 135
+        grid.x = grid.x - adjust
     end
 
     self.showGridHandle = transition.to(grid, {alpha=0.7, time=300, onComplete=function() curve.showGridHandle=nil end})

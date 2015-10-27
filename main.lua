@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.9.11"
+globalBuildVersion 		   = "0.9.12"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global FPS counter
@@ -44,14 +44,14 @@ sounds:loadRandom()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
---storyboard:gotoScene("scenes.title")
+storyboard:gotoScene("scenes.title")
 state.data.holocubes = 100
 
-
+--[[
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 2
+	state.data.zoneSelected   = 5
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack
@@ -63,3 +63,4 @@ state.data.holocubes = 100
 
 -- Show debug info
 	--timer.performWithDelay(1000, displayPerformance, 0)
+]]

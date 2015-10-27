@@ -547,7 +547,7 @@ function scene:jumpPreperationMoving(event)
         end
     end
 
-    curve:debug(player, px, py, ex, ey)
+    --curve:debug(player, px, py, ex, ey)
 end
 
 

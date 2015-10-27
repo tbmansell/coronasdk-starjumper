@@ -129,7 +129,8 @@ state = {
             planets = {
                 [1] = {
                     -- list of zones in planet that are unlocked
-                    zones = { 1 },
+                    --zones = { 1 },
+                    zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21},
                     -- list of game modes for planet that are unlocked
                     --games = { gameTypeStory }
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
@@ -137,9 +138,11 @@ state = {
 
                 [2] = {
                     -- list of zones in planet that are unlocked
-                    zones = { 1 },
+                    --zones = { 1 },
+                    zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21},
                     -- list of game modes for planet that are unlocked
-                    games = { gameTypeStory }
+                    --games = { gameTypeStory }
+                    games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
             }
         }

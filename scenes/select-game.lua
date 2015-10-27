@@ -17,13 +17,7 @@ local new_image = newImage
 -- Things that need to happen as fast as possible (every frame e.g 60 loops per second)
 local function sceneEnterFrameEvent(event)
     globalFPS = globalFPS + 1
- 
-    -- Compute time in seconds since last frame.
-    local currentTime = event.time / 1000
-    local delta       = currentTime - lastTime
-    lastTime = currentTime
-    
-    spineCollection:animateEach(delta)
+    spineCollection:animateEach(event)
 end
 
 
