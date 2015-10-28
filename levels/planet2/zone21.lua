@@ -3,7 +3,6 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -2700,
     floor            = 1000,
-    startLedge       = 1,
     aiRace           = true,
     playerStart      = playerStartWalk,
 

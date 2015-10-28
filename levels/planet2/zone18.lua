@@ -3,7 +3,7 @@
     timeBonusSeconds = 28,
     ceiling          = -2300,
     floor            = 1000,
-    startLedge       = 4,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},
