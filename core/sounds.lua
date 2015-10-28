@@ -225,7 +225,6 @@ end
 -- Global function to play sound instead of: audio.play
 -- Because we need to ensure the channels volume has been reset
 function realPlayer(sound, options, volume)
-    --[[
     local channel = nil
 
     if options and options.channel then
@@ -241,6 +240,4 @@ function realPlayer(sound, options, volume)
 
     setVolume(volume or 1, options)
     play(sound, options)
-    ]]
-    play(sound)
 end

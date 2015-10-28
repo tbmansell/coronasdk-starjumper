@@ -102,9 +102,15 @@ function scene:enterScene(event)
 
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
-    
-    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
 
+    self:createItems()
+
+    self.animateLoop = timer.performWithDelay(5000, scene.switchAnimation, 0)
+    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+end
+
+
+function scene:createItems()
     newImage(self.view, "select-player/bgr", centerX, centerY)
     newButton(self.view, 55,  50,  "back",   scene.exitPlayerSelect)
     newButton(self.view, 700, 410, "select", scene.changeToPlayer, "no")
@@ -122,8 +128,6 @@ function scene:enterScene(event)
     newText(self.view, "hates:",   670, 285, 0.35, "grey", "LEFT")
     newText(self.view, "ability:", 670, 310, 0.35, "grey", "LEFT")
     newText(self.view, "throws:",  670, 335, 0.35, "grey", "LEFT")
-
-    self.animateLoop = timer.performWithDelay(5000, scene.switchAnimation, 0)
 end
 
 

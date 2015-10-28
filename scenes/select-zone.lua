@@ -56,17 +56,6 @@ local function moveBackground(event)
 end
 
 
-local function playBackgroundMusic()
-    if state.data.gameSettings.music then
-        local self = scene
-        self.musicChannel = audio.findFreeChannel()
-        audio.setVolume(0.5, {channel=self.musicChannel})
-        audio.setMaxVolume(0.5, {channel=self.musicChannel})
-        play(sounds.backgroundSoundZones, {channel=self.musicChannel, fadein=8000, loops=-1})
-    end
-end
-
-
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
 end
@@ -96,12 +85,21 @@ function scene:enterScene(event)
     
     self:createSceneMoveableContent(event)
     self:displayHud()
+    self:startMusic()
 
     setMovementStyleSpeeds()
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+end
 
-    -- play scene background music:
-    after(3000, playBackgroundMusic)
+
+function scene:startMusic()
+    if state.data.gameSettings.music then
+        local self = scene
+        self.musicChannel = audio.findFreeChannel()
+        audio.setVolume(0.5, {channel=self.musicChannel})
+        audio.setMaxVolume(0.5, {channel=self.musicChannel})
+        play(sounds.backgroundSoundZones, {channel=self.musicChannel, fadein=11000, loops=-1})
+    end
 end
 
 

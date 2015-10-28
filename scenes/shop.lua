@@ -25,7 +25,6 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
-    
 end
 
 
@@ -38,19 +37,19 @@ function scene:enterScene(event)
 
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
-    
+   
+    self:createEssentials()
+    self:createGearIcons()
+    self:displayHud()
+    self:createInAppPurchase()
+    self:createNegables()
+    self:startMusic()
+
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+end
 
-    -- play scene background music:
-    if state.data.gameSettings.music then
-        after(2000, function()
-            self.musicChannel = audio.findFreeChannel()
-            audio.setVolume(0.5,    {channel=self.musicChannel})
-            audio.setMaxVolume(0.5, {channel=self.musicChannel})
-            play(sounds.backgroundSoundShop, {channel=self.musicChannel, fadein=3000, loops=-1})
-        end)
-    end
 
+function scene:createEssentials()
     local group    = self.view
     local bgr      = new_image(group, "shop/shop-bgr", centerX, centerY)
     self.bgrInfo   = new_image(group, "shop/info-bgr", 700, 245)
@@ -67,14 +66,15 @@ function scene:enterScene(event)
         [negGood]  = {negTrajectory,   negRocket,      negFreezeTarget, negImpactBomb},
         [negEnemy] = {negGravField,    negTimeBomb,    negElectrifier,  negBackPorter},
     }
+end
 
-    self:createGearIcons()
-    self:displayHud()
-    self:createInAppPurchase()
 
-    local game = state.data.gameSelected
-    if game and (game == gameTypeRace or game == gameTypeArcadeRacer) then
-        self:createNegableIcons()
+function scene:startMusic()
+    if state.data.gameSettings.music then
+        self.musicChannel = audio.findFreeChannel()
+        audio.setVolume(0.5,    {channel=self.musicChannel})
+        audio.setMaxVolume(0.5, {channel=self.musicChannel})
+        play(sounds.backgroundSoundShop, {channel=self.musicChannel, fadein=8000, loops=-1})
     end
 end
 
@@ -141,6 +141,15 @@ function scene:createInAppPurchase()
     local seq   = anim:oustSeq("pulseInApp", inapp)
     seq:add("pulse", {time=2000, scale=0.025})
     seq:start()
+end
+
+
+function scene:createNegables()
+    local game = state.data.gameSelected
+
+    if game and (game == gameTypeRace or game == gameTypeArcadeRacer) then
+        self:createNegableIcons()
+    end
 end
 
 
