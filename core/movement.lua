@@ -366,8 +366,8 @@ local function moveItemPatternXY(item, delta)
     local m        = item.movement
     local steering = m.steering
     local image    = item.image
-    local moveX    = (m.speedX or 0) * delta
-    local moveY    = (m.speedY or 0) * delta
+    local moveX    = (m.speedX or 0) --* delta
+    local moveY    = (m.speedY or 0) --* delta
 
     if image == nil then return end
 

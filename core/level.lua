@@ -30,6 +30,7 @@ local level = {
 
 
 -- Local vars (for this file only)
+local FPS                   = display.fps
 local levelFloor            = nil
 local levelStartX           = 0
 local levelEndX             = 0
@@ -774,7 +775,7 @@ function level.updateFrame(event)
     globalFPS = globalFPS + 1
 
     -- Compute time in seconds since last frame.
-    local currentTime = event.time / (1000 / 60)
+    local currentTime = event.time / (1000 / FPS)
     local delta       = currentTime - lastTime
     lastTime          = currentTime
 
@@ -802,7 +803,7 @@ function level.updateTimeFrozenFrame(event)
     globalFPS = globalFPS + 1
 
     -- Compute time in seconds since last frame.
-    local currentTime = event.time / (1000 / 60)
+    local currentTime = event.time / (1000 / FPS)
     local delta       = currentTime - lastTime
     lastTime          = currentTime
 

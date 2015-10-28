@@ -35,6 +35,7 @@ function tutorials:start(tutorialName)
     		self:init()
     		self:show()
     	end)
+    	return true
     end
 end
 
@@ -186,6 +187,7 @@ function tutorials:completed()
 
 	state.data.game = levelPlaying
 	--TODO: save this tutorial in state?
+	hud.magnifyIcon.alpha = 1
 end
 
 

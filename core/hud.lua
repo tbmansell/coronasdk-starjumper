@@ -714,7 +714,10 @@ end
 
 
 function hud:showTutorial(tutorialId)
-    tutorials:start(tutorialId)
+    if tutorials:start(tutorialId) then
+        -- dont allow scaling in tutorial to save placement problems
+        self.magnifyIcon.alpha = 0
+    end
 end
 
 

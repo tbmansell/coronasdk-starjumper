@@ -15,8 +15,8 @@ local levelData = {
                 speed=10,
                 pause=0,
                 pattern = {
-                    {150, 150},
-                    {150, -150},
+                    {500, 500},
+                    {500, -500},
                 },
                 steering={cap=0.5, mass=150, radius=50}
             }
