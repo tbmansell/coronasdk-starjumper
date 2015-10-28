@@ -3,7 +3,7 @@ local levelData = {
     floor            = display.contentHeight+300,
     ceiling          = -display.contentHeight*2,
     timeBonusSeconds = 85,
-    startLedge       = 7,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},

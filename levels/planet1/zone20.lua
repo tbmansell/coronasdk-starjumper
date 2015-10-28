@@ -2,7 +2,6 @@ local levelData = {
     name             = "so close",
     timeBonusSeconds = 90,
     ceiling          = -display.contentHeight*2,
-    startLedge       = 7,
     startAtNight     = true,
     turnDay          = true,
 
