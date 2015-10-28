@@ -307,7 +307,8 @@ function newObjectsLoader:load(level)
     -- game ends if lava reaches the ledge a player is on before he jumps
     function level:createLavaChase(camera)
         lavaChase = true
-        lava      = display.newRect(centerX, 820, 1000, 640)  -- needs to be larger for scaling
+
+        lava = display.newRect(centerX, 820, 1200, 640)
         lava:setFillColor(1,0.5,0)
         lava.alpha     = 0.5
         lava.direction = left
