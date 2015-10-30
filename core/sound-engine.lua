@@ -174,9 +174,9 @@ local function playBackground(params)
 		local duration  = math_random(params.length/2)
 		local volume    = math_random(params.minVolume + params.maxVolume)/10
 
-		seek(seekStart,    {channel=channel})
+		seek(seekStart,      {channel=channel})
 		--setVolume(volume,  {channel=channel})
-		setMaxVolume(volume,  {channel=channel})
+		setMaxVolume(volume, {channel=channel})
 		play(params.sound, params)
 
 		bgrAfter(duration, function()
@@ -369,48 +369,16 @@ function engine:stopSound(key)
 end
 
 
-
--- Play sounds from a random pool of sounds
-function engine:playJump(type)
-    playRandom(soundList.playerJump[type])
-end
+-- GET a random sound from a set (for sequences)
 
 
-function engine:playLand(type)
-    playRandom(soundList.landLedge)
-    playRandom(soundList.playerLand[type])
-end
-
-
-function engine:playLandEdge(type)
-    playRandom(soundList.landLedge)
-    playRandom(soundList.playerLandEdge[type])
-end
-
-
-function engine:playFall(type)
-    playRandom(soundList.playerLandEdge[type])
-end
-
-
-function engine:playRing()
-	playRandom(soundList.rings)
-end
-
-
-function engine:playPlayerCelebrate(type)
-    playRandom(soundList.playerCelebrate[type])
-end
-
-
--- gets a random sound from a set (for sequences)
 function engine:getRandom(set)
     return set[math_random(#set)]
 end
 
 
-function engine:getRandomPlayerCelebrate(type)
-    return self:getRandom(soundList.playerCelebrate[type])
+function engine:getRandomImpact()
+    return self:getRandom(soundList.landLedge)
 end
 
 
@@ -422,6 +390,27 @@ end
 function engine:getRandomFuzzy()
 	return self:getRandom(soundList.fuzzies)
 end
+
+
+function engine:getPlayerJump(type)
+    return self:getRandom(soundList.playerJump[type])
+end
+
+
+function engine:getPlayerImpact(type)
+    return self:getRandom(soundList.playerLand[type])
+end
+
+
+function engine:getPlayerWorry(type)
+    return self:getRandom(soundList.playerLandEdge[type])
+end
+
+
+function engine:getPlayerCelebrate(type)
+    return self:getRandom(soundList.playerCelebrate[type])
+end
+
 
 
 -- Loads in the ambiant sounds for a zone and keep them playing

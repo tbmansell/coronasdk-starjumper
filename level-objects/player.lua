@@ -1,6 +1,7 @@
-local anim       = require("core.animations")
-local spine      = require("core.spine")
-local spineStore = require("level-objects.collections.spine-store")
+local anim        = require("core.animations")
+local spine       = require("core.spine")
+local spineStore  = require("level-objects.collections.spine-store")
+local soundEngine = require("core.sound-engine")
 
 
 -- @class Player main class
@@ -76,6 +77,51 @@ local player = {
 -- Aliases:
 local play     = realPlayer
 local math_abs = math.abs
+local osTime   = os.time
+
+
+-- Plays a sound directly with realPlayer if main player or adds to sound engine if not for distance management
+-- @param string action   - ame of the sound (under global sounds) which also double as the action name for a managed sound
+-- @param int    duration - optional duration for sound if managed
+----
+function player:sound(action, duration)
+    local sound = nil
+
+    -- The following are special actions that get a random sound to play
+    if     action == "randomJump"        then sound = soundEngine:getPlayerJump(self.model)
+    elseif action == "randomWorry"       then sound = soundEngine:getPlayerWorry(self.model)
+    elseif action == "randomCelebrate"   then sound = soundEngine:getPlayerCelebrate(self.model)
+    elseif action == "randomImpactVoice" then sound = soundEngine:getPlayerImpact(self.model)
+    elseif action == "randomImpact"      then sound = soundEngine:getRandomImpact()
+    elseif action == "randomRing"        then sound = soundEngine:getRandomRing()
+    else
+        sound = sounds[action]
+    end
+
+    if self.main then
+        play(sound)
+    else
+        -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
+        if action == "randomRing" then
+            action = action..osTime()
+        end
+
+        soundEngine:playManagedAction(self, action, {sound=sound, duration=(duration or 2000)})
+    end
+end
+
+-- Shortcut function to save callers having to make multiple sound calls
+-- @param bool bad - optional if true landing is bad and different sound is played
+function player:soundLand(bad)
+    self:sound("randomImpact")
+
+    if bad then
+        self:sound("randomWorry")
+    else
+        self:sound("randomImpactVoice")
+    end
+end
+
 
 
 function player:topEdge()
@@ -518,7 +564,7 @@ function player:walkOntoLevel(callback)
         hub:publicMessage("game-start")
     end]]
 
-    play(sounds.playerRun)
+    self:sound("playerRun")
     self:x(-200)
     self:loop("Run New")
 
@@ -555,8 +601,9 @@ function player:fallFromShip(camera, spaceship, callback)
     local seq = anim:chainSeq("fallFromShip", spaceship, false)
     seq:callbackAfter(500, function()
         self:hide()
-        play(sounds.checkpoint)
-        play(sounds.levelComplete)
+        self:sound("checkpoint")
+        self:sound("levelComplete")
+
         spaceship:animate("Ejection")
     end)
     seq:callbackAfter(1500, function()
@@ -564,8 +611,8 @@ function player:fallFromShip(camera, spaceship, callback)
 
         self:visible()
         self:animate("Death JUMP HIGH")
-        play(sounds.checkpoint)
-        play(sounds.playerFall)
+        self:sound("checkpoint")
+        self:sound("playerFall")
     end)
     seq:wait(1700)
     seq.onComplete = function()

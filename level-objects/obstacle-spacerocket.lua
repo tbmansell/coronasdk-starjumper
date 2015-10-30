@@ -77,8 +77,7 @@ function rocket:grab(player)
     if self.used then return end
 
     -- Stop momentum, hold  then activate the slide movement
-    soundEngine:playLand(player.model)
-
+    player:soundLand()
     player:stopMomentum()
     player:destroyEmitter()
     player:animate("Rocket-SIT-1")

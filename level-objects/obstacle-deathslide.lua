@@ -45,7 +45,7 @@ function deathslide:grab(player)
     self.player = player
 
     -- Stop momentum, hold  then activate the slide movement
-    soundEngine:playLand(player.model)
+    player:soundLand()
     
     player:stopMomentum()
     player:grabObstacle(self)

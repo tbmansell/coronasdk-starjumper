@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class Scenery main class
 local scenery = {
 	-- Methods:
@@ -58,8 +55,7 @@ end
 -- @param player
 ----
 function scenery:playerCollideWall(player)
-    soundEngine:playLandEdge(player.model)
-
+    player:soundLand(true)
     player:destroyEmitter()
     player:emit("landing-whitegood", {ypos=player:y()-50, alpha=0.75})
     player:animate("Landing FAR EDGE")

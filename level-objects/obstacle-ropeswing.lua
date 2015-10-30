@@ -44,8 +44,7 @@ end
 
 
 function ropeswing:grab(player)
-    soundEngine:playLand(player.model)
-    
+    player:soundLand()
     player:stopMomentum()
     player:grabObstacle(self)
     player:loop("DeathSlide HOLD")

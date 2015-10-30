@@ -39,7 +39,7 @@ end
 
 function pole:grab(player)
     -- Stop momentum, hold for half a second then slide down with gravity
-    soundEngine:playLand(player.model)
+    player:soundLand()
     player:stopMomentum(true)
     player:grabObstacle(self)
     player:animate("Pole HOLD")

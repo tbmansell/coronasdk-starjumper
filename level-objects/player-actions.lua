@@ -1,5 +1,4 @@
 local anim         = require("core.animations")
-local soundEngine  = require("core.sound-engine")
 local particles    = require("core.particles")
 local spineStore   = require("level-objects.collections.spine-store")
 
@@ -45,7 +44,6 @@ local player = {
 
 -- Aliases:
 local math_random = math.random
-local play        = realPlayer
 
 
 function player:changeDirection(direction)
@@ -168,7 +166,7 @@ function player:runup(xVelocity, yVelocity)
         yVelocity = yVelocity * scale
     end
 
-    --play(sounds.playerRun)
+    --self:sound("playerRun")
     self.mode      = playerRun
     self.xVelocity = xVelocity
     self.yVelocity = yVelocity
@@ -193,9 +191,9 @@ end
 
 function player:jump()
     if self.gear[air] == negRocket or self.gear[air] == negBooster then
-        play(sounds.gearJetpack)
+        self:sound("gearJetpack")
     else
-        soundEngine:playJump(self.model)
+        self:sound("randomJump")
     end
 
     local ledge = self.attachedLedge
@@ -339,16 +337,18 @@ function player:landUpdateState(ledge)
     if prevMode == playerClimb then
         -- dunno
     elseif prevMode == playerFall then
-        soundEngine:playLand(self.model)
+        self:soundLand()
         self:animate("Landing HIGH")
+
     elseif self:x() < self:ledgeLeftLimit(20) then
-        soundEngine:playLandEdge(self.model)
+        self:soundLand(true)
         self:animate("Landing NEAR EDGE")
+
     elseif self:x() > self:ledgeRightLimit(50) then
-        soundEngine:playLandEdge(self.model)
+        self:soundLand(true)
         self:animate("Landing FAR EDGE")
     else
-        soundEngine:playLand(self.model)
+        self:soundLand()
         self:animate("Landing "..self.jumpType)
         
         -- Score jump if not landing on the same one
@@ -554,8 +554,8 @@ end
 
 function player:swingOffAction()
     if self.mode ~= playerKilled then
-        soundEngine:playLandEdge(self.model)
-        play(sounds.ledgeRopeswingActivated)
+        self:soundLand(true)
+        self:sound("ledgeRopeswingActivated")
 
         local swing = self.attachedObstacle
         swing:release(self)
@@ -582,10 +582,10 @@ function player:letGoAction(dontAnimate)
     local obstacle = self.attachedObstacle
 
     if obstacle and self.mode ~= playerKilled then
-        soundEngine:playLandEdge(self.model)
+        self:soundLand(true)
 
         if obstacle.isPole then
-            play(sounds.poleSlide)
+            self:sound("poleSlide")
         end
 
         obstacle:release(self)
@@ -632,7 +632,7 @@ function player:ironSkinCollision()
     local xvel, yvel = self:getForce()
     self:applyForce(-xvel, -yvel)
 
-    soundEngine:playLandEdge(self.model)
+    self:soundLand(true)
     self:animate("Landing FAR EDGE")
 end
 

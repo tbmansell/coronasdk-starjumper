@@ -27,7 +27,6 @@ local player = {
 
 
 -- Aliases:
-local play        = realPlayer
 local math_abs    = math.abs
 local math_random = math.random
 local math_round  = math.round

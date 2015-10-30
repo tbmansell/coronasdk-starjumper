@@ -22,12 +22,12 @@ local levelData = {
 
         {object="ledge", x=300, y=-150, size="medium2"},
 
-         {object="emitter", x=0, y=-150, timer={1000, 2000}, limit=4, layer=4,
+            {object="emitter", x=0, y=-150, timer={1000, 2000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.2},
                     movement={rangeX={-600, 1000}, rangeY={-250, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },   
+            },
 
 
             --pinacle of scenery
@@ -118,7 +118,7 @@ local levelData = {
             lives         = 10,
             waitingTimer  = 3.5,
             personality   = {
-                waitForPlayer     = 3,    -- waits for player if they are this many ledges in front
+                --waitForPlayer     = 3,    -- waits for player if they are this many ledges in front
                 waitCatchupTo     = 1,    -- once waited, waits until the player is 1 ledge in front, before continuing
                 waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
                 waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)

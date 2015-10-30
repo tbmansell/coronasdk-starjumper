@@ -1,6 +1,5 @@
 local physics     = require("physics")
 local anim        = require("core.animations")
-local soundEngine = require("core.sound-engine")
 local particles   = require("core.particles")
 local spineStore  = require("level-objects.collections.spine-store")
 
@@ -37,7 +36,6 @@ local player = {
 
 -- Aliases:
 local math_random = math.random
-local play        = realPlayer
 
 
 function player:collected(item)
@@ -49,9 +47,10 @@ function player:collected(item)
     end
 
     if item.isRing then
-        soundEngine:playRing()
+        self:sound("randomRing")
     else
-        play(item.collectedSound)
+        -- WANRING: dont think this will work
+        self:sound(item.collectedSound)
     end
 
     if self.main then
@@ -81,10 +80,10 @@ function player:dragGearUsage()
     local gear = self.gear[jump]
 
     if gear == gearTrajectory then
-        play(sounds.gearTrajectory)
+        self:sound("gearTrajectory")
         curve.showTrajectory = true
     elseif gear == gearFreezeTime then
-        play(sounds.negable)
+        self:sound("negable")
         self:freezeTimeStarted()
     end
 
@@ -108,13 +107,13 @@ function player:runupGearUsage(xVelocity, yVelocity)
         if self.main then hud:markGearInUse(gear) end
 
         if gear == gearFreezeTime then
-            --play(sounds.gearAntigrav)
+            self:sounds("gearAntigrav")
 
         elseif gear == gearShield then
             self:shieldStarted()
 
         elseif gear == gearSpringShoes then
-            play(sounds.gearSpringshoes)
+            self:sounds("gearSpringshoes")
             -- Spring shoes mean the player jumps from the spot
             self.mode = playerJumpStart
             self.jumpTypeHigh = true
@@ -249,10 +248,10 @@ function player:reverseJumpStarted()
 
     self.image:setLinearVelocity(0,0)
     self:setGravity(0)
-    play(sounds.gearReverseJump)
+    self:sounds("gearReverseJump")
 
     after(1000, function()
-        play(sounds.gearReverseJump)
+        self:sounds("gearReverseJump")
         -- add a bit more to xvel so less likely to fall off ledge
         -- ONLY if we are not also using spring shoes (as they give us an exact restart)
         -- NOTE: reverse time also doesnt use up other gear (such as spring shoes) - pretty sweet
@@ -269,7 +268,7 @@ end
 
 
 function player:jetpackStarted()
-    play(sounds.gearJetpack)
+    self:sound("gearJetpack")
     self:animate("Powerup ROCKET")
 
     if self.main then
@@ -323,7 +322,7 @@ end
 
 
 function player:parachuteStarted()
-	play(sounds.gearAir)
+	self:sound("gearAir")
     self.skeleton:setAttachment("Back - POWER UP ATTACHMENT", "attachment-parachute-parachute")
     self:animate("Powerup PARACHUTE")
     self:setGravity(0.1)
@@ -343,7 +342,7 @@ end
 
 
 function player:gliderStarted()
-    play(sounds.gearAir)
+    self:sound("gearAir")
     self.skeleton:setAttachment("Back - POWER UP ATTACHMENT", "attachment-glider-glider")
     self:animate("Powerup GLIDER")
     self:setGravity(0.1)
@@ -377,7 +376,8 @@ function player:climbLedgeStarted(ledge, edge)
         self:emit("usegear-red")
 
         if self.main then self:getCamera():cancel() end
-        soundEngine:playLand(self.model)
+        
+        self:soundLand()
 
         after(50, function()
             local ydiff  = ledge:topEdge(0, self:x()) - self:topEdge()
@@ -458,7 +458,7 @@ end
 
 function player:negableTrajectoryStarted()
     if self.main then
-        play(sounds.negable)
+        self:sound("negable")
         curve.showGrid       = false
         self.slotInUse[jump] = true
         curve:hideJumpGrid(self:getCamera())
@@ -479,12 +479,12 @@ function player:negableDizzyStarted()
     end
     seq:start()
 
-    soundEngine:playFall(self.model)
+    self:sound("randomWorry")
 end
 
 
 function player:negableBoosterStarted()
-    play(sounds.gearJetpack)
+    self:sound("gearJetpack")
     self:animate("Powerup BOOSTER")
     self.slotInUse[air]    = true
     self.negableBoosterOn  = true
@@ -492,7 +492,7 @@ end
 
 
 function player:negableRocketStarted()
-    play(sounds.gearJetpack)
+    self:sounds("gearJetpack")
     self:animate("Powerup ROCKET")
     self.slotInUse[air]    = true
     self.negableRocketOn   = true

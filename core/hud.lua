@@ -483,7 +483,7 @@ end
 
 function hud:lost(item)
     if item.isRing and self.collectables.rings[item.type] > 0 then
-        soundEngine:playRing()
+        self.player:sound("randomRing")
         self.collectables.rings[item.type] = self.collectables.rings[item.type] - 1
         self.collectScore = self.collectScore - ringValues[item.color].points
     end

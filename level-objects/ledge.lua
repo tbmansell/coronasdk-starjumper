@@ -373,7 +373,8 @@ function ledge:scoreJump(player)
                 player.maxJumpsInaRow = player.topJumpsInaRow
             end
 
-            after(500, function() soundEngine:playPlayerCelebrate(player.model) end)
+            --after(500, function() soundEngine:playPlayerCelebrate(player.model) end)
+            after(500, function() player:sound("randomCelebrate") end)
         else
             player.topJumpsInaRow = 0
         end

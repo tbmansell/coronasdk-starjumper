@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class Main class for collection
 local playerCollection = {
 	-- Methods:
@@ -153,7 +150,8 @@ function playerCollection:checkIfOutOfPlay(player, camera, floor)
         local main = player.main
         local mode = player.mode
 
-        play(sounds.playerFall)
+        --play(sounds.playerFall)
+        player:sound("playerFall")
         player.markedOutOfPlay = true
 
         if main then camera:cancel() end
@@ -212,7 +210,7 @@ function playerCollection:checkJumpToFall(player, jumpedFrom)
     -- Check if a player has jumped too far below initial ledge and turn their jump into a fall...
     if distanceY < -200 and not player.gliding and not player.parachuting then
         player.mode = playerFall
-        soundEngine:playFall(player.model)
+        player:sound("randomWorry")
 
         player:destroyEmitter()
         player:animate("Death JUMP "..(player.jumpType or "HIGH"))
