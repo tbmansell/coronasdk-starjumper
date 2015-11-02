@@ -428,6 +428,7 @@ end
 
 
 function player:missLedge(ledge, edge)
+    self:soundLand(true)
     self:destroyEmitter()
     self:emit("landing-whitegood", {ypos=ledge:topEdge(), alpha=0.75, duration=500})
 

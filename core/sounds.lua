@@ -89,19 +89,19 @@ sounds = {
     ledgeSpikesActivated     = loadSound("sounds/ledge-spiked2.wav"),
     ledgeOneshotActivated    = loadSound("sounds/ledge-oneshot.wav"),
     ledgeExplodingActivated  = loadSound("sounds/ledge-exploding.wav"),
-    ledgePulleyActivated     = loadSound("sounds/ledge-pulley.wav"),
+    ledgePulleyActivated     = loadSound("sounds/ledge-pulley.wav"),        -- replace
 
     -- obstacles:
-    poleSlide           = loadSound("sounds/obstacle-pole.wav"),
+    poleSlide           = loadSound("sounds/obstacle-pole.wav"),            -- replace
     deathslideActivated = loadSound("sounds/obstacle-deathslide.wav"),
     ropeswingAmbient    = loadSound("sounds/obstacle-ropeswing.wav"),
 
     -- player generic (cross model) sounds
-    playerFall          = loadSound("sounds/fall.mp3"),
-    playerDeathExplode  = loadSound("sounds/enviromental-fallonspike.wav"),
-    playerDeathElectric = loadSound("sounds/ledge-electric1.wav"),
-    playerDeathSpikes   = loadSound("sounds/enviromental-fallonspike.wav"),
-    playerDeathLava     = loadSound("sounds/enviromental-genericdeath1.wav"),
+    playerFall          = loadSound("sounds/fall.mp3"),     -- replace
+    playerDeathExplode  = loadSound("sounds/enviromental-fallonspike.wav"),  -- replace
+    playerDeathElectric = loadSound("sounds/ledge-electric1.wav"),           
+    playerDeathSpikes   = loadSound("sounds/enviromental-fallonspike.wav"),    -- replace 
+    playerDeathLava     = loadSound("sounds/enviromental-genericdeath1.wav"),  -- replace
     playerTeleport      = loadSound("sounds/gear-reversetime2.wav"),
 
     -- friends common:
@@ -111,26 +111,62 @@ sounds = {
     enemyBrain1         = loadSound("sounds/enemy-brain-growl1.wav"),
     enemyBrain2         = loadSound("sounds/enemy-brain-growl2.wav"),
     enemyBrain3         = loadSound("sounds/enemy-brain-growl3.wav"),
-    enemyHeart1         = loadSound("sounds/enemy-heart1.wav"),
-    enemyHeart2         = loadSound("sounds/enemy-heart2.wav"),
+    enemyHeart1         = loadSound("sounds/enemy-heart1.wav"),     -- replace
+    enemyHeart2         = loadSound("sounds/enemy-heart2.wav"),     -- replace
     enemyStomach1       = loadSound("sounds/enemy-stomach1.wav"),
-    enemyStomach2       = loadSound("sounds/enemy-stomach2.wav"),
+    enemyStomach2       = loadSound("sounds/enemy-stomach2.wav"),   --replace
 
-    -- OLD sounds
-        checkpoint      = loadSound("sounds/checkpoint.wav"),
-        levelComplete   = loadSound("sounds/levelComplete.wav"),
-        bounce          = loadSound("sounds/bounce.mp3"),
-        whoosh          = loadSound("sounds/whoosh.mp3"),
-        gearSelect      = loadSound("sounds/selection.mp3"),
-        friendCollected = loadSound("sounds/friendCollected.wav"),
-        gearSpringshoes = loadSound("sounds/gear-springshoes.wav"),
-        gearAntigrav    = loadSound("sounds/gear-antigrav.mp3"),
-        gearTrajectory  = loadSound("sounds/gear-trajectory.mp3"),
-        gearShield      = loadSound("sounds/gear-shield.mp3"),
-        gearAir         = loadSound("sounds/gear-air.wav"),
-        gearJetpack     = loadSound("sounds/gear-jetpack.mp3"),
-        gearReverseJump = loadSound("sounds/gear-reversejump.wav"),
-        negable         = loadSound("sounds/negable.wav"),    
+    
+    checkpoint      = loadSound("sounds/checkpoint.wav"),
+    levelComplete   = loadSound("sounds/levelComplete.wav"),    -- replace as stolen
+    bounce          = loadSound("sounds/bounce.mp3"),
+    whoosh          = loadSound("sounds/whoosh.mp3"),
+    friendCollected = loadSound("sounds/friendCollected.wav"),
+
+    gearSelect      = loadSound("sounds/selection.mp3"),    -- replace (time bonus)
+    negable         = loadSound("sounds/negable.wav"),      -- replace as stolen
+
+    
+    gearSpringshoes = loadSound("sounds/gear-springshoes.wav"),
+    gearAntigrav    = loadSound("sounds/gear-antigrav.mp3"),
+    gearTrajectory  = loadSound("sounds/gear-trajectory.mp3"),
+    gearShield      = loadSound("sounds/gear-shield.mp3"),
+    gearAir         = loadSound("sounds/gear-air.wav"),
+    gearJetpack     = loadSound("sounds/gear-jetpack.mp3"),
+    gearReverseJump = loadSound("sounds/gear-reversejump.wav"),
+
+    -- new to add:
+        -- [ledges]
+        -- unlocking keylock ledge
+
+        -- [items]
+        -- collect key
+        -- collect timebonus
+        -- warpfield contact
+        -- warpfield nearby ?
+        -- randmoizer
+
+        -- [scenery]
+        -- rock impact sound
+        -- metal impact sound
+        
+        -- [enemies]
+        -- ufo impact
+        -- ufo nearby ?
+        -- ufo miss ?
+        -- grey rocket shooter
+        -- grey rocket voice nearby ?
+        -- grey fuzzy stealer nearby ?
+
+        -- [obstacles]
+        -- space rocket countdown
+        -- space rocket blast off
+
+        -- [other in-level sounds]
+        -- timer for arcade countdown
+        -- timer game last 5 seconds countdown
+
+    
 }
 
 

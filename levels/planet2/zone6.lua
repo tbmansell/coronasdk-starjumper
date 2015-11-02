@@ -6,7 +6,7 @@ local levelData = {
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {7},
+        [bgrMid]   = {7, 7},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },
@@ -22,7 +22,7 @@ local levelData = {
 
             {object="emitter", x=200, y=699, timer={2000, 4000}, limit=nil, force={ {-500, 500}, {-100, -300}, {0, 360} }, 
                 items={
-                    {10, {object="scenery", layer=1, type="fg-debris-ufo-left", size={6, 9}} },
+                    {10,  {object="scenery", layer=1, type="fg-debris-ufo-left", size={6, 9}} },
                     {50,  {object="scenery", layer=4, type="fg-bg-rock-2", size={3, 8}} },
                     {90,  {object="scenery", layer=4, type="fg-bg-rock-4", size={4, 8}} },
                     {100, {object="scenery", layer=1, type="fg-debris-ufo-right", size={6, 9}} },

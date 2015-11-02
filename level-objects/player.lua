@@ -260,7 +260,7 @@ end
 -- Kill player by exploding them and stopping them dead still
 ----
 function player:explode(options, sound)
-    if sound then
+    if sound and type(sound) == "table" then
         sound.action = sound.action or "playerDeathExplode"
     end
 
@@ -614,7 +614,7 @@ function player:sound(action, params)
 
     if self.main then
         -- Sound should be in full and not in sound engine as its the main player
-        play(sound)
+        play(params.sound, params, params.volume)
     else
         -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
         if action == "randomRing" then
