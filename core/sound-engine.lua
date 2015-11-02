@@ -245,6 +245,7 @@ end
 
 -- Sounds in the following channels dont need to be added to any queue, they can just be played straight of
 -- as they are immediate sounds that dont require distance or volumes changing during the duration of that sound playing
+--[[
 function engine:playCustom(sound, channel, duration, loops, seekStart, volume, fadein)
 	local params = {
 		sound    		= sound,
@@ -256,10 +257,12 @@ function engine:playCustom(sound, channel, duration, loops, seekStart, volume, f
 	}
 	playCustom(params)
 end
+]]
 
 
 -- These sounds need managing for their volume over time as the sound source can move off-screen
 -- Returns index of sound entry to identify it later
+--[[
 function engine:playManaged(sound, sourceObject, duration, loops, volume, fadein, fadeout)
 	local params = {
 	    started      	= false,
@@ -278,6 +281,7 @@ function engine:playManaged(sound, sourceObject, duration, loops, volume, fadein
 		soundQueue[#soundQueue + 1] = params
 	end
 end
+]]
 
 
 -- These sounds also need managing for their volume over time, same as playManaged. The difference is the params are passed in as a table for flexibility 
@@ -286,10 +290,11 @@ end
 function engine:playManagedAction(sourceObject, actionName, params)
 	-- safety check so we can safely pass in nils without always having to check in the source object (more compact calling code)
 	if sourceObject and actionName and params then
-		local key = sourceObject.key..actionName
+		local key = sourceObject.key..":"..actionName
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
+			print("sound already in queue: "..key)
 			return 0
 		end
 
@@ -301,6 +306,8 @@ function engine:playManagedAction(sourceObject, actionName, params)
 		params.key            = key
 
 		if checkShouldPlay(params) ~= -1 then
+			print("sound added: "..key.." duration="..tostring(params.duration))
+
 			soundQueue[#soundQueue + 1] = params
 			-- signal that the sound has just been added
 			return 1
@@ -355,8 +362,12 @@ end
 
 
 -- Hunts through the queue and stops a sound if a key matches, optionally fading out if passed
-function engine:stopSound(key)
+function engine:stopSound(key, actionName)
 	local num = #soundQueue
+
+	if actionName then
+		key = key..":"..actionName
+	end
 
 	for i=1, num do
 		local params = soundQueue[i]
@@ -365,6 +376,7 @@ function engine:stopSound(key)
 			return true
 		end
 	end
+	
 	return false
 end
 

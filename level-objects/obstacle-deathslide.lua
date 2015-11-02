@@ -56,7 +56,8 @@ function deathslide:grab(player)
     
     after(self.delay or 0, function()
         -- loop until turned off
-        self:sound("deathslideActivated", {duration=10000,  loops=-1})
+        self:sound("deathslideActivated", {duration=15000})
+        --player:sound("deathslideActivated", {duration=15000})
         self:loop("Deathslide-"..self.animSpeed)
         self.started = true
         self:move()
@@ -65,7 +66,7 @@ end
 
 
 function deathslide:movementCompleted()
-    soundEngine:stopSound(self.key)
+    soundEngine:stopSound(self.key, "deathslideActivated")
     
     self:stop()
     self:animate("Standard")

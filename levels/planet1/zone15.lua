@@ -5,7 +5,7 @@ local levelData = {
     defaultLedgeSize = medium,
     startAtNight     = true,
     turnDay          = true,
-    startLedge       = 1,
+    startLedge       = 15,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
