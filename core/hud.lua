@@ -1,6 +1,5 @@
 local storyboard   = require("storyboard")
 local anim         = require("core.animations")
-local soundEngine  = require("core.sound-engine")
 local stories      = require("core.story")
 local tutorials    = require("core.tutorial")
 local messages     = require("core.messages")
@@ -18,7 +17,7 @@ require("core.hud-debug")
 -- Aliases
 local math_floor  = math.floor
 local math_random = math.random
-local play        = realPlayer
+local play        = globalSoundPlayer
 
 
 function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)

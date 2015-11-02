@@ -1,4 +1,5 @@
-local particles = require("core.particles")
+local particles   = require("core.particles")
+local soundEngine = require("core.sound-engine")
 
 
 -- @class foundation gameObject
@@ -90,6 +91,7 @@ local gameObject = {
     -- removeMovementPath()
     -- emit()
     -- bindEmitter()
+    -- sound()
 }
 
 
@@ -734,6 +736,19 @@ function gameObject:destroyEmitter()
         self.boundEmitter   = nil
         self.boundEmitterOn = false
     end
+end
+
+
+-- Plays a sound by binding it to this object into the sound engine
+-- @param string action - name of the sound (under global sounds) which also double as the action name for a managed sound
+-- @param table  param  - optional list of sound properties
+----
+function gameObject:sound(action, params)
+    local params    = params          or {}
+    params.sound    = params.sound    or sounds[action]
+    params.duration = params.duration or 2000
+
+    soundEngine:playManagedAction(self, action, params)
 end
 
 

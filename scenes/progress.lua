@@ -9,7 +9,7 @@ local spineCollection = nil
 local lastTime        = 0
 
 -- Aliases:
-local play = realPlayer
+local play = globalSoundPlayer
 
 
 -- Things that need to happen as fast as possible (every frame e.g 60 loops per second)

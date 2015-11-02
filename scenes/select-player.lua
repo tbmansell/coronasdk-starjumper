@@ -1,7 +1,6 @@
 local storyboard   = require("storyboard")
 local anim         = require("core.animations")
 local messages     = require("core.messages")
-local soundEngine  = require("core.sound-engine")
 local builder      = require("level-objects.builders.builder")
 local spineStore   = require("level-objects.collections.spine-store")
 
@@ -79,7 +78,7 @@ local characterPersonality = {
 }
 
 -- Aliases:
-local play = realPlayer
+local play = globalSoundPlayer
 
 
 -- Things that need to happen as fast as possible (every frame e.g 60 loops per second)

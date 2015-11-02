@@ -1,5 +1,4 @@
-local soundEngine = require("core.sound-engine")
-local anim        = require("core.animations")
+local anim = require("core.animations")
 
 
 -- @class Deathslide class
@@ -19,7 +18,6 @@ local rocket = {
 
 
 -- Aliases:
-local play     = realPlayer
 local math_abs = math.abs
 
 
@@ -108,7 +106,8 @@ end
 
 
 function rocket:launch(player)
-    soundEngine:playManaged(sounds.rocketActivated, self, 10000, -1, 1, 0, 250)  -- loop until turned off, max volume
+    -- loop until turned off
+    self:sound("rocketActivated", {duration=10000, loop=-1})
 
     local camera  = self:getCamera()
     local scale   = camera.scaleImage

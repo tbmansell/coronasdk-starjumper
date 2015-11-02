@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class collection for friends
 local friendCollection = {
 
@@ -114,7 +111,7 @@ function friendCollection:checkBehaviourChange()
 
             -- check if friend should play active sound
             if friend.activeSound and not friend.playingActive then
-                soundEngine:playManagedAction(friend, "active", friend.activeSound)
+                friend:sound("active", friend.activeSound)
             end
         end
     end

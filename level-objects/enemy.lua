@@ -1,6 +1,5 @@
 local utils       = require("core.utils")
 local anim    	  = require("core.animations")
-local soundEngine = require("core.sound-engine")
 local spineStore  = require("level-objects.collections.spine-store")
 
 
@@ -50,7 +49,7 @@ end
 
 function enemy:contact(object)
 	if self.deadly and not self.image.isSensor and object.mode ~= playerKilled then
-        soundEngine:playManagedAction(self, "kill", self.killSound)
+        self:sound("kill", self.killSound)
 
         self:intangible()
     	self:animate("Activate")
@@ -59,8 +58,7 @@ function enemy:contact(object)
         if object.ironSkin and object.ironSkin > 0 then
             object:ironSkinCollision()
         else
-            object:explode(self)
-            if object.main then hud:displayMessageDied("enemy-"..self.type) end
+            object:explode({message="enemy-"..self.type})
         end
 
     elseif self.thief and self.stealTimer == nil and self.state ~= stateResetting and self.state ~= stateSleeping then
@@ -94,7 +92,7 @@ function enemy:shouldAwaken(ledgeId, player)
 
     if ledgeId >= leftLimit and ledgeId <= rightLimit then
 		if self.mode == stateSleeping or self.mode == stateWaiting then
-            soundEngine:playManagedAction(self, "awaken", self.awakenSound)
+            self:sound("awaken", self.awakenSound)
 			self:loop("Standard")
 		end
         self.player = player
@@ -121,7 +119,7 @@ end
 
 function enemy:passedPlayer()
     if self.image then
-        soundEngine:playManagedAction(self, "miss", self.missSound)
+        self:sound("miss", self.missSound)
         self:flipX()
     end
 end
@@ -150,7 +148,7 @@ function enemy:steal(target)
             self.isStealing = true
 
             after(500, function()
-                soundEngine:playManagedAction(self, "kill", self.stealSound)
+                self:sound("steal", self.stealSound)
 
                 local item = hud.level:generateRing(target:x(), target:y(), color)
                 item.isStolen = true
@@ -183,7 +181,7 @@ end
 
 
 function enemy:shoot()
-    soundEngine:playManagedAction(self, "kill", self.shootSound)
+    self:sound("shoot", self.shootSound)
     self:animate(self.shootAnimation)
 
     -- generate & fire negable after shooting animation finished

@@ -3,7 +3,7 @@ local anim       = require("core.animations")
 local scene      = storyboard.newScene()
 
 -- Aliases:
-local play = realPlayer
+local play = globalSoundPlayer
 
 
 -- Called when the scene's view does not exist:

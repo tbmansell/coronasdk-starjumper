@@ -21,7 +21,6 @@ local playerBuilder = {
 -- Aliases:
 local math_abs  = math.abs
 local new_image = display.newImage
-local play      = realPlayer
 
 
 -- Creates a new playerCollection
@@ -200,7 +199,7 @@ function playerBuilder:applyCharacterAbilities(player)
                 seq.onComplete = function() warp:destroy() end
                 seq:start()
             else
-                play(sounds.shopCantBuy)
+                self:sound("shopCantBuy")
             end
         end
     end

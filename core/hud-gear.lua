@@ -1,9 +1,8 @@
 local storyboard   = require("storyboard")
 local anim         = require("core.animations")
---local spineFactory = require("core.spine-factory")
---local collectables = require("level-objects.collectables")
 
-local play = realPlayer
+-- Aliases:
+local play = globalSoundPlayer
 
 
 -- creates the gear icons that show whats selected, instead of the full list, when jumping

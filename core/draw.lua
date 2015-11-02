@@ -5,7 +5,7 @@ local anim       = require("core.animations")
 -- Aliases:
 local math_round  = math.round
 local math_random = math.random
-local play        = realPlayer
+local play        = globalSoundPlayer
 local new_image   = display.newImage
 
 

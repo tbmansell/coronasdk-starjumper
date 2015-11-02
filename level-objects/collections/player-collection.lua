@@ -13,7 +13,6 @@ local playerCollection = {
 
 -- Aliases:
 local atan = math.atan
-local play = realPlayer
 
 
 -- Checks the players movement: walking, running or landing correction
@@ -150,7 +149,6 @@ function playerCollection:checkIfOutOfPlay(player, camera, floor)
         local main = player.main
         local mode = player.mode
 
-        --play(sounds.playerFall)
         player:sound("playerFall")
         player.markedOutOfPlay = true
 

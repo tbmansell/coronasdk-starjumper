@@ -14,7 +14,6 @@ local fuzzy = {
 	-- eventCollide()
 	-- setPhysics()
 	-- wave()
-	-- randomSound()
 	-- setDelayTillNextChange()
 	-- collect()
 }
@@ -80,13 +79,8 @@ function fuzzy:wave()
         after(1500, function() self:loop("Hang Left Arm Standard") end)
     end
 
-    soundEngine:playManagedAction(self, "random", {sound=self:randomSound(), duration=2000})
+    self:sound("wave", {sound=soundEngine:getRandomFuzzy()})
     self:setDelayTillNextChange()
-end
-
-
-function fuzzy:randomSound()
-	return soundEngine:getRandomFuzzy()
 end
 
 
@@ -104,10 +98,11 @@ function fuzzy:collect(camera)
     self:intangible()
     self:applyForce(0, -200 * scale)
 
+    self:sound("friendCollected")
     self:emit("collect-fuzzy", {xpos=1, ypos=40, duration=2000}, true)
 
     local seq = anim:chainSeq("fuzzyCollected", self.image)
-    seq:tran({time=2000, scale=2.5, alpha=0, playSound=sounds.friendCollected})
+    seq:tran({time=2000, scale=2.5, alpha=0})
     seq.onComplete = function()
         self:destroy(camera)
     end

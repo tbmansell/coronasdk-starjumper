@@ -25,7 +25,7 @@ local sceneryCollection  = nil
 local lastTime           = 0
 
 -- Aliases:
-local play      = realPlayer
+local play      = globalSoundPlayer
 local new_image = newImage
 
 

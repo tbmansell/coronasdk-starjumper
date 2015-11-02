@@ -340,11 +340,16 @@ function spineStore:showGearShield(camera, player, params)
 		player.shieldImage = shield
 
         local seq = anim:oustSeq("playerShield", shield.image)
+        --seq:tran({time=500, scale=1, playSound=sounds.gearShield})
         seq:tran({time=500, scale=1, playSound=sounds.gearShield})
+        seq:callback(function() player:sound("gearShield") end)
         seq:callbackAfter(8000, function() shield:loop("Pulse") end)
-        seq:tran({time=1000, delay=2000, scale=0.1, playSound=sounds.gearShield, playDelay=2000})
+        --seq:tran({time=1000, delay=2000, scale=0.1, playSound=sounds.gearShield, playDelay=2000})
+        seq:tran({time=1000, delay=2000, scale=0.1})
+        seq:callbackAfter(2000, function() player:sound("gearShield") end)
         seq.onComplete = function() player:shieldExpired() end
         seq:start()
+        
         -- assign the sequence to the shield so we can tell the shield to stop it at any time
         shield.seq = seq
         -- Insert into image so corona moves the shield with the object for us

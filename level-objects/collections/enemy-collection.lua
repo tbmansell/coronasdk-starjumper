@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class collection for enemies
 local enemyCollection = {
     -- Methods:

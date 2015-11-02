@@ -1,6 +1,5 @@
 local utils                 = require("core.utils")
 local anim                  = require("core.animations")
-local soundEngine 	        = require("core.sound-engine")
 local builder               = require("level-objects.builders.builder")
 local collectableDef        = require("level-objects.collectable")
 local collectableCollection = require("level-objects.collections.collectable-collection")
@@ -311,7 +310,7 @@ function collectableBuilder:newRandomizer(camera, spec, x, y, ledge)
     -- Triggers the randomizer
     function randomizer:activate()
         self.collected = true
-        soundEngine:playManaged(sounds.checkpoint, self, 3000)
+        self:sound("checkpoint", {duration=3000})
 
         local name = utils.percentFrom(self.items)
         if name then

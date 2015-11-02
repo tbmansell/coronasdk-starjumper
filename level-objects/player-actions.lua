@@ -23,8 +23,6 @@ local player = {
 	-- grabObstacle()
 	-- missLedge()
 	-- miss()
-	-- murder()
-	-- explode()
 	-- addKey()
 	-- hasKey()
 	-- moveOnLedge()
@@ -469,59 +467,6 @@ function player:miss(edge, delay)
         -- make solid again so we can fall on any ledges below
         after(delay or 500, function() self:solid() end)
     end 
-end
-
-
--- Kills players but keeps their movement and optionally allows them to fall
-function player:murder(enemy, animation, fall, leaveGravity)
-    if self.mode ~= playerKilled then
-        self.mode = playerKilled
-
-        self:destroyEmitter()
-        self:emit("deathflash")
-        self:emit("die")
-
-        if self.attachedObstacle then
-            self.attachedObstacle:release(self)
-        end
-
-        self.animationOverride = nil
-        self:animate(animation or "Death EXPLODE BIG")
-        self.image.gravityScale = 1
-
-        if fall then
-            self:intangible()
-        end
-
-        self:showFlash()
-        after(3000, function() self:loseLife(leaveGravity) end)
-    end
-end
-
-
--- Blows player up and completely stops their movement
-function player:explode(enemy, animation, moveFor)
-    if self.mode ~= playerKilled then
-        self.mode = playerKilled
-
-        self:destroyEmitter()
-        self:emit("deathflash")
-        self:emit("die")
-
-        if self.attachedObstacle then
-            self.attachedObstacle:release(self)
-        end
-
-        self.animationOverride = nil
-
-        after(moveFor or 0, function()
-            self:animate(animation or "Death EXPLODE BIG")
-            self:stopMomentum(true) 
-        end)
-
-        self:showFlash()
-        after(3000, function() self:loseLife(true) end)
-    end
 end
 
 

@@ -1280,14 +1280,14 @@ local PStartInOutTransition = function(Group)
 
 		if Group.InOutEffect.inMode == "ALL" then
 				Group.isVisible = not Group.InOutEffect.hideCharsBefore
-				Trans.onStart   = function() Group.isVisible = true; if Group.InOutEffect.InSound ~= nil then realPlayer( Group.InOutEffect.InSound, { channel = 0, loop = 0 } ) end end
+				Trans.onStart   = function() Group.isVisible = true; if Group.InOutEffect.InSound ~= nil then globalSoundPlayer( Group.InOutEffect.InSound, { channel = 0, loop = 0 } ) end end
 				Trans.onComplete= function() Group.TransIn = nil end
 				Group.TransIn	= transition.from (Group, Trans )
 				duration 		= Group.InOutEffect.inDelay + Trans.time
 		else
 			for c = 1, Group[2].numChildren do
 				Group[2][c].isVisible 	= not Group.InOutEffect.hideCharsBefore
-				Trans.onStart     	= function() Group[2][c].isVisible = true; if Group.InOutEffect.InSound ~= nil then realPlayer( Group.InOutEffect.InSound, { channel = 0, loop = 0 } ) end end
+				Trans.onStart     	= function() Group[2][c].isVisible = true; if Group.InOutEffect.InSound ~= nil then globalSoundPlayer( Group.InOutEffect.InSound, { channel = 0, loop = 0 } ) end end
 				Trans.onComplete	= function() Group[2][c].TransIn   = nil end
 				Group[2][c].TransIn	= transition.from (Group[2][c], Trans )
 
@@ -1321,13 +1321,13 @@ local PStartInOutTransition = function(Group)
 		end
 
 		if Group.InOutEffect.outMode == "ALL" then
-			Trans.onStart 	 = function() if Group.InOutEffect.OutSound ~= nil then realPlayer( Group.InOutEffect.OutSound, { channel = 0, loop = 0 } ) end end
+			Trans.onStart 	 = function() if Group.InOutEffect.OutSound ~= nil then globalSoundPlayer( Group.InOutEffect.OutSound, { channel = 0, loop = 0 } ) end end
 			Trans.onComplete = function() Group.TransOut = nil; Group.isVisible = not Group.InOutEffect.hideCharsAfter end
 			Group.TransOut   = transition.to (Group, Trans )
 			duration 		 = Trans.delay + Trans.time --Group.InOutEffect.outDelay + Trans.time
 		else
 			for c = 1, Group[2].numChildren do
-				Trans.onStart 	  = function() if Group.InOutEffect.OutSound ~= nil then realPlayer( Group.InOutEffect.OutSound, { channel = 0, loop = 0 } ) end end
+				Trans.onStart 	  = function() if Group.InOutEffect.OutSound ~= nil then globalSoundPlayer( Group.InOutEffect.OutSound, { channel = 0, loop = 0 } ) end end
 				Trans.onComplete  = function() Group[2][c].TransOut = nil; Group[2][c].isVisible = not Group.InOutEffect.hideCharsAfter end
 				Group[2][c].TransOut = transition.to (Group[2][c], Trans )
 

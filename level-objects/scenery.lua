@@ -9,19 +9,12 @@ local scenery = {
 }
 
 
--- Aliases:
-local play = realPlayer
-
-
 function scenery.eventCollideSpike(self, event)
     local spike  = self
     local object = event.other.object
 
     if event.phase == "began" and object ~= nil and object.isPlayer and object.shielded ~= true then
-        play(sounds.playerDeathSpikes)
-        object:explode(self, "Death EXPLODE SMALL")
-
-        if object.main then hud:displayMessageDied("spike") end
+        object:explode({animation="Death EXPLODE SMALL", message="spike"})
     end
 end
 
@@ -71,7 +64,7 @@ function scenery:playerCollideWall(player)
     end
 
     if player.repeatWallCollision >= 3 then
-        return player:explode(self)
+        return player:explode()
     end
 
     -- put a check in place that if after hitting a self 1500ms after if player is still in fall state then kill them or they can get stuck
@@ -81,7 +74,7 @@ function scenery:playerCollideWall(player)
         local xvel, yvel = player:getForce()
         if xvel == 0 and yvel == 0  and player.lastWallCollision == self.key and (player.mode == playerMissedDeath or player.mode == playerFall) then
             player.lastWallCollision = nil
-            player:explode(self)
+            player:explode()
         end
     end)
 

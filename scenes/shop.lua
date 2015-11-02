@@ -1,7 +1,6 @@
 local storyboard   = require("storyboard")
 local anim         = require("core.animations")
 local messages     = require("core.messages")
-local soundEngine  = require("core.sound-engine")
 local builder      = require("level-objects.builders.builder")
 local spineStore   = require("level-objects.collections.spine-store")
 
@@ -11,7 +10,7 @@ local spineCollection = nil
 local lastTime        = 0
 
 -- Aliases:
-local play       = realPlayer
+local play       = globalSoundPlayer
 local new_image  = newImage
 local new_circle = display.newCircle
 

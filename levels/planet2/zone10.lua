@@ -130,7 +130,7 @@ local levelData = {
                 -- player:  the main player
                 -- source:  the ledge which triggered the event
                 -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
-                realPlayer(sounds.checkpoint)
+                globalSoundPlayer(sounds.checkpoint)
                 
                 local endLedge = targets[3]
                 camera:setFocus(endLedge.image)

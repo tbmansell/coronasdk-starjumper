@@ -14,7 +14,7 @@ local anim = {
 
 local math_round = math.round
 local math_abs   = math.abs
-local play       = realPlayer
+local play       = globalSoundPlayer
 
 
 -- Creates a new seq where the target is not removed after

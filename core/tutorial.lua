@@ -13,7 +13,7 @@ local speechGroup    = nil
 local eventNames     = {"tap-ledge", "prepare-jump", "use-air-gear", "jump-off-swing", "drop-obstacle", "select-gear", "deselect-gear"}
 
 -- Aliases:
-local play = realPlayer
+local play = globalSoundPlayer
 
 
 -- global function used to restrict player actions in the game if a tutorial has been set

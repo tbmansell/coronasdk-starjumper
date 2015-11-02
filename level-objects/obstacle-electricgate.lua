@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class ElectricGate class
 local electricgate = {
 	
@@ -47,7 +44,7 @@ function electricgate:toggleDeadlyState()
         self.deadly = true
         
         if self.isElectricGate then
-            soundEngine:playManaged(sounds.ledgeElectricActivated, self, self.timerOn)
+            self:sound("ledgeElectricActivated", {duration=self.timerOn})
             self:loop("Activated")
         end
         self.timerAnimationHandle = timer.performWithDelay(self.timerOn, function() self:toggleDeadlyState(self) end, 1)
@@ -57,17 +54,14 @@ end
 
 function electricgate:killWithElectricity(target)
     if (target.shielded ~= true or self.antishield) and target.mode ~= playerKilled then
-        soundEngine:playManaged(sounds.playerDeathElectric, self, 2000)
+        self:sound("playerDeathElectric")
 
         if target.shielded then
             target:shieldExpired()
         end
 
         if target.isPlayer then
-            target:murder(self)
-            if target.main then 
-            	hud:displayMessageDied("electric-ledge") 
-            end
+            target:explode({message="electric-ledge"})
         else
             target:destroy()
         end

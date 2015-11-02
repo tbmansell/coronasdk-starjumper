@@ -1,6 +1,5 @@
 --local spineFactory = require("core.spine-factory")
 local anim        = require("core.animations")
-local soundEngine = require("core.sound-engine")
 local builder     = require("level-objects.builders.builder")
 local spineStore  = require("level-objects.collections.spine-store")
 
@@ -31,7 +30,6 @@ local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=100, isTem
 local math_abs    = math.abs
 local math_floor  = math.floor
 local math_random = math.random
-local play        = realPlayer
 
 
 ---------- PHYSICS EVENT HANDLERS ----------
@@ -81,7 +79,7 @@ local function collideWarp(self, event)
                 after(10000, function()
                     if object.inGame then
                         spineStore:showExplosion(hud.camera, object)
-                        play(sounds.ledgeExplodingActivated)
+                        object:sound("ledgeExplodingActivated")
                         object:destroy(hud.camera, true)
                     end
                 end)
@@ -370,7 +368,7 @@ function newObjectsLoader:load(level)
                         player.lives = 0
                     end
 
-                    player:explode(nil)
+                    player:explode()
 
                     -- wait until after they have reset, before allowing them to be killed again
                     after(3500, function()
@@ -468,8 +466,7 @@ function newObjectsLoader:load(level)
                         player.lives = 0
                     end
 
-                    player:explode(nil)
-                    play(sounds.ledgeExplodingActivated)
+                    player:explode(nil, "ledgeExplodingActivated")
 
                     -- wait until after they have reset, before allowing them to be killed again
                     after(3500, function()

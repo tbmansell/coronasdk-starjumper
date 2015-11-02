@@ -50,7 +50,7 @@ local soundRanges = {
 
 local soundList 	 = sounds
 local math_random 	 = math.random
-local play 			 = realPlayer
+local play 			 = globalSoundPlayer
 local stop 			 = audio.stop
 local seek 			 = audio.seek
 local fadeout    	 = audio.fadeOut

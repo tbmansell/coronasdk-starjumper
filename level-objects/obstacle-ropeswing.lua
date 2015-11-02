@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class Ropeswing class
 local ropeswing = {
 	
@@ -25,7 +22,7 @@ end
 
 
 function ropeswing:changeDirection()
-    soundEngine:playManaged(sounds.ropeswingAmbient, self, 1000)
+    self:sound("ropeswingAmbient", {duration=1000})
 end
 
 

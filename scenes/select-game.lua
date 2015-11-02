@@ -9,7 +9,7 @@ local spineCollection = nil
 local lastTime        = 0
 
 -- Aliases:
-local play      = realPlayer
+local play      = globalSoundPlayer
 local new_group = display.newGroup
 local new_image = newImage
 

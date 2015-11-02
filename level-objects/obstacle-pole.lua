@@ -1,6 +1,3 @@
-local soundEngine = require("core.sound-engine")
-
-
 -- @class Pole class
 local pole = {
 	
@@ -63,7 +60,8 @@ function pole:grab(player)
         player.mode = playerHang
     else
         after(500, function()
-            soundEngine:playManaged(sounds.poleSlide, self, 2000)
+            -- activate sound on the player just incase two players jump on the same pole at the same time
+            player:sound("poleSlide")
             player:letGoAction(true)
             player:animate("Pole SLIDE")
         end)

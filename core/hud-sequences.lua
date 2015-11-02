@@ -8,7 +8,7 @@ local spineStore   = require("level-objects.collections.spine-store")
 -- Aliases:
 local math_round = math.round
 local math_floor = math.floor
-local play       = realPlayer
+local play       = globalSoundPlayer
 
 
 -- Called when a level starts to display temparary elements before player acts
@@ -162,6 +162,7 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
 
     self.level:stopSpecialFeatures()
     soundEngine:stopBackgroundSounds()
+
     if self.timerHandle then timer.cancel(self.timerHandle) end
 	-- ensure weve got rid of the start sequence in-case they die without doing anything
 	self:levelStartedSequence()
@@ -210,6 +211,7 @@ function hud:levelCompleteSequence(passGuard)
 
     hud.level:stopSpecialFeatures()
     soundEngine:stopBackgroundSounds()
+    
     if hud.timerHandle then timer.cancel(hud.timerHandle) end
     play(sounds.levelComplete)
 

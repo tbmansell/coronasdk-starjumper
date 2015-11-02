@@ -98,6 +98,7 @@ sounds = {
 
     -- player generic (cross model) sounds
     playerFall          = loadSound("sounds/fall.mp3"),
+    playerDeathExplode  = loadSound("sounds/enviromental-fallonspike.wav"),
     playerDeathElectric = loadSound("sounds/ledge-electric1.wav"),
     playerDeathSpikes   = loadSound("sounds/enviromental-fallonspike.wav"),
     playerDeathLava     = loadSound("sounds/enviromental-genericdeath1.wav"),
@@ -224,7 +225,7 @@ end
 
 -- Global function to play sound instead of: audio.play
 -- Because we need to ensure the channels volume has been reset
-function realPlayer(sound, options, volume)
+function globalSoundPlayer(sound, options, volume)
     local channel = nil
 
     if options and options.channel then

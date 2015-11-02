@@ -9,7 +9,7 @@ local story   = nil
 local storyId = nil
 
 -- Aliases:
-local play = realPlayer
+local play = globalSoundPlayer
 
 
 -- Checks if a story has been seen, should be showed and if so, shows it now or triggers handler to allow later viewing

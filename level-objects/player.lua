@@ -54,6 +54,10 @@ local player = {
         -- setMode()
         -- initForGameType()
         -- setPhysics()
+        -- setPhysicsFilter()
+        -- murder()
+        -- explode()
+        -- kill()
         -- loseLife()
         -- *destroy()
         -- cantRestart()
@@ -67,6 +71,8 @@ local player = {
         -- setIndividualGear()
         -- !pose()
         -- loadGear()
+        -- !sound()
+        -- soundLand()
         -- walkOntoLevel()
         -- standingReady()
         -- fallFromShip()
@@ -75,52 +81,9 @@ local player = {
 
 
 -- Aliases:
-local play     = realPlayer
+local play     = globalSoundPlayer
 local math_abs = math.abs
 local osTime   = os.time
-
-
--- Plays a sound directly with realPlayer if main player or adds to sound engine if not for distance management
--- @param string action   - ame of the sound (under global sounds) which also double as the action name for a managed sound
--- @param int    duration - optional duration for sound if managed
-----
-function player:sound(action, duration)
-    local sound = nil
-
-    -- The following are special actions that get a random sound to play
-    if     action == "randomJump"        then sound = soundEngine:getPlayerJump(self.model)
-    elseif action == "randomWorry"       then sound = soundEngine:getPlayerWorry(self.model)
-    elseif action == "randomCelebrate"   then sound = soundEngine:getPlayerCelebrate(self.model)
-    elseif action == "randomImpactVoice" then sound = soundEngine:getPlayerImpact(self.model)
-    elseif action == "randomImpact"      then sound = soundEngine:getRandomImpact()
-    elseif action == "randomRing"        then sound = soundEngine:getRandomRing()
-    else
-        sound = sounds[action]
-    end
-
-    if self.main then
-        play(sound)
-    else
-        -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
-        if action == "randomRing" then
-            action = action..osTime()
-        end
-
-        soundEngine:playManagedAction(self, action, {sound=sound, duration=(duration or 2000)})
-    end
-end
-
--- Shortcut function to save callers having to make multiple sound calls
--- @param bool bad - optional if true landing is bad and different sound is played
-function player:soundLand(bad)
-    self:sound("randomImpact")
-
-    if bad then
-        self:sound("randomWorry")
-    else
-        self:sound("randomImpactVoice")
-    end
-end
 
 
 
@@ -284,7 +247,75 @@ function player:setPhysicsFilter(action)
 end
 
 
-function player:loseLife(leaveGravity)
+----------------- FUNCTIONS TO HANDLE BEING KILLED -------------------
+
+
+-- Default way to kill player, where they carry on moving as they die
+----
+function player:murder(options, sound)
+    self:kill(options.animation, sound, false, options.fall, options.message)
+end
+
+
+-- Kill player by exploding them and stopping them dead still
+----
+function player:explode(options, sound)
+    if sound then
+        sound.action = sound.action or "playerDeathExplode"
+    end
+
+    self:kill(options.animation, sound, true, false, options.message)
+end
+
+
+-- Base function which performs the common things that happen when a player is killed
+function player:kill(animation, sound, stopMoving, fall, message)
+    -- guard to stop multiple deaths
+    if self.mode ~= playerKilled then
+        self.mode = playerKilled
+
+        self:destroyEmitter()
+        self:emit("deathflash")
+        self:emit("die")
+
+        -- Sound can be empty (no sound), string (just play sound of that name) or table (sound with options)
+        if sound then
+            if type(sound) == "string" then
+                self:sound(sound)
+            else
+                self:sound(sound.action, sound)
+            end
+        end
+
+        if self.attachedObstacle then
+            self.attachedObstacle:release(self)
+        end
+
+        self.animationOverride = nil
+        self:animate(animation or "Death EXPLODE BIG")
+
+        if stopMoving then
+            self:stopMomentum(true)
+        else
+            self:setGravity(1)
+            if fall then
+                self:intangible()
+            end
+        end
+
+        self:showFlash()
+        after(3000, function() self:loseLife() end)
+
+        if message and self.main then
+            hud:displayMessageDied(message)
+        end
+    end
+end
+
+
+-- Function removes a life and calls all the appropriate functions to reset the player or end the level
+----
+function player:loseLife()
     if self.lostAllLives then return end
 
     self.hasDied = true
@@ -449,6 +480,9 @@ function player:showFlash(size)
 end
 
 
+---------------- FUNCTIONS TO HANDLE GEAR ------------------------
+
+
 function player:setGear(activeGear)
     self.gear = activeGear
     self.jetpackUses = 3
@@ -552,6 +586,55 @@ function player:useKey()
 
     if self.main then
         hud:removeKeyCollected()
+    end
+end
+
+
+------------- SOUND --------------------------------
+
+
+-- Replaces gameObject:sound()
+-- @param string action - name of the sound (under global sounds) which also double as the action name for a managed sound
+-- @param table  param  - optional list of sound properties
+----
+function player:sound(action, params)
+    local params    = params or {}
+    params.duration = params.duration or 2000
+
+    -- The following are special actions that get a random sound to play
+    if     action == "randomJump"        then params.sound = soundEngine:getPlayerJump(self.model)
+    elseif action == "randomWorry"       then params.sound = soundEngine:getPlayerWorry(self.model)
+    elseif action == "randomCelebrate"   then params.sound = soundEngine:getPlayerCelebrate(self.model)
+    elseif action == "randomImpactVoice" then params.sound = soundEngine:getPlayerImpact(self.model)
+    elseif action == "randomImpact"      then params.sound = soundEngine:getRandomImpact()
+    elseif action == "randomRing"        then params.sound = soundEngine:getRandomRing()
+    else
+        params.sound = sounds[action]
+    end
+
+    if self.main then
+        -- Sound should be in full and not in sound engine as its the main player
+        play(sound)
+    else
+        -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
+        if action == "randomRing" then
+            action = action..osTime()
+        end
+
+        soundEngine:playManagedAction(self, action, params)
+    end
+end
+
+
+-- Shortcut function to save callers having to make multiple sound calls
+-- @param bool bad - optional if true landing is bad and different sound is played
+function player:soundLand(bad)
+    self:sound("randomImpact")
+
+    if bad then
+        self:sound("randomWorry")
+    else
+        self:sound("randomImpactVoice")
     end
 end
 

@@ -4,7 +4,7 @@ local storyboard = require("storyboard")
 -- Aliases
 local math_floor  = math.floor
 local math_random = math.random
-local play        = realPlayer
+local play        = globalSoundPlayer
 
 
 function hud:exitZone()

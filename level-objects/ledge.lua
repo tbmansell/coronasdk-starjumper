@@ -1,5 +1,4 @@
-local soundEngine = require("core.sound-engine")
-local spineStore  = require("level-objects.collections.spine-store")
+local spineStore = require("level-objects.collections.spine-store")
 
 
 -- @class Base ledge class
@@ -373,7 +372,6 @@ function ledge:scoreJump(player)
                 player.maxJumpsInaRow = player.topJumpsInaRow
             end
 
-            --after(500, function() soundEngine:playPlayerCelebrate(player.model) end)
             after(500, function() player:sound("randomCelebrate") end)
         else
             player.topJumpsInaRow = 0
@@ -470,7 +468,7 @@ end
 
 
 function ledge:selfDestruct()
-    soundEngine:playManaged(sounds.ledgeOneshotActivated, self, 2000)
+    self:sound("ledgeOneshotActivated")
     self:animate("Activated")
 
     after(1500, function()
@@ -573,13 +571,14 @@ function ledge:toggleDeadlyState()
         self.deadly = true
         
         if self.surface == electric then
-            soundEngine:playManaged(sounds.ledgeElectricActivated, self, self.timerOn)
+            self:sound("ledgeElectricActivated", {duration=self.timerOn})
             self:loop("Activated")
 
         elseif self.surface == spiked then
-            soundEngine:playManaged(sounds.ledgeSpikesActivated, self, self.timerOn)
+            self:sound("ledgeSpikesActivated", {duration=self.timerOn})
             self:animate("Strike")
         end
+
         self.timerAnimationHandle = timer.performWithDelay(self.timerOn, function() self:toggleDeadlyState() end, 1)
     end
 end
@@ -595,7 +594,7 @@ function ledge:activateLavaLedge(target)
         return self:killWithLava(target)
     end
 
-    soundEngine:playManaged(sounds.ledgeLavaActivated, self, 5000)
+    self:sound("ledgeLavaActivated", {duration=5000})
     self:animate("Activate-100")
 
     after(3000, function()
@@ -617,7 +616,7 @@ function ledge:activateExplodingLedge(target)
         self.destroyed = true
 
         spineStore:showExplosion(self:getCamera(), self)
-        soundEngine:playManaged(sounds.ledgeExplodingActivated, self, 4000)
+        self:sound("ledgeExplodingActivated", {duration=4000})
 
         -- make any attached items dynamic so gravity takes them
         for key,object in pairs(self.boundItems) do
@@ -625,11 +624,7 @@ function ledge:activateExplodingLedge(target)
 	    end
 
         if target and target:onLedge(self) then
-            target:murder(self, "Death JUMP HIGH", true)
-
-            if target.main then 
-            	hud:displayMessageDied("exploding-ledge") 
-            end
+            target:murder({animation="Death JUMP HIGH", fall=true, message="exploding-ledge"})
         end
 
         after(300, function() self:hide() end)
@@ -638,11 +633,11 @@ end
 
 
 function ledge:activateCollapsingLedge(target, animation, duration)
-    soundEngine:playManaged(sounds.ledgeCollapsingActivated, self, time)
+    self:sound("ledgeCollapsingActivated", {duration=duration})
     self:animate(animation or "Trigger")
 
     after(duration or 3500, function()
-        soundEngine:playManaged(sounds.ledgeCollapsingBreak, self, 1000)
+        self:sound("ledgeCollapsingBreak", {duration=1000})
         self:intangible()
         self.destroyed = true
 
@@ -654,7 +649,6 @@ function ledge:activateCollapsingLedge(target, animation, duration)
 	    end
 
         if target and target:onLedge(self) then
-            --target:murder(ledge, "Death JUMP HIGH", true)
             target.mode = playerFall
             target:animate("Death JUMP HIGH")
 
@@ -675,7 +669,7 @@ function ledge:activatePulleyLedge(target)
             self:stop()
         end
 
-        soundEngine:playManaged(sounds.ledgePulleyActivated, self, 2000)
+        self:sound("ledgePulleyActivated")
         
         self.triggeredPulley = true
         self:moveNow({pattern=movePatternVertical, speed=(self.speed or 5), distance=(self.distance or 1000), oneWay=true})
@@ -685,51 +679,33 @@ end
 
 function ledge:killWithElectricity(target)
     if target.shielded ~= true then
-        soundEngine:playManaged(sounds.playerDeathElectric, target, 2000)
+        local anim = "Death ELECTRIC LEDGE"
 
-        if target:runDistance() >= (target:height() - 20) then
-            target:murder(self, "Death ELECTRIC LEDGE")
-        else
-            target:murder(self, "Death ELECTRIC LEDGE BACKWARD")
+        if target:runDistance() < (target:height() - 20) then
+            anim = anim .. " BACKWARD"
         end
 
-        if target.main then 
-        	hud:displayMessageDied("electric-ledge") 
-        end
+        target:murder({animation=anim, message="electric-ledge"}, "playerDeathElectric")
     end
 end
 
 
 function ledge:killWithSpikes(target)
     if target.shielded ~= true then
-        soundEngine:playManaged(sounds.playerDeathSpikes, target, 2000)
-
-        if target:runDistance() >= (target:height() - 20) then
-            target:explode(self)
-        else
-            target:explode(self)
-        end
-
-        if target.main then 
-        	hud:displayMessageDied("spiked-ledge") 
-        end
+        target:explode({message="spiked-ledge"}, "playerDeathSpikes")
     end
 end
 
 
 function ledge:killWithLava(target)
     if target.shielded ~= true then
-        soundEngine:playManaged(sounds.playerDeathLava, target, 2000)
+        local anim = "Death LAVA LEDGE"
 
-        if target:runDistance() >= (target:height() - 20) then
-            target:murder(self, "Death LAVA LEDGE")
-        else
-            target:murder(self, "Death LAVA LEDGE BACKWARD")
+        if target:runDistance() < (target:height() - 20) then
+            anim = anim .. "BACKWARD"
         end
 
-        if target.main then 
-        	hud:displayMessageDied("lava-ledge")
-        end
+        target:murder({animation=anim, message="lava-ledge"}, "playerDeathLava")
     end
 end
 

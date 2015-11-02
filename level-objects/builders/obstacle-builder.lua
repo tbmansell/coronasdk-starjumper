@@ -28,7 +28,6 @@ local obstacleBuilder = {
 local new_image  = display.newImage
 local new_circle = display.newCircle
 local math_abs   = math.abs
-local play       = realPlayer
 
 
 -- Creates a new obstacleCollection

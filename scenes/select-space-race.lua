@@ -2,7 +2,8 @@ local storyboard  = require("storyboard")
 local anim        = require("core.animations")
 local scene       = storyboard.newScene()
 
-local play = realPlayer
+-- Aliases:
+local play = globalSoundPlayer
 
 
 local function moveZones(event)
