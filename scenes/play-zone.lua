@@ -399,7 +399,7 @@ function scene:startLevelSequence(player, startGameCallback)
         if startSequence == playerStartWalk then
             player:walkOntoLevel(startGameCallback)
         elseif startSequence == playerStartFall then
-            local spec      = {object="friend", type="ufoboss", x=0, y=0, size=0.7, hasPassenger=true, playerModel=player.model, noSound=true}
+            local spec      = {object="friend", type="ufoboss", x=0, y=0, size=0.7, hasPassenger=true, playerModel=player.model}
             local spaceship = level:createFriend(spec, level.startLedge)
             
             player:fallFromShip(camera, spaceship, startGameCallback)

@@ -55,6 +55,7 @@ local stop 			 = audio.stop
 local seek 			 = audio.seek
 local fadeout    	 = audio.fadeOut
 local setVolume 	 = audio.setVolume
+local getVolume		 = audio.getVolume
 local setMaxVolume 	 = audio.setMaxVolume
 local freeChannel 	 = audio.findFreeChannel
 local channelPlaying = audio.isChannelPlaying
@@ -200,20 +201,24 @@ local function checkShouldPlay(params)
 
 	-- Is it outside the range where we would add it to the queue?
 	if not inSoundRange(source, 1) then
+		--print("sound not in range "..params.key)
 		return -1
 	end
 
-	-- Is it in the quite range where we dont play it, but we keep it in the queue in-case it moves into the playable range?
+	-- Is it in the quiet range where we dont play it, but we keep it in the queue in-case it moves into the playable range?
 	local volume = getSoundRange(source)
 
 	if volume == 0 then
+		--print("sound volume zero "..params.key)
 		return false
 	else
 		local channel = freeChannel()
 
 		if channel == 0 then
+			--print("sound channel zero "..params.key)
 			return false
 		else
+			--print("sound added to queue "..params.key.." channel="..channel.." volume="..volume.." duration="..params.duration)
 			params.channel = channel
 			params.volume  = volume
 			params.started = true
@@ -243,47 +248,6 @@ end
 -----------  PUBLIC FUNCTIONS ------------
 
 
--- Sounds in the following channels dont need to be added to any queue, they can just be played straight of
--- as they are immediate sounds that dont require distance or volumes changing during the duration of that sound playing
---[[
-function engine:playCustom(sound, channel, duration, loops, seekStart, volume, fadein)
-	local params = {
-		sound    		= sound,
-		channel  		= channel,
-		duration 		= duration,
-		durationPassed 	= 0,
-		loops    		= loops or 0,
-		fadein   		= fadein
-	}
-	playCustom(params)
-end
-]]
-
-
--- These sounds need managing for their volume over time as the sound source can move off-screen
--- Returns index of sound entry to identify it later
---[[
-function engine:playManaged(sound, sourceObject, duration, loops, volume, fadein, fadeout)
-	local params = {
-	    started      	= false,
-	    durationPassed 	= 0,
-		sound        	= sound,
-		source          = sourceObject,
-		key             = sourceObject.key,
-		duration     	= duration,
-		loops        	= loops or 0,
-		volume       	= volume,
-		fadein       	= fadein,
-		fadeout      	= fadeout,
-	}
-
-	if checkShouldPlay(params) ~= -1 then
-		soundQueue[#soundQueue + 1] = params
-	end
-end
-]]
-
-
 -- These sounds also need managing for their volume over time, same as playManaged. The difference is the params are passed in as a table for flexibility 
 -- and the sound is uniquely identified by the sourceObject key plus the action name - as some source objects can produce multiple sounds at once
 -- Note: this also checks if the same action is running and aborts if so
@@ -294,7 +258,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
-			print("sound already in queue: "..key)
+			--print("sound already in queue: "..key)
 			return 0
 		end
 
@@ -305,9 +269,8 @@ function engine:playManagedAction(sourceObject, actionName, params)
 		params.source 	      = sourceObject
 		params.key            = key
 
-		if checkShouldPlay(params) ~= -1 then
-			print("sound added: "..key.." duration="..tostring(params.duration))
-
+		if checkShouldPlay(params) == true then
+			--print("sound added: "..key.." duration="..tostring(params.duration))
 			soundQueue[#soundQueue + 1] = params
 			-- signal that the sound has just been added
 			return 1
@@ -333,19 +296,25 @@ function engine:updateSounds()
 
 			-- check if it needs removing due to time passing
 			if params.durationPassed >= (params.duration or 0) then
+				--print("remove sound "..params.key.." duration passed")
 				removeManagedSound(i, params)
 			elseif started then
 				-- if a sound is loaded with a set volume we dont vary it by distance
 				if not params.fixedVolume then
-					local volume = getSoundRange(params.source)
+					local suggestedVolume = getSoundRange(params.source)
+					local actualVolume    = tonumber(string.format("%.1f", getVolume({channel=channel})))   
+
 					-- if now out of range then remove Sound
-					if volume == -1 then
+					if suggestedVolume == -1 then
+						--print("remove sound "..params.key.." volume be gone")
 						removeManagedSound(i, params)
-					elseif colume ~= params.volume then
-						setVolume(volume, {channel=channel})
+					elseif suggestedVolume ~= actualVolume and suggestedVolume ~= params.volume then
+						--print("set sound "..params.key.." volume="..suggestedVolume.." actual volume="..actualVolume.." channel="..channel.." duration="..params.durationPassed)
+						setVolume(suggestedVolume, {channel=channel})
 					end
 				end
 			elseif checkShouldPlay(params) == -1 then
+				--print("remove sound "..params.key.." out of range")
 				removeManagedSound(i, params)
 			end
 		end

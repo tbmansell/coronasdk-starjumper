@@ -103,8 +103,8 @@ function enemyBuilder:newEnemyHeart(camera, spec, x, y, jumpObject)
 	enemy.thief       = true
 	enemy.stolen      = 0
     enemy.thefts      = enemy.behaviour.thefts or 10
-    enemy.awakenSound = {sound=sounds.enemyHeart2, duration=3000,  fadeout=500}
-    enemy.missSound   = {sound=sounds.enemyHeart2, duration=30000, realPlayer=1000, fadeout=500}
+    enemy.awakenSound = {sound=sounds.enemyHeart1, duration=2000}
+    enemy.missSound   = {sound=sounds.enemyHeart1, duration=3000}
     enemy.stealSound  = {sound=sounds.enemyHeart1, duration=2000}
         
     function enemy:setPhysics(scale)

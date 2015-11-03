@@ -55,9 +55,7 @@ function deathslide:grab(player)
     self:moveToGrabPoint(player, 0, (60 * self:getCamera().scaleImage))
     
     after(self.delay or 0, function()
-        -- loop until turned off
         self:sound("deathslideActivated", {duration=15000})
-        --player:sound("deathslideActivated", {duration=15000})
         self:loop("Deathslide-"..self.animSpeed)
         self.started = true
         self:move()
