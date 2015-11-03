@@ -110,7 +110,7 @@ function friendCollection:checkBehaviourChange()
             end
 
             -- check if friend should play active sound
-            if friend.activeSound and not friend.playingActive then
+            if friend.activeSound then
                 friend:sound("active", friend.activeSound)
             end
         end

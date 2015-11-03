@@ -150,7 +150,7 @@ function scene:showPage(page)
     if self.dontPlaySound then
         self.dontPlaySound = false
     else
-        play(sounds.hudClick)
+        play(sounds.generalClick)
     end
 
     for name, group in pairs(self.pages) do

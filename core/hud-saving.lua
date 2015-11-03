@@ -52,7 +52,7 @@ end
 
 
 function hud:nextLevel()
-    play(sounds.zoneEnter)
+    play(sounds.gameStart)
     loadSceneTransition()
     
     -- Race - save the updated race positions since plaer landed

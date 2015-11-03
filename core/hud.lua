@@ -554,7 +554,7 @@ function hud:displayTime()
         self.timerHandle = nil
         self.timeCounter = 0
         self.textTime:setText("00:00")
-        play(sounds.klaxon)
+        play(sounds.outOfTime)
 
         -- Time Attack, Timer Runner - fail the game and restart automatically
         if game == gameTypeTimeAttack or game == gameTypeTimeRunner then
@@ -604,7 +604,7 @@ function hud:updateInfiniteStats(ledge, player)
     end
     
     if self.infiniteStage < ledge.stage then
-        play(sounds.rankstar)
+        play(sounds.awardStar)
         
         self.infiniteStage = ledge.stage
         self.stagePosition:setText(self.infiniteStage)
@@ -746,7 +746,7 @@ function hud:notifyStory(storyId)
     self.notifications[#self.notifications+1] = note
     
     local seq = anim:chainSeq("hudNotification-"..number, note)
-    seq:add("flexout", {time=1000, scale=1.3, scaleBack=0.5, playSound=sounds.award})
+    seq:add("flexout", {time=1000, scale=1.3, scaleBack=0.5, playSound=sounds.gainAward})
     seq:start()
 end
 

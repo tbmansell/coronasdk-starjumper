@@ -236,7 +236,7 @@ function sceneryBuilder:newLiveBackground(camera, spec)
 
     function livebgr:appear()
         local seq = anim:oustSeq("appear"..self.key, self.image)
-        seq:tran({alpha=0.9, time=1000})
+        seq:tran({alpha=0.9, xScale=1, yScale=1, time=2000})
         seq:start()
     end
 
@@ -247,7 +247,7 @@ function sceneryBuilder:newLiveBackground(camera, spec)
             self.startFade = true
 
             local seq = anim:oustSeq("moveComplete"..self.key, self.image)
-            seq:tran({alpha=0, time=500})
+            seq:tran({xScale=0.1, yScale=0.1, time=2500})
             seq.onComplete = function()
                 self:destroy()
             end
@@ -258,6 +258,9 @@ function sceneryBuilder:newLiveBackground(camera, spec)
     livebgr.inPhysics   = false
     livebgr.image.alpha = 0  -- must be faded in
     livebgr:moveNow()
+
+    livebgr.image.xScale = 0.1
+    livebgr.image.yScale = 0.1
 
     if livebgr.direction == right then
         livebgr:changeDirection()

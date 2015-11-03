@@ -107,13 +107,13 @@ function player:runupGearUsage(xVelocity, yVelocity)
         if self.main then hud:markGearInUse(gear) end
 
         if gear == gearFreezeTime then
-            self:sounds("gearAntigrav")
+            self:sound("gearAntigrav")
 
         elseif gear == gearShield then
             self:shieldStarted()
 
         elseif gear == gearSpringShoes then
-            self:sounds("gearSpringshoes")
+            self:sound("gearSpringshoes")
             -- Spring shoes mean the player jumps from the spot
             self.mode = playerJumpStart
             self.jumpTypeHigh = true
@@ -248,10 +248,10 @@ function player:reverseJumpStarted()
 
     self.image:setLinearVelocity(0,0)
     self:setGravity(0)
-    self:sounds("gearReverseJump")
+    self:sound("gearReverseJump")
 
     after(1000, function()
-        self:sounds("gearReverseJump")
+        self:sound("gearReverseJump")
         -- add a bit more to xvel so less likely to fall off ledge
         -- ONLY if we are not also using spring shoes (as they give us an exact restart)
         -- NOTE: reverse time also doesnt use up other gear (such as spring shoes) - pretty sweet
@@ -492,7 +492,7 @@ end
 
 
 function player:negableRocketStarted()
-    self:sounds("gearJetpack")
+    self:sound("gearJetpack")
     self:animate("Powerup ROCKET")
     self.slotInUse[air]    = true
     self.negableRocketOn   = true

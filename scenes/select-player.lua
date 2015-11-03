@@ -292,7 +292,7 @@ end
 
 
 function scene:gotoInAppPurchase()
-    play(sounds.hudClick)
+    play(sounds.generalClick)
 
     state.inappPurchaseType = "planet"
     storyboard:gotoScene("scenes.inapp-purchases")

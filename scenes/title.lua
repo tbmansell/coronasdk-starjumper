@@ -76,14 +76,14 @@ function scene:showSettings()
     background:addEventListener("tap", function() return true end)
 
     bgrOption:addEventListener("tap", function()
-        play(sounds.hudClick)
+        play(sounds.generalClick)
         scene.optionChanged  = true
         settings.backgrounds = not settings.backgrounds
         scene:createSettingStatus("background", settings.backgrounds, 340, 120)
     end)
 
     musicOption:addEventListener("tap", function() 
-        play(sounds.hudClick)
+        play(sounds.generalClick)
         scene.optionChanged = true
         settings.music      = not settings.music
         scene:createSettingStatus("music", settings.music, 340, 255)
@@ -97,7 +97,7 @@ function scene:showSettings()
     end)
 
     resetOption:addEventListener("tap", function()
-        play(sounds.hudClick)
+        play(sounds.generalClick)
         -- reset levelProgress but keep everything unlocked thats unlocked
         state:resetSavedGame()
         play(sounds.shopPurchase)
@@ -105,12 +105,12 @@ function scene:showSettings()
     end)
 
     advertOption:addEventListener("tap", function() 
-        play(sounds.hudClick)
+        play(sounds.generalClick)
         -- take em to the store
     end)
 
     creditOption:addEventListener("tap", function() 
-        play(sounds.hudClick)
+        play(sounds.generalClick)
         scene:rollCredits()
     end)
 end
@@ -233,7 +233,7 @@ function scene:startMusic()
         self.musicChannel = audio.findFreeChannel()
         audio.setVolume(0.5, {channel=self.musicChannel})
         audio.setMaxVolume(0.5, {channel=self.musicChannel})
-        play(sounds.backgroundSoundTitle, {channel=self.musicChannel, fadein=8000, loops=-1})
+        play(sounds.tuneTitle, {channel=self.musicChannel, fadein=8000, loops=-1})
     end
 end
 

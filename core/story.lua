@@ -150,7 +150,7 @@ end
 -- Runs through the passed story and kicks of the sequence of events
 function stories:run()
 	local startSound = story.startSound or sounds.storyStart
-	local bgrMusic   = story.bgrMusic   or sounds.storyMusic
+	local bgrMusic   = story.bgrMusic   or sounds.tuneStory
 
 	if state.data.gameSettings.music then
 		musicChannel = audio.findFreeChannel()

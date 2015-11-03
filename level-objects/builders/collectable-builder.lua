@@ -246,7 +246,7 @@ function collectableBuilder:newTimeBonus(camera, spec, x, y, jumpObject)
     bonus.type           = "timebonus"
     bonus.collected      = false
     bonus.bonus          = bonus.bonus or 15
-    bonus.collectedSound = sounds.gearSelect
+    bonus.collectedSound = sounds.collectTimeBonus
 
     function bonus:setPhysics(scale)
         local r = 22 * scale

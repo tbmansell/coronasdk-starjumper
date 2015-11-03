@@ -67,9 +67,9 @@ function enemyBuilder:newEnemyBrain(camera, spec, x, y, jumpObject)
 
 	enemy.skin        = skin
     enemy.deadly      = true
-    enemy.awakenSound = {sound=sounds.enemyBrain1, duration=2200}
-    enemy.missSound   = {sound=sounds.enemyBrain2, duration=2300}
-    enemy.killSound   = {sound=sounds.enemyBrain3, duration=2500}
+    enemy.awakenSound = {sound=sounds.enemyBrainAwaken, duration=1000}
+    enemy.missSound   = {sound=sounds.enemyBrainMiss,   duration=2000}
+    enemy.killSound   = {sound=sounds.enemyBrainKill,   duration=1000}
 
     function enemy:setPhysics(scale)
         local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 } }
@@ -103,9 +103,9 @@ function enemyBuilder:newEnemyHeart(camera, spec, x, y, jumpObject)
 	enemy.thief       = true
 	enemy.stolen      = 0
     enemy.thefts      = enemy.behaviour.thefts or 10
-    enemy.awakenSound = {sound=sounds.enemyHeart1, duration=2000}
-    enemy.missSound   = {sound=sounds.enemyHeart1, duration=3000}
-    enemy.stealSound  = {sound=sounds.enemyHeart1, duration=2000}
+    enemy.awakenSound = {sound=sounds.enemyHeartAwaken, duration=4000}
+    enemy.missSound   = enemy.awakenSound
+    enemy.stealSound  = {sound=sounds.enemyHeartSteal,  duration=1000}
         
     function enemy:setPhysics(scale)
         local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true }
@@ -144,7 +144,7 @@ function enemyBuilder:newEnemyStomach(camera, spec, x, y, jumpObject)
     enemy.ammo           = enemy.shooting.ammo         or {negDizzy}
     enemy.shotVelocity   = {x=enemy.shooting.velocity.x or 300, y=enemy.shooting.velocity.y or 600}
     enemy.shootAnimation = "Spit"
-    enemy.awakenSound    = {sound=sounds.enemyStomach1, duration=4000}
+    enemy.awakenSound    = {sound=sounds.enemyStomachAwaken, duration=4000}
     enemy.missSound      = enemy.awakenSound
     enemy.shootSound     = {sound=sounds.enemyStomach2, duration=1000}
 

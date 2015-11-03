@@ -5,9 +5,8 @@ local soundEngine = require("core.sound-engine")
 -- @class Fuzzy friend class
 local fuzzy = {
 
-	isFuzzy       = true,
-	class   	  = "friend",
-	playingActive = false,
+	isFuzzy = true,
+	class   = "friend",
 
 	-- Methods:
 	-----------

@@ -100,7 +100,7 @@ function scene:startMusic()
         self.musicChannel = audio.findFreeChannel()
         audio.setVolume(0.5,    {channel=self.musicChannel})
         audio.setMaxVolume(0.5, {channel=self.musicChannel})
-        play(sounds.backgroundSoundTitle, {channel=self.musicChannel, fadein=8000, loops=-1})
+        play(sounds.tuneTitle, {channel=self.musicChannel, fadein=8000, loops=-1})
     end
 end
 
@@ -806,7 +806,7 @@ function scene:selectPlayer(playerGroup)
         if state:characterUnlocked(newPlayer) then
             sounds:unloadPlayer(state.data.playerModel)
             sounds:loadPlayer(newPlayer)
-            play(sounds.hudClick)
+            play(sounds.generalClick)
 
             state.data.playerModel = newPlayer
 
@@ -851,7 +851,7 @@ end
 
 
 function scene:bobOption(option)
-    play(sounds.hudClick)
+    play(sounds.generalClick)
 
     local seq = anim:chainSeq("menuActivate", option)
     seq:tran({time=150, scale=1.2})
@@ -861,7 +861,7 @@ end
 
 
 function scene:activateOption(option)
-    play(sounds.hudClick)
+    play(sounds.generalClick)
 
     local seq = anim:chainSeq("menuActivate", option)
     seq:tran({time=250, scale=1.5})

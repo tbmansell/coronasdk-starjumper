@@ -73,7 +73,7 @@ function scene:startMusic()
         self.musicChannel = audio.findFreeChannel()
         audio.setVolume(0.5,    {channel=self.musicChannel})
         audio.setMaxVolume(0.5, {channel=self.musicChannel})
-        play(sounds.backgroundSoundShop, {channel=self.musicChannel, fadein=8000, loops=-1})
+        play(sounds.tuneShop, {channel=self.musicChannel, fadein=8000, loops=-1})
     end
 end
 
@@ -320,7 +320,7 @@ end
 
 
 function scene:gotoInAppPurchase()
-    play(sounds.hudClick)
+    play(sounds.generalClick)
 
     state.inappPurchaseType = "gear"
     storyboard:gotoScene("scenes.inapp-purchases")

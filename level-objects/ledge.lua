@@ -571,7 +571,7 @@ function ledge:toggleDeadlyState()
         self.deadly = true
         
         if self.surface == electric then
-            self:sound("ledgeElectricActivated", {duration=self.timerOn})
+            self:sound("electricActivated", {duration=self.timerOn})
             self:loop("Activated")
 
         elseif self.surface == spiked then

@@ -40,100 +40,109 @@ sounds = {
         [characterGrey]      = {},
     },
 
-    rings     = {},
-    landLedge = {},
-    fuzzies   = {},
+    rings   = {},
+    impacts = {},
+    fuzzies = {},
 
-    -- Scene & Menus
-    gameStart   = loadSound("sounds/gear-trajectory1.wav"),
-    sceneEnter  = loadSound("sounds/gui-click5.wav"),
-    buttonClick = loadSound("sounds/click.mp3"),
-    hudClick    = loadSound("sounds/gui-click4.wav"),
-    zoneSummary = loadSound("sounds/gui-bleep1.wav"),
-    zonePopup   = loadSound("sounds/gui-bleep3.wav"),
-    zoneEnter   = loadSound("sounds/gear-trajectory1.wav"),
+
+    -- Background tunes:
+    tuneTitle                   = loadSound("sounds/tunes/title_time100.mp3"),
+    tuneZoneSelect              = loadSound("sounds/tunes/zoneSelect_time32.mp3"),
+    tuneShop                    = loadSound("sounds/tunes/shop_time32.mp3"),
+    tuneStory                   = loadSound("sounds/tunes/story_time183.mp3"),
+
+    -- Scene & Menus:
+    gameStart                   = loadSound("sounds/gameStart_time1.wav"),
+    sceneEnter                  = loadSound("sounds/sceneEnter_time1.wav"),
+    buttonClick                 = loadSound("sounds/buttonClick_time1.mp3"),
+    generalClick                = loadSound("sounds/generalClick_time1.wav"),
+    zoneSummary                 = loadSound("sounds/zoneSummary_time1.wav"),
+    zonePopup                   = loadSound("sounds/zonePopup_time1.wav"),
 
     -- Shop:
-    shopPurchase = loadSound("sounds/shop_purchase.wav"),
-    shopCantBuy  = loadSound("sounds/shop_failtobuy.wav"),
-    shopSelect   = loadSound("sounds/shop_selection.wav"),
-
-    -- Background sounds:
-    backgroundSoundWind1 = loadSound("sounds/ambientsound1.wav"),
-    backgroundSoundWind2 = loadSound("sounds/ambientsound2.wav"),
-    backgroundSoundWind3 = loadSound("sounds/ambientsound3.wav"),
-    backgroundSoundWind4 = loadSound("sounds/ambientsound4.wav"),
-    backgroundSoundWind5 = loadSound("sounds/ambientsound5.wav"),
-    backgroundSoundZones = loadSound("sounds/background-music-zones.mp3"),
-    backgroundSoundShop  = loadSound("sounds/background-music-shop.mp3"),
-    backgroundSoundTitle = loadSound("sounds/background-music-title2.mp3"),
+    shopPurchase                = loadSound("sounds/shopPurchase_time1.wav"),
+    shopCantBuy                 = loadSound("sounds/shopCantBuy_time1.wav"),
+    shopSelect                  = loadSound("sounds/shopSelect_time1.wav"),
 
     -- HUD sounds
-    klaxon         = loadSound("sounds/gui-outoftime.wav"),
-    collectGear    = loadSound("sounds/gear-collect.wav"),
-    collectNegable = loadSound("sounds/negable-collect.wav"),
-    rankstar       = loadSound("sounds/gui-stab1.wav"),
-    award          = loadSound("sounds/gui-acid4.wav"),
-    progress       = loadSound("sounds/gui-pop.wav"),
-    unlock         = loadSound("sounds/ledge-exploding.wav"),
+    awardStar                   = loadSound("sounds/awardStar_time1.wav"),
+    bounce                      = loadSound("sounds/bounce_time1.mp3"),
+    checkpoint                  = loadSound("sounds/checkpoint_time1.wav"),
+    collectGear                 = loadSound("sounds/collectGear_time1.wav"),
+    collectTimeBonus            = loadSound("sounds/collectTimeBonus_time1.mp3"),
+    collectNegable              = loadSound("sounds/collectNegable_time1.wav"),
+    gainAward                   = loadSound("sounds/gainAward_time1.wav"),
+    levelComplete               = loadSound("sounds/levelComplete_time4.wav"),
+    outOfTime                   = loadSound("sounds/outOfTime_time1.wav"),
+    progress                    = loadSound("sounds/progress_time1.wav"),
+    storyStart                  = loadSound("sounds/levelComplete_time4.wav"),
+    unlock                      = loadSound("sounds/unlock_time4.wav"),
+    whoosh                      = loadSound("sounds/whoosh_time1.mp3"),
 
-    -- Story sounds:
-    storyStart     = loadSound("sounds/levelComplete.wav"),
-    storyMusic     = loadSound("sounds/story-background.mp3"),
+    -- Player generic (cross model) sounds
+    playerFall                  = loadSound("sounds/player/fall_time1.mp3"),          -- replace
+    playerDeathExplode          = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace
+    playerDeathSpikes           = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace 
+    playerDeathLava             = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace
+    playerDeathElectric         = loadSound("sounds/player/deathElectric_time1.wav"),
+    playerTeleport              = loadSound("sounds/player/teleport_time1.wav"),
+        
+    -- Gear use:
+    gearAir                     = loadSound("sounds/gearAir_time1.wav"),
+    gearAntigrav                = loadSound("sounds/gearAntigrav_time1.mp3"),
+    gearJetpack                 = loadSound("sounds/gearJetpack_time3.mp3"),
+    gearShield                  = loadSound("sounds/gearShield_time2.mp3"),
+    gearReverseJump             = loadSound("sounds/gearReverseJump_time1.wav"),
+    gearSpringshoes             = loadSound("sounds/gearSpringShoes_time1.wav"),
+    gearTrajectory              = loadSound("sounds/gearTrajectory_time1.mp3"),
+    
+    -- Ambiant level background sounds:
+    backgroundSoundWind1        = loadSound("sounds/ambient/wind1_time40.wav"),
+    backgroundSoundWind2        = loadSound("sounds/ambient/wind2_time28.wav"),
+    backgroundSoundWind3        = loadSound("sounds/ambient/wind3_time24.wav"),
+    backgroundSoundWind4        = loadSound("sounds/ambient/wind4_time28.wav"),
+    backgroundSoundWind5        = loadSound("sounds/ambient/wind5_time40.wav"),
 
-    -- ledges:
-    ledgeElectricActivated   = loadSound("sounds/ledge-electric2.wav"),
-    ledgeCollapsingActivated = loadSound("sounds/ledge-collapsing1.wav"),
-    ledgeCollapsingBreak     = loadSound("sounds/ledge-collapsing3.wav"),
-    ledgeLavaActivated       = loadSound("sounds/ledge-lava3.wav"),
-    ledgeSpikesActivated     = loadSound("sounds/ledge-spiked2.wav"),
-    ledgeOneshotActivated    = loadSound("sounds/ledge-oneshot.wav"),
-    ledgeExplodingActivated  = loadSound("sounds/ledge-exploding.wav"),
-    ledgePulleyActivated     = loadSound("sounds/ledge-pulley.wav"),        -- replace
+    -- Ledges:
+    ledgeCollapsingActivated    = loadSound("sounds/elements/ledgeCollapsingActivated_time4.wav"),
+    ledgeCollapsingBreak        = loadSound("sounds/elements/ledgeCollapsingBreak_time1.wav"),
+    ledgeExplodingActivated     = loadSound("sounds/elements/ledgeExplodingActivated_time4.wav"),
+    ledgeLavaActivated          = loadSound("sounds/elements/ledgeLavaActivated_time20.wav"),
+    ledgeOneshotActivated       = loadSound("sounds/elements/ledgeOneshotActivated_time1.wav"),
+    ledgePulleyActivated        = loadSound("sounds/elements/ledgePulleyActivated_time1.wav"),        -- replace
+    ledgeSpikesActivated        = loadSound("sounds/elements/ledgeSpikesActivated_time1.wav"),
 
-    -- obstacles:
-    poleSlide           = loadSound("sounds/obstacle-pole.wav"),            -- replace
-    deathslideActivated = loadSound("sounds/obstacle-deathslide.wav"),
-    ropeswingAmbient    = loadSound("sounds/obstacle-ropeswing.wav"),
+    -- Obstacles:
+    poleSlide                   = loadSound("sounds/elements/obstaclePoleSlide_time1.wav"),            -- replace
+    deathslide                  = loadSound("sounds/elements/obstacleDeathslide_time15.wav"),
+    ropeswing                   = loadSound("sounds/elements/obstacleRopeswing_time1.wav"),
 
-    -- player generic (cross model) sounds
-    playerFall          = loadSound("sounds/fall.mp3"),     -- replace
-    playerDeathExplode  = loadSound("sounds/enviromental-fallonspike.wav"),  -- replace
-    playerDeathElectric = loadSound("sounds/ledge-electric1.wav"),           
-    playerDeathSpikes   = loadSound("sounds/enviromental-fallonspike.wav"),    -- replace 
-    playerDeathLava     = loadSound("sounds/enviromental-genericdeath1.wav"),  -- replace
-    playerTeleport      = loadSound("sounds/gear-reversetime2.wav"),
+    -- Ledges & Obstacles
+    electricActivated           = loadSound("sounds/elements/electricActivated_time23.wav"),    
 
-    -- friends common:
-    friendBossHover     = loadSound("sounds/ufo-hover.mp3"),
+    -- Friends common:
+    friendBossHover             = loadSound("sounds/elements/friendBossHover_time16.mp3"),
+    friendCollected             = loadSound("sounds/elements/friendCollected_time1.wav"),
 
-    -- enemies for organia
-    enemyBrain1         = loadSound("sounds/enemy-brain-growl1.wav"),
-    enemyBrain2         = loadSound("sounds/enemy-brain-growl2.wav"),
-    enemyBrain3         = loadSound("sounds/enemy-brain-growl3.wav"),
-    enemyHeart1         = loadSound("sounds/enemy-heart1.wav"),     -- replace
-    enemyHeart2         = loadSound("sounds/enemy-heart2.wav"),     -- replace
-    enemyStomach1       = loadSound("sounds/enemy-stomach1.wav"),
-    enemyStomach2       = loadSound("sounds/enemy-stomach2.wav"),   --replace
+    -- Enemies & other sounds for planet1: organia
+    enemyBrainAwaken            = loadSound("sounds/elements/enemyBrainAwaken_time1.wav"),
+    enemyBrainMiss              = loadSound("sounds/elements/enemyBrainMiss_time2.wav"),
+    enemyBrainKill              = loadSound("sounds/elements/enemyBrainKill_time1.wav"),
+    enemyHeartAwaken            = loadSound("sounds/elements/enemyHeartAwaken_time4.wav"),     -- replace
+    enemyHeartSteal             = loadSound("sounds/elements/enemyHeartSteal_time1.wav"),      -- replace
+    enemyStomachAwaken          = loadSound("sounds/elements/enemyStomachAwaken_time4.wav"),
+    enemyStomachShoot           = loadSound("sounds/elements/enemyStomachShoot_time1.wav"),    --replace
+
+    -- Enemies & other sounds for planet2: apocalypsoid:
+
+
+
+    -- Common Level terrain sounds
+    
 
     
-    checkpoint      = loadSound("sounds/checkpoint.wav"),
-    levelComplete   = loadSound("sounds/levelComplete.wav"),    -- replace as stolen
-    bounce          = loadSound("sounds/bounce.mp3"),
-    whoosh          = loadSound("sounds/whoosh.mp3"),
-    friendCollected = loadSound("sounds/friendCollected.wav"),
 
-    gearSelect      = loadSound("sounds/selection.mp3"),    -- replace (time bonus)
-    negable         = loadSound("sounds/negable.wav"),      -- replace as stolen
 
-    
-    gearSpringshoes = loadSound("sounds/gear-springshoes.wav"),
-    gearAntigrav    = loadSound("sounds/gear-antigrav.mp3"),
-    gearTrajectory  = loadSound("sounds/gear-trajectory.mp3"),
-    gearShield      = loadSound("sounds/gear-shield.mp3"),
-    gearAir         = loadSound("sounds/gear-air.wav"),
-    gearJetpack     = loadSound("sounds/gear-jetpack.mp3"),
-    gearReverseJump = loadSound("sounds/gear-reversejump.wav"),
 
     -- new to add:
         -- [ledges]
@@ -170,6 +179,29 @@ sounds = {
 }
 
 
+------------------ GROUP SOUNDS ----------------------
+
+
+function sounds:loadImpactGeneral()
+    for i = 1,3 do
+        table.insert(self.impacts, loadSound("sounds/impacts/general"..i..".wav"))
+    end
+end
+
+
+function sounds:loadRings()
+    for i=1,5 do
+        self.rings[i] = loadSound("sounds/elements/rings/ring"..i..".wav")
+    end
+end
+
+function sounds:loadFuzzies()
+    for i=1,3 do
+        self.fuzzies[i] = loadSound("sounds/elements/fuzzies/fuzzy"..i..".wav")
+    end
+end
+
+
 function sounds:loadJumps(type)
     local path = "sounds/player/"..characterData[type].name.."/"
     for i = 1,8 do
@@ -202,28 +234,11 @@ function sounds:loadPlayerCelebrate(type)
 end
 
 
-function sounds:loadLandLedge()
-    for i = 1,3 do
-        table.insert(self.landLedge, loadSound("sounds/ground-standard-"..i..".wav"))
-    end
-end
-
-
-function sounds:loadRings()
-    for i=1,5 do
-        self.rings[i] = loadSound("sounds/ring"..i..".wav")
-    end
-end
-
-function sounds:loadFuzzies()
-    for i=1,3 do
-        self.fuzzies[i] = loadSound("sounds/fuzzy"..i..".wav")
-    end
-end
+---------------- LOADERS ------------------
 
 
 function sounds:loadRandom()
-    self:loadLandLedge()
+    self:loadImpactGeneral()
     self:loadRings()
     self:loadFuzzies()
 end

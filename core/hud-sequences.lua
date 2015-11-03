@@ -679,7 +679,7 @@ function hud:createScoreAward(award, awardNumber)
     end
 
     local seq2 = anim:chainSeq("endLevel", icon)
-    seq2:add("flexout", {time=300, scale=1.3, scaleBack=0.6, playSound=sounds.award})
+    seq2:add("flexout", {time=300, scale=1.3, scaleBack=0.6, playSound=sounds.gainAward})
     seq2.onComplete = function()
         -- Move award icon down at same time as name slides away
         local seq = anim:chainSeq("endLevelMoveAward", icon)
@@ -700,7 +700,7 @@ function hud:createScoreStar(number, last)
     local star  = newImage(group, "hud/star-ranking", from + (number*100), ypos, nil, 0)
 
     local seq = anim:chainSeq("endLevel", star)
-    seq:tran({time=400, alpha=1, playSound=sounds.rankstar})
+    seq:tran({time=400, alpha=1, playSound=sounds.awardStar})
 
     -- Play player end of level animation after stars displayed
     if last then

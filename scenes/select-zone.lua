@@ -98,7 +98,7 @@ function scene:startMusic()
         self.musicChannel = audio.findFreeChannel()
         audio.setVolume(0.5, {channel=self.musicChannel})
         audio.setMaxVolume(0.5, {channel=self.musicChannel})
-        play(sounds.backgroundSoundZones, {channel=self.musicChannel, fadein=11000, loops=-1})
+        play(sounds.tuneZoneSelect, {channel=self.musicChannel, fadein=11000, loops=-1})
     end
 end
 
@@ -485,7 +485,7 @@ end
 
 
 function scene:playZone()
-    play(sounds.zoneEnter)
+    play(sounds.gameStart)
     state.data.zoneSelected  = scene.zoneId
     loadSceneTransition()
     after(1000, function() storyboard:gotoScene("scenes.play-zone", {effect="fade", time=750}) end)

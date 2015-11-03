@@ -41,7 +41,7 @@ local function selectGear(gear, category, isNegable)
         slot.icon:removeSelf()
     end
 
-    play(sounds.hudClick)
+    play(sounds.generalClick)
 
     local xpos = 340 + (category*70)
     local type = "gear"
@@ -55,7 +55,7 @@ end
 
 
 local function deselectGear(category)
-    play(sounds.hudClick)
+    play(sounds.generalClick)
     
     local slot = hud.gearSelected[category]
 

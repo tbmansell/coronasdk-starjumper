@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.9.12"
+globalBuildVersion 		   = "0.9.13"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global FPS counter
@@ -49,8 +49,8 @@ state.data.holocubes = 100
 
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 18
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 7
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack

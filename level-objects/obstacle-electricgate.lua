@@ -44,7 +44,7 @@ function electricgate:toggleDeadlyState()
         self.deadly = true
         
         if self.isElectricGate then
-            self:sound("ledgeElectricActivated", {duration=self.timerOn})
+            self:sound("electricActivated", {duration=self.timerOn})
             self:loop("Activated")
         end
         self.timerAnimationHandle = timer.performWithDelay(self.timerOn, function() self:toggleDeadlyState(self) end, 1)

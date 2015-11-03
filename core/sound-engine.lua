@@ -11,6 +11,7 @@ local reservedChannels = 0
 -- lists regions of different sound volumes
 -- 1=left, 2=right, 3=top, 4=bottom, 5=volume
 local soundRanges = {
+	--[[]
 	[1] = {		-- outer distance where sound will still be added (in-case focus moves into it) BUT NOT PLAYED
 		[1] = -600,
 		[2] = 1500,
@@ -23,21 +24,21 @@ local soundRanges = {
 		[2] = 1300,
 		[3] = -400,
 		[4] = 1000,
-		[5] = 0.1
+		[5] = 0.25
 	},
 	[3] = {		-- distance: quarter volume
 		[1] = -200,
 		[2] = 1100,
 		[3] = -200,
 		[4] = 800,
-		[5] = 0.25
+		[5] = 0.5
 	},
 	[4] = {		-- slightly out: half volume
 		[1] = 0,
 		[2] = 900,
 		[3] = 0,
 		[4] = 600,
-		[5] = 0.5
+		[5] = 0.75
 	},
 	[5] = {		-- closest range: max volume
 		[1] = 100,
@@ -46,6 +47,18 @@ local soundRanges = {
 		[4] = 500,
 		[5] = 1
 	},
+	]]
+	[1]  = {-800, 1700,  -800, 1400,	0},
+	[2]  = {-800, 1700,  -800, 1400,	0.1},
+	[3]  = {-700, 1600,  -700, 1300,	0.2},
+	[4]  = {-600, 1500,  -600, 1200,	0.3},
+	[5]  = {-500, 1400,  -500, 1100,	0.4},
+	[6]  = {-400, 1300,  -400, 1000,	0.5},
+	[7]  = {-300, 1200,  -300, 900,		0.6},
+	[8]  = {-200, 1100,  -200, 800,		0.7},
+	[9]  = {-100, 1000,  -100, 700,		0.8},
+	[10] = {0,    900,   0,    600,		0.9},
+	[11] = {100,  800,   100,  500, 	1},
 }
 
 local soundList 	 = sounds
@@ -97,7 +110,7 @@ local function getSoundRange(sourceObject)
 		local x, y = sourceObject.image.x, sourceObject.image.y
 
 		if x and y then
-			for i=5, 1, -1 do
+			for i=#soundRanges, 1, -1 do
 				local distance = soundRanges[i]
 				if x >= distance[1] and x <= distance[2] and y >= distance[3] and y <= distance[4] then
 					return distance[5]
@@ -218,7 +231,7 @@ local function checkShouldPlay(params)
 			--print("sound channel zero "..params.key)
 			return false
 		else
-			--print("sound added to queue "..params.key.." channel="..channel.." volume="..volume.." duration="..params.duration)
+			print("sound added to queue "..params.key.." channel="..channel.." volume="..volume.." duration="..params.duration)
 			params.channel = channel
 			params.volume  = volume
 			params.started = true
@@ -270,7 +283,6 @@ function engine:playManagedAction(sourceObject, actionName, params)
 		params.key            = key
 
 		if checkShouldPlay(params) == true then
-			--print("sound added: "..key.." duration="..tostring(params.duration))
 			soundQueue[#soundQueue + 1] = params
 			-- signal that the sound has just been added
 			return 1
@@ -296,7 +308,7 @@ function engine:updateSounds()
 
 			-- check if it needs removing due to time passing
 			if params.durationPassed >= (params.duration or 0) then
-				--print("remove sound "..params.key.." duration passed")
+				print("remove sound "..params.key.." duration passed")
 				removeManagedSound(i, params)
 			elseif started then
 				-- if a sound is loaded with a set volume we dont vary it by distance
@@ -306,15 +318,15 @@ function engine:updateSounds()
 
 					-- if now out of range then remove Sound
 					if suggestedVolume == -1 then
-						--print("remove sound "..params.key.." volume be gone")
+						print("remove sound "..params.key.." volume be gone")
 						removeManagedSound(i, params)
 					elseif suggestedVolume ~= actualVolume and suggestedVolume ~= params.volume then
-						--print("set sound "..params.key.." volume="..suggestedVolume.." actual volume="..actualVolume.." channel="..channel.." duration="..params.durationPassed)
+						print("set sound "..params.key.." volume="..suggestedVolume.." actual volume="..actualVolume.." channel="..channel.." duration="..params.durationPassed)
 						setVolume(suggestedVolume, {channel=channel})
 					end
 				end
 			elseif checkShouldPlay(params) == -1 then
-				--print("remove sound "..params.key.." out of range")
+				print("remove sound "..params.key.." out of range")
 				removeManagedSound(i, params)
 			end
 		end
@@ -359,7 +371,7 @@ end
 
 
 function engine:getRandomImpact()
-    return self:getRandom(soundList.landLedge)
+    return self:getRandom(soundList.impacts)
 end
 
 

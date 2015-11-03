@@ -5,11 +5,10 @@ local utils       = require("core.utils")
 -- @class Fuzzy friend class
 local ufoBoss = {
 
-	isBossShip    = true,
-	class         = "friend",
-	model         = characterGygax,
-    inPhysics     = false,
-    playingActive = false,
+	isBossShip = true,
+	class      = "friend",
+	model      = characterGygax,
+    inPhysics  = false,
 
 	-- Methods:
 	-----------
@@ -88,9 +87,7 @@ function ufoBoss:nextPositionStarted()
     		self.boundEmitter:scale(0.35, 0.35)
 
     	elseif not self.boundEmitterOn then
-    		--self:fadeTrail(1)
-    		--self.trailHidden = false
-            self.boundEmitter:start()
+    		self.boundEmitter:start()
             self.boundEmitterOn = true
     	end
     	
@@ -106,8 +103,6 @@ function ufoBoss:nextPositionStarted()
     	if self.boundEmitter then
             self.boundEmitter:stop()
             self.boundEmitterOn = false
-    		--self:fadeTrail(0)
-    		--self.trailHidden = true
     	end
     end
 end
