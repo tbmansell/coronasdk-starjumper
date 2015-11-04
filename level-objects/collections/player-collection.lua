@@ -1,3 +1,6 @@
+local soundEngine = require("core.sound-engine")
+
+
 -- @class Main class for collection
 local playerCollection = {
 	-- Methods:
@@ -149,7 +152,7 @@ function playerCollection:checkIfOutOfPlay(player, camera, floor)
         local main = player.main
         local mode = player.mode
 
-        player:sound("playerFall")
+        player:sound("randomFall")
         player.markedOutOfPlay = true
 
         if main then camera:cancel() end

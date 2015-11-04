@@ -669,7 +669,7 @@ function ledge:activatePulleyLedge(target)
             self:stop()
         end
 
-        self:sound("ledgePulleyActivated")
+        self:sound("ledgePulleyActivated", {duration=9000})
         
         self.triggeredPulley = true
         self:moveNow({pattern=movePatternVertical, speed=(self.speed or 5), distance=(self.distance or 1000), oneWay=true})

@@ -40,9 +40,12 @@ sounds = {
         [characterGrey]      = {},
     },
 
-    rings   = {},
-    impacts = {},
-    fuzzies = {},
+    -- Groups of sounds
+    rings        = {},
+    impacts      = {},
+    fuzzies      = {},
+    greysTalking = {},
+    playerFalls  = {},
 
 
     -- Background tunes:
@@ -71,21 +74,21 @@ sounds = {
     collectGear                 = loadSound("sounds/collectGear_time1.wav"),
     collectTimeBonus            = loadSound("sounds/collectTimeBonus_time1.mp3"),
     collectNegable              = loadSound("sounds/collectNegable_time1.wav"),
+    countDown                   = loadSound("sounds/countDown_time1.wav"),
+    countHigh                   = loadSound("sounds/countHigh_time1.wav"),
     gainAward                   = loadSound("sounds/gainAward_time1.wav"),
     levelComplete               = loadSound("sounds/levelComplete_time4.wav"),
-    outOfTime                   = loadSound("sounds/outOfTime_time1.wav"),
     progress                    = loadSound("sounds/progress_time1.wav"),
     storyStart                  = loadSound("sounds/levelComplete_time4.wav"),
     unlock                      = loadSound("sounds/unlock_time4.wav"),
     whoosh                      = loadSound("sounds/whoosh_time1.mp3"),
 
     -- Player generic (cross model) sounds
-    playerFall                  = loadSound("sounds/player/fall_time1.mp3"),          -- replace
     playerDeathExplode          = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace
-    playerDeathSpikes           = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace 
-    playerDeathLava             = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace
+    playerDeathLava             = loadSound("sounds/player/deathLava_time1.wav"),
+    playerDeathSpikes           = loadSound("sounds/player/deathSpike_time1.wav"),
     playerDeathElectric         = loadSound("sounds/player/deathElectric_time1.wav"),
-    playerTeleport              = loadSound("sounds/player/teleport_time1.wav"),
+    playerTeleport              = loadSound("sounds/player/teleport_time5.wav"),
         
     -- Gear use:
     gearAir                     = loadSound("sounds/gearAir_time1.wav"),
@@ -102,6 +105,7 @@ sounds = {
     backgroundSoundWind3        = loadSound("sounds/ambient/wind3_time24.wav"),
     backgroundSoundWind4        = loadSound("sounds/ambient/wind4_time28.wav"),
     backgroundSoundWind5        = loadSound("sounds/ambient/wind5_time40.wav"),
+    backgroundSoundLava1        = loadSound("sounds/ambient/lava1_time15.wav"),
 
     -- Ledges:
     ledgeCollapsingActivated    = loadSound("sounds/elements/ledgeCollapsingActivated_time4.wav"),
@@ -109,13 +113,14 @@ sounds = {
     ledgeExplodingActivated     = loadSound("sounds/elements/ledgeExplodingActivated_time4.wav"),
     ledgeLavaActivated          = loadSound("sounds/elements/ledgeLavaActivated_time20.wav"),
     ledgeOneshotActivated       = loadSound("sounds/elements/ledgeOneshotActivated_time1.wav"),
-    ledgePulleyActivated        = loadSound("sounds/elements/ledgePulleyActivated_time1.wav"),        -- replace
+    ledgePulleyActivated        = loadSound("sounds/elements/ledgePulleyActivated_time9.wav"),
     ledgeSpikesActivated        = loadSound("sounds/elements/ledgeSpikesActivated_time1.wav"),
 
     -- Obstacles:
-    poleSlide                   = loadSound("sounds/elements/obstaclePoleSlide_time1.wav"),            -- replace
+    poleSlide                   = loadSound("sounds/elements/obstaclePoleSlide_time1.wav"),
     deathslide                  = loadSound("sounds/elements/obstacleDeathslide_time15.wav"),
     ropeswing                   = loadSound("sounds/elements/obstacleRopeswing_time1.wav"),
+    rocketLaunch                = loadSound("sounds/elements/obstacleRocketLaunch_time2.wav"),
 
     -- Ledges & Obstacles
     electricActivated           = loadSound("sounds/elements/electricActivated_time23.wav"),    
@@ -128,13 +133,15 @@ sounds = {
     enemyBrainAwaken            = loadSound("sounds/elements/enemyBrainAwaken_time1.wav"),
     enemyBrainMiss              = loadSound("sounds/elements/enemyBrainMiss_time2.wav"),
     enemyBrainKill              = loadSound("sounds/elements/enemyBrainKill_time1.wav"),
-    enemyHeartAwaken            = loadSound("sounds/elements/enemyHeartAwaken_time4.wav"),     -- replace
-    enemyHeartSteal             = loadSound("sounds/elements/enemyHeartSteal_time1.wav"),      -- replace
+    enemyHeartAwaken            = loadSound("sounds/elements/enemyHeartAwaken_time9.wav"),
+    enemyHeartSteal             = loadSound("sounds/elements/enemyHeartSteal_time1.wav"),
     enemyStomachAwaken          = loadSound("sounds/elements/enemyStomachAwaken_time4.wav"),
-    enemyStomachShoot           = loadSound("sounds/elements/enemyStomachShoot_time1.wav"),    --replace
+    enemyStomachShoot           = loadSound("sounds/elements/enemyHeartSteal_time1.wav"), --loadSound("sounds/elements/enemyStomachShoot_time1.wav"),    --replace
 
     -- Enemies & other sounds for planet2: apocalypsoid:
-
+    enemyGreyShoot              = loadSound("sounds/elements/greys/shoot_time2.wav"),
+    enemyGreyUfoActive          = loadSound("sounds/elements/greys/ufoActive_time16.wav"),
+    enemyGreyUfoKill            = loadSound("sounds/elements/greys/ufoKill_time1.wav"),
 
 
     -- Common Level terrain sounds
@@ -196,8 +203,26 @@ function sounds:loadRings()
 end
 
 function sounds:loadFuzzies()
-    for i=1,3 do
-        self.fuzzies[i] = loadSound("sounds/elements/fuzzies/fuzzy"..i..".wav")
+    self.fuzzies[1] = {sound=loadSound("sounds/elements/fuzzies/fuzzy1_time2.wav"), duration=2000}
+    self.fuzzies[2] = {sound=loadSound("sounds/elements/fuzzies/fuzzy2_time1.wav"), duration=1000}
+    self.fuzzies[3] = {sound=loadSound("sounds/elements/fuzzies/fuzzy3_time1.wav"), duration=1000}
+end
+
+
+function sounds:loadGreysTalking()
+    self.greysTalking[1] = {sound=loadSound("sounds/elements/greys/talk1_time3.wav"), duration=3000}
+    self.greysTalking[2] = {sound=loadSound("sounds/elements/greys/talk2_time5.wav"), duration=5000}
+    self.greysTalking[3] = {sound=loadSound("sounds/elements/greys/talk3_time5.wav"), duration=5000}
+    self.greysTalking[4] = {sound=loadSound("sounds/elements/greys/talk4_time4.wav"), duration=4000}
+    self.greysTalking[5] = {sound=loadSound("sounds/elements/greys/talk5_time1.wav"), duration=1000}
+    self.greysTalking[6] = {sound=loadSound("sounds/elements/greys/talk6_time4.wav"), duration=4000}
+    self.greysTalking[7] = {sound=loadSound("sounds/elements/greys/talk7_time1.wav"), duration=1000}
+end
+
+
+function sounds:loadPlayerFalls()
+    for i = 1,3 do
+        table.insert(self.playerFalls, loadSound("sounds/player/fall"..i.."_time2.wav"))
     end
 end
 
@@ -241,11 +266,12 @@ function sounds:loadRandom()
     self:loadImpactGeneral()
     self:loadRings()
     self:loadFuzzies()
+    self:loadGreysTalking()
+    self:loadPlayerFalls()
 end
 
 
 function sounds:loadPlayer(type)
-    --self.playerJump[type]
     if not playerLoaded[type] and self.playerJump[type] then
         playerLoaded[type] = true
         self:loadJumps(type)

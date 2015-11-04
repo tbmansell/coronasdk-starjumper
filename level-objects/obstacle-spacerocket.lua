@@ -107,7 +107,9 @@ end
 
 function rocket:launch(player)
     -- loop until turned off
+    self:sound("rocketLaunch",    {duration=2000})
     self:sound("rocketActivated", {duration=10000, loop=-1})
+    
 
     local camera  = self:getCamera()
     local scale   = camera.scaleImage

@@ -554,7 +554,6 @@ function hud:displayTime()
         self.timerHandle = nil
         self.timeCounter = 0
         self.textTime:setText("00:00")
-        play(sounds.outOfTime)
 
         -- Time Attack, Timer Runner - fail the game and restart automatically
         if game == gameTypeTimeAttack or game == gameTypeTimeRunner then
@@ -571,6 +570,12 @@ function hud:displayTime()
             if     counter == 5  then self.textTime:setColor(100,0,0)
             elseif counter == 15 then self.textTime:setColor(255,0,0)
             elseif counter == 30 then self.textTime:setColor(255,255,0) end
+
+            if counter == 0 then
+                play(sounds.countDown)
+            elseif counter <= 5 then
+                play(sounds.countHigh)
+            end
 
             local seq = anim:oustSeq("pulseTimer", self.textTime)
             seq:tran({time=100, scale=1.1})

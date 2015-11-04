@@ -1,7 +1,7 @@
 local anim        = require("core.animations")
 local spine       = require("core.spine")
-local spineStore  = require("level-objects.collections.spine-store")
 local soundEngine = require("core.sound-engine")
+local spineStore  = require("level-objects.collections.spine-store")
 
 
 -- @class Player main class
@@ -253,6 +253,8 @@ end
 -- Default way to kill player, where they carry on moving as they die
 ----
 function player:murder(options, sound)
+    local options = options or {}
+
     self:kill(options.animation, sound, false, options.fall, options.message)
 end
 
@@ -260,8 +262,12 @@ end
 -- Kill player by exploding them and stopping them dead still
 ----
 function player:explode(options, sound)
+    local options = options or {}
+
     if sound and type(sound) == "table" then
         sound.action = sound.action or "playerDeathExplode"
+    else
+        sound = "playerDeathExplode"
     end
 
     self:kill(options.animation, sound, true, false, options.message)
@@ -606,6 +612,7 @@ function player:sound(action, params)
     elseif action == "randomWorry"       then params.sound = soundEngine:getPlayerWorry(self.model)
     elseif action == "randomCelebrate"   then params.sound = soundEngine:getPlayerCelebrate(self.model)
     elseif action == "randomImpactVoice" then params.sound = soundEngine:getPlayerImpact(self.model)
+    elseif action == "randomFall"        then params.sound = soundEngine:getRandomPlayerFall()
     elseif action == "randomImpact"      then params.sound = soundEngine:getRandomImpact()
     elseif action == "randomRing"        then params.sound = soundEngine:getRandomRing()
     else
@@ -614,6 +621,7 @@ function player:sound(action, params)
 
     if self.main then
         -- Sound should be in full and not in sound engine as its the main player
+        print("PLAY "..action.." duration="..params.duration)
         play(params.sound, params, params.volume)
     else
         -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
@@ -695,7 +703,7 @@ function player:fallFromShip(camera, spaceship, callback)
         self:visible()
         self:animate("Death JUMP HIGH")
         self:sound("checkpoint")
-        self:sound("playerFall")
+        self:sound("playerFall", {sound=soundEngine:getRandomPlayerFall()})
     end)
     seq:wait(1700)
     seq.onComplete = function()

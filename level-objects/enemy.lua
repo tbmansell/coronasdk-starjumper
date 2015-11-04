@@ -50,7 +50,6 @@ end
 function enemy:contact(object)
 	if self.deadly and not self.image.isSensor and object.mode ~= playerKilled then
         self:sound("kill", self.killSound)
-
         self:intangible()
     	self:animate("Activate")
         after(1000, function() self:loop("Standard") end)
@@ -181,7 +180,12 @@ end
 
 
 function enemy:shoot()
-    self:sound("shoot", self.shootSound)
+    if self.shootSound then
+        after(self.shootSound.delay or 0, function() 
+            self:sound("shoot", self.shootSound)
+        end)
+    end
+
     self:animate(self.shootAnimation)
 
     -- generate & fire negable after shooting animation finished
@@ -231,6 +235,7 @@ end
 function enemy:taunt()
     local animation = randomFrom(self.taunts)
     self:animate(animation)
+    self:sound("taunt", self.tauntSound)
 
     after(4000, function()
         if self.image then

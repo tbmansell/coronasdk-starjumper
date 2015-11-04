@@ -740,15 +740,22 @@ end
 
 
 -- Plays a sound by binding it to this object into the sound engine
--- @param string action - name of the sound (under global sounds) which also double as the action name for a managed sound
--- @param table  param  - optional list of sound properties
+-- @param string action               - name of the sound (under global sounds) which also double as the action name for a managed sound
+-- @param function|table|string param - specify the sound either as a function to call on soundEngine(), a table of properties or a string name matching a global sound
 ----
 function gameObject:sound(action, params)
-    local params    = params          or {}
-    params.sound    = params.sound    or sounds[action]
-    params.duration = params.duration or 2000
+    local soundData = nil
 
-    soundEngine:playManagedAction(self, action, params)
+    if type(params) == "function" then
+        soundData = params(soundEngine)
+    else
+        soundData = params or {}
+    end
+
+    soundData.sound    = soundData.sound    or sounds[action]
+    soundData.duration = soundData.duration or 2000
+
+    soundEngine:playManagedAction(self, action, soundData)
 end
 
 

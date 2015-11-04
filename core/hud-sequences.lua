@@ -32,6 +32,12 @@ end
 
 function hud:countDownStep(delay, number, color)
     after(delay, function()
+        if number == "go!" then
+            play(sounds.countHigh)
+        else
+            play(sounds.countDown)
+        end
+
         local count = newText(nil, number, centerX, 300, 2, color, "CENTER")
         local seq   = anim:oustSeq("raceCountdown", count, true)
         seq:add("flexout", {time=900, scale=2.5, scaleBack=2})

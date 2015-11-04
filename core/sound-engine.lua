@@ -214,7 +214,7 @@ local function checkShouldPlay(params)
 
 	-- Is it outside the range where we would add it to the queue?
 	if not inSoundRange(source, 1) then
-		--print("sound not in range "..params.key)
+		----print("sound not in range "..params.key)
 		return -1
 	end
 
@@ -222,16 +222,16 @@ local function checkShouldPlay(params)
 	local volume = getSoundRange(source)
 
 	if volume == 0 then
-		--print("sound volume zero "..params.key)
+		----print("sound volume zero "..params.key)
 		return false
 	else
 		local channel = freeChannel()
 
 		if channel == 0 then
-			--print("sound channel zero "..params.key)
+			----print("sound channel zero "..params.key)
 			return false
 		else
-			print("sound added to queue "..params.key.." channel="..channel.." volume="..volume.." duration="..params.duration)
+			--print("sound added to queue "..params.key.." channel="..channel.." volume="..volume.." duration="..params.duration)
 			params.channel = channel
 			params.volume  = volume
 			params.started = true
@@ -271,7 +271,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
-			--print("sound already in queue: "..key)
+			----print("sound already in queue: "..key)
 			return 0
 		end
 
@@ -308,7 +308,7 @@ function engine:updateSounds()
 
 			-- check if it needs removing due to time passing
 			if params.durationPassed >= (params.duration or 0) then
-				print("remove sound "..params.key.." duration passed")
+				--print("remove sound "..params.key.." duration passed")
 				removeManagedSound(i, params)
 			elseif started then
 				-- if a sound is loaded with a set volume we dont vary it by distance
@@ -318,15 +318,15 @@ function engine:updateSounds()
 
 					-- if now out of range then remove Sound
 					if suggestedVolume == -1 then
-						print("remove sound "..params.key.." volume be gone")
+						--print("remove sound "..params.key.." volume be gone")
 						removeManagedSound(i, params)
 					elseif suggestedVolume ~= actualVolume and suggestedVolume ~= params.volume then
-						print("set sound "..params.key.." volume="..suggestedVolume.." actual volume="..actualVolume.." channel="..channel.." duration="..params.durationPassed)
+						--print("set sound "..params.key.." volume="..suggestedVolume.." actual volume="..actualVolume.." channel="..channel.." duration="..params.durationPassed)
 						setVolume(suggestedVolume, {channel=channel})
 					end
 				end
 			elseif checkShouldPlay(params) == -1 then
-				print("remove sound "..params.key.." out of range")
+				--print("remove sound "..params.key.." out of range")
 				removeManagedSound(i, params)
 			end
 		end
@@ -382,6 +382,16 @@ end
 
 function engine:getRandomFuzzy()
 	return self:getRandom(soundList.fuzzies)
+end
+
+
+function engine:getRandomGreyTalking()
+	return self:getRandom(soundList.greysTalking)
+end
+
+
+function engine:getRandomPlayerFall()
+	return self:getRandom(soundList.playerFalls)
 end
 
 

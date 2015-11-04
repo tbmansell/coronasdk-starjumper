@@ -78,6 +78,11 @@ function enemyCollection:checkBehaviours(mainPlayer, playerCollection, floorY)
 
             enemy:checkShouldShoot()
             enemy:checkFiredItemsOutOfPlay(floorY)
+
+             -- check if enemy should play active sound
+            if enemy.activeSound then
+                enemy:sound("active", enemy.activeSound)
+            end
         end
     end
 end

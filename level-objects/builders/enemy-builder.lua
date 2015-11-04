@@ -1,4 +1,5 @@
 local utils           = require("core.utils")
+local soundEngine     = require("core.sound-engine")
 local builder         = require("level-objects.builders.builder")
 local enemyDef        = require("level-objects.enemy")
 local enemyCollection = require("level-objects.collections.enemy-collection")
@@ -103,7 +104,7 @@ function enemyBuilder:newEnemyHeart(camera, spec, x, y, jumpObject)
 	enemy.thief       = true
 	enemy.stolen      = 0
     enemy.thefts      = enemy.behaviour.thefts or 10
-    enemy.awakenSound = {sound=sounds.enemyHeartAwaken, duration=4000}
+    enemy.awakenSound = {sound=sounds.enemyHeartAwaken, duration=9000}
     enemy.missSound   = enemy.awakenSound
     enemy.stealSound  = {sound=sounds.enemyHeartSteal,  duration=1000}
         
@@ -146,7 +147,7 @@ function enemyBuilder:newEnemyStomach(camera, spec, x, y, jumpObject)
     enemy.shootAnimation = "Spit"
     enemy.awakenSound    = {sound=sounds.enemyStomachAwaken, duration=4000}
     enemy.missSound      = enemy.awakenSound
-    enemy.shootSound     = {sound=sounds.enemyStomach2, duration=1000}
+    enemy.shootSound     = {sound=sounds.enemyStomachShoot, duration=1000}
 
     function enemy:generateShot()
         return hud.level:generateNegable(self:x(), self:y()-120, utils.randomFrom(self.ammo))
@@ -178,7 +179,10 @@ function enemyBuilder:newEnemyGreyUfo(camera, spec, x, y, jumpObject)
 
     builder:deepCopy(enemyDef, enemy)
 
-    enemy.deadly = true
+    enemy.deadly      = true
+    enemy.activeSound = {sound=sounds.enemyGreyUfoActive, duration=16000}
+    enemy.killSound   = {sound=sounds.enemyGreyUfoKill,   duration=1000}
+
     enemy:flipX()  -- Ian created these facing the opposite way from planet1 enemies
 
     function enemy:setPhysics(scale)
@@ -225,6 +229,10 @@ function enemyBuilder:newEnemyGreyShooter(camera, spec, x, y, jumpObject)
     enemy.tauntTimeMin   = 5  -- seconds
     enemy.tauntTimeMax   = 10 -- seconds
     enemy.taunts         = {"Taunt-2", "Taunt-3"}
+    enemy.awakenSound    = soundEngine.getRandomGreyTalking
+    enemy.missSound      = enemy.awakenSound
+    enemy.tauntSound     = enemy.awakenSound
+    enemy.shootSound     = {sound=sounds.enemyGreyShoot, delay=700}
     
     enemy:flipX()
     self:addJetpackMovement(camera, enemy, {x=-20, y=-6, rotation=20, size=0.2})
@@ -257,6 +265,9 @@ function enemyBuilder:newEnemyGreyNapper(camera, spec, x, y, jumpObject)
     enemy.tauntTimeMin = 5  -- seconds
     enemy.tauntTimeMax = 10 -- seconds
     enemy.taunts       = {"Taunt-1", "Taunt-2", "Taunt-3"}
+    enemy.awakenSound  = soundEngine.getRandomGreyTalking
+    enemy.missSound    = enemy.awakenSound
+    enemy.tauntSound   = enemy.awakenSound
     
     enemy:flipX()
     self:addJetpackMovement(camera, enemy, {x=-20, y=-6, rotation=20, size=0.2})

@@ -78,7 +78,7 @@ function fuzzy:wave()
         after(1500, function() self:loop("Hang Left Arm Standard") end)
     end
 
-    self:sound("wave", {sound=soundEngine:getRandomFuzzy()})
+    self:sound("wave", soundEngine:getRandomFuzzy())
     self:setDelayTillNextChange()
 end
 
