@@ -10,7 +10,7 @@ local playerCollection = {
 	-- checkJumpToFall()
 	-- checkDeadlyLedge()
 	-- checkOffScreenIndicator()
-	-- 
+	-- playerOnLedge()
 }
 
 
@@ -344,6 +344,22 @@ function playerCollection:checkAIBehaviour(level)
         	player:checkAIBehaviour(level)
         end
    end
+end
+
+
+function playerCollection:playerOnLedge(ledge)
+    local items = self.items
+    local num   = #items
+
+    for i=1,num do
+        local player = items[i]
+
+        if player.attachedLedge and player.attachedLedge.id == ledge.id then
+            return true
+        end
+    end
+
+    return false
 end
 
 

@@ -14,6 +14,9 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
+
+{object="ledge", x=300, y=-50, rotation=-10, surface=lava},
+
         {object="ledge", x=230, y=-150},
             {object="scenery", x=-900, y=-150, type="fg-tree-4-yellow", size=1.2},  
             {object="scenery", x=-130, y=-128, type="fg-foilage-2-yellow", layer=2, size=0.5, onLedge=true},
@@ -42,7 +45,7 @@ local levelData = {
             {object="scenery", x=450, y=-150, type="fg-tree-5-yellow"},
 
         
-        {object="emitter", x=600, y=0, timer={2000, 4000}, limit=5, layer=4,
+            {object="emitter", x=600, y=0, timer={2000, 4000}, limit=5, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.5, 0, 0.3},
                     movement={rangeX={300, 700}, rangeY={-100, -100}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},

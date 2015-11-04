@@ -211,6 +211,28 @@ function newObjectsLoader:load(level)
     end
 
 
+    -- Converts a spine ledge into a normal ledge
+    function level:transformLedge(fromLedge, targetLedge, resultCallback)
+        if targetLedge.type ~= "start"  and 
+           targetLedge.type ~= "finish" and 
+           targetLedge.isSpine and 
+           (targetLedge.id == fromLedge.id-1 or targetLedge.id == fromLedge.id+1) and
+           not targetLedge.isMoving and
+           not self.players:playerOnLedge(targetLedge)
+        then
+            local newLedge = hud.level:createLedge(targetLedge:clone())
+            newLedge.id    = targetLedge.id
+            newLedge.key   = targetLedge.key
+            newLedge.zoneRouteIndex = ledge.zoneRouteIndex
+
+            targetLedge:destroy()
+            resultCallback(true)
+        else
+            resultCallback(false)
+        end
+    end
+
+
     -- Gets the closest ledge to a position, returning the ledge and the x/y distance to its left/right/top/bototm edge
     function level:getClosestLedgeAtPoint(x, y)
         local found    = false

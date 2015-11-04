@@ -15,6 +15,7 @@ local ledge = {
     -----------
     -- eventCollide()
     -- getSurfacePhysics()
+    -- clone()
     -- *bind()
     -- *release()
     -- canStartOn()
@@ -136,6 +137,27 @@ end
 ----
 function ledge:getSurfacePhysics()
     return surfacePhysics[self.surface]
+end
+
+
+-- Makes a spec copy of the key values in this ledge in order to create a ne wone
+-- @return table of key stats matching this ledge
+----
+function ledge:clone()
+    local clonedValues = {
+        "object", "isLedge", "key", "id", "zoneRouteIndex", "type", "size", "rotation"
+    }
+
+    local clone = { 
+        x = self:x(),
+        y = self:y()
+    }
+
+    for key,value in pairs(clonedValues) do
+        clone[value] = self[value]
+    end
+
+    return clone
 end
 
 

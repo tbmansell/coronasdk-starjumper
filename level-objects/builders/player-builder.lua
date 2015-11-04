@@ -166,6 +166,26 @@ function playerBuilder:applyCharacterAbilities(player)
         -- Hammer: can take two hits from a deadly enemy before he is killed (once per zone)
         player.ironSkin = 2
 
+    elseif player.model == characterBrainiak then
+        -- Brainiak: can convert one spine ledge into a normal ledge of the same size, per zone
+        --player.transformLedge = 1
+        player.transformLedge = 100
+
+        function player:tapOtherLedge(ledge)
+            if self.transformLedge > 0 then
+                hud.level:transformLedge(self.attachedLedge, ledge, function(success)
+                    if success then
+                        self.transformLedge = self.transformLedge - 1
+                        self:sound("playerTeleport")
+                    else
+                        self:sound("shopCantBuy")
+                    end
+                end)
+            else
+                self:sound("shopCantBuy")
+            end
+        end
+
     elseif player.model == characterGrey then
         -- Grey: can teleport to the next / previous ledge once per zone
         --player.teleportLedge = 1
@@ -174,8 +194,7 @@ function playerBuilder:applyCharacterAbilities(player)
         function player:tapOtherLedge(ledge)
             local id = self.attachedLedge.id
             -- check if they have teleport power left and ledge is next or previous only
-            --if self.teleportLedge > 0 and ledge.type ~= "start" and ledge.type ~= "finish" and (ledge.id == id-1 or ledge.id == id+1) then
-            if self.teleportLedge > 0 and ledge.type ~= "start" and ledge.type ~= "finish" then
+            if self.teleportLedge > 0 and ledge.type ~= "start" and ledge.type ~= "finish" and (ledge.id == id-1 or ledge.id == id+1) then
                 self.mode          = playerTeleporting
                 self.teleportLedge = self.teleportLedge - 1
                 self.goingBackward = (ledge:x() < self.attachedLedge:x())

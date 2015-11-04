@@ -621,7 +621,6 @@ function player:sound(action, params)
 
     if self.main then
         -- Sound should be in full and not in sound engine as its the main player
-        print("PLAY "..action.." duration="..params.duration)
         play(params.sound, params, params.volume)
     else
         -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
