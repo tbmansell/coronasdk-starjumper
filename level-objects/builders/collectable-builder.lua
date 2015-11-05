@@ -146,7 +146,7 @@ function collectableBuilder:newGear(camera, spec, x, y, ledge)
     gear.slot           = slot
     gear.collected      = false
     gear.regenerate     = gear.regenerate or false
-    gear.collectedSound = sounds.collectGear
+    gear.collectedSound = {sound=sounds.collectGear, duration=1000}
     gear.originalScale  = 0.3
     
     function gear:setPhysics(scale)
@@ -186,7 +186,7 @@ function collectableBuilder:newNegable(camera, spec, x, y, ledge)
     negable.slot           = slot
     negable.collected      = false
     negable.regenerate     = negable.regenerate or false
-    negable.collectedSound = sounds.collectNegable
+    negable.collectedSound = {sound=sounds.collectNegable, duration=1000}
     negable.originalScale  = 0.3
     
     function negable:setPhysics(scale)
@@ -216,7 +216,7 @@ function collectableBuilder:newKey(camera, spec, x, y, ledge)
     key.class          = "collectable"
     key.type           = "key"
     key.collected      = false
-    key.collectedSound = sounds.collectGear
+    key.collectedSound = {sound=sounds.collectKey, duration=1000}
     key.originalScale  = 0.3
 
     function key:setPhysics(scale)
@@ -246,7 +246,7 @@ function collectableBuilder:newTimeBonus(camera, spec, x, y, jumpObject)
     bonus.type           = "timebonus"
     bonus.collected      = false
     bonus.bonus          = bonus.bonus or 15
-    bonus.collectedSound = sounds.collectTimeBonus
+    bonus.collectedSound = {sound=sounds.collectTimeBonus, duration=1000}
 
     function bonus:setPhysics(scale)
         local r = 22 * scale
@@ -275,6 +275,8 @@ function collectableBuilder:newWarpField(camera, spec, x, y, jumpObject)
     warp.class         = "collectable"
     warp.type          = "warpfield"
     warp.originalScale = size
+    warp.constantSound = {sound=sounds.warpActive, duration=16000}
+    warp.hitSound      = {sound=sounds.warpHit,    duration=1000}
 
     function warp:setPhysics(scale)
         local r = self.radius * scale
@@ -310,7 +312,7 @@ function collectableBuilder:newRandomizer(camera, spec, x, y, ledge)
     -- Triggers the randomizer
     function randomizer:activate()
         self.collected = true
-        self:sound("checkpoint", {duration=3000})
+        self:sound("checkpoint", {duration=1000})
 
         local name = utils.percentFrom(self.items)
         if name then

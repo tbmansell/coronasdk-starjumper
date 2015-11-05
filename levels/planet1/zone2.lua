@@ -14,9 +14,6 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-
-{object="ledge", x=300, y=-50, rotation=-10, surface=lava},
-
         {object="ledge", x=230, y=-150},
             {object="scenery", x=-900, y=-150, type="fg-tree-4-yellow", size=1.2},  
             {object="scenery", x=-130, y=-128, type="fg-foilage-2-yellow", layer=2, size=0.5, onLedge=true},

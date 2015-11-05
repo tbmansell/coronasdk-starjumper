@@ -92,6 +92,7 @@ local gameObject = {
     -- emit()
     -- bindEmitter()
     -- sound()
+    -- constantSoundHandler()
 }
 
 
@@ -756,6 +757,20 @@ function gameObject:sound(action, params)
     soundData.duration = soundData.duration or 2000
 
     soundEngine:playManagedAction(self, action, soundData)
+end
+
+
+-- Called when an object sconstant sound has stopped, this adds it agina to the sound engine after a delay
+----
+function gameObject:constantSoundHandler()
+    if self.constantSound and self.inGame then
+        after(250, function()
+            if self.inGame then
+                print("try to add constant sound for "..self.key)
+                self:sound("constant", self.constantSound)
+            end
+        end)
+    end
 end
 
 

@@ -368,7 +368,7 @@ function newObjectsLoader:load(level)
                         player.lives = 0
                     end
 
-                    player:explode()
+                    player:explode(nil, {action="playerDeathLava"})
 
                     -- wait until after they have reset, before allowing them to be killed again
                     after(3500, function()

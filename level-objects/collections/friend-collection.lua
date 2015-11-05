@@ -87,7 +87,7 @@ function friendCollection:reset()
 
         if validObject(friend) and friend.isFuzzy then
             friend:pose()
-            friend:loop("Standard")--..friend.color)
+            friend:loop("Standard")
             friend:solid()
         end
     end
@@ -107,11 +107,6 @@ function friendCollection:checkBehaviourChange()
             -- get fuzzies to wave
             if friend.isFuzzy and friend.kinetic ~= "hangDouble" and not friend.cantChangeYet and not friend.collected then
                 friend:wave()
-            end
-
-            -- check if friend should play active sound
-            if friend.activeSound then
-                friend:sound("active", friend.activeSound)
             end
         end
     end

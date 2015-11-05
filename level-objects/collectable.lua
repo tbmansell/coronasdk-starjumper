@@ -104,6 +104,8 @@ function collectable.eventCollideWarpField(self, event)
             after(10, function()
                 if other.image and other.image ~= -1 then
                     other.touchJoint = physics.newJoint("rope", warp.image, other.image)
+                    warp:sound("hit"..tostring(other.key), warp.hitSound)
+
                     after(1000, function()
                         if other.touchJoint then
                             other.immuneWarpFields = true

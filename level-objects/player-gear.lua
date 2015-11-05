@@ -50,7 +50,7 @@ function player:collected(item)
         self:sound("randomRing")
     else
         -- WANRING: dont think this will work
-        self:sound(item.collectedSound)
+        self:sound("collect"..item.key, item.collectedSound)
     end
 
     if self.main then

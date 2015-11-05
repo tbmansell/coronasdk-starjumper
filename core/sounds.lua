@@ -71,20 +71,24 @@ sounds = {
     awardStar                   = loadSound("sounds/awardStar_time1.wav"),
     bounce                      = loadSound("sounds/bounce_time1.mp3"),
     checkpoint                  = loadSound("sounds/checkpoint_time1.wav"),
-    collectGear                 = loadSound("sounds/collectGear_time1.wav"),
-    collectTimeBonus            = loadSound("sounds/collectTimeBonus_time1.mp3"),
-    collectNegable              = loadSound("sounds/collectNegable_time1.wav"),
     countDown                   = loadSound("sounds/countDown_time1.wav"),
     countHigh                   = loadSound("sounds/countHigh_time1.wav"),
     gainAward                   = loadSound("sounds/gainAward_time1.wav"),
     levelComplete               = loadSound("sounds/levelComplete_time4.wav"),
     progress                    = loadSound("sounds/progress_time1.wav"),
     storyStart                  = loadSound("sounds/levelComplete_time4.wav"),
+    storyNotification           = loadSound("sounds/storyNotification_time1.wav"),
     unlock                      = loadSound("sounds/unlock_time4.wav"),
     whoosh                      = loadSound("sounds/whoosh_time1.mp3"),
 
+    -- Collectables
+    collectGear                 = loadSound("sounds/elements/collectGear_time1.wav"),
+    collectKey                  = loadSound("sounds/elements/collectKey_time1.wav"),
+    collectTimeBonus            = loadSound("sounds/elements/collectTimeBonus_time1.mp3"),
+    collectNegable              = loadSound("sounds/elements/collectNegable_time1.wav"),
+
     -- Player generic (cross model) sounds
-    playerDeathExplode          = loadSound("sounds/player/deathExplode_time1.wav"),  -- replace
+    playerDeathExplode          = loadSound("sounds/player/deathExplode_time1.wav"),
     playerDeathLava             = loadSound("sounds/player/deathLava_time1.wav"),
     playerDeathSpikes           = loadSound("sounds/player/deathSpike_time1.wav"),
     playerDeathElectric         = loadSound("sounds/player/deathElectric_time1.wav"),
@@ -111,6 +115,7 @@ sounds = {
     ledgeCollapsingActivated    = loadSound("sounds/elements/ledgeCollapsingActivated_time4.wav"),
     ledgeCollapsingBreak        = loadSound("sounds/elements/ledgeCollapsingBreak_time1.wav"),
     ledgeExplodingActivated     = loadSound("sounds/elements/ledgeExplodingActivated_time4.wav"),
+    ledgeKeylockOpen            = loadSound("sounds/elements/ledgeKeylockOpen_time1.wav"),
     ledgeLavaActivated          = loadSound("sounds/elements/ledgeLavaActivated_time20.wav"),
     ledgeOneshotActivated       = loadSound("sounds/elements/ledgeOneshotActivated_time1.wav"),
     ledgePulleyActivated        = loadSound("sounds/elements/ledgePulleyActivated_time9.wav"),
@@ -126,7 +131,7 @@ sounds = {
     electricActivated           = loadSound("sounds/elements/electricActivated_time23.wav"),    
 
     -- Friends common:
-    friendBossHover             = loadSound("sounds/elements/friendBossHover_time16.mp3"),
+    friendBossActive            = loadSound("sounds/elements/friendBossActive_time16.mp3"),
     friendCollected             = loadSound("sounds/elements/friendCollected_time1.wav"),
 
     -- Enemies & other sounds for planet1: organia
@@ -136,53 +141,24 @@ sounds = {
     enemyHeartAwaken            = loadSound("sounds/elements/enemyHeartAwaken_time9.wav"),
     enemyHeartSteal             = loadSound("sounds/elements/enemyHeartSteal_time1.wav"),
     enemyStomachAwaken          = loadSound("sounds/elements/enemyStomachAwaken_time4.wav"),
-    enemyStomachShoot           = loadSound("sounds/elements/enemyHeartSteal_time1.wav"), --loadSound("sounds/elements/enemyStomachShoot_time1.wav"),    --replace
+    enemyStomachShoot           = loadSound("sounds/elements/enemyStomachShoot_time1.wav"),
 
     -- Enemies & other sounds for planet2: apocalypsoid:
     enemyGreyShoot              = loadSound("sounds/elements/greys/shoot_time2.wav"),
     enemyGreyUfoActive          = loadSound("sounds/elements/greys/ufoActive_time16.wav"),
     enemyGreyUfoKill            = loadSound("sounds/elements/greys/ufoKill_time1.wav"),
-
+    warpActive                  = loadSound("sounds/elements/warpActive_time16.wav"),
+    warpHit                     = loadSound("sounds/elements/warpHit_time1.wav"),
 
     -- Common Level terrain sounds
     
-
-    
-
-
-
-    -- new to add:
-        -- [ledges]
-        -- unlocking keylock ledge
-
         -- [items]
         -- collect key
         -- collect timebonus
-        -- warpfield contact
-        -- warpfield nearby ?
-        -- randmoizer
-
-        -- [scenery]
-        -- rock impact sound
-        -- metal impact sound
-        
-        -- [enemies]
-        -- ufo impact
-        -- ufo nearby ?
-        -- ufo miss ?
-        -- grey rocket shooter
-        -- grey rocket voice nearby ?
-        -- grey fuzzy stealer nearby ?
 
         -- [obstacles]
         -- space rocket countdown
         -- space rocket blast off
-
-        -- [other in-level sounds]
-        -- timer for arcade countdown
-        -- timer game last 5 seconds countdown
-
-    
 }
 
 

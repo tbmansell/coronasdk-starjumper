@@ -94,6 +94,14 @@ local function cancelTimerHandles()
 end
 
 
+-- if the sound if a constant sound then trigger a callback if the element still exists
+local function resetConstantSound(params)
+	if params.action == "constant" and params.source then
+		params.source:constantSoundHandler()
+	end
+end
+
+
 -- Checks if an object is within the furthesr range we play a sound from
 local function inSoundRange(sourceObject, range)
 	local x, y = sourceObject.image.x, sourceObject.image.y
@@ -256,7 +264,10 @@ local function removeManagedSound(index, params)
 	end
 	soundQueue[index] = nil
 	shouldTidy = true
+
+	resetConstantSound(params)	
 end
+
 
 -----------  PUBLIC FUNCTIONS ------------
 
@@ -271,7 +282,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
-			----print("sound already in queue: "..key)
+			--print("sound already in queue: "..key)
 			return 0
 		end
 
@@ -280,14 +291,21 @@ function engine:playManagedAction(sourceObject, actionName, params)
 		params.started 		  = 0
 		params.durationPassed = 0
 		params.source 	      = sourceObject
+		params.action         = actionName
 		params.key            = key
 
 		if checkShouldPlay(params) == true then
 			soundQueue[#soundQueue + 1] = params
 			-- signal that the sound has just been added
+			--print("sound added to queue: "..key)
 			return 1
 		end
+
+		--print("sound cant play: "..key)
+		resetConstantSound(params)
 	end
+
+	--print("sound rejected: "..actionName)
 	-- signal that the sound could not be added
 	return -1
 end

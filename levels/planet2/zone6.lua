@@ -76,7 +76,7 @@ local levelData = {
             {object="wall", x=-600, y=-500, type="fg-rock-1", size=1.2, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
             {object="rings", color=aqua, trajectory={x=30, y=-200, xforce=90, yforce=120, arc=65, num=3}},
         
-        {object="ledge", x=300, y=-170, size="medsmall"},      
+        {object="ledge", x=300, y=-170, size="medsmall"},
 
         	  {object="warpfield", x=220, y=-240, size=0.75, radius=100, movement={steering=steeringMild, speed=4, pattern={{0, 150}, {0, -150}}}},    
         

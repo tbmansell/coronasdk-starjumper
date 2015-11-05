@@ -751,7 +751,7 @@ function hud:notifyStory(storyId)
     self.notifications[#self.notifications+1] = note
     
     local seq = anim:chainSeq("hudNotification-"..number, note)
-    seq:add("flexout", {time=1000, scale=1.3, scaleBack=0.5, playSound=sounds.gainAward})
+    seq:add("flexout", {time=1000, scale=1.3, scaleBack=0.5, playSound=sounds.storyNotification})
     seq:start()
 end
 

@@ -724,7 +724,7 @@ function ledge:killWithLava(target)
         local anim = "Death LAVA LEDGE"
 
         if target:runDistance() < (target:height() - 20) then
-            anim = anim .. "BACKWARD"
+            anim = anim .. " BACKWARD"
         end
 
         target:murder({animation=anim, message="lava-ledge"}, "playerDeathLava")

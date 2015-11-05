@@ -420,6 +420,7 @@ function level:createEnemy(item, jumpObject)
 
     if enemy then
         enemyCollection:add(enemy)
+        enemy:constantSoundHandler()
         hasEnemies = true
     end
 
@@ -435,6 +436,7 @@ function level:createFriend(item, jumpObject, zoneState)
 
     if friend then
         if friendCollection:add(friend, zoneState) then
+            friend:constantSoundHandler()
             hasFriends = true
         else
             return nil
@@ -460,6 +462,7 @@ function level:createCollectable(item, jumpObject)
 
     if collectable then
         collectableCollection:add(collectable)
+        collectable:constantSoundHandler()
     end
     return collectable
 end

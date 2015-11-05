@@ -179,9 +179,9 @@ function enemyBuilder:newEnemyGreyUfo(camera, spec, x, y, jumpObject)
 
     builder:deepCopy(enemyDef, enemy)
 
-    enemy.deadly      = true
-    enemy.activeSound = {sound=sounds.enemyGreyUfoActive, duration=16000}
-    enemy.killSound   = {sound=sounds.enemyGreyUfoKill,   duration=1000}
+    enemy.deadly        = true
+    enemy.constantSound = {sound=sounds.enemyGreyUfoActive, duration=16000}
+    enemy.killSound     = {sound=sounds.enemyGreyUfoKill,   duration=1000}
 
     enemy:flipX()  -- Ian created these facing the opposite way from planet1 enemies
 
