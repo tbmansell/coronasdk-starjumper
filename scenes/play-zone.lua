@@ -131,6 +131,7 @@ function scene:createScene(event)
     local game = state.data.gameSelected
     state.infiniteRunner = (game == gameTypeArcadeRacer or game == gameTypeTimeRunner or game == gameTypeClimbChase)
 
+    setMovementStyleSpeeds()
     scene:initPhysics()
     scene:loadGame()
     scene:createEventHandlers()
@@ -146,7 +147,6 @@ function scene:createScene(event)
     if state.data.multiplayer then
         scene:setupMultiplayer()
     else
-        print("#########startLevelSequence")
         self:startLevelSequence(player, scene.startPlaying)
     end
 end
@@ -159,7 +159,7 @@ function scene:enterScene(event)
     -- Save game state so when restored we can know which zone was selected
     state:newScene("play-zone")
     state:saveGame()
-    setMovementStyleSpeeds()
+    setMovementStyleSpeeds()  -- repeat this to reset movements if scene already created
 end
 
 
@@ -423,7 +423,6 @@ end
 
 function scene:startPlaying(player)
     state.data.game = levelPlaying
-    print("########################game started")
 
     math.randomseed(os.time())
 
