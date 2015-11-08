@@ -41,8 +41,6 @@ end
 
 -- Called when player taps on a ledge to move them
 function globalTapLedge(target, event)
-    print("globalTapLedge")
-
     local ledge    = target.object
     local playerX  = player:x()
     local gameMode = state.data.game
@@ -81,8 +79,6 @@ end
 -- Generic touch event
 local function sceneTouchEvent(event)
     local gameMode = state.data.game
-
-    print("sceneTouchEvent gameMode="..tostring(gameMode))
 
     if gameMode ~= levelPlaying and gameMode ~= levelTutorial  then
         -- Dont allow interaction if not playing the level

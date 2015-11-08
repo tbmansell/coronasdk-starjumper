@@ -85,7 +85,12 @@ end
 
 -- improvement on using timer.performWithDelay() for single loops, when you just basically want a delayed action
 function after(delay, func)
-	track:timer(delay, func, 1)
+	if delay == 0 then
+		print("############WARNING: AFTER(0) CALLED##############")
+		func()
+	else
+		track:timer(delay, func, 1)
+	end
 end
 
 

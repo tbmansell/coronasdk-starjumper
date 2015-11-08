@@ -676,7 +676,7 @@ function player:standingReady(callback)
         self:x(self.moveByAfterStart)
     end
 
-    --after(500,  function() print("################calling cancelJump()"); self:cancelJump() end)
+    after(500,  function() print("################calling cancelJump()"); self:cancelJump() end)
     after(1000, function() print("###############calling callback"); callback(nil, self) end)
 end
 
