@@ -11,43 +11,7 @@ local reservedChannels = 0
 -- lists regions of different sound volumes
 -- 1=left, 2=right, 3=top, 4=bottom, 5=volume
 local soundRanges = {
-	--[[]
-	[1] = {		-- outer distance where sound will still be added (in-case focus moves into it) BUT NOT PLAYED
-		[1] = -600,
-		[2] = 1500,
-		[3] = -600,
-		[4] = 1200,
-		[5] = 0
-	},
-	[2] = {		-- furthest range possible: 10th volume
-		[1] = -400,
-		[2] = 1300,
-		[3] = -400,
-		[4] = 1000,
-		[5] = 0.25
-	},
-	[3] = {		-- distance: quarter volume
-		[1] = -200,
-		[2] = 1100,
-		[3] = -200,
-		[4] = 800,
-		[5] = 0.5
-	},
-	[4] = {		-- slightly out: half volume
-		[1] = 0,
-		[2] = 900,
-		[3] = 0,
-		[4] = 600,
-		[5] = 0.75
-	},
-	[5] = {		-- closest range: max volume
-		[1] = 100,
-		[2] = 800,
-		[3] = 100,
-		[4] = 500,
-		[5] = 1
-	},
-	]]
+	
 	[1]  = {-800, 1700,  -800, 1400,	0},
 	[2]  = {-800, 1700,  -800, 1400,	0.1},
 	[3]  = {-700, 1600,  -700, 1300,	0.2},
@@ -59,6 +23,20 @@ local soundRanges = {
 	[9]  = {-100, 1000,  -100, 700,		0.8},
 	[10] = {0,    900,   0,    600,		0.9},
 	[11] = {100,  800,   100,  500, 	1},
+	
+	--[[
+	[1]  = {-400, 1300, -400, 1100,	0},
+	[2]  = {-350, 1250, -350, 1050,	0.1},
+	[3]  = {-300, 1200, -300, 1000,	0.2},
+	[4]  = {-250, 1150, -250, 950,	0.3},
+	[5]  = {-200, 1100, -200, 800,	0.4},
+	[6]  = {-150, 1050, -150, 750,	0.5},
+	[7]  = {-100, 1000, -100, 700,	0.6},
+	[8]  = {-50,  950,  -50,  650,	0.7},
+	[9]  = { 0,   900,   0,   600,	0.8},
+	[10] = { 50,  850,   50,  550,	0.9},
+	[11] = { 100, 800,   100, 500, 	1},
+	]]
 }
 
 local soundList 	 = sounds
@@ -264,6 +242,7 @@ local function removeManagedSound(index, params)
 		--setVolume(1, {channel=channel})
 	end
 
+	--print("removed sound key="..tostring(params.key).." channel="..tostring(channel))
 	resetConstantSound(params)
 end
 
@@ -294,6 +273,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		if checkShouldPlay(params) == true then
 			soundQueue[#soundQueue + 1] = params
+			--print("set volume key="..params.key.." channel="..tostring(channel))
 			-- signal that the sound has just been added
 			return 1
 		end
@@ -318,12 +298,12 @@ function engine:updateSounds()
 			local removeSound = false
 
 			-- Update its durationPassed if its not a looping sound
-			if loops > -1 then
+			if loops == nil or loops > -1 then
 				params.durationPassed = (params.durationPassed or 0) + updateInterval
 			end
 
 			-- check if it needs removing due to time passing
-			if loops > -1 and params.durationPassed >= (params.duration or 0) then
+			if (loops == nil or loops > -1) and params.durationPassed >= (params.duration or 0) then
 				removeManagedSound(i, params)
 
 			elseif started then
@@ -338,6 +318,7 @@ function engine:updateSounds()
 
 					elseif suggestedVolume ~= actualVolume and suggestedVolume ~= params.volume then
 						setVolume(suggestedVolume, {channel=channel})
+						--print("set volume key="..tostring(params.key).." channel="..tostring(channel).." volume="..suggestedVolume)
 					end
 				end
 			elseif checkShouldPlay(params) == -1 then
