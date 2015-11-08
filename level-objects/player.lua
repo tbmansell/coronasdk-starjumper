@@ -663,18 +663,21 @@ end
 
 
 function player:standingReady(callback)
+    print("##################player:standingReady")
     self:x(self:startPosition())
     self:pose()
     self:animate("Jump PREPERATION")
     --self:readyJump()
+    print("###################whatevs")
 
     -- Adjustment for AI races
     if self.moveByAfterStart then
+        print("##########################adjust")
         self:x(self.moveByAfterStart)
     end
 
-    after(500,  function() self:cancelJump() end)
-    after(1000, function() callback(nil, self) end)
+    --after(500,  function() print("################calling cancelJump()"); self:cancelJump() end)
+    after(1000, function() print("###############calling callback"); callback(nil, self) end)
 end
 
 

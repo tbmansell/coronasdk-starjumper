@@ -7,6 +7,8 @@ local updateInterval   = 250  -- time between checks of the loop
 local loopCounter      = 0
 local shouldTidy	   = false -- true if an item has been removed at some point
 local reservedChannels = 0
+local enabled          = true
+
 
 -- lists regions of different sound volumes
 -- 1=left, 2=right, 3=top, 4=bottom, 5=volume
@@ -255,7 +257,7 @@ end
 -- Note: this also checks if the same action is running and aborts if so
 function engine:playManagedAction(sourceObject, actionName, params)
 	-- safety check so we can safely pass in nils without always having to check in the source object (more compact calling code)
-	if sourceObject and actionName and params then
+	if sourceObject and actionName and params and enabled then
 		local key = sourceObject.key..":"..actionName
 
 		if soundInQueue(key) then
@@ -273,7 +275,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		if checkShouldPlay(params) == true then
 			soundQueue[#soundQueue + 1] = params
-			--print("set volume key="..params.key.." channel="..tostring(channel))
+			print("set volume key="..params.key.." channel="..tostring(channel))
 			-- signal that the sound has just been added
 			return 1
 		end
@@ -441,10 +443,16 @@ end
 
 
 function engine:setup()
-	soundQueue   = {}
-	timerHandler = {}
-	loopCounter  = 0
+	soundQueue       = {}
+	timerHandler     = {}
+	loopCounter      = 0
 	reservedChannels = 0
+	enabled          = true
+end
+
+
+function engine:disable()
+	enabled = false
 end
 
 

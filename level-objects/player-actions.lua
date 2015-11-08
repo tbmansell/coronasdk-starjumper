@@ -128,6 +128,7 @@ end
 
 
 function player:cancelJump()
+    print("###########player:cancelJump")
     self.mode = playerReady
     self:animate("Jump CANCEL")
     
@@ -137,10 +138,12 @@ function player:cancelJump()
     end
 
     after(1500, function()
-        if player.mode == playerReady then
-            player:stand()
+        if self.mode == playerReady then
+            print("###########player:cancelJump => stand()")
+            self:stand()
         end
     end)
+    print("###########player:cancelJump done")
 end
 
 

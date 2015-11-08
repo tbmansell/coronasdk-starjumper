@@ -52,10 +52,14 @@ end
 -- @param @object to add
 ----
 function masterCollection:addToSpineCollection(object)
-    if object.isSpine then
-        after(object.spineDelay or 0, function()
-            self.spineCollection:add(object)
-        end)
+	if object.isSpine then
+    	if object.spineDelay and object.spineDelay > 0 then
+        	after(object.spineDelay, function()
+        		self.spineCollection:add(object)
+        	end)
+        else
+        	self.spineCollection:add(object)
+        end
     end
 end
 

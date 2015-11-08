@@ -41,6 +41,8 @@ end
 
 -- Called when player taps on a ledge to move them
 function globalTapLedge(target, event)
+    print("globalTapLedge")
+
     local ledge    = target.object
     local playerX  = player:x()
     local gameMode = state.data.game
@@ -78,7 +80,11 @@ end
 
 -- Generic touch event
 local function sceneTouchEvent(event)
-    if state.data.game ~= levelPlaying and state.data.game ~= levelTutorial  then
+    local gameMode = state.data.game
+
+    print("sceneTouchEvent gameMode="..tostring(gameMode))
+
+    if gameMode ~= levelPlaying and gameMode ~= levelTutorial  then
         -- Dont allow interaction if not playing the level
         return false
     end
@@ -144,6 +150,7 @@ function scene:createScene(event)
     if state.data.multiplayer then
         scene:setupMultiplayer()
     else
+        print("#########startLevelSequence")
         self:startLevelSequence(player, scene.startPlaying)
     end
 end
@@ -404,6 +411,7 @@ function scene:startLevelSequence(player, startGameCallback)
             
             player:fallFromShip(camera, spaceship, startGameCallback)
         else
+            print("############player standing ready")
             player:standingReady(startGameCallback)
         end
     else
@@ -419,6 +427,7 @@ end
 
 function scene:startPlaying(player)
     state.data.game = levelPlaying
+    print("########################game started")
 
     math.randomseed(os.time())
 

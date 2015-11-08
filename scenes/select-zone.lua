@@ -81,7 +81,8 @@ function scene:enterScene(event)
     collectableCollection = collectableBuilder:newCollectableCollection(spineCollection, movingCollection, particleCollection)
 
     spineStore:load(spineCollection)
-    soundEngine:setup()
+    -- we dont play element sounds on zone select as its not distance managed and they are well annoying
+    soundEngine:disable()
     
     self:createSceneMoveableContent(event)
     self:displayHud()

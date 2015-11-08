@@ -44,7 +44,7 @@ end
 -- @return new player object
 ----
 function playerBuilder:newPlayer(camera, spec, ledge)
-	local skin   = characterData[spec.model].skin
+    local skin   = characterData[spec.model].skin
 	local player = builder:newSpineObject(spec, {jsonName="player", imagePath="player", scale=(spec.scale or 0.2), skin=skin, animation="Stationary"})
 
     -- Allow override of destroy()
