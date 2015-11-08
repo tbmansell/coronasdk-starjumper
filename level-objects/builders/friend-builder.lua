@@ -124,7 +124,7 @@ function friendBuilder:newBossUfo(camera, spec, x, y)
     friend:moveTo(spec.x + x, spec.y + y)
 
     if not friend.noSound then
-        friend.constantSound = {sound=sounds.friendBossActive, duration=16000}
+        friend.constantSound = {sound=sounds.friendBossActive, duration="forever"}
     end
 
     if friend.direction == right then

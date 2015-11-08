@@ -420,7 +420,6 @@ function level:createEnemy(item, jumpObject)
 
     if enemy then
         enemyCollection:add(enemy)
-        enemy:constantSoundHandler()
         hasEnemies = true
     end
 
@@ -436,7 +435,6 @@ function level:createFriend(item, jumpObject, zoneState)
 
     if friend then
         if friendCollection:add(friend, zoneState) then
-            friend:constantSoundHandler()
             hasFriends = true
         else
             return nil
@@ -462,7 +460,6 @@ function level:createCollectable(item, jumpObject)
 
     if collectable then
         collectableCollection:add(collectable)
-        collectable:constantSoundHandler()
     end
     return collectable
 end
@@ -701,6 +698,21 @@ function level:assignTriggerLedges()
             end
         end
     end
+end
+
+
+-- Loops through all objects and kicks off any that have a constant sound
+----
+function level:startConstantSounds()
+    -- Not all type sof elements have constants sonds yet
+    enemyCollection:startConstantSounds()
+    friendCollection:startConstantSounds()
+    collectableCollection:startConstantSounds()
+    --playerCollection:startConstantSounds()
+    --ledgeCollection:startConstantSounds()
+    --obstacleCollection:startConstantSounds()
+    --sceneryCollection:startConstantSounds()
+    --emitterCollection:startConstantSounds()
 end
 
 

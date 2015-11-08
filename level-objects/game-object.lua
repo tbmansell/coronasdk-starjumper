@@ -753,20 +753,26 @@ function gameObject:sound(action, params)
         soundData = params or {}
     end
 
-    soundData.sound    = soundData.sound    or sounds[action]
-    soundData.duration = soundData.duration or 2000
+    soundData.sound = soundData.sound    or sounds[action]
+
+    if soundData.duration == "forever" then
+        soundData.duration = nil
+        soundData.loops    = -1
+    else
+        soundData.duration = soundData.duration or 2000
+    end
 
     soundEngine:playManagedAction(self, action, soundData)
 end
 
 
 -- Called when an object sconstant sound has stopped, this adds it agina to the sound engine after a delay
+-- @param bool force - optional bool that skips conditional check (used for level start to avoid repeating same if statements)
 ----
-function gameObject:constantSoundHandler()
-    if self.constantSound and self.inGame then
-        after(250, function()
+function gameObject:constantSoundHandler(force, delay)
+    if force or (self.constantSound and self.inGame) then
+        after(delay or 250, function()
             if self.inGame then
-                print("try to add constant sound for "..self.key)
                 self:sound("constant", self.constantSound)
             end
         end)

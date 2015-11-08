@@ -434,6 +434,7 @@ function scene:startPlaying(player)
     player:stand()
 
     soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
+    level:startConstantSounds()
 
     -- check if this zone has an intro script:
     if state.data.gameSelected == gameTypeStory then

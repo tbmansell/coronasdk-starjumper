@@ -621,7 +621,7 @@ function player:sound(action, params)
 
     if self.main then
         -- Sound should be in full and not in sound engine as its the main player
-        play(params.sound, params, params.volume)
+        play(params.sound, params)
     else
         -- Some sounds should be allowed to be playe as many times as called and not bound by the action name:
         if action == "randomRing" then

@@ -141,6 +141,8 @@ function scene:playCutScene()
 
     stories:start("cutscene-planet"..state.data.planetSelected..state.data.zoneSelected, pauseHandler, resumeHandler)
 
+    level:startConstantSounds()
+
     if level.data.customEvent then
         local event  = level.data.customEvent
         -- Allow custom code to access these

@@ -19,6 +19,7 @@ local masterCollection = {
 	-- *remove()
 	-- +clear()
 	-- +destroy()
+	-- startConstantSounds()
 }
 
 
@@ -111,6 +112,22 @@ function masterCollection:destroy()
     self.movementCollection = nil
     self.particleEmitterCollection = nil
     self:baseDestroy()
+end
+
+
+-- loops through items and plays any constant sounds
+----
+function masterCollection:startConstantSounds()
+	local items = self.items
+	local num   = #items
+
+	for i=1,num do
+		local object = items[i]
+
+		if object and object ~= -1 and object.inGame and object.constantSound then
+			object:constantSoundHandler(true)
+		end
+	end
 end
 
 

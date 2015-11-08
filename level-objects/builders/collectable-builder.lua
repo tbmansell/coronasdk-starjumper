@@ -275,7 +275,7 @@ function collectableBuilder:newWarpField(camera, spec, x, y, jumpObject)
     warp.class         = "collectable"
     warp.type          = "warpfield"
     warp.originalScale = size
-    warp.constantSound = {sound=sounds.warpActive, duration=16000}
+    warp.constantSound = {sound=sounds.warpActive, duration="forever"}
     warp.hitSound      = {sound=sounds.warpHit,    duration=1000}
 
     function warp:setPhysics(scale)

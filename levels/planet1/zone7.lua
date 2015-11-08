@@ -27,7 +27,7 @@ local levelData = {
                                     {2400,0,pause=2000},    -- move to moving ledge
                                     {300,-200},             -- go higher so wont knock player off ledges
                                     {1800,0},               -- race to finish
-                                    {0,420,pause=1000},     -- land on finish ledge
+                                    {0,300,pause=1000},     -- land on finish ledge
                                 }}},
 
         {object="ledge", x=170, y=-150, size="small"},
@@ -40,7 +40,7 @@ local levelData = {
             {object="scenery", x=-150, y=900, type="fg-wall-l2"},
 
         {object="ledge", x=250, y=-200, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
-            {object="friend", type="fuzzy", x=300, y=133, color="Orange", kinetic="hangDouble"},
+--            {object="friend", type="fuzzy", x=300, y=133, color="Orange", kinetic="hangDouble"},
             {object="wall", x=175, y=-75, type="fg-rock-3", physics={shape="circle", bounce=1}},
             {object="rings", color=aqua, trajectory={x=30, y=350, xforce=90, yforce=50, arc=50, num=2}},
 
@@ -54,8 +54,6 @@ local levelData = {
         {object="ledge", x=340, y=0, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
 
        
-
-
         {object="ledge", x=300, y=120, size="big2"},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=80, yforce=150, arc=75, num=5}},
             {object="scenery", x=-130, y=-190, type="fg-foilage-2-yellow", layer=2, size=1, onLedge=true},

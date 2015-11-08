@@ -278,7 +278,7 @@ end
 
 -- Global function to play sound instead of: audio.play
 -- Because we need to ensure the channels volume has been reset
-function globalSoundPlayer(sound, options, volume)
+function globalSoundPlayer(sound, options)
     local channel = nil
 
     if options and options.channel then
@@ -292,6 +292,6 @@ function globalSoundPlayer(sound, options, volume)
         end
     end
 
-    setVolume(volume or 1, options)
+    setVolume(options.volume or 1, options)
     play(sound, options)
 end

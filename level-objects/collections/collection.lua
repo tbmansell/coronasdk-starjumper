@@ -1,4 +1,4 @@
--- @class Base collection of referenes to objects to allow easy iteration for various functions
+-- @class Base collection of references to objects to allow easy iteration for various functions
 local collection = {
 	
 	-- list of all the gameObjects stored in the collection
