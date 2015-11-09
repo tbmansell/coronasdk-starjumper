@@ -756,10 +756,9 @@ function gameObject:sound(action, params)
     soundData.sound = soundData.sound    or sounds[action]
 
     if soundData.duration == "forever" then
-        soundData.duration = nil
         soundData.loops    = -1
     else
-        soundData.duration = soundData.duration or 2000
+        --soundData.duration = soundData.duration or 2000
     end
 
     soundEngine:playManagedAction(self, action, soundData)

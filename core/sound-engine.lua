@@ -14,17 +14,17 @@ local enabled          = true
 -- 1=left, 2=right, 3=top, 4=bottom, 5=volume
 local soundRanges = {
 	
-	[1]  = {-800, 1700,  -800, 1400,	0},
-	[2]  = {-800, 1700,  -800, 1400,	0.1},
-	[3]  = {-700, 1600,  -700, 1300,	0.2},
-	[4]  = {-600, 1500,  -600, 1200,	0.3},
-	[5]  = {-500, 1400,  -500, 1100,	0.4},
-	[6]  = {-400, 1300,  -400, 1000,	0.5},
-	[7]  = {-300, 1200,  -300, 900,		0.6},
-	[8]  = {-200, 1100,  -200, 800,		0.7},
-	[9]  = {-100, 1000,  -100, 700,		0.8},
-	[10] = {0,    900,   0,    600,		0.9},
-	[11] = {100,  800,   100,  500, 	1},
+	[1]  = {-1200, 2100,  -1200, 1800,	0},
+	[2]  = {-800,  1700,  -800,  1400,	0.1},
+	[3]  = {-700,  1600,  -700,  1300,	0.2},
+	[4]  = {-600,  1500,  -600,  1200,	0.3},
+	[5]  = {-500,  1400,  -500,  1100,	0.4},
+	[6]  = {-400,  1300,  -400,  1000,	0.5},
+	[7]  = {-300,  1200,  -300,  900,	0.6},
+	[8]  = {-200,  1100,  -200,  800,	0.7},
+	[9]  = {-100,  1000,  -100,  700,	0.8},
+	[10] = {0,     900,   0,     600,	0.9},
+	[11] = {100,   800,   100,   500, 	1},
 	
 	--[[
 	[1]  = {-400, 1300, -400, 1100,	0},
@@ -145,7 +145,7 @@ local function playCustom(params)
 	local seekStart = params.seek
 	local volume    = params.volume
 	local channel   = params.channel
-	local passed    = params.durationPassed
+	local passed    = params.durationPassed or 0
 	local source    = params.source
 
 	-- Check if specifically set seek point or duration has passed and need to set seek point
@@ -207,8 +207,9 @@ local function checkShouldPlay(params)
 	-- Is it in the quiet range where we dont play it, but we keep it in the queue in-case it moves into the playable range?
 	local volume = getSoundRange(source)
 
-	if volume == 0 then
-		return false
+	if volume == 0 and params.action ~= "constant" then
+		-- Allow sounds within a certain range that re not played yet but ont the boundary
+		return true
 	else
 		local channel = freeChannel()
 
@@ -236,15 +237,12 @@ local function removeManagedSound(index, params)
 			soundQueue[index] = nil
 			shouldTidy = true
 		end)
-		--after(fade+10, function() setVolume(1, {channel=channel}) end)
 	elseif params.channel then
 		stop(params.channel)
 		soundQueue[index] = nil
 		shouldTidy = true
-		--setVolume(1, {channel=channel})
 	end
 
-	--print("removed sound key="..tostring(params.key).." channel="..tostring(channel))
 	resetConstantSound(params)
 end
 
@@ -258,7 +256,8 @@ end
 function engine:playManagedAction(sourceObject, actionName, params)
 	-- safety check so we can safely pass in nils without always having to check in the source object (more compact calling code)
 	if sourceObject and actionName and params and enabled then
-		local key = sourceObject.key..":"..actionName
+		local key     = sourceObject.key..":"..actionName
+		local queueId = #soundQueue + 1
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
@@ -267,20 +266,20 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		self:stopSound(key)
 
-		params.started 		  = 0
+		params.started 		  = false
 		params.durationPassed = 0
-		params.source 	      = sourceObject
-		params.action         = actionName
 		params.key            = key
+		params.source 		  = sourceObject
+		params.action         = actionName
+		params.onComplete 	  = function() removeManagedSound(queueId, params) end
 
 		if checkShouldPlay(params) == true then
-			soundQueue[#soundQueue + 1] = params
-			print("set volume key="..params.key.." channel="..tostring(channel))
+			soundQueue[queueId] = params
 			-- signal that the sound has just been added
 			return 1
+		else
+			resetConstantSound(params)
 		end
-
-		resetConstantSound(params)
 	end
 
 	-- signal that the sound could not be added
@@ -294,34 +293,30 @@ function engine:updateSounds()
 	for i=1, num do
 		local params = soundQueue[i]
 		if params then
-			local channel     = params.channel or ""
-			local started     = params.started
-			local loops       = params.loops
-			local removeSound = false
-
+			local channel  = params.channel or ""
+			local started  = params.started
+			local duration = params.duration
+			
 			-- Update its durationPassed if its not a looping sound
-			if loops == nil or loops > -1 then
+			if duration ~= "forever" then
 				params.durationPassed = (params.durationPassed or 0) + updateInterval
 			end
 
 			-- check if it needs removing due to time passing
-			if (loops == nil or loops > -1) and params.durationPassed >= (params.duration or 0) then
+			if duration ~= "forever" and params.durationPassed >= (duration or 0) then
 				removeManagedSound(i, params)
 
 			elseif started then
 				-- if a sound is loaded with a set volume we dont vary it by distance
-				if not params.fixedVolume then
-					local suggestedVolume = getSoundRange(params.source)
-					local actualVolume    = tonumber(string.format("%.1f", getVolume({channel=channel})))
+				local suggestedVolume = getSoundRange(params.source)
+				local actualVolume    = tonumber(string.format("%.1f", getVolume({channel=channel})))
 
-					-- if now out of range then remove Sound
-					if suggestedVolume == -1 then
-						removeManagedSound(i, params)
+				-- if now out of range then remove Sound
+				if suggestedVolume == -1 then
+					removeManagedSound(i, params)
 
-					elseif suggestedVolume ~= actualVolume and suggestedVolume ~= params.volume then
-						setVolume(suggestedVolume, {channel=channel})
-						--print("set volume key="..tostring(params.key).." channel="..tostring(channel).." volume="..suggestedVolume)
-					end
+				elseif suggestedVolume ~= actualVolume and suggestedVolume ~= params.volume then
+					setVolume(suggestedVolume, {channel=channel})
 				end
 			elseif checkShouldPlay(params) == -1 then
 				removeManagedSound(i, params)

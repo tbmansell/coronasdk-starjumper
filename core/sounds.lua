@@ -294,4 +294,6 @@ function globalSoundPlayer(sound, options)
 
     setVolume(options.volume or 1, options)
     play(sound, options)
+
+    --print("play(key="..tostring(options.key).." channel="..tostring(options.channel).." volume="..tostring(options.volume) .." loops="..tostring(options.loops).." duration="..tostring(options.duration)..")")
 end

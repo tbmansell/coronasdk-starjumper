@@ -36,8 +36,8 @@ local levelData = {
             {object="wall", x=475,  y=200, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="spike", x=340,  y=-430, type="fg-spikes-row-big", rotation=-90, physics={shapeOffset={top=20, left=-30}}},
 
-        {object="ledge", x=-310, y=-220, size="small2"}, 
---            {object="friend", type="fuzzy", color="Pink", onLedge=true},
+        {object="ledge", x=-310, y=-220, size="small2"},
+            {object="friend", type="fuzzy", color="Pink", onLedge=true},
 
         {object="ledge", x=300, y=150, surface="collapsing", positionFromLedge=4},
             {object="rings", color=pink, pattern={ {80,-80} }},
@@ -70,7 +70,8 @@ local levelData = {
 		
 		{object="ledge", x=-400, y=-150, size="small2"},
             {object="gear", type=gearJetpack, x=0, y=-150, onLedge=true, regenerate=false},
-            {object="obstacle", x=1200, y=200, size=1.3, timerOn=2000, timerOff=3000, type="electricgate", positionFromLedge=7},
+
+        {object="obstacle", x=1200, y=200, size=1.3, timerOn=2000, timerOff=3000, type="electricgate", positionFromLedge=7},
    
         {object="ledge", x=825, y=200, size="big2"},        
             {object="rings", color=aqua, trajectory={x=35, y=-100, xforce=60, yforce=120, arc=30, num=3}},     

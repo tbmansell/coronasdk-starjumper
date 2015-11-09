@@ -392,6 +392,7 @@ end
 
 
 function scene:startLevelSequence(player, startGameCallback)
+    print("############startLevelSequence")
     state.data.game = levelStartStarted
 
     local game = state.data.gameSelected
@@ -422,6 +423,7 @@ end
 
 
 function scene:startPlaying(player)
+    print("###############startPlaying")
     state.data.game = levelPlaying
 
     math.randomseed(os.time())
