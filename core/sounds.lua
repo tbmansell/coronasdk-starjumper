@@ -57,7 +57,7 @@ sounds = {
     -- Scene & Menus:
     gameStart                   = loadSound("sounds/gameStart_time1.wav"),
     sceneEnter                  = loadSound("sounds/sceneEnter_time1.wav"),
-    buttonClick                 = loadSound("sounds/buttonClick_time1.mp3"),
+    buttonClick                 = loadSound("sounds/buttonClick_time1.wav"),
     generalClick                = loadSound("sounds/generalClick_time1.wav"),
     zoneSummary                 = loadSound("sounds/zoneSummary_time1.wav"),
     zonePopup                   = loadSound("sounds/zonePopup_time1.wav"),
@@ -69,7 +69,7 @@ sounds = {
 
     -- HUD sounds
     awardStar                   = loadSound("sounds/awardStar_time1.wav"),
-    bounce                      = loadSound("sounds/bounce_time1.mp3"),
+    bounce                      = loadSound("sounds/bounce_time1.wav"),
     checkpoint                  = loadSound("sounds/checkpoint_time1.wav"),
     countDown                   = loadSound("sounds/countDown_time1.wav"),
     countHigh                   = loadSound("sounds/countHigh_time1.wav"),
@@ -79,7 +79,7 @@ sounds = {
     storyStart                  = loadSound("sounds/levelComplete_time4.wav"),
     storyNotification           = loadSound("sounds/storyNotification_time1.wav"),
     unlock                      = loadSound("sounds/unlock_time4.wav"),
-    whoosh                      = loadSound("sounds/whoosh_time1.mp3"),
+    whoosh                      = loadSound("sounds/whoosh_time1.wav"),
 
     -- Collectables
     collectGear                 = loadSound("sounds/elements/collectGear_time1.wav"),
@@ -96,12 +96,12 @@ sounds = {
         
     -- Gear use:
     gearAir                     = loadSound("sounds/gearAir_time1.wav"),
-    gearAntigrav                = loadSound("sounds/gearAntigrav_time1.mp3"),
-    gearJetpack                 = loadSound("sounds/gearJetpack_time3.mp3"),
+    gearAntigrav                = loadSound("sounds/gearAntigrav_time1.wav"),
+    gearJetpack                 = loadSound("sounds/gearJetpack_time3.wav"),
     gearShield                  = loadSound("sounds/gearShield_time2.mp3"),
     gearReverseJump             = loadSound("sounds/gearReverseJump_time1.wav"),
     gearSpringshoes             = loadSound("sounds/gearSpringShoes_time1.wav"),
-    gearTrajectory              = loadSound("sounds/gearTrajectory_time1.mp3"),
+    gearTrajectory              = loadSound("sounds/gearTrajectory_time1.wav"),
     
     -- Ambiant level background sounds:
     backgroundSoundWind1        = loadSound("sounds/ambient/wind1_time40.wav"),
