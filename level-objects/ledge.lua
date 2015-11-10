@@ -1,4 +1,5 @@
-local spineStore = require("level-objects.collections.spine-store")
+local spineStore  = require("level-objects.collections.spine-store")
+local soundEngine = require("core.sound-engine")
 
 
 -- @class Base ledge class
@@ -672,6 +673,8 @@ function ledge:activateCollapsingLedge(target, animation, duration)
 
     after(duration or 3500, function()
         self:sound("ledgeCollapsingBreak", {duration=1000})
+        target:sound("randomFall")
+
         self:intangible()
         self.destroyed = true
 
