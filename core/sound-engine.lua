@@ -407,6 +407,11 @@ function engine:getPlayerCelebrate(type)
 end
 
 
+function engine:getPlayerTaunt(type)
+    return self:getRandom(soundList.playerTaunt[type])
+end
+
+
 
 -- Loads in the ambiant sounds for a zone and keep them playing
 function engine:loadBackgroundSounds(spec)

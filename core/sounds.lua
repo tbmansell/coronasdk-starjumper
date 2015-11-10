@@ -40,6 +40,14 @@ sounds = {
         [characterGrey]      = {},
     },
 
+    playerTaunt = {
+        [characterSkyanna]   = {},
+        [characterNewton]    = {},
+        [characterHammer]    = {},
+        [characterBrainiak]  = {},
+        [characterGrey]      = {},
+    },
+
     -- Groups of sounds
     rings        = {},
     impacts      = {},
@@ -203,9 +211,20 @@ function sounds:loadPlayerFalls()
 end
 
 
+------------------ PLAYER VOICES ------------------------
+
+
 function sounds:loadJumps(type)
     local path = "sounds/player/"..characterData[type].name.."/"
-    for i = 1,8 do
+    local num  = 0
+    
+    if     type == characterNewton   then num = 7
+    elseif type == characterSkyanna  then num = 7
+    elseif type == characterHammer   then num = 7
+    elseif type == characterBrainiak then num = 4
+    elseif type == characterGrey     then num = 6 end
+
+    for i = 1,num do
         table.insert(self.playerJump[type], loadSound(path.."jump-"..i..".wav"))
     end
 end
@@ -213,7 +232,15 @@ end
 
 function sounds:loadLands(type)
     local path = "sounds/player/"..characterData[type].name.."/"
-    for i = 1,8 do
+    local num  = 0
+
+    if     type == characterNewton   then num = 8
+    elseif type == characterSkyanna  then num = 8
+    elseif type == characterHammer   then num = 8
+    elseif type == characterBrainiak then num = 4
+    elseif type == characterGrey     then num = 6 end
+
+    for i = 1,num do
         table.insert(self.playerLand[type], loadSound(path.."land-"..i..".wav"))
     end
 end
@@ -221,7 +248,15 @@ end
 
 function sounds:loadLandEdges(type)
     local path = "sounds/player/"..characterData[type].name.."/"
-    for i = 1,4 do
+    local num  = 0
+
+    if     type == characterNewton   then num = 4
+    elseif type == characterSkyanna  then num = 4
+    elseif type == characterHammer   then num = 4
+    elseif type == characterBrainiak then num = 1
+    elseif type == characterGrey     then num = 2 end
+
+    for i = 1,num do
         table.insert(self.playerLandEdge[type], loadSound(path.."land-edge-"..i..".wav"))
     end
 end
@@ -229,8 +264,32 @@ end
 
 function sounds:loadPlayerCelebrate(type)
     local path = "sounds/player/"..characterData[type].name.."/"
-    for i = 1,3 do
+    local num  = 0
+
+    if     type == characterNewton   then num = 3
+    elseif type == characterSkyanna  then num = 3
+    elseif type == characterHammer   then num = 3
+    elseif type == characterBrainiak then num = 2
+    elseif type == characterGrey     then num = 2 end
+
+    for i = 1,num do
         table.insert(self.playerCelebrate[type], loadSound(path.."land-special-perfectjump"..i..".wav"))
+    end
+end
+
+
+function sounds:loadPlayerTaunt(type)
+    local path = "sounds/player/"..characterData[type].name.."/"
+    local num  = 0
+
+    if     type == characterNewton   then num = 0
+    elseif type == characterSkyanna  then num = 0
+    elseif type == characterHammer   then num = 0
+    elseif type == characterBrainiak then num = 2
+    elseif type == characterGrey     then num = 2 end
+
+    for i = 1,num do
+        table.insert(self.playerCelebrate[type], loadSound(path.."taunt-"..i..".wav"))
     end
 end
 
@@ -254,6 +313,7 @@ function sounds:loadPlayer(type)
         self:loadLands(type)
         self:loadLandEdges(type)
         self:loadPlayerCelebrate(type)
+        self:loadPlayerTaunt(type)
     end
 end
 
