@@ -1,5 +1,5 @@
 local levelData = {
-    name             = "think backwards",
+    name             = "think very jump backwards",
     timeBonusSeconds = 28,
     ceiling          = -1000,
     startLedge       = 7,

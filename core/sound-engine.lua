@@ -228,6 +228,9 @@ end
 
 -- Removes an item from the soundQueue
 local function removeManagedSound(index, params)
+	-- gaurd for onComplete
+	if soundQueue == nil then return end
+
 	local channel = params.channel
 	local fade    = params.fadeout
 
@@ -457,6 +460,7 @@ end
 
 
 function engine:destroy()
+	print("engine:destroy()")
 	engine:stopBackgroundSounds()
 
 	soundQueue     = nil
