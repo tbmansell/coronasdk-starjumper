@@ -7,7 +7,7 @@ local levelData = {
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {2},
+        [bgrMid]   = {0, 2},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },
@@ -60,7 +60,7 @@ local levelData = {
             {object="friend", type="fuzzy", x=220, y=-345, color="Green", kinetic="hang", direction=left},
 
         {object="ledge", x=250, y=-40, rotation=-20},
-            
+        
         {object="ledge", x=200, y=-65, size="medsmall"},
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=100, yforce=15, arc=40, num=3}},
 

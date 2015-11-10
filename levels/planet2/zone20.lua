@@ -7,7 +7,7 @@ local levelData = {
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {10,18},
+        [bgrMid]   = {10, 18},
         [bgrBack]  = {},
         [bgrSky]   = {2, 1}
     },

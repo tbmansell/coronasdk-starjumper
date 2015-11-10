@@ -101,10 +101,13 @@ sounds = {
     playerDeathSpikes           = loadSound("sounds/player/deathSpike_time1.wav"),
     playerDeathElectric         = loadSound("sounds/player/deathElectric_time1.wav"),
     playerTeleport              = loadSound("sounds/player/teleport_time5.wav"),
+    playerRunRock               = loadSound("sounds/player/runRock_time1.wav"),
+    playerRunMetal              = loadSound("sounds/player/runMetal_time1.wav"),
         
     -- Gear use:
     gearAir                     = loadSound("sounds/gearAir_time1.wav"),
     gearAntigrav                = loadSound("sounds/gearAntigrav_time1.wav"),
+    gearFreezeTime              = loadSound("sounds/gearFreezeTime_time3.wav"),
     gearJetpack                 = loadSound("sounds/gearJetpack_time3.wav"),
     gearShield                  = loadSound("sounds/gearShield_time2.mp3"),
     gearReverseJump             = loadSound("sounds/gearReverseJump_time1.wav"),

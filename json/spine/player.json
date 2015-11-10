@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "7hcrdpMcRVmCLyeVsha+rmMGeOM", "spine": "2.1.27", "width": 264.85, "height": 550.85, "images": "" },
+"skeleton": { "hash": "7hcrdpMcRVmCLyeVsha+rmMGeOM", "spine": "2.1.27", "width": 271.44, "height": 571.74, "images": "" },
 "bones": [
 	{ "name": "root", "color": "080808ff" },
 	{ "name": "Pelvis", "parent": "root", "x": -10.43, "y": 302.74 },

@@ -1,12 +1,12 @@
 local levelData = {
-    name             = "think very jump backwards",
+    name             = "think backwards",
     timeBonusSeconds = 28,
     ceiling          = -1000,
-    startLedge       = 7,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {8, 8},
+        [bgrMid]   = {0, 8},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },

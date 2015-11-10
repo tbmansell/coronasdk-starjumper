@@ -154,19 +154,24 @@ function newObjectsLoader:load(level)
     function level:createBackgroundImage(camera, key, sheetNum, insertOrder, xpos)
         local path   = "levels/planet"..self.planetNumber.."/images/bgr-"
         local sheet  = self.data.backgroundOrder[key][sheetNum]
-        local img    = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
 
-        local pinTop = false
-        if key == bgrSky then
-            pinTop = true
-            img:setFillColor(skyBlue, skyBlue, 1)
-        end
+        if sheet == 0 then
+            backgroundImages[key][insertOrder] = 0
+        else
+            local img    = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
 
-        img:toBack()
-        backgroundImages[key][insertOrder] = img
+            local pinTop = false
+            if key == bgrSky then
+                pinTop = true
+                img:setFillColor(skyBlue, skyBlue, 1)
+            end
 
-        if state.data.gameSettings.backgrounds then
-            camera:add(img, 4+key, false, true, pinTop)
+            img:toBack()
+            backgroundImages[key][insertOrder] = img
+
+            if state.data.gameSettings.backgrounds then
+                camera:add(img, 4+key, false, true, pinTop)
+            end
         end
     end
 
@@ -175,8 +180,12 @@ function newObjectsLoader:load(level)
     function level:clearBackgrounds(camera)
         for key, list in pairs(backgroundImages) do
             for i=1, #list do
-                camera:remove(backgroundImages[key][i])
-                backgroundImages[key][i]:removeSelf()
+                local img = backgroundImages[key][i]
+
+                if type(img) ~= "number" then
+                    camera:remove(img)
+                    img:removeSelf()
+                end
             end
         end
         backgroundImages = nil
@@ -193,21 +202,25 @@ function newObjectsLoader:load(level)
 
             for i=1,count do
                 local img = list[i]
-                local leftSwapLimit  = dcWidth * (count - 1)
 
-                if img.x + bgrWidthHalf < leftSwapLimit then
-                    local prev = i - 1
-                    if prev == 0 then prev = #list end
+                if type(img) ~= "number" then
 
-                    local follow = list[prev]
-                    img.x = follow.x + follow.width - 1
+                    local leftSwapLimit  = dcWidth * (count - 1)
 
-                elseif img.x + bgrWidth + bgrWidthHalf > rightSwapLimit then
-                    local prev = i + 1
-                    if prev > count then prev = 1 end
+                    if img.x + bgrWidthHalf < leftSwapLimit then
+                        local prev = i - 1
+                        if prev == 0 then prev = #list end
 
-                    local follow = list[prev]
-                    img.x = follow.x - follow.width + 1
+                        local follow = list[prev]
+                        img.x = follow.x + follow.width - 1
+
+                    elseif img.x + bgrWidth + bgrWidthHalf > rightSwapLimit then
+                        local prev = i + 1
+                        if prev > count then prev = 1 end
+
+                        local follow = list[prev]
+                        img.x = follow.x - follow.width + 1
+                    end
                 end
             end
         end
@@ -229,7 +242,11 @@ function newObjectsLoader:load(level)
         for key,list in pairs(backgroundImages) do
             local r,g,b = math_random(), math_random(), math_random(), math_random()
             for i=1,#list do
-                backgroundImages[key][i]:setFillColor(r,g,b)
+                local img = backgroundImages[key][i]
+
+                if type(img) ~= "number" then
+                    img:setFillColor(r,g,b)
+                end
             end
         end
     end
@@ -250,7 +267,11 @@ function newObjectsLoader:load(level)
         -- Restore backgrounds
         for key,list in pairs(backgroundImages) do
             for i=1,#list do
-                backgroundImages[key][i]:setFillColor(1,1,1)
+                local img = backgroundImages[key][i]
+
+                if type(img) ~= "number" then
+                    img:setFillColor(1,1,1)
+                end
             end
         end
     end

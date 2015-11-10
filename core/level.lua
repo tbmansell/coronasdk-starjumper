@@ -372,6 +372,7 @@ function level:createLedge(item, jumpObject, zoneState)
     item.theme     = item.theme     or self.data.defaultTheme
     item.points    = item.points    or self.data.defaultLedgePoints
     item.pointsPos = item.pointsPos or center
+    item.runSound  = item.runSound  or self.data.defaultRunSound
 
     local ledge = ledgeBuilder:newLedge(camera, item, jumpObject)
     ledgeCollection:add(ledge, zoneState)

@@ -243,6 +243,7 @@ function planetData:setDefaults(data)
     data.defaultLedgePoints  = data.defaultLedgePoints  or 100
     data.defaultCloudColor   = data.defaultCloudColor   or function(cloud) cloud:setFillColor(1, math.max(0.7, math.random()), 0.4) end
     data.defaultLedgeShake   = data.defaultLedgeShake   or {pattern={{0,20}, {0,-32}, {0,16}, {0,-4}}, delay=0, speed=4, oneWay=true}
+    data.defaultRunSound     = "playerRunRock"
 end
 
 

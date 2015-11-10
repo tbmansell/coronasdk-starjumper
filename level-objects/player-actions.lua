@@ -164,7 +164,9 @@ function player:runup(xVelocity, yVelocity)
         yVelocity = yVelocity * scale
     end
 
-    --self:sound("playerRun")
+    self.runSound = self.attachedLedge.runSound
+    self:sound(self.runSound, {duration="forever", manage=true})
+
     self.mode      = playerRun
     self.xVelocity = xVelocity
     self.yVelocity = yVelocity
@@ -188,6 +190,9 @@ end
 
 
 function player:jump()
+    self:stopSound(self.runSound)
+    self.runSound = nil
+
     if self.gear[air] == negRocket or self.gear[air] == negBooster then
         self:sound("gearJetpack")
     else

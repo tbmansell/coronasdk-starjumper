@@ -114,6 +114,9 @@ function ledge.eventCollide(self, event)
             
             if playerX < left then print("TOO FAR LEFT"); direction = left end
 
+            if playerX > right then print("TOO FAR RIGHT") end
+            if playerY > top   then print("TOO FAR DOWN") end
+
             print("Missed ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())
             object:missLedge(ledge, direction)
         else

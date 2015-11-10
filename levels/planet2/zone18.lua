@@ -7,7 +7,7 @@
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {11},
+        [bgrMid]   = {0, 11},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },

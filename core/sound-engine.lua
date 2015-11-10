@@ -277,6 +277,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 		params.onComplete 	  = function() removeManagedSound(queueId, params) end
 
 		if checkShouldPlay(params) == true then
+			--print("ADDED sound "..key.." channel="..params.channel.." duration="..params.duration)
 			soundQueue[queueId] = params
 			-- signal that the sound has just been added
 			return 1

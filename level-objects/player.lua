@@ -98,12 +98,12 @@ end
 
 
 function player:width()
-    return self.intWidth
+    return self.intWidth * self.scaled
 end
 
 
 function player:height()
-    return self.intHeight
+    return self.intHeight * self.scaled
 end
 
 
@@ -279,6 +279,11 @@ function player:kill(animation, sound, stopMoving, fall, message)
     -- guard to stop multiple deaths
     if self.mode ~= playerKilled then
         self.mode = playerKilled
+
+        if self.runSound then
+            self:stopSound(self.runSound)
+            self.runSound = nil
+        end
 
         self:destroyEmitter()
         self:emit("deathflash")
@@ -619,7 +624,7 @@ function player:sound(action, params)
         params.sound = sounds[action]
     end
 
-    if self.main then
+    if self.main and not params.manage then
         -- Sound should be in full and not in sound engine as its the main player
         play(params.sound, params)
     else
@@ -654,7 +659,7 @@ function player:walkOntoLevel(callback)
         hub:publicMessage("game-start")
     end]]
 
-    self:sound("playerRun")
+    self:sound("playerRunRock")
     self:x(-200)
     self:loop("Run New")
 
