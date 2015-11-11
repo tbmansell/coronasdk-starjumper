@@ -64,6 +64,7 @@ function playerBuilder:newPlayer(camera, spec, ledge)
 
 	player:setPhysics(1)
 	player:reset()
+    player:visible()
 	player:changeDirection(right)
 
     self:applyCharacterAbilities(player)
@@ -134,6 +135,7 @@ function playerBuilder:newAiPlayer(camera, spec, ledge)
 	player.ai = true
 
 	-- Create a large touch area for the player as the graphic is too small
+    --[[
     local touch  = display.newRect(player.image, player.image.x+5, player.image.y-75, player.image.x+80, player.image.y+150)
     touch.player = self
     touch.alpha  = 0.01
@@ -143,6 +145,7 @@ function playerBuilder:newAiPlayer(camera, spec, ledge)
     end)
 
     player.touchArea = touch
+    ]]
 
     if spec.direction == left then
     	player:changeDirection()

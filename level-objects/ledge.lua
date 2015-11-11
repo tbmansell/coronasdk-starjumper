@@ -86,12 +86,6 @@ function ledge.eventCollide(self, event)
 
     if object == nil then return end
 
-
-    if object.isPlayer then
-        print("ledge collide ID="..ledge.key.." phase="..event.phase.." playerX/Y="..math_round(object:x())..","..math_round(object:y()).." left/right/top="..math_round(ledge:leftEdge())..","..math_round(ledge:rightEdge())..","..math_round(ledge:topEdge()).." object.width="..ledge:width())
-    end
-
-
     if event.phase == "began" and
         not ledge.destroyed and
         object.isPlayer and
@@ -113,15 +107,15 @@ function ledge.eventCollide(self, event)
         if playerX < left or playerX > right or playerY > top then
             local direction = right
             
-            if playerX < left then print("TOO FAR LEFT"); direction = left end
+            if playerX < left then --[[print("TOO FAR LEFT");]] direction = left end
 
-            if playerX > right then print("TOO FAR RIGHT") end
+            --[[if playerX > right then print("TOO FAR RIGHT") end
             if playerY > top   then print("TOO FAR DOWN") end
 
-            print("Missed ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())
+            print("Missed ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())]]
             object:missLedge(ledge, direction)
         else
-            print("Landed on ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())
+            --print("Landed on ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())
             if object.mode ~= playerKilled then
                 object:land(ledge)
                 ledge:land(object)

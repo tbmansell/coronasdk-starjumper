@@ -63,7 +63,7 @@ local characterPersonality = {
         age           = 20,
         likes         = "fresh brains",
         hates         = "fuzzies",
-        ability       = "brain maker",
+        ability       = "ledge changer",
         throws        = "electrifier",
     },
     [characterGrey] = {
