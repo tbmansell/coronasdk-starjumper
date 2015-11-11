@@ -247,13 +247,40 @@ end
 -- Loads the mid-sceen scene
 function loadSceneTransition(time)
     globalSceneTransitionGroup.alpha = 0
+
     local bgr = display.newRect(globalSceneTransitionGroup, centerX, centerY, contentWidth+200, contentHeight+200)
     bgr:setFillColor(0,0,0)
 
     newImage(globalSceneTransitionGroup, "scene-transition", centerX, centerY)
 
-    globalSceneTransitionGroup:toFront()
+    local text = newText(globalSceneTransitionGroup, "loading...", centerX, 500, 0.5, "yellow")
+    text.alpha = 0
+
+    globalSceneTransitionGroup:toFront(globalSceneTransitionGroup)
     transition.to(globalSceneTransitionGroup, {alpha=1, time=time or 1000})
+
+    globalTransitionTimer = timer.performWithDelay(100, function()
+        if text and text.alpha then
+            if text.alpha >= 1 then
+                text.backward = true
+            elseif text.alpha <= 0 then
+                text.backward = false
+            end
+
+            if text.backward then 
+                text.alpha = text.alpha - 0.1
+            else
+                text.alpha = text.alpha + 0.1
+            end
+        end
+    end, 0)
+end
+
+
+function clearTransitionTimer()
+    if globalTransitionTimer then 
+        timer.cancel(globalTransitionTimer) 
+    end
 end
 
 
@@ -261,10 +288,12 @@ end
 function clearSceneTransition(time)
     if time then
         transition.to(globalSceneTransitionGroup, {alpha=0, time=time, onComplete=function()
+            clearTransitionTimer()
             globalSceneTransitionGroup:removeSelf()
             globalSceneTransitionGroup = display.newGroup()
         end})
     else
+        clearTransitionTimer()
         globalSceneTransitionGroup:removeSelf()
         globalSceneTransitionGroup = display.newGroup()
     end

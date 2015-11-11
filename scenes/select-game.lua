@@ -49,6 +49,8 @@ end
 function scene:enterScene(event)
     logAnalytics("select-game", "enterScene")
 
+    clearTransitionTimer()
+
     if scene.context == "exitScene" then
         scene.context = "selectPlanet"
     end

@@ -66,8 +66,7 @@ function scene:enterScene(event)
     logAnalytics("select-zone", "enterScene")
 
     state:newScene("select-zone")
-    globalSceneTransitionGroup:removeSelf()
-    globalSceneTransitionGroup = display.newGroup()
+    clearSceneTransition()
     globalIgnorePhysicsEngine  = true
 
     -- Setup collections and enter frame event
