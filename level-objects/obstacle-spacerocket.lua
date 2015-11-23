@@ -1,4 +1,5 @@
-local anim = require("core.animations")
+local anim       = require("core.animations")
+local spineStore = require("level-objects.collections.spine-store")
 
 
 -- @class Deathslide class
@@ -13,6 +14,9 @@ local rocket = {
 	-- setPhysics()
 	-- canGrab()
 	-- grab()
+    -- zoomeOut()
+    -- launch()
+    -- destroy()
 	-- reset()
 }
 
@@ -91,8 +95,10 @@ function rocket:grab(player)
     self:moveToGrabPoint(player, 0, -230*scale)
     self:animate("Activated-"..self.takeoff)
 
-    after(1000,       function() self:zoomOut(player) end)
-    after(self.delay, function() self:launch(player)  end)
+    self:sound("countDown", {duration=1000})
+    after(self.delay*0.35, function() self:zoomOut(player); self:sound("countDown", {duration=1000}) end)
+    after(self.delay*0.7,  function() self:sound("countDown", {duration=1000}) end)
+    after(self.delay,      function() self:launch(player)  end)
 end
 
 
@@ -106,10 +112,8 @@ end
 
 
 function rocket:launch(player)
-    -- loop until turned off
-    self:sound("rocketLaunch",    {duration=2000})
-    self:sound("rocketActivated", {duration=10000, loop=-1})
-    
+    self:sound("rocketLaunch", {duration=2000})
+    self:sound("rocketActive", {duration="forever"})
 
     local camera  = self:getCamera()
     local scale   = camera.scaleImage
@@ -128,6 +132,12 @@ function rocket:launch(player)
 
     self.ship.alpha = 0
     self:release(player)
+
+    function capsule:destroy(player)
+        self.alpha = 0
+        player:sound("ledgeExplodingActivated", {duration=4000})
+        spineStore:showExplosion(player:getCamera(), player)
+    end
     
     player.vehicleImage = capsule
     player:animate("Rocket-SIT-2")
@@ -153,6 +163,7 @@ function rocket:reset(camera)
     self.ship.alpha = 1
     self:pose()
     self:loop("Standard")
+    self:stopSound("rocketActive")
 end
 
 

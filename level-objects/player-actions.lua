@@ -289,6 +289,7 @@ function player:land(ledge)
     -- Stuff that must happen even when landing on a spring ledge (which bounces straight off again)
     local xv, yv = self.image:getLinearVelocity()
     self:clearJumpAction()
+    self:destroyVehicle()
 
     -- record if player has progressed through level
     if ledge.id > self.highestLedgeId then
@@ -564,8 +565,7 @@ end
 
 function player:escapeVehicleAction()
     if self.vehicleImage and self.mode ~= playerKilled then
-        self.vehicleImage:removeSelf()
-        self.vehicleImage = nil
+        self:destroyVehicle()
 
         self.mode = playerJump
         self:rotate(0)

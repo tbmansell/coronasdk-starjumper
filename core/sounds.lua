@@ -103,7 +103,7 @@ sounds = {
     playerTeleport              = loadSound("sounds/player/teleport_time5.wav"),
     playerRunRock               = loadSound("sounds/player/runRock_time1.wav"),
     playerRunMetal              = loadSound("sounds/player/runMetal_time1.wav"),
-        
+    
     -- Gear use:
     gearAir                     = loadSound("sounds/gearAir_time1.wav"),
     gearAntigrav                = loadSound("sounds/gearAntigrav_time1.wav"),
@@ -137,6 +137,7 @@ sounds = {
     deathslide                  = loadSound("sounds/elements/obstacleDeathslide_time15.wav"),
     ropeswing                   = loadSound("sounds/elements/obstacleRopeswing_time1.wav"),
     rocketLaunch                = loadSound("sounds/elements/obstacleRocketLaunch_time2.wav"),
+    rocketActive                = loadSound("sounds/gearJetpack_time3.wav"),
 
     -- Ledges & Obstacles
     electricActivated           = loadSound("sounds/elements/electricActivated_time23.wav"),    

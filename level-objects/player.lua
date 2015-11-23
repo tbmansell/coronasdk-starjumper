@@ -60,6 +60,7 @@ local player = {
         -- kill()
         -- loseLife()
         -- *destroy()
+        -- destroyVehicle()
         -- cantRestart()
         -- reset()
         -- resetClearUp()
@@ -286,6 +287,7 @@ function player:kill(animation, sound, stopMoving, fall, message)
         end
 
         self:destroyEmitter()
+        self:destroyVehicle()
         self:emit("deathflash")
         self:emit("die")
 
@@ -386,6 +388,17 @@ function player:destroy(camera, destroyBoundItems)
 end
 
 
+function player:destroyVehicle()
+    if self.vehicleImage then
+        print("destroyVehicle()")
+        self.vehicleImage:destroy(self)
+        self.vehicleImage:removeSelf()
+        self.vehicleImage = nil
+        anim:destroyQueue("vehicleFlight")
+    end
+end
+
+
 -- checks if the marked start ledge and the first ledge are destroyed
 function player:cantRestart()
     local start = self.startLedge
@@ -447,11 +460,7 @@ function player:resetClearUp()
         self.grappleLine = nil
     end
 
-    if self.vehicleImage then
-        self.vehicleImage:removeSelf()
-        self.vehicleImage = nil
-        anim:destroyQueue("vehicleFlight")
-    end
+    --self:destroyVehicle()
 end
 
 

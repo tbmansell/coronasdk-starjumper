@@ -64,9 +64,7 @@ end
 
 
 function deathslide:movementCompleted()
-    --soundEngine:stopSound(self.key, "deathslide")
     self:stopSound("deathslide")
-    
     self:stop()
     self:animate("Standard")
 

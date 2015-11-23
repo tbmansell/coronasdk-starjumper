@@ -41,8 +41,8 @@ function playerCollection:checkMovement(delta)
 
         elseif mode == playerOnVehicle then
             if player.vehicleImage then
-                player.vehicleImage.x = player.image.x      * delta
-                player.vehicleImage.y = (player.image.y-25) * delta
+                player.vehicleImage.x = player.image.x      --* delta
+                player.vehicleImage.y = (player.image.y-25) --* delta
             end
 	    else
     	    local correctBy = player.correctBy

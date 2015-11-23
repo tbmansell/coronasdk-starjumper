@@ -50,6 +50,7 @@ end
 function scenery:playerCollideWall(player)
     player:soundLand(true)
     player:destroyEmitter()
+    player:destroyVehicle()
     player:emit("landing-whitegood", {ypos=player:y()-50, alpha=0.75})
     player:animate("Landing FAR EDGE")
     player.image.gravityScale = 1

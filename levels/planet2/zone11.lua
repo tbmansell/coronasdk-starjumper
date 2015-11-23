@@ -61,12 +61,10 @@ local levelData = {
                 }
             },
 
-            -------------------------Rocket
+        -------------------------Rocket
 
-
- 		{object="obstacle", type="spacerocket", x=300, y=0, angle=-20, takeoff="slow", force={1000,-700}, rotation={time=100, degrees=1}},	
- 			  {object="scenery", x=800, y=-500, type="fgflt-pole-2"},
-
+ 		{object="obstacle", type="spacerocket", x=300, y=0, angle=-20, takeoff="slow", force={1000,-700}, rotation={time=100, degrees=1}},
+			{object="scenery", x=800, y=-500, type="fgflt-pole-2"},
 
 
         {object="ledge", x=1400, y=0, size="big3", movement={pattern={{-50,-30},{50,-50},{50,30},{-50,50}}, speed=1, pause=0, dontDraw=true,  steering=steeringSmall}},
