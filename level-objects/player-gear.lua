@@ -581,7 +581,8 @@ function player:useGrappleHook(ledge, side)
     self.grappleTarget = ledge
     self.grappleSide   = side
 
-    self:animate("Death JUMP "..(player.jumpType or "HIGH"))
+    --self:animate("Death JUMP "..(player.jumpType or "HIGH"))
+    self:animate("Powerup GRAPPLEHOOK")
 
     local seq = anim:oustSeq("grappleHook", self.grappleJoint)
     seq:tran({maxLength=0, time=1000})

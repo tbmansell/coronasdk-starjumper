@@ -334,7 +334,8 @@ function scene:displayHud()
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.borderGroup, spineStore, scene.exitToShop, scene.exitToPlayerStore)
 
-    newText(self.borderGroup, "planet - "..data.name, centerX, 590, 0.8, data.color, "CENTER")
+    newImage(self.borderGroup, "select-game/banner-planet"..state.data.planetSelected, 310, 597)
+    newText(self.borderGroup, data.name, centerX, 590, 0.8, data.color, "CENTER")
     newButton(self.view, 55, 50, "back", scene.exitToPlanetSelect)
 end
 
