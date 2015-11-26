@@ -133,6 +133,8 @@ function player:landGearUsage(ledge)
         return
     end
 
+    spineStore:hideGearFlame(self:getCamera(), self)
+
     if self.slotInUse[jump] then self.gearUsed[jump] = true end
     if self.slotInUse[air]  then self.gearUsed[air]  = true end
     if self.slotInUse[land] then self.gearUsed[land] = true end
@@ -156,7 +158,7 @@ function player:jumpAction()
     		self.slotInUse[air] = true
         	if self.main then hud:markGearInUse(gear) end
 
-            self:emit("usegear-blue", {xpos=20, ypos=-60}, true)
+--            self:emit("usegear-blue", {xpos=20, ypos=-60}, true)
     	end
 
     	self.jetpackUses = self.jetpackUses - 1
@@ -293,31 +295,26 @@ function player:showJetpack()
             flame:visible()
         end
     else
-        spineStore:showGearFlame(camera, self, {x=-18, y=-55, size=0.3})
+        local x = -16
+        if self.direction == left then x = 16 end
+
+        spineStore:showGearFlame(camera, self, {x=x, y=-53, size=0.3})
         flame = self.jetPackFlame
     end
 
     if flame.flipped then
-        flame.image.x = flame.image.x - 36
         flame.image:scale(-1,1)
         flame.flipped = false
         trailX = -54
     end
 
     if self.direction == left then
-        flame.image.x = flame.image.x + 36
         flame.image:scale(-1,1)
         flame.flipped = true
         trailX = 18
     end
 
-    self:bindEmitter("run-trail", {xpos=trailX, ypos=-55, alpha=0.75})
-
-    after(1000, function() 
-        if flame and flame.image then
-            flame:hide()
-        end
-    end)
+--    self:bindEmitter("run-trail", {xpos=trailX, ypos=-55, alpha=0.75})
 end
 
 

@@ -390,7 +390,6 @@ end
 
 function player:destroyVehicle()
     if self.vehicleImage then
-        print("destroyVehicle()")
         self.vehicleImage:destroy(self)
         self.vehicleImage:removeSelf()
         self.vehicleImage = nil
@@ -459,8 +458,6 @@ function player:resetClearUp()
         self.grappleLine:removeSelf()
         self.grappleLine = nil
     end
-
-    --self:destroyVehicle()
 end
 
 
@@ -492,6 +489,8 @@ function player:resetGear()
     self:gearUsedUp(land, {})
     self.gearDuration = {[jump]=0,   [air]=0,   [land]=0}
     self.slotInUse    = {[jump]=nil, [air]=nil, [land]=nil}
+
+    spineStore:hideGearFlame(self:getCamera(), self)
 end
 
 

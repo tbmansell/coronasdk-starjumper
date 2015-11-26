@@ -310,7 +310,7 @@ function enemyBuilder:newEnemyGreyNapper(camera, spec, x, y, jumpObject)
                 end
 
                 after(3000, function()
-                    if self.image then
+                    if self.inGame then
                         spineStore:hideGearFlame(self:getCamera(), self)
                         self:destroy()
                     end

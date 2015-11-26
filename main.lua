@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.10.2"
+globalBuildVersion 		   = "0.10.3"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global timer for animating during loading scenes
@@ -51,8 +51,8 @@ state.data.holocubes = 100
 
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 11
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 2
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack

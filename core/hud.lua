@@ -34,16 +34,18 @@ function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)
     self.iconLives         = newImage(self.group, "hud/player-head-"..characterData[state.data.playerModel].name, 45, 45, 0.5)
     self.textLives         = newText(self.group, player.lives,   80,  25, 0.6, "white")
     self.magnifyIcon       = newImage(self.slotsSwitchGroup, "hud/magnify", 920, 590, 0.7)
-    self.textTime          = newText(self.group, "--:--",        centerX, 25, 0.8, "white")
-    self.textScore         = newText(self.group, self.jumpScore, 940, 25, 0.7,  "green", "RIGHT")
-    self.textDebugMode     = newText(self.group, "game mode",    750, 25, 0.4,  "green")
-    self.textPhysicsMode   = newText(self.group, "hide physics", 750, 65, 0.4,  "blue")
+    self.textTime          = newText(self.group, "--:--",        centerX,  25, 0.8, "white")
+    self.textScore         = newText(self.group, self.jumpScore, 940, 25,  0.7, "green", "RIGHT")
+    self.textDebugMode     = newText(self.group, "game mode",    750, 25,  0.4, "green")
+    self.textPhysicsMode   = newText(self.group, "hide physics", 750, 65,  0.4, "blue")
+    self.textScreenshotMode= newText(self.group, "scr",          -30,   590, 0.6, "white")
     self.tip, self.tipShop = nil, nil
 
     self.textTime:scale(0.5, 0.5)
     self.textTime.alpha = 0
-    --self.textDebugMode.alpha   = 0
-    --self.textPhysicsMode.alpha = 0
+    --self.textDebugMode.alpha      = 0
+    --self.textPhysicsMode.alpha    = 0
+    --self.textScreenshotMode.alpha = 0
 
     self.iconLives:addEventListener("tap",       hud.showPauseMenu)
     self.iconLives:addEventListener("touch",     function() return true end)
@@ -51,6 +53,7 @@ function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)
     self.magnifyIcon:addEventListener("touch",   function() return true end)
     self.textDebugMode:addEventListener("tap",   hud.switchDebugMode)
     self.textPhysicsMode:addEventListener("tap", hud.switchPhysicsMode)
+    self.textScreenshotMode:addEventListener("tap", hud.switchScreenshotMode)
 
     self:configureForGame()
 end

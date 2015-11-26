@@ -138,6 +138,8 @@ function spineStore:fetchObject(creator, type, params)
 	if created[index] == nil then
 		local newObject = creator(self, params)
 		
+		newObject:pose()
+
 		newObject.inPhysics 		  = false
 		newObject.belongsToSpineStore = true
     	newObject:generateKey(#self.created[type] + 1)

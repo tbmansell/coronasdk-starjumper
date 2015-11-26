@@ -139,6 +139,28 @@ function hud:switchPhysicsMode()
 end
 
 
+function hud:switchScreenshotMode()
+    hud.screenshotMode = not hud.screenshotMode
+
+    if hud.screenshotMode then
+        hud:pauseGame()
+        hud.textPhysicsMode.alpha    = 0
+        hud.textDebugMode.alpha      = 0
+        hud.textScreenshotMode.alpha = 0
+
+        Runtime:addEventListener("tap", hud.switchScreenshotMode)
+    else
+        Runtime:removeEventListener("tap", hud.switchScreenshotMode)
+
+        hud:resumeGame()
+        hud.textPhysicsMode.alpha    = 1
+        hud.textDebugMode.alpha      = 1
+        hud.textScreenshotMode.alpha = 1
+    end
+    return true
+end
+
+
 function hud:debugPlayerMode(player)
     if self.debugMode then
         local text = playerStates[player.mode].."|"..round(player:x())..", "..round(player:y()).."|alive="..tostring(player.inGame).." key="..tostring(player.key)
