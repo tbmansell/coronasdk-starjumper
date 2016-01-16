@@ -152,7 +152,7 @@ end
 
 
 function player:runup(xVelocity, yVelocity)
-    if self.main then 
+    if self.main then
         hud:hideScoreMarkers()
     end
     
@@ -518,8 +518,8 @@ function player:swingOffAction()
         self:soundLand(true)
         self:sound("ledgeRopeswingActivated")
 
-        local swing = self.attachedObstacle
-        local x, y  = swing:getVelocity()
+        local swing      = self.attachedObstacle
+        local xvel, yvel = swing:getVelocity()
 
         swing:release(self)
 
@@ -530,9 +530,6 @@ function player:swingOffAction()
         self:setGravity(1)
         self:applyForce(xvel, yvel)
         self:setPhysicsFilter("removeObstacle")
-        
-        --local x,y = self.image:getLinearVelocity()
-
         self:animate("Death JUMP HIGH")
 
         after(250, function() self.mode=playerJump end)

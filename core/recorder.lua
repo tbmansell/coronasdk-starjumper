@@ -31,6 +31,15 @@ local recorder = {
 local osTime = system.getTimer
 
 
+--[[
+	Problems Found with replaying a saved game
+	==========================================
+	1. Swings mis-timing looks like this needs to be spot on: player misses swing and then it crashes when trying to swing off
+	2. Randomizers - the item collected could be essential to how the level plays out and we would need to record what was selected and force the randomizer to generate it when the demo was played
+
+]]
+
+
 -- Sets the time to 0 ready for recording and collects the zone data for saving
 function recorder:init()
 	self.time      = osTime()
@@ -139,25 +148,25 @@ end
 
 -- Loads a random recording from the demo folder
 function recorder:loadRandomDemo()
-	print("Loading random demo")
-
 	local demos = {}
 	local path  = system.pathForFile(self.demoDir, self.baseLoadDir)
 
 	for file in lfs.dir(path) do
 		if file ~= "." and file ~= ".." then
 			demos[#demos+1] = file
-			print("Demo detected: "..file.." | "..demos[#demos].." #"..#demos)
 		end
 	end
 
-	local demo = utils.randomFrom(demos, nil)
-
-	if demo == nil then 
-		print("No demo picked")
+	if #demos == 0 then
 		return false
 	else
-		return self:loadGame(demo)
+		local demo = utils.randomFrom(demos, nil)
+
+		if demo == nil then 
+			return false
+		else
+			return self:loadGame(demo)
+		end
 	end
 end
 
@@ -166,8 +175,6 @@ end
 function recorder:loadGame(filename)
 	-- make sure we dont re-record a playing demo
 	globalRecordGame = false
-
-	print("loading demo: "..filename)
 
 	local path = self.demoDir.."."..filename:gsub(".lua", "")
 	local data = require(path)
@@ -192,8 +199,6 @@ end
 
 -- Restores the global state after a demo has been played
 function recorder:restoreFromDemo()
-	print("Unloaded demo")
-
 	sounds:unloadPlayer(state.data.playerModel)
 
 	state.data.gameSelected   = self.stashed.game
@@ -239,9 +244,7 @@ function recorder:runAction(action)
 
 
 	if event == "select-gear" then
-		local category = gearNames[target]
-		print("select gear "..target.." from category "..tostring(category))
-		hud.activeGear[category] = target
+		player:setIndividualGear(target)
 
 	elseif event == "prepare-jump" then
 		player:readyJump()
@@ -250,7 +253,6 @@ function recorder:runAction(action)
 		player:changeDirection()
 
 	elseif event == "run-up" then
-		print("running jump xvel="..action.xvelocity..", yvel="..action.yvelocity)
 		player:runup(action.xvelocity, action.yvelocity)
 
 	elseif event == "use-air-gear" then

@@ -403,6 +403,9 @@ function scene:startLevelSequence(player, startGameCallback)
 
     local game = state.data.gameSelected
 
+    -- Determines if we are recording a game or playing a game demo:
+    recorder:init()
+
     if game == gameTypeStory then
         local startSequence = level.data.playerStart or playerStartStand
 
@@ -455,7 +458,7 @@ function scene:startPlaying(player)
     hud:startTimer()
 
     -- Determines if we are recording a game or playing a game demo:
-    recorder:init()
+    --recorder:init()
 end
 
 

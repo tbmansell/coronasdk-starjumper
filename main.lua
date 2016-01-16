@@ -60,7 +60,7 @@ state.data.holocubes = 100
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 2
+	state.data.zoneSelected   = 19
 	state.data.gameSelected   = gameTypeStory
 	--state.data.gameSelected = gameTypeSurvival
 	--state.data.gameSelected = gameTypeTimeAttack
@@ -70,6 +70,7 @@ state.data.holocubes = 100
 	storyboard:gotoScene("scenes.play-zone")
 	--storyboard:gotoScene("scenes.mothership")
 	--storyboard:gotoScene("scenes.select-zone")
-]]
+
 -- Show debug info
-	timer.performWithDelay(1000, displayPerformance, 0)
+	--timer.performWithDelay(1000, displayPerformance, 0)
+]]
