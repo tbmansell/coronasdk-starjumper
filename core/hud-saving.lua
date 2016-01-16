@@ -1,4 +1,5 @@
 local storyboard = require("storyboard")
+local recorder   = require("core.recorder")
 
 
 -- Aliases
@@ -8,16 +9,22 @@ local play        = globalSoundPlayer
 
 
 function hud:exitZone()
-    self:removeGearFoundInLevel()
+    if state.demoActions == nil then
+        -- Dont save game state if playing a demo
+        self:removeGearFoundInLevel()
 
-    -- Race - mark player as failed if they exit a race early
-    if state.data.gameSelected == gameTypeRace then
-        if state.data.game == levelOverComplete or state.data.game == levelOverFailed then
-            self:saveUpdatedRacePositions()
-        else
-            self:saveAbortedRacePositions()
+        -- Race - mark player as failed if they exit a race early
+        if state.data.gameSelected == gameTypeRace then
+            if state.data.game == levelOverComplete or state.data.game == levelOverFailed then
+                self:saveUpdatedRacePositions()
+            else
+                self:saveAbortedRacePositions()
+            end
         end
+    else
+        recorder:restoreFromDemo()
     end
+
     loadSceneTransition()
     after(1000, function() storyboard:gotoScene(state:backScene(), {effect="fade", time=750}) end)
     return true

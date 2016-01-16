@@ -4,6 +4,7 @@ local stories      = require("core.story")
 local tutorials    = require("core.tutorial")
 local messages     = require("core.messages")
 local particles    = require("core.particles")
+local recorder     = require("core.recorder")
 
 -- GLOBAL class
 hud = {}
@@ -56,6 +57,7 @@ function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)
     self.textScreenshotMode:addEventListener("tap", hud.switchScreenshotMode)
 
     self:configureForGame()
+    self:configureForDemo()
 end
 
 
@@ -151,6 +153,18 @@ function hud:configureForGame()
 end
 
 
+function hud:configureForDemo()
+    if state.demoActions then
+        self.iconLives.alpha = 0
+        self.textLives.alpha = 0
+        self.textScore.alpha = 0
+        self.textDebugMode.alpha = 0
+        self.textPhysicsMode.alpha = 0
+        self.magnifyIcon.alpha = 0
+    end
+end
+
+
 function hud:createInfiniteDisplay()
     local game = state.data.gameSelected
 
@@ -230,6 +244,7 @@ function hud:pauseGame()
     track:pauseEventHandles()
     hud.pauseGameHandler()
     audio.pause()
+    recorder:pause()
 end
 
 -- internal function used by the HUD
@@ -238,6 +253,7 @@ function hud:resumeGame()
     track:resumeEventHandles()
     hud.resumeGameHandler()
     audio.resume()
+    recorder:resume()
 end
 
 

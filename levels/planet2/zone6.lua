@@ -2,7 +2,7 @@ local levelData = {
     name             = "express elevator to hell...",
     timeBonusSeconds = 28,
     ceiling          = -1500,
-    startLedge       = 1,
+    startLedge       = 6,
 
     backgroundOrder = {
         [bgrFront] = {},
@@ -58,9 +58,9 @@ local levelData = {
         {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,-200}}, reverse=true,  distance=800, speed=1.5, pause=1000}},
 
         {object="ledge", x=600, y=-350, size="small2"},
-            {object="enemy", type="greynapper", skin="fuzzy-napper", x=650, y=-125, size=0.5,
-                movement={pattern=moveTemplateVertical, isTemplate=true, distance=1, reverse=true, speed=2.5, pause=3000, pauseStyle=moveStyleSwayBig}, --steering=steeringMild}
-            },
+--            {object="enemy", type="greynapper", skin="fuzzy-napper", x=650, y=-125, size=0.5,
+--                movement={pattern=moveTemplateVertical, isTemplate=true, distance=1, reverse=true, speed=2.5, pause=3000, pauseStyle=moveStyleSwayBig}, --steering=steeringMild}
+--            },
             {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate"},
 
             {object="emitter", x=0, y=-800, timer={2000, 6000}, limit=nil, force={ {-500, 500}, {100, 300}, {0, 360} }, 

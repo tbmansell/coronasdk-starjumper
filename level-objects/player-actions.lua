@@ -1,5 +1,6 @@
 local anim         = require("core.animations")
 local particles    = require("core.particles")
+local recorder     = require("core.recorder")
 local spineStore   = require("level-objects.collections.spine-store")
 
 
@@ -62,6 +63,10 @@ function player:changeDirection(direction)
                 local distance     = player.width * self.camera.scaleImage
                 self.negableShot.x = self.negableShot.x - distance*5
             end
+        end
+
+        if self.main then
+            recorder:recordAction("change-direction")
         end
     end
 end
@@ -134,6 +139,8 @@ function player:cancelJump()
     if self.main then
         hud:hideScoreMarkers()
         hud:showGearFull()
+
+        recorder:recordAction("cancel-jump")
     end
 
     after(1500, function()
@@ -159,6 +166,8 @@ function player:runup(xVelocity, yVelocity)
 
     -- scale velocity by players scaled amount: dont do for AI yet
     if self.main then
+        recorder:recordAction("run-up", self.attachedLedge.key, {xvelocity=xVelocity, yvelocity=yVelocity})
+
         local scale = self:getCamera().scaleVelocity
         xVelocity = xVelocity * scale
         yVelocity = yVelocity * scale
@@ -510,6 +519,8 @@ function player:swingOffAction()
         self:sound("ledgeRopeswingActivated")
 
         local swing = self.attachedObstacle
+        local x, y  = swing:getVelocity()
+
         swing:release(self)
 
         self.mode             = playerJumpStart
@@ -517,15 +528,19 @@ function player:swingOffAction()
         self.attachedObstacle = nil
 
         self:setGravity(1)
-        self:applyForce(swing:getVelocity())
+        self:applyForce(xvel, yvel)
         self:setPhysicsFilter("removeObstacle")
         
-        local x,y = self.image:getLinearVelocity()
+        --local x,y = self.image:getLinearVelocity()
 
         self:animate("Death JUMP HIGH")
 
         after(250, function() self.mode=playerJump end)
         self:createJumpActionTriggers()
+
+        if self.main then
+            recorder:recordAction("swing-off", nil, {xvelocity=xvel, yvelocity=yvel})
+        end
     end
 end
 
@@ -559,6 +574,10 @@ function player:letGoAction(dontAnimate)
         end
 
         self:createJumpActionTriggers()
+
+        if self.main then
+            recorder:recordAction("let-go")
+        end
     end
 end
 
@@ -572,6 +591,10 @@ function player:escapeVehicleAction()
         self:applyForce(0,0)
         self:setPhysicsFilter("removeObstacle")
         self:parachuteStarted()
+
+        if self.main then
+            recorder:recordAction("escape-vehicle")
+        end
     end
 end
 

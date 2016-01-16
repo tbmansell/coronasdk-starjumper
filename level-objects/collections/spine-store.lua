@@ -136,15 +136,19 @@ function spineStore:fetchObject(creator, type, params)
 	self.inUse[type] = index
 
 	if created[index] == nil then
+		if type == typeGearFlame then print("Creating new flame at index "..index) end
+
 		local newObject = creator(self, params)
 		
 		newObject:pose()
 
-		newObject.inPhysics 		  = false
-		newObject.belongsToSpineStore = true
-    	newObject:generateKey(#self.created[type] + 1)
+		newObject.inPhysics 		   = false
+		newObject.belongsToSpineStore  = true
+    	newObject:generateKey(#created + 1)
     	
     	created[index] = newObject
+    else
+    	if type == typeGearFlame then print("Returning existing flame at index "..index) end
 	end
 
 	return created[index]
@@ -372,6 +376,8 @@ function spineStore:showGearFlame(camera, object, params)
 	local flame    = self:fetchObject(self.newGearFlame, typeGearFlame, params)
 
 	if flame and flame.image then
+		print("showGearFlame:     player="..tostring(object.key).." flame="..tostring(flame.key).." flame.image="..tostring(flame.image).." tally="..tostring(self.inUse[typeGearFlame]).." playerFlame="..tostring(object.jetPackFlame))
+
 		flame:moveTo(xpos, ypos)
 
 		if object.direction == left then
@@ -385,7 +391,21 @@ function spineStore:showGearFlame(camera, object, params)
 
 		self.spineCollection:add(flame)
 		object.jetPackFlame = flame
+
 		-- Insert into image so corona moves the flames with the object for us
+		print("showGearFlame: ADD player="..tostring(object.key).." flame="..tostring(flame.key).." flame.image="..tostring(flame.image).." tally="..tostring(self.inUse[typeGearFlame]).." playerFlame="..tostring(object.jetPackFlame))
+
+		for i=1,5 do
+			local object = self.created[typeGearFlame][i]
+			local image  = nil
+			local rem    = nil
+
+			if object then image = object.image end
+			if image  then rem   = object.image.removeSelf end
+
+			print(i.." object="..tostring(object).." object.image="..tostring(image).." object.image.removeSelf="..tostring(rem))
+		end
+
 		object.image:insert(flame.image)
 	end
 end
@@ -596,7 +616,6 @@ function spineStore:hideGearShield(camera, player)
 		shield:hide()
 
 		self.inUse[typeGearShield] = self.inUse[typeGearShield] - 1
-		player.shieldSeq   = nil
 		player.shieldImage = nil
 	end
 end
@@ -613,6 +632,7 @@ function spineStore:hideGearFlame(camera, player)
 		camera:remove(flame.image)
 		self.spineCollection:remove(flame)
 		flame:hide()
+		flame.rotation = 0
 
 		if flame.flipped then
 			flame.flipped = false
@@ -621,6 +641,8 @@ function spineStore:hideGearFlame(camera, player)
 
 		self.inUse[typeGearFlame] = self.inUse[typeGearFlame] - 1
 		player.jetPackFlame = nil
+
+		print("hideGearFlame: player="..tostring(player.key).." flame="..tostring(flame.key).." flame.image="..tostring(flame.image).." tally="..tostring(self.inUse[typeGearFlame]).." playerFlame="..tostring(player.jetPackFlame))
 	end
 end
 

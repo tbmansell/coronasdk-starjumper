@@ -201,6 +201,8 @@ function hud:createGearSelectors()
     self.group:insert(group)
     self.group:insert(switchGroup)
 
+    if state.demoActions then return end
+
     createSwitchButton(switchGroup)
     
     for category=jump,land do
@@ -309,14 +311,18 @@ end
 
 -- Animates hiding / showing the gear selectors
 function hud:showGearSummary()
-    self:transitionGearDisplays(0, 1)
+    if state.demoActions == nil then
+        self:transitionGearDisplays(0, 1)
+    end
 end
 
 function hud:showGearFull()
-    local gameState = state.data.game 
+    if state.demoActions == nil then
+        local gameState = state.data.game 
 
-    if gameState ~= levelOverFailed and gameState ~= levelOverComplete then
-        self:transitionGearDisplays(1, 0)
+        if gameState ~= levelOverFailed and gameState ~= levelOverComplete then
+            self:transitionGearDisplays(1, 0)
+        end
     end
 end
 
@@ -602,14 +608,16 @@ end
 
 
 function hud:hideGameHud()
-    self:hideGear()
-    self.textDebugMode.alpha    = 0
-    self.textPhysicsMode.alpha  = 0
-    self.textScore.alpha        = 0
-    self.textTime.alpha         = 0
-    self.magnifyIcon.alpha      = 0
-    self.textLives.alpha        = 0
-    self.iconLives.alpha        = 0
-    if self.irunGroup then self.irunGroup.alpha = 0 end
-    if self.challengeIcon then self.challengeIcon.alpha = 0 end
+    if state.demoActions == nil then
+        self:hideGear()
+        self.textDebugMode.alpha    = 0
+        self.textPhysicsMode.alpha  = 0
+        self.textScore.alpha        = 0
+        self.textTime.alpha         = 0
+        self.magnifyIcon.alpha      = 0
+        self.textLives.alpha        = 0
+        self.iconLives.alpha        = 0
+        if self.irunGroup then self.irunGroup.alpha = 0 end
+        if self.challengeIcon then self.challengeIcon.alpha = 0 end
+    end
 end

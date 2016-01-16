@@ -3,6 +3,7 @@ local TextCandy    = require("text_candy.lib_text_candy")
 local anim         = require("core.animations")
 local soundEngine  = require("core.sound-engine")
 local messages     = require("core.messages")
+local recorder     = require("core.recorder")
 local spineStore   = require("level-objects.collections.spine-store")
 
 -- Aliases:
@@ -14,7 +15,11 @@ local play       = globalSoundPlayer
 -- Called when a level starts to display temparary elements before player acts
 function hud:startLevelSequence(level, player)
     self:displayMessageLevelStart(level)
-    self:startLevelButtons(level)
+
+    if state.demoActions == nil then
+        self:startLevelButtons(level)
+    end
+    
     self:showGoMarker(level, player)
 end
 
@@ -179,6 +184,7 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
     end
     
     state:saveGame()
+    recorder:saveGame()
     
     self:hideGameHud()
     self:endLevelBasics(false)
@@ -225,6 +231,7 @@ function hud:levelCompleteSequence(passGuard)
     hud:saveLevelScore()
     hud:saveLevelCubes()
     state:saveGame()
+    recorder:saveGame()
     
     -- Kick off level end sequence    
     after(1000,function()
@@ -323,6 +330,10 @@ end
 function hud:endLevelSequenceStart()
     anim:startQueue("endLevel")
     anim:startQueue("endLevelTitle")
+
+    if state.demoActions then
+        return hud:exitZone()
+    end
 end
 
 
@@ -393,6 +404,8 @@ end
 
 
 function hud:endLevelButtons(success)
+    if state.demoActions then return end
+
     local group = hud.endLevelGroup
     local game  = state.data.gameSelected
 

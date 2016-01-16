@@ -12,6 +12,8 @@ globalIgnorePhysicsEngine  = false
 globalInfiniteStage        = nil
 -- Global handler for tutorial object which controls the game
 globalTutorialScript       = nil
+-- Global flag to determine if played games should be recorded and saved to file
+globalRecordGame           = true
 
 -- shortcuts to centerX,Y
 centerX 	  = display.contentCenterX
@@ -45,10 +47,16 @@ sounds:loadRandom()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
---storyboard:gotoScene("scenes.title")
+storyboard:gotoScene("scenes.title")
+
+
 state.data.holocubes = 100
+--state.cutsceneStory   = "cutscene-planet-intro"
+--state.cutsceneStory     = "cutscene-character-intro"
+--state.cutsceneCharacter = characterSkyanna
 
 
+--[[
 -- used for testing only
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
@@ -60,8 +68,8 @@ state.data.holocubes = 100
 	--state.data.gameSelected = gameTypeTimeRunner
 	--state.data.gameSelected = gameTypeArcadeRacer
 	storyboard:gotoScene("scenes.play-zone")
-	--storyboard:gotoScene("scenes.cutscene")
+	--storyboard:gotoScene("scenes.mothership")
 	--storyboard:gotoScene("scenes.select-zone")
-
+]]
 -- Show debug info
-	--timer.performWithDelay(1000, displayPerformance, 0)
+	timer.performWithDelay(1000, displayPerformance, 0)

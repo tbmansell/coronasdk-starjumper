@@ -556,9 +556,16 @@ function scene:selectStoryPlanet()
         self.nextScene = "scenes.select-zone"
     else
         -- Go to the planet intro cutscene
-        state.data.zoneSelected  = "-intro"
+        state.data.zoneSelected  = 1
+        state.cutsceneStory      = "cutscene-planet-intro"
         state.sceneAfterCutScene = "scenes.select-zone"
-        self.nextScene           = "scenes.cutscene"
+
+        -- test
+        state.cutsceneStory      = "cutscene-character-intro"
+        state.cutsceneCharacter  = characterSkyanna
+        -- end test
+
+        self.nextScene           = "scenes.mothership"
     end
 
     self:changeScene()

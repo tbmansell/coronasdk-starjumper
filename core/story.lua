@@ -21,7 +21,7 @@ function stories:start(storyName, scenePauseHandler, sceneResumeHandler, alertHa
     	return false
     end
 
-    if story.forced then
+    if story.cutscene or story.forced then
     	after(story.delay or 0, function()
 		    self.pauseHandler  = scenePauseHandler
     		self.resumeHandler = sceneResumeHandler
@@ -73,9 +73,12 @@ function stories:show()
 	local buttonX = centerX
 	if story.close == "right" then buttonX = 700 end
 
-	self.group = display.newGroup()
+	self.group  = display.newGroup()
+	story.alpha = story.alpha or 0.5
 
-    newBlocker(self.group, (story.alpha or 0.5), 0,0,0, stories.acknowledgeStory, "block")
+	if story.custscene then story.alpha = 0.01 end
+
+    newBlocker(self.group, story.alpha, 0,0,0, stories.acknowledgeStory, "block")
 
     self.labelInfo = newText(self.group, "(tap background to resume)", 490, 560, 0.5, "green", "CENTER")
     self.btnClose  = newButton(self.group, buttonX, 510, "close", stories.acknowledgeStory)

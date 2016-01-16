@@ -1,4 +1,5 @@
-local scripts = require("core.tutorial-scripts")
+local scripts  = require("core.tutorial-scripts")
+local recorder = require("core.recorder")
 
 -- @class main class
 local tutorials = {}
@@ -20,8 +21,14 @@ local play = globalSoundPlayer
 function allowPlayerAction(eventName, eventTarget, eventParams)
 	if state.data.game == levelTutorial and globalTutorialScript then
 		return globalTutorialScript:filterEvent(eventName, eventTarget, eventParams)
+	else
+		-- Hook for game recorder
+		if globalRecordGame then
+			recorder:recordAction(eventName, eventTarget, eventParams)
+		end
+
+		return true
 	end
-	return true
 end
 
 

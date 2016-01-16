@@ -1,5 +1,6 @@
 local storyboard = require("storyboard")
 local anim       = require("core.animations")
+local recorder   = require("core.recorder")
 local scene      = storyboard.newScene()
 
 -- Aliases:
@@ -30,12 +31,14 @@ function scene:enterScene(event)
     self.menuY   = 370
     self.options = {}
     self.optionSelected = false
+    self.userLeaving    = false
     self:newOption("story",     scene.initStoryGame)
     self:newOption("arcade",    scene.initArcadeGame)
     self:newOption("challenge", scene.initChallengeGame)
 
     self:startMusic()
     self:startAnimations()
+    self:startDemoTimer()
 end
 
 
@@ -55,6 +58,7 @@ end
 function scene:showSettings()
     scene.status        = {}
     scene.optionChanged = false
+    scene.userLeaving   = true
     scene.settingsGroup = display.newGroup()
 
     local settings      = state.data.gameSettings
@@ -210,6 +214,7 @@ function scene:closeSettings()
     scene.creditsRolling = false
     scene.settingsGroup:removeSelf()
     scene.settingsGroup = nil
+    scene.userLeaving   = false
 end
 
 
@@ -261,11 +266,23 @@ function scene:startAnimations()
 end
 
 
+function scene:startDemoTimer()
+    after(5000, function()
+        if not scene.userLeaving then
+            if recorder:loadRandomDemo() then
+                storyboard:gotoScene("scenes.play-zone")
+            end
+        end
+    end)
+end
+
+
 function scene:selectGame(event)
     local option = self
 
     if not scene.optionSelected then
         scene.optionSelected = true
+        scene.userLeaving    = true
 
         option:initGame()
         scene:activateOption(option)
@@ -338,6 +355,7 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
     anim:destroy()
+    track:cancelEventHandles()
 end
 
 

@@ -8,6 +8,11 @@ state = {
     -- change this to redirect to a different scene after the current cutscene is completed
     sceneAfterCutScene = "scenes.select-zone",
 
+    -- marks which story script to run when mothership custene is run
+    cutsceneStory = "cutscene-game-intro",
+    -- marks a new characters intro for a cutscene
+    cutsceneCharacter = nil,
+
     -- mark as true when starting an infinite runner game
     infiniteRunner = false,
 
@@ -31,6 +36,9 @@ state = {
     
     -- Race mode only: used when moving from zone select to play-zone to set which player is in which position
     racePositions = {},
+
+    -- Used for when loading a demo game: a table of actions that need to be performed in sequence
+    demoActions = nil,
 
     -- This table contains all the app state that needs saving to file
     data = {

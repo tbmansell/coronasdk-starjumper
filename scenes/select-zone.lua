@@ -135,7 +135,7 @@ function scene:createSceneMoveableContent(event)
     self:createAnimatedItems(camera, moveable)
 
     local overlay = display.newImage(moveable, "levels/"..planet.."/images/zone-select-overlay.png", 1920, centerY-10, true)
-    local px = state.data.zoneSelected
+    local px = state.data.zoneSelected or 1
 
     -- NOTE: this works for planet1 but may change for other planets
     if px < 5 then

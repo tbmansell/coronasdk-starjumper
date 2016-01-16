@@ -281,6 +281,11 @@ function player:jetpackStarted()
     local xvel, _ = self.image:getLinearVelocity()
     local yvel    = -600 * scale
 
+    -- If player is currently moving the opposite direction to what hes facing (bounce) - switch the xvelocity
+    if (xvel < 0 and self.direction == right) or (xvel > 0 and self.direction == left) then
+        xvel = -xvel
+    end
+
     self.image:setLinearVelocity(xvel, yvel)
 end
 

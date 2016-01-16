@@ -270,7 +270,7 @@ function enemyBuilder:newEnemyGreyNapper(camera, spec, x, y, jumpObject)
     enemy.tauntSound   = enemy.awakenSound
     
     enemy:flipX()
-    self:addJetpackMovement(camera, enemy, {x=-20, y=-6, rotation=20, size=0.2})
+    self:addJetpackMovement(camera, enemy, {x=-20, y=-6, rotation=20, size=0.3})
 
     function enemy:setPhysics(scale)
         local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true }

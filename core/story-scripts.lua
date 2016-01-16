@@ -1,8 +1,7 @@
 local scripts = {
-	["cutscene-planet1-intro"] = {
-		forced   = true,
-		alpha    = 0.01,
-		sequence = {
+	["cutscene-planet-intro-organia"] = {
+		custscene = true,
+		sequence  = {
 			{delay=5000, speaker=characterNewton, dir=right, text="Hey boss, things seem pretty remote down there. I can't imagine it is worth me getting out hey?"},
 			{delay=4000, speaker=characterGygax,  dir=right, text="Well well, my sensors are detecting pulse rings ahead. I'll just find a spot to land nearby"},
 			{delay=4000, speaker=characterNewton, dir=right, text="Ooh those drops look pretty long, maybe we should just stay here where it is safe..."},
@@ -10,10 +9,19 @@ local scripts = {
 			{delay=15000, type="finish"},
 		},
 	},
-	["cutscene-planet2-intro"] = {
-		forced   = true,
-		alpha    = 0.01,
-		sequence = {
+	["cutscene-planet-outro-organia"] = {
+		custscene = true,
+		sequence  = {
+			{delay=5000, speaker=characterNewton,  dir=right, text="Woohoo I just rocked! I think I just beat you didn't I? Didn't I?"},
+			{delay=6000, speaker=characterSkyanna, dir=left,  text="Hmm... You did good kid, but don't get cocky. It's going to get tougher out there"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="So does this mean you are going to help me? I would love to have you along to show me the ropes"},
+			{delay=8000, speaker=characterSkyanna, dir=left,  text="You talk a lot kid... but I'm in", y=80},
+		}
+	},
+
+	["cutscene-planet-intro-apocalypsoid"] = {
+		custscene = true,
+		sequence  = {
 			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart"},
 			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
 			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it"},
@@ -21,15 +29,13 @@ local scripts = {
 			{delay=15000, type="finish"},
 		},
 	},
-	["cutscene-planet1-outro"] = {
-		forced   = true,
-		alpha    = 0.01,
-		close    = "right",
-		sequence = {
-			{delay=5000, speaker=characterNewton,  dir=right, text="Woohoo I just rocked! I think I just beat you didn't I? Didn't I?"},
-			{delay=6000, speaker=characterSkyanna, dir=left,  text="Hmm... You did good kid, but don't get cocky. It's going to get tougher out there"},
-			{delay=6000, speaker=characterNewton,  dir=right, text="So does this mean you are going to help me? I would love to have you along to show me the ropes"},
-			{delay=8000, speaker=characterSkyanna, dir=left,  text="You talk a lot kid... but I'm in", y=80},
+	["cutscene-planet-outro-apocalypsoid"] = {
+		custscene = true,
+		sequence  = {
+			{delay=5000, speaker=characterNewton,  dir=right, text="I say"},
+			{delay=6000, speaker=characterSkyanna, dir=left,  text="You say"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="I say"},
+			{delay=8000, speaker=characterSkyanna, dir=left,  text="Make some noise", y=80},
 		}
 	},
 

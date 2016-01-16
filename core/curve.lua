@@ -333,6 +333,8 @@ end
 
 
 function curve:drawJumpGrid(camera, player)
+    if state.demoActions then return end
+
     local scale   = 1 -- camera.scaleImage
     local xoffset = 192 * scale
     local yoffset = 61  * scale

@@ -4,6 +4,7 @@ local cameraLoader  = require("core.camera")
 local anim          = require("core.animations")
 local particles     = require("core.particles")
 local soundEngine   = require("core.sound-engine")
+local recorder      = require("core.recorder")
 local builder       = require("level-objects.builders.builder")
 local playerBuilder = require("level-objects.builders.player-builder")
 
@@ -79,6 +80,12 @@ end
 -- Generic touch event
 local function sceneTouchEvent(event)
     local gameMode = state.data.game
+
+    if state.demoActions and not scene.playerCancelledDemo then
+        -- If we are playing a demo and the user touches the screen, we abort
+        scene.playerCancelledDemo = true
+        return hud:exitZone()
+    end
 
     if gameMode ~= levelPlaying and gameMode ~= levelTutorial  then
         -- Dont allow interaction if not playing the level
@@ -160,6 +167,8 @@ function scene:enterScene(event)
     state:newScene("play-zone")
     state:saveGame()
     setMovementStyleSpeeds()  -- repeat this to reset movements if scene already created
+
+    scene.playerCancelledDemo = false
 end
 
 
@@ -353,8 +362,6 @@ function scene:setupSpaceRace(zoneFile)
         elseif pos == 4 then moveBy = -40
         elseif pos == 5 then moveBy = -80  end
 
-        print("Racer "..playerModel.." position "..pos.." moveBy "..moveBy)
-
         level.players:IAPData(function(object)
             if object.main then
                 object.moveByAfterStart = moveBy
@@ -392,7 +399,6 @@ end
 
 
 function scene:startLevelSequence(player, startGameCallback)
-    print("############startLevelSequence")
     state.data.game = levelStartStarted
 
     local game = state.data.gameSelected
@@ -408,7 +414,6 @@ function scene:startLevelSequence(player, startGameCallback)
             
             player:fallFromShip(camera, spaceship, startGameCallback)
         else
-            print("############player standing ready")
             player:standingReady(startGameCallback)
         end
     else
@@ -423,7 +428,6 @@ end
 
 
 function scene:startPlaying(player)
-    print("###############startPlaying")
     state.data.game = levelPlaying
 
     math.randomseed(os.time())
@@ -449,6 +453,9 @@ function scene:startPlaying(player)
     end
     
     hud:startTimer()
+
+    -- Determines if we are recording a game or playing a game demo:
+    recorder:init()
 end
 
 
