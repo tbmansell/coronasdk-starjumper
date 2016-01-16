@@ -365,6 +365,10 @@ end
 function hud:collectGear(item)
     item:emit("collect-item")
 
+    if state.demoActions then
+        return hud:collectCompleted(item)
+    end
+
     local gotGear = function(item)
         state:addGear(item.slot, item.name)
         hud.gearFoundInLevel[#hud.gearFoundInLevel+1] = item.name

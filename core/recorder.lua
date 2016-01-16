@@ -30,19 +30,30 @@ local recorder = {
 -- Aliases
 local osTime = system.getTimer
 
+-- Local vars
+local mainPlayer
+local actions
+local numActions
+local currentAction
+
 
 --[[
 	Problems Found with replaying a saved game
 	==========================================
 	1. Swings mis-timing looks like this needs to be spot on: player misses swing and then it crashes when trying to swing off
 	2. Randomizers - the item collected could be essential to how the level plays out and we would need to record what was selected and force the randomizer to generate it when the demo was played
-
+	3. Trajectory doesnt show
+	4. Need to determine if these tiny quick changeDirections can be stripped out but timings kept
+	5. Not capturing walk on ledge action
+	6. Fuzzies use state from current players data not when game was played (so may not appear)
+	7. Time lapse does add up for each action until it will become a big difference
 ]]
 
 
 -- Sets the time to 0 ready for recording and collects the zone data for saving
 function recorder:init()
 	self.time      = osTime()
+	self.startTime = self.time
 	self.pauseTime = 0
 	self.planet    = state.data.planetSelected
 	self.zone      = state.data.zoneSelected
@@ -52,7 +63,11 @@ function recorder:init()
 
 	if state.demoActions then
 		-- We are playing a recorded game
-		self.currentAction = 0
+		mainPlayer    = hud.player
+		actions       = state.demoActions
+		numActions    = #actions
+		currentAction = 0
+
 		self:runNextDemoAction()
 	end
 end
@@ -63,15 +78,17 @@ function recorder:recordAction(eventName, eventTarget, eventParams)
 	if globalRecordGame then
 		local newTime  = osTime() - self.pauseTime
 		local timeDiff = newTime  - self.time
+		local timeRun  = newTime  - self.startTime
 
 		self.actions[#self.actions+1] = {
-			time   = timeDiff,
-			event  = eventName,
-			target = eventTarget,
-			params = eventParams,
+			timeDiff = timeDiff,
+			timeRun  = timeRun,
+			event    = eventName,
+			target   = eventTarget,
+			params   = eventParams,
 		}
 
-		print("Event recorded: time="..timeDiff..", event="..eventName..", target="..tostring(eventTarget))
+		print("Event recorded: runTime="..timeRun.." timeDiff="..timeDiff..", event="..eventName..", target="..tostring(eventTarget))
 
 		self.time = newTime
 	end
@@ -115,7 +132,7 @@ function recorder:saveGame()
         file:write("    actions   = {\n")
 
         for _,event in pairs(self.actions) do
-        	file:write("        {time="..event.time..",\tevent=\""..event.event.."\"")
+        	file:write("        {timeRun="..event.timeRun..",\ttimeDiff="..event.timeDiff..",\tevent=\""..event.event.."\"")
 
         	if event.target then
         		file:write(", target=\""..event.target.."\"")
@@ -206,6 +223,9 @@ function recorder:restoreFromDemo()
 	state.data.zoneSelected   = self.stashed.zone
 	state.data.playerModel    = self.stashed.player
 
+	mainPlayer = nil
+	actions    = nil
+
 	-- allow time for demo game scene to close before turning off this (or player casn interact with game and crash game)
 	after(1500, function() state.demoActions = nil end)
 end
@@ -213,59 +233,63 @@ end
 
 -- Recursises through the loaded demo actions until it reaches the end
 function recorder:runNextDemoAction()
-	self.currentAction = self.currentAction + 1
+	currentAction = currentAction + 1
 
-	if self.currentAction <= #state.demoActions then
-		local action = state.demoActions[self.currentAction]
+	if currentAction <= numActions then
+		local action = actions[currentAction]
 
-		after(action.time, function()
+		after(action.timeDiff, function()
 			self:runAction(action)
 			self:runNextDemoAction()
 		end)
 	else
-		print("Demo finished at action #"..self.currentAction)
+		-- debug:
+		local newTime = osTime() - recorder.pauseTime
+		local timeRun = newTime  - recorder.startTime
+		print("Demo Run in "..timeRun)
+		-- end debug
 	end
 end
 
 
 -- Runs a specific action
 function recorder:runAction(action)
-	local player = hud.player
 	local event  = action.event
 	local target = action.target
 
 	-- debug:
-	local newTime  = osTime() - self.pauseTime
-	local timeDiff = newTime  - self.time
-	local lapse    = timeDiff - action.time
-	print("Event run: [realTime="..timeDiff.." savedTime="..action.time.." lapse="..lapse.."], event="..event..", target="..tostring(target))
-	self.time = newTime
+	--[[local newTime   = osTime() - self.pauseTime
+	local timeDiff  = newTime  - self.time
+	local timeRun   = newTime  - self.startTime
+	local lapseDiff = timeDiff - action.timeDiff
+	local lapseRun  = timeRun  - action.timeRun
+	print("Event: event="..event..", target="..tostring(target)..", timeDiff=[real="..timeDiff.." saved="..action.timeDiff.." lapse="..lapseDiff.."], timeRun=[real="..timeRun.." saved="..action.timeRun.." lapse="..lapseRun.."]")
+	self.time = newTime]]
 	-- end debug
 
-
 	if event == "select-gear" then
-		player:setIndividualGear(target)
+		mainPlayer:setIndividualGear(target)
 
 	elseif event == "prepare-jump" then
-		player:readyJump()
+		mainPlayer:readyJump()
 
 	elseif event == "change-direction" then
-		player:changeDirection()
+		mainPlayer:changeDirection()
 
 	elseif event == "run-up" then
-		player:runup(action.xvelocity, action.yvelocity)
+		mainPlayer:runup(action.xvelocity, action.yvelocity)
 
 	elseif event == "use-air-gear" then
-		player:jumpAction()
+		mainPlayer:jumpAction()
 
 	elseif event == "jump-off-swing" then
-		player:swingOffAction()
+		mainPlayer:swingOffAction()
 
 	elseif event == "drop-obstacle" then
-		player:letGoAction()
+		mainPlayer:letGoAction()
 
 	elseif event == "escape-vehicle" then
-		player:escapeVehicleAction()
+		mainPlayer:escapeVehicleAction()
 
 	end
 end

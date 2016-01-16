@@ -416,6 +416,8 @@ end
 
 
 function hud:useUpGear(gear)
+    if state.demoActions then return end
+
     local category = gearSlots[gear]
     local quantity = state:useGear(category, gear)
 
