@@ -155,12 +155,13 @@ end
 
 function hud:configureForDemo()
     if state.demoActions then
-        self.iconLives.alpha = 0
-        self.textLives.alpha = 0
-        self.textScore.alpha = 0
-        self.textDebugMode.alpha = 0
-        self.textPhysicsMode.alpha = 0
-        self.magnifyIcon.alpha = 0
+        self.iconLives.alpha          = 0
+        self.textLives.alpha          = 0
+        self.textScore.alpha          = 0
+        self.textDebugMode.alpha      = 0
+        self.textPhysicsMode.alpha    = 0
+        self.magnifyIcon.alpha        = 0
+        self.textScreenshotMode.alpha = 0
     end
 end
 
@@ -396,7 +397,11 @@ function hud:collectNegable(item)
     seq:tran({time=500, x=450, y=515})
     seq:callback(function()
         state:addNegable(item.slot, item.name)
-        hud:assignNegable(item.name)
+
+        if state.demoActions == nil then
+            hud:assignNegable(item.name)
+        end
+        
         hud:collectCompleted(item) 
     end)
     seq:start()

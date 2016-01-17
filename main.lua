@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.10.3"
+globalBuildVersion 		   = "0.10.5"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global timer for animating during loading scenes
@@ -13,7 +13,7 @@ globalInfiniteStage        = nil
 -- Global handler for tutorial object which controls the game
 globalTutorialScript       = nil
 -- Global flag to determine if played games should be recorded and saved to file
-globalRecordGame           = true
+globalRecordGame           = false
 
 -- shortcuts to centerX,Y
 centerX 	  = display.contentCenterX
@@ -47,30 +47,40 @@ sounds:loadRandom()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
-storyboard:gotoScene("scenes.title")
+local mode       = "record"
 
 
-state.data.holocubes = 100
---state.cutsceneStory   = "cutscene-planet-intro"
---state.cutsceneStory     = "cutscene-character-intro"
---state.cutsceneCharacter = characterSkyanna
+-- game:   play the full game as normal from the title screen
+-- cut     load the cutscene with cusotm params
+-- play:   play a particular level
+-- record  play a particular level and record it to file
+-- gen     generate a new level from an algorithm
 
 
---[[
--- used for testing only
+if mode == "play" or mode == "record" then
+	if mode == "record" then globalRecordGame = true end
+
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 3
+	state.data.zoneSelected   = 18
 	state.data.gameSelected   = gameTypeStory
-	--state.data.gameSelected = gameTypeSurvival
-	--state.data.gameSelected = gameTypeTimeAttack
-	--state.data.gameSelected = gameTypeClimbChase
-	--state.data.gameSelected = gameTypeTimeRunner
-	--state.data.gameSelected = gameTypeArcadeRacer
 	storyboard:gotoScene("scenes.play-zone")
-	--storyboard:gotoScene("scenes.mothership")
-	--storyboard:gotoScene("scenes.select-zone")
 
--- Show debug info
-	--timer.performWithDelay(1000, displayPerformance, 0)
-]]
+elseif mode == "cut" then
+	state.cutsceneStory     = "cutscene-planet-intro"
+	state.cutsceneCharacter = characterSkyanna
+	storyboard:gotoScene("scenes.mothership")
+
+elseif mode == "gen" then
+
+
+elseif mode == "game" or mode == nil then
+	storyboard:gotoScene("scenes.title")
+end
+
+
+-- Testing: add 100 holocubes
+state.data.holocubes = 100
+
+-- Testing: Show performance info
+--timer.performWithDelay(1000, displayPerformance, 0)

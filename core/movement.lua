@@ -137,7 +137,7 @@ local function modifyItemByMovementStyle(item, when)
     if style then
         local limit = movementAmounts[style]
 
-        if limit == nil then print("WARNING: style="..tostring(style).." NO LIMIT") end
+        --if limit == nil then print("WARNING: style="..tostring(style).." NO LIMIT") end
 
         if     style == moveStyleRandom    then modifyItemByRandom(item, limit)
         elseif style == moveStyleSway      then modifyItemBySwaying(item, limit)

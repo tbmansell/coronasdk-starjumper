@@ -7,11 +7,9 @@ analytics.init("Z2CDYMZVQ2Q3449JQ74Y")
 -- @class global event tracker
 track = {
     -- simple array of all current scene timer handles that need cleaning up when the scene aborts
-    timerHandles = {},
+    timerHandles      = {},
     -- simple array of all current scene transition handles that need cleaning up when the scene aborts
     transitionHandles = {},
-    -- tracks the current timer key
-    timerKey = 0
 }
 
 
@@ -60,16 +58,13 @@ function track:cancelEventHandles()
 		end
 	end
 
-	self.timerHandles = {}
+	self.timerHandles      = {}
 	self.transitionHandles = {}
-	self.timerKey = 0
 end
 
 
 function track:timer(delay, func, loops)
-	--local key = #self.timerHandles + 1
-	self.timerKey = self.timerKey + 1
-	local key = self.timerKey
+	local key = #self.timerHandles + 1
 
 	local event = function()
 		if track.timerHandles[key] ~= nil then

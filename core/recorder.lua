@@ -22,8 +22,6 @@ local recorder = {
 
 	-- A place to stash global state before overwriting it with demo data
 	stashed   = {},
-	-- Marks the current action being played when sequencing through loaded game acions
-	currentAction = 0,
 }
 
 
@@ -44,9 +42,10 @@ local currentAction
 	2. Randomizers - the item collected could be essential to how the level plays out and we would need to record what was selected and force the randomizer to generate it when the demo was played
 	3. Trajectory doesnt show
 	4. Need to determine if these tiny quick changeDirections can be stripped out but timings kept
-	5. Not capturing walk on ledge action
+	5. Not capturing walk on ledge action or special tap ledge action
 	6. Fuzzies use state from current players data not when game was played (so may not appear)
-	7. Time lapse does add up for each action until it will become a big difference
+	7. Time lapse does add up for each action until it will become a big difference (miss ledge, swing etc)
+	8. Cant scan a directory for demos in sysem.ResourceDirectory on android
 ]]
 
 
@@ -76,6 +75,7 @@ end
 -- Record an action from the player
 function recorder:recordAction(eventName, eventTarget, eventParams)
 	if globalRecordGame then
+		print("recording action")
 		local newTime  = osTime() - self.pauseTime
 		local timeDiff = newTime  - self.time
 		local timeRun  = newTime  - self.startTime
@@ -166,8 +166,12 @@ end
 -- Loads a random recording from the demo folder
 function recorder:loadRandomDemo()
 	local demos = {}
-	local path  = system.pathForFile(self.demoDir, self.baseLoadDir)
+	--local path  = system.pathForFile(nil, self.baseLoadDir)
 
+	local path  = system.pathForFile("demos")
+	print("PATH="..path)
+	
+	--for file in lfs.dir(path.."/"..self.demoDir) do
 	for file in lfs.dir(path) do
 		if file ~= "." and file ~= ".." then
 			demos[#demos+1] = file
@@ -216,26 +220,30 @@ end
 
 -- Restores the global state after a demo has been played
 function recorder:restoreFromDemo()
-	sounds:unloadPlayer(state.data.playerModel)
+	mainPlayer = nil
+	actions    = nil
 
 	state.data.gameSelected   = self.stashed.game
 	state.data.planetSelected = self.stashed.planet
 	state.data.zoneSelected   = self.stashed.zone
 	state.data.playerModel    = self.stashed.player
 
-	mainPlayer = nil
-	actions    = nil
-
 	-- allow time for demo game scene to close before turning off this (or player casn interact with game and crash game)
-	after(1500, function() state.demoActions = nil end)
+	after(1500, function() 
+		state.demoActions = nil 
+		sounds:unloadPlayer(state.data.playerModel)
+	end)
 end
 
 
 -- Recursises through the loaded demo actions until it reaches the end
 function recorder:runNextDemoAction()
+	-- Guard for player aborting demo
+	if mainPlayer == nil then return end
+
 	currentAction = currentAction + 1
 
-	if currentAction <= numActions then
+	if currentAction <= numActions and actions ~= nil then
 		local action = actions[currentAction]
 
 		after(action.timeDiff, function()
@@ -246,7 +254,6 @@ function recorder:runNextDemoAction()
 		-- debug:
 		local newTime = osTime() - recorder.pauseTime
 		local timeRun = newTime  - recorder.startTime
-		print("Demo Run in "..timeRun)
 		-- end debug
 	end
 end
@@ -254,17 +261,20 @@ end
 
 -- Runs a specific action
 function recorder:runAction(action)
+	-- Guard for player aborting demo
+	if mainPlayer == nil then return end
+
 	local event  = action.event
 	local target = action.target
 
 	-- debug:
-	--[[local newTime   = osTime() - self.pauseTime
+	local newTime   = osTime() - self.pauseTime
 	local timeDiff  = newTime  - self.time
 	local timeRun   = newTime  - self.startTime
 	local lapseDiff = timeDiff - action.timeDiff
 	local lapseRun  = timeRun  - action.timeRun
 	print("Event: event="..event..", target="..tostring(target)..", timeDiff=[real="..timeDiff.." saved="..action.timeDiff.." lapse="..lapseDiff.."], timeRun=[real="..timeRun.." saved="..action.timeRun.." lapse="..lapseRun.."]")
-	self.time = newTime]]
+	self.time = newTime
 	-- end debug
 
 	if event == "select-gear" then
