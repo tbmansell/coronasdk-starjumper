@@ -31,8 +31,8 @@ function friendCollection:add(friend, zoneState)
         friend:generateKey(#self.items + 1)
     end
 
-    -- Check if this fuzzy has already been collected on the current level and exit if so (but still allow incrementing self.amoutn for the next one)
-    if zoneState and zoneState.fuzzies then
+    -- Check if this fuzzy has already been collected on the current level and exit if so (but still allow incrementing self.amount for the next one)
+    if zoneState and zoneState.fuzzies and state.demoActions == nil then
         for key,data in pairs(zoneState.fuzzies) do
             if key == friend.key then
                 -- Add a dummy entry to the collection to keep the id the same for further fuzzies

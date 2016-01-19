@@ -534,10 +534,6 @@ function player:swingOffAction()
 
         after(250, function() self.mode=playerJump end)
         self:createJumpActionTriggers()
-
-        if self.main then
-            recorder:recordAction("swing-off", nil, {xvelocity=xvel, yvelocity=yvel})
-        end
     end
 end
 

@@ -8,9 +8,13 @@ local recorder = {
     baseSaveDir = system.DocumentsDirectory,
     baseLoadDir = system.ResourceDirectory,
     demoDir     = "demos",
+    numberDemos = 7,
 	
 	-- The number of milliseconds since game started
 	time      = nil,
+	startTime = nil,
+	pauseTime = 0,
+	lapseTime = 0,
 	-- The game details
 	planet    = nil,
 	zone      = nil,
@@ -33,19 +37,17 @@ local mainPlayer
 local actions
 local numActions
 local currentAction
+local lapse
 
 
 --[[
 	Problems Found with replaying a saved game
 	==========================================
-	1. Swings mis-timing looks like this needs to be spot on: player misses swing and then it crashes when trying to swing off
+	1. Time lapse does add up for each action until it will become a big difference (miss ledge, swing etc): Swings mis-timing looks like this needs to be spot on: player misses swing and then it crashes when trying to swing off
 	2. Randomizers - the item collected could be essential to how the level plays out and we would need to record what was selected and force the randomizer to generate it when the demo was played
-	3. Trajectory doesnt show
-	4. Need to determine if these tiny quick changeDirections can be stripped out but timings kept
-	5. Not capturing walk on ledge action or special tap ledge action
-	6. Fuzzies use state from current players data not when game was played (so may not appear)
-	7. Time lapse does add up for each action until it will become a big difference (miss ledge, swing etc)
-	8. Cant scan a directory for demos in sysem.ResourceDirectory on android
+	4. Cant scan a directory for demos in sysem.ResourceDirectory on android
+	5. Trajectory doesnt show
+	6. Need to determine if these tiny quick changeDirections can be stripped out but timings kept
 ]]
 
 
@@ -53,6 +55,7 @@ local currentAction
 function recorder:init()
 	self.time      = osTime()
 	self.startTime = self.time
+	self.lapseTime = 0     
 	self.pauseTime = 0
 	self.planet    = state.data.planetSelected
 	self.zone      = state.data.zoneSelected
@@ -66,6 +69,7 @@ function recorder:init()
 		actions       = state.demoActions
 		numActions    = #actions
 		currentAction = 0
+		lapse         = 0
 
 		self:runNextDemoAction()
 	end
@@ -163,8 +167,19 @@ function recorder:saveGame()
 end
 
 
--- Loads a random recording from the demo folder
+-- Loads a random recording from the demo folder:
+-- NOTE: an mobile devices we cant file scan dirs in the resource location (where app code is) so we cant just pick a random file as we can on desktop
+-- Therefore we have to name them nunbered and pick one that way
 function recorder:loadRandomDemo()
+	if self.numberDemos == nil or self.numberDemos < 1 then
+		return false
+	end
+
+	local file = "demo" .. math.random(self.numberDemos)
+
+	return self:loadGame(file)
+
+	--[[
 	local demos = {}
 	--local path  = system.pathForFile(nil, self.baseLoadDir)
 
@@ -188,7 +203,7 @@ function recorder:loadRandomDemo()
 		else
 			return self:loadGame(demo)
 		end
-	end
+	end]]
 end
 
 
@@ -246,6 +261,7 @@ function recorder:runNextDemoAction()
 	if currentAction <= numActions and actions ~= nil then
 		local action = actions[currentAction]
 
+		--after(action.timeDiff - self.lapseTime, function()
 		after(action.timeDiff, function()
 			self:runAction(action)
 			self:runNextDemoAction()
@@ -273,34 +289,49 @@ function recorder:runAction(action)
 	local timeRun   = newTime  - self.startTime
 	local lapseDiff = timeDiff - action.timeDiff
 	local lapseRun  = timeRun  - action.timeRun
-	print("Event: event="..event..", target="..tostring(target)..", timeDiff=[real="..timeDiff.." saved="..action.timeDiff.." lapse="..lapseDiff.."], timeRun=[real="..timeRun.." saved="..action.timeRun.." lapse="..lapseRun.."]")
-	self.time = newTime
+
+	print("Event: "..(string.format("%15s", event)).."\t timeDiff=[real="..timeDiff.." saved="..action.timeDiff.." lapse="..lapseDiff.."], timeRun=[real="..timeRun.." saved="..action.timeRun.." lapse="..lapseRun.."], target="..tostring(target))
 	-- end debug
+	self.time      = newTime
+	self.lapseTime = lapseDiff
 
-	if event == "select-gear" then
-		mainPlayer:setIndividualGear(target)
+	-- Check if there is a problem with running the current event: likely due to a timing error.
+	-- If so, the game would crash if we run the event, so instead we close the demo
+	if (event == "prepare-jump" or event == "run-up" or event == "tap-ledge") and mainPlayer.attachedLedge == nil then
+		return hud:exitZone()
+	elseif (event == "jump-off-swing" or event == "drop-obstacle" or event == "escape-vehicle") and mainPlayer.attachedObstacle == nil then
+		return hud:exitZone()
+	end
+	
+	-- Safe to run event
+	if     event == "select-gear"      then	mainPlayer:setIndividualGear(target)
+	elseif event == "prepare-jump"     then	mainPlayer:readyJump()
+	elseif event == "change-direction" then	mainPlayer:changeDirection()
+	elseif event == "tap-ledge"        then self:runActionTapLedge(action)
+	elseif event == "run-up"           then	mainPlayer:runup(action.xvelocity, action.yvelocity)
+	elseif event == "use-air-gear"     then	mainPlayer:jumpAction()
+	elseif event == "jump-off-swing"   then	mainPlayer:swingOffAction()
+	elseif event == "drop-obstacle"    then	mainPlayer:letGoAction()
+	elseif event == "escape-vehicle"   then	mainPlayer:escapeVehicleAction()
+	end
+end
 
-	elseif event == "prepare-jump" then
-		mainPlayer:readyJump()
 
-	elseif event == "change-direction" then
-		mainPlayer:changeDirection()
+-- Handles tapping a ledge the player is on to walk on OR tapping another ledge for a special ability
+function recorder:runActionTapLedge(action)
+	local keyStart, _ = string.find(action.target, "_", 7)
 
-	elseif event == "run-up" then
-		mainPlayer:runup(action.xvelocity, action.yvelocity)
+	if keyStart then
+		local key = action.target:sub(keyStart+1)
 
-	elseif event == "use-air-gear" then
-		mainPlayer:jumpAction()
+		if key then
+			local ledge = hud.level:getLedge(tonumber(key))
 
-	elseif event == "jump-off-swing" then
-		mainPlayer:swingOffAction()
-
-	elseif event == "drop-obstacle" then
-		mainPlayer:letGoAction()
-
-	elseif event == "escape-vehicle" then
-		mainPlayer:escapeVehicleAction()
-
+			if ledge then
+				-- Add player X to event X as its recorded with this subtracted
+				globalTapLedge({object=mainPlayer.attachedLedge}, {x=action.to + mainPlayer:x()})
+			end
+		end
 	end
 end
 

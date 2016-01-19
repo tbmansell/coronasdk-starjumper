@@ -267,7 +267,7 @@ end
 
 
 function scene:startDemoTimer()
-    after(2000, function()
+    after(10000, function()
         if not scene.userLeaving then
             if recorder:loadRandomDemo() then
 

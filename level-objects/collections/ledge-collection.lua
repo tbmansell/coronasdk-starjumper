@@ -34,7 +34,7 @@ function ledgeCollection:add(ledge, zoneState)
 	end
 
 	-- load in previous scores and colour ledge from previous zone plays
-	if zoneState and zoneState.jumpScores and zoneState.jumpScores[ledge.id] then
+	if zoneState and zoneState.jumpScores and zoneState.jumpScores[ledge.id] and state.demoActions == nil then
         ledge.score = zoneState.jumpScores[ledge.id]
 
         if     ledge.score == ledge.points   then ledge.scoreCategory = scoreCategoryFirst

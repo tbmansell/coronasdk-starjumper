@@ -667,8 +667,6 @@ function ledge:activateCollapsingLedge(target, animation, duration)
 
     after(duration or 3500, function()
         self:sound("ledgeCollapsingBreak", {duration=1000})
-        target:sound("randomFall")
-
         self:intangible()
         self.destroyed = true
 
@@ -681,6 +679,7 @@ function ledge:activateCollapsingLedge(target, animation, duration)
 
         if target and target:onLedge(self) then
             target.mode = playerFall
+            target:sound("randomFall")
             target:animate("Death JUMP HIGH")
 
             if target.main then 
