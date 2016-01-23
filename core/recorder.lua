@@ -8,7 +8,7 @@ local recorder = {
     baseSaveDir = system.DocumentsDirectory,
     baseLoadDir = system.ResourceDirectory,
     demoDir     = "demos",
-    numberDemos = 7,
+    numberDemos = 8,
 	
 	-- The number of milliseconds since game started
 	time      = nil,
@@ -45,9 +45,9 @@ local lapse
 	==========================================
 	1. Time lapse does add up for each action until it will become a big difference (miss ledge, swing etc): Swings mis-timing looks like this needs to be spot on: player misses swing and then it crashes when trying to swing off
 	2. Randomizers - the item collected could be essential to how the level plays out and we would need to record what was selected and force the randomizer to generate it when the demo was played
-	4. Cant scan a directory for demos in sysem.ResourceDirectory on android
-	5. Trajectory doesnt show
-	6. Need to determine if these tiny quick changeDirections can be stripped out but timings kept
+	3. Cant scan a directory for demos in sysem.ResourceDirectory on android
+	4. Trajectory doesnt show
+	5. Need to determine if these tiny quick changeDirections can be stripped out but timings kept
 ]]
 
 

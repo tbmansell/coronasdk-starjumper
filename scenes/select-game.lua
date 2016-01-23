@@ -126,11 +126,11 @@ function scene:displayBackground(redraw)
     self.background:toBack()
 
     if game == gameTypeStory then
-        self.hudTitle = newText(self.view, "story mode", centerX, 590, 1, "green", "CENTER")
+        self.hudTitle = newText(self.view, "story mode",  centerX, 590, 1, "green",  "CENTER")
     elseif infiniteGameType[game] then
         self.hudTitle = newText(self.view, "arcade mode", centerX, 590, 1, "yellow", "CENTER")
     elseif challengeGameType[game] then
-        self.hudTitle = newText(self.view, "challenges", centerX, 590, 1, "pink", "CENTER")
+        self.hudTitle = newText(self.view, "challenges",  centerX, 590, 1, "pink",   "CENTER")
     end
 end
 
@@ -224,7 +224,7 @@ function scene:loadGameModesFor(gameTypeList)
         gameGroup.y     = (150 + ((i-1) * 125))
         gameGroup.origX = gameGroup.x
         gameGroup.origY = gameGroup.y
-        gameGroup.tab   = gameTab        
+        gameGroup.tab   = gameTab
         gameTab:addEventListener("tap", function() scene:selectGameMode(gameGroup) end)
 
         list[#list+1] = gameGroup

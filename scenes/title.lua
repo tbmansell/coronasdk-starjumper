@@ -220,7 +220,7 @@ end
 
 function scene:newOption(name, callback)
     local group  = self.view
-    local option = newImage(group, "title/option-"..name, 1200, self.menuY)
+    local option = newImage(group, "title/option-"..name, 1400, self.menuY)
 
     option.initGame = callback
     option.tap      = scene.selectGame
@@ -267,7 +267,7 @@ end
 
 
 function scene:startDemoTimer()
-    after(10000, function()
+    after(20000, function()
         if not scene.userLeaving then
             if recorder:loadRandomDemo() then
 

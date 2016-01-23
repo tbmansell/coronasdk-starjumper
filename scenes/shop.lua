@@ -30,9 +30,12 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene(event)
     logAnalytics("shop", "enterScene")
-
-    state:newScene("shop")
     clearSceneTransition()
+
+    -- Dont append this scene in back history if coming from shop - as it should replace it instead
+    if state:currentScene() ~= "scenes.select-player" then
+        state:newScene("shop")
+    end
 
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
@@ -50,7 +53,7 @@ end
 
 function scene:createEssentials()
     local group    = self.view
-    local bgr      = new_image(group, "shop/shop-bgr", centerX, centerY)
+    local bgr      = new_image(group, "shop/bgr", centerX, centerY)
     self.bgrInfo   = new_image(group, "shop/info-bgr", 700, 245)
     self.introText = newText(group, "welcome to cubes n carry. select items on the right to view what they do. the number of cubes you have is shown in the bottom left display.", 500, 230, 0.35, "white", "LEFT", 1050)
     self.buy, _    = newButton(group, 810, 340, "buy", scene.buyGear, "no")
@@ -128,7 +131,7 @@ end
 
 
 function scene:displayHud()
-    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.view, spineStore)
+    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.view, spineStore, nil, scene.exitToPlayerStore)
     new_image(self.view, "shop/logo", centerX, 590)
 end
 
@@ -324,6 +327,22 @@ function scene:gotoInAppPurchase()
 
     state.inappPurchaseType = "gear"
     storyboard:gotoScene("scenes.inapp-purchases")
+    return true
+end
+
+
+function scene:exitToShop()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    storyboard:gotoScene("scenes.shop")
+    return true
+end
+
+
+function scene:exitToPlayerStore()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    storyboard:gotoScene("scenes.select-player")
     return true
 end
 

@@ -51,7 +51,7 @@ end
 function scene:displayHud()
     local data = planetData[state.data.planetSelected]
 
-    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.view, spineStore)
+    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.view, spineStore, scene.exitToShop, scene.exitToPlayerStore)
 
     newText(self.view, data.name.." - progress", centerX, 590, 0.8, data.color, "CENTER")
     newButton(self.view, 55, 50, "back", scene.exitProgress)
@@ -190,6 +190,23 @@ function scene:summarySecretZones(xpos, ypos)
         newText(self.view, "buy planet pack", xpos+30, ypos+10, 0.4, "white", "LEFT")
     end
 end
+
+
+function scene:exitToShop()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    storyboard:gotoScene("scenes.shop")
+    return true
+end
+
+
+function scene:exitToPlayerStore()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    storyboard:gotoScene("scenes.select-player")
+    return true
+end
+
 
 
 function scene:exitProgress()

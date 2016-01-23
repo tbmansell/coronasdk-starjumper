@@ -96,8 +96,12 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene(event)
     logAnalytics("select-player", "enterScene")
-    state:newScene("select-player")
     clearSceneTransition()
+
+    -- Dont append this scene in back history if coming from shop - as it should replace it instead
+    if state:currentScene() ~= "scenes.shop" then
+        state:newScene("select-player")
+    end
 
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
@@ -131,7 +135,7 @@ end
 
 
 function scene:displayHud()
-    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.view, spineStore)
+    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.view, spineStore, scene.exitToShop)
 
     newImage(self.view, "select-player/logo", 250, 601)
     newText(self.view,  "player select", centerX, 590, 1, "white", "CENTER")
@@ -296,6 +300,22 @@ function scene:gotoInAppPurchase()
 
     state.inappPurchaseType = "planet"
     storyboard:gotoScene("scenes.inapp-purchases")
+    return true
+end
+
+
+function scene:exitToShop()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    storyboard:gotoScene("scenes.shop")
+    return true
+end
+
+
+function scene:exitToPlayerStore()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    storyboard:gotoScene("scenes.select-player")
     return true
 end
 
