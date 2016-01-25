@@ -59,9 +59,6 @@ end
 
 
 function scene:summary()
-    newText(self.view, "story progress",  165, 105, 0.3, "green", "CENTER")
-    newText(self.view, "other games",     440, 20,  0.3, "green", "CENTER")
-    newText(self.view, "special unlocks", 785, 20,  0.3, "green", "CENTER")
     newText(self.view, "* or buy planet pack to unlock", centerX, 520, 0.45, "red", "CENTER")
 
     self:summaryProgress()
@@ -79,33 +76,35 @@ function scene:summaryProgress()
     local fuzzyTotal  = self.data.fuzzies
     local awardsDone  = state:numberAwardsCollected(self.planet, gameTypeStory)
     local awardsTotal = zonesTotal * 6
-
-    self:createStatStatus(155, 165, "zones",   zonesDone,  zonesTotal)
-    self:createStatStatus(155, 255, "stars",   starsDone,  starsTotal)
-    self:createStatStatus(155, 345, "fuzzies", fuzzyDone,  fuzzyTotal)
-    self:createStatStatus(155, 440, "awards",  awardsDone, awardsTotal)
+    
+    self:createStatStatus(120, 435, "zones",   zonesDone,  zonesTotal)
+    self:createStatStatus(360, 435, "stars",   starsDone,  starsTotal)
+    self:createStatStatus(585, 435, "fuzzies", fuzzyDone,  fuzzyTotal)
+    self:createStatStatus(815, 435, "awards",  awardsDone, awardsTotal)
 end
 
 
 function scene:createStatStatus(xpos, ypos, title, collected, total)
-    newText(self.view, collected, xpos+34, ypos,   0.6, "green", "RIGHT")
-    newText(self.view, "/",       xpos+40, ypos+3, 0.4, "white", "LEFT")
-    newText(self.view, total,     xpos+55, ypos+3, 0.4, "white", "LEFT")
+    newText(self.view, collected, xpos+34, ypos,   0.7, "green", "RIGHT")
+    newText(self.view, "/",       xpos+40, ypos+3, 0.5, "white", "LEFT")
+    newText(self.view, total,     xpos+55, ypos+3, 0.5, "white", "LEFT")
 end
 
 
 function scene:summaryGameModes()
-    local order  = {gameTypeTimeRunner, gameTypeClimbChase, gameTypeArcadeRacer, gameTypeSurvival, gameTypeTimeAttack, gameTypeRace}
     local unlock = self.planetSpec.gameUnlocks
-    local ypos   = 75
+    local ypos   = 120
 
-    for _,game in pairs(order) do
-        local  label = ""
-        if     infiniteGameType[game]  then label = "get "..unlock[game].stars.." stars*"
-        elseif challengeGameType[game] then label = "get "..unlock[game].fuzzies.." fuzzies*" end
+    for _,game in pairs({gameTypeTimeRunner, gameTypeClimbChase, gameTypeArcadeRacer}) do
+        self:createGameModeStatus(370, ypos, game, unlock[game].stars.."*")
+        ypos = ypos + 100
+    end
 
-        self:createGameModeStatus(430, ypos, game, label)
-        ypos = ypos + 75
+    ypos = 120
+
+    for _,game in pairs({gameTypeSurvival, gameTypeTimeAttack, gameTypeRace}) do
+        self:createGameModeStatus(600, ypos, game, unlock[game].fuzzies.."*")
+        ypos = ypos + 100
     end
 end
 
@@ -113,7 +112,7 @@ end
 function scene:createGameModeStatus(xpos, ypos, game, unlockText)
     local data   = gameTypeData[game]
     local player = state.data.playerModel
-    local icon   = newImage(self.view, "select-game/tab-"..data.icon, xpos, ypos, 0.45, 0.6)
+    local icon   = newImage(self.view, "select-game/tab-"..data.icon, xpos, ypos, 0.5, 0.6)
     
     if state:gameUnlocked(self.planet, game) then
         icon.alpha = 1
@@ -134,17 +133,17 @@ function scene:createGameModeStatus(xpos, ypos, game, unlockText)
 
         newText(self.view, text, xpos-40, ypos+10, 0.3, "white", "LEFT")
     else
-        newImage(self.view, "locking/lock", xpos-65, ypos, 0.5, 0.7)
-        newText(self.view, unlockText, xpos-55, ypos+15, 0.5, "white", "LEFT")
+        newImage(self.view, "locking/lock", xpos-65, ypos,    0.6, 0.9)
+        newText(self.view,  unlockText,     xpos-45, ypos+15, 0.7, "white", "LEFT")
     end
 end
 
 
 function scene:summarySpecialItems()
-    self:summaryCharacter(680,   75,  self.planetSpec.unlockFriend, "complete "..planetData[self.planet].normalZones.." zones")
-    self:summaryCharacter(680,   175, self.planetSpec.unlockEnemy,  "buy planet pack")
-    self:summaryNextPlanet(680,  300)
-    self:summarySecretZones(680, 430)
+    self:summaryCharacter(75,  350, self.planetSpec.unlockFriend, "complete "..planetData[self.planet].normalZones.." zones")
+    self:summaryCharacter(760, 340, self.planetSpec.unlockEnemy,  "buy planet pack")
+    self:summaryNextPlanet(135,  235)
+    self:summarySecretZones(820, 200)
 end
 
 
@@ -154,40 +153,36 @@ function scene:summaryCharacter(xpos, ypos, character, unlockText)
     newImage(self.view, "hud/player-indicator-"..data.name, xpos, ypos)
     newText(self.view, data.name, xpos+30, ypos, 0.5, data.color, "LEFT")
 
-    if state:characterUnlocked(character) then
-        newText(self.view, "unlocked!", xpos-30, ypos+40, 0.4, "green", "LEFT")
-    else
-        newImage(self.view, "locking/lock", xpos, ypos, 0.5, 0.7)
-        newText(self.view, unlockText, xpos-30, ypos+40, 0.4, "white", "LEFT")
+    if not state:characterUnlocked(character) then
+        newImage(self.view, "locking/lock", xpos,    ypos,    0.6, 0.9)
+        newText(self.view,  unlockText,     xpos-35, ypos+30, 0.4, "white", "LEFT")
     end
 end
 
 
 function scene:summaryNextPlanet(xpos, ypos)
-    local nextPlanet = planetData[self.planet+1]
+    local pid        = self.planet+1
+    local nextPlanet = planetData[pid]
 
-    newImage(self.view, "select-game/tab-planet2", xpos+10, ypos+10, 0.25)
-    newText(self.view, nextPlanet.name, xpos+30, ypos-20, 0.5, nextPlanet.color, "LEFT")
+    newImage(self.view, "select-game/tab-planet"..pid, xpos-40, ypos, 0.35)
 
-    if state:planetUnlocked(self.planet+1) then
-        newText(self.view, "unlocked!", xpos+200, ypos+40, 0.45, "green", "RIGHT")
-    else
-        newImage(self.view, "locking/lock",     xpos, ypos, 0.5, 0.7)
-        newText(self.view, "complete 5 zones*", xpos-30, ypos+40, 0.45, "white", "LEFT")
+    if not state:planetUnlocked(self.planet+1) then
+        newImage(self.view, "locking/lock",    xpos-50, ypos-15, 0.6,  0.9)
+        newText(self.view, "complete 5 zones", xpos,    ypos+40, 0.4, "white", "CENTER")
     end
+
+    newText(self.view, nextPlanet.name, xpos, ypos-30, 0.5, nextPlanet.color, "CENTER")
 end
 
 
 function scene:summarySecretZones(xpos, ypos)
-    newImage(self.view, "select-game/race-zone-red", xpos+5, ypos+5, 0.8)
-    newText(self.view, "?",             xpos-15, ypos-10, 0.7, "red",   "LEFT")
-    newText(self.view, "secret zones!", xpos+30, ypos-25, 0.5, "red",   "LEFT")
+    newImage(self.view, "select-game/race-zone-red", xpos-50, ypos+5,  0.8)
+    newText(self.view,  "?",                         xpos-65, ypos-10, 0.7, "red", "LEFT")
+    newText(self.view,  "secret zones!",             xpos,    ypos-55, 0.5, "red", "CENTER")
 
-    if false then
-        newText(self.view, "unlocked!", xpos+30, ypos+10, 0.4, "green", "LEFT")
-    else
-        newImage(self.view, "locking/lock",   xpos,    ypos-10, 0.5, 0.7)
-        newText(self.view, "buy planet pack", xpos+30, ypos+10, 0.4, "white", "LEFT")
+    if true then
+        newImage(self.view, "locking/lock",   xpos-55, ypos-10,    0.6, 0.9)
+        newText(self.view, "buy planet pack", xpos,    ypos+50, 0.45, "white", "CENTER")
     end
 end
 

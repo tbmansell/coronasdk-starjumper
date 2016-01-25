@@ -382,7 +382,7 @@ function hud:endLevelBasics(success)
     seqTitle:add("pulse", {time=2000, scale=0.03, baseScale=1.15})
 
     local seq1 = anim:chainSeq("endLevel", sidebar)
-    seq1:tran({time=300, x=155, ease=easing.inOutCirc})
+    seq1:tran({time=300, x=125, ease=easing.inOutCirc})
 end
 
 
