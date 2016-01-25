@@ -27,9 +27,12 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene(event)
     logAnalytics("progress", "enterScene")
+    clearSceneTransition()
 
-    self.planet = state.data.planetSelected
-    self.data   = planetData[self.planet]
+    self.planet  = state.data.planetSelected
+    self.data    = planetData[self.planet]
+    self.locks   = {}
+    self.animate = 0
 
     package.loaded["levels.planet"..self.planet..".planet"] = nil
     self.planetSpec = require("levels.planet"..self.planet..".planet")
@@ -59,11 +62,10 @@ end
 
 
 function scene:summary()
-    newText(self.view, "* or buy planet pack to unlock", centerX, 520, 0.45, "red", "CENTER")
-
     self:summaryProgress()
     self:summaryGameModes()
     self:summarySpecialItems()
+    self:runAnimations()
 end
 
 
@@ -85,9 +87,26 @@ end
 
 
 function scene:createStatStatus(xpos, ypos, title, collected, total)
-    newText(self.view, collected, xpos+34, ypos,   0.7, "green", "RIGHT")
-    newText(self.view, "/",       xpos+40, ypos+3, 0.5, "white", "LEFT")
-    newText(self.view, total,     xpos+55, ypos+3, 0.5, "white", "LEFT")
+    local label = newText(self.view, 0,     xpos+35, ypos,   0.7, "green", "RIGHT")
+                  newText(self.view, "/",   xpos+40, ypos+3, 0.5, "white", "LEFT")
+                  newText(self.view, total, xpos+55, ypos+3, 0.5, "white", "LEFT")
+
+    self.animate = self.animate + 1
+
+    if collected > 0 then
+        local delay = 10
+        if self.animate == 1 or self.animate == 3 then delay = 100 end
+
+        local seq1 = anim:chainSeq("progress-"..self.animate, label)
+        seq1:add("countnum", {
+            countFrom  = 0, 
+            countTo    = collected, 
+            countStep  = 1, 
+            countDelay = delay,
+            align      = "RIGHT",
+            xpos       = xpos+35,
+        })
+    end
 end
 
 
@@ -110,9 +129,10 @@ end
 
 
 function scene:createGameModeStatus(xpos, ypos, game, unlockText)
+    local group  = display.newGroup()
     local data   = gameTypeData[game]
     local player = state.data.playerModel
-    local icon   = newImage(self.view, "select-game/tab-"..data.icon, xpos, ypos, 0.5, 0.6)
+    local icon   = newImage(group, "select-game/tab-"..data.icon, xpos, ypos, 0.5, 0.6)
     
     if state:gameUnlocked(self.planet, game) then
         icon.alpha = 1
@@ -131,11 +151,15 @@ function scene:createGameModeStatus(xpos, ypos, game, unlockText)
             end
         end
 
-        newText(self.view, text, xpos-40, ypos+10, 0.3, "white", "LEFT")
+        newText(group, text, xpos-40, ypos+10, 0.3, "white", "LEFT")
     else
-        newImage(self.view, "locking/lock", xpos-65, ypos,    0.6, 0.9)
-        newText(self.view,  unlockText,     xpos-45, ypos+15, 0.7, "white", "LEFT")
+        newImage(group, "locking/lock", xpos-65, ypos,    0.6, 0.9)
+        newText(group,  unlockText,     xpos-45, ypos+15, 0.7, "white", "LEFT")
+
+        self.locks[#self.locks+1] = group
     end
+
+    self.view:insert(group)
 end
 
 
@@ -148,42 +172,133 @@ end
 
 
 function scene:summaryCharacter(xpos, ypos, character, unlockText)
-    local data = characterData[character]
+    local group = display.newGroup()
+    local data  = characterData[character]
 
-    newImage(self.view, "hud/player-indicator-"..data.name, xpos, ypos)
-    newText(self.view, data.name, xpos+30, ypos, 0.5, data.color, "LEFT")
+    newImage(group, "hud/player-indicator-"..data.name, xpos, ypos)
+    newText(group,  data.name, xpos+30, ypos, 0.5, data.color, "LEFT")
 
     if not state:characterUnlocked(character) then
-        newImage(self.view, "locking/lock", xpos,    ypos,    0.6, 0.9)
-        newText(self.view,  unlockText,     xpos-35, ypos+30, 0.4, "white", "LEFT")
+        newImage(group, "locking/lock", xpos,    ypos,    0.6, 0.9)
+        newText(group,  unlockText,     xpos-35, ypos+30, 0.4, "white", "LEFT")
+
+        self.locks[#self.locks+1] = group
     end
+
+    self.view:insert(group)
 end
 
 
 function scene:summaryNextPlanet(xpos, ypos)
+    local group      = display.newGroup()
     local pid        = self.planet+1
     local nextPlanet = planetData[pid]
 
-    newImage(self.view, "select-game/tab-planet"..pid, xpos-40, ypos, 0.35)
+    newImage(group, "select-game/tab-planet"..pid, xpos-40, ypos, 0.35)
 
     if not state:planetUnlocked(self.planet+1) then
-        newImage(self.view, "locking/lock",    xpos-50, ypos-15, 0.6,  0.9)
-        newText(self.view, "complete 5 zones", xpos,    ypos+40, 0.4, "white", "CENTER")
+        newImage(group, "locking/lock",    xpos-50, ypos-15, 0.6,  0.9)
+        newText(group, "complete 5 zones", xpos,    ypos+40, 0.4, "white", "CENTER")
+
+        self.locks[#self.locks+1] = group
     end
 
-    newText(self.view, nextPlanet.name, xpos, ypos-30, 0.5, nextPlanet.color, "CENTER")
+    newText(group, nextPlanet.name, xpos, ypos-30, 0.5, nextPlanet.color, "CENTER")
+
+    self.view:insert(group)
 end
 
 
 function scene:summarySecretZones(xpos, ypos)
-    newImage(self.view, "select-game/race-zone-red", xpos-50, ypos+5,  0.8)
-    newText(self.view,  "?",                         xpos-65, ypos-10, 0.7, "red", "LEFT")
-    newText(self.view,  "secret zones!",             xpos,    ypos-55, 0.5, "red", "CENTER")
+    local group = display.newGroup()
+
+    newImage(group, "select-game/race-zone-red", xpos-50, ypos+5,  0.8)
+    newText(group,  "?",                         xpos-65, ypos-10, 0.7, "red", "LEFT")
+    newText(group,  "secret zones!",             xpos,    ypos-55, 0.5, "red", "CENTER")
 
     if true then
-        newImage(self.view, "locking/lock",   xpos-55, ypos-10,    0.6, 0.9)
-        newText(self.view, "buy planet pack", xpos,    ypos+50, 0.45, "white", "CENTER")
+        newImage(group, "locking/lock",   xpos-55, ypos-10,    0.6, 0.9)
+        newText(group, "buy planet pack", xpos,    ypos+50, 0.45, "white", "CENTER")
+
+        self.locks[#self.locks+1] = group
     end
+
+    self.view:insert(group)
+end
+
+
+function scene:runAnimations()
+    -- Count up items collected so far
+    anim:startQueue("progress-1")
+    anim:startQueue("progress-2")
+    anim:startQueue("progress-3")
+    anim:startQueue("progress-4")
+
+    -- Glow locked items and make them linsk to inapp scene
+    for i,group in pairs(self.locks) do
+        group:addEventListener("tap", scene.gotoInAppPurchase)
+
+        local seq = anim:oustSeq("bobLocked"..i, group)
+        seq:add("glow", {time=2000, delay=50, alpha=0.5})
+        seq:start()
+    end
+
+    -- Animate progress text
+    local tips = {
+        {text="purchase planet to unlock items marked with *",   color="white",  rgb={255, 255, 255}},
+        {text="complete all zones to unlock new character",      color="pink",   rgb={255, 150, 150}},
+        {text="earn stars to unlock arcade games",               color="yellow", rgb={255, 255, 0}},
+        {text="rescue fuzzies to unlock challenge games",        color="blue",   rgb={100, 100, 255}},
+        {text="purchase planet for special character and zones", color="red",    rgb={255, 0,   0}},
+    }
+
+    local tip = scene:createTextEffect(tips[1].text, centerX, 520, 0.45, "yellow", "CENTER")
+    local seq = anim:oustSeq("tip", tip)
+
+    seq:add("callbackLoop", {delay=4000, callback=function()
+        tip.counter = tip.counter + 1
+        if tip.counter > #tips then tip.counter = 1 end
+
+        local rgb = tips[tip.counter].rgb
+        tip.text  = tips[tip.counter].text
+        --tip:setColor(rgb[1], rgb[2], rgb[3])
+    end})
+
+    seq:start()
+end
+
+
+function scene:createTextEffect(text, xpos, ypos, scale, color, align)
+    local effect = {
+        startNow = true,
+        loop = true,
+        restartOnChange = true,
+        restoreOnComplete = false,
+
+        inDelay = 0,
+        inCharDelay = 40,
+        inMode = "LEFT_RIGHT",
+        AnimateFrom = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
+
+        outDelay = 0,
+        outCharDelay = 40,
+        outMode = "RIGHT_LEFT",
+        AnimateTo = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
+    }
+
+    local label   = newText(self.view, text, xpos, ypos, scale, color, align)
+    label.counter = 0
+    label:applyInOutTransition(effect)
+    return label
+end
+
+
+function scene:gotoInAppPurchase()
+    play(sounds.generalClick)
+
+    state.inappPurchaseType = "planet"
+    storyboard:gotoScene("scenes.inapp-purchases")
+    return true
 end
 
 
