@@ -178,32 +178,6 @@ function recorder:loadRandomDemo()
 	local file = "demo" .. math.random(self.numberDemos)
 
 	return self:loadGame(file)
-
-	--[[
-	local demos = {}
-	--local path  = system.pathForFile(nil, self.baseLoadDir)
-
-	local path  = system.pathForFile("demos")
-	print("PATH="..path)
-	
-	--for file in lfs.dir(path.."/"..self.demoDir) do
-	for file in lfs.dir(path) do
-		if file ~= "." and file ~= ".." then
-			demos[#demos+1] = file
-		end
-	end
-
-	if #demos == 0 then
-		return false
-	else
-		local demo = utils.randomFrom(demos, nil)
-
-		if demo == nil then 
-			return false
-		else
-			return self:loadGame(demo)
-		end
-	end]]
 end
 
 
@@ -245,7 +219,7 @@ function recorder:restoreFromDemo()
 
 	-- allow time for demo game scene to close before turning off this (or player casn interact with game and crash game)
 	after(1500, function() 
-		state.demoActions = nil 
+		state.demoActions = nil
 		sounds:unloadPlayer(state.data.playerModel)
 	end)
 end

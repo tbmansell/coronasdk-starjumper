@@ -217,8 +217,8 @@ function scene:summarySecretZones(xpos, ypos)
     newText(group,  "secret zones!",             xpos,    ypos-55, 0.5, "red", "CENTER")
 
     if true then
-        newImage(group, "locking/lock",   xpos-55, ypos-10,    0.6, 0.9)
-        newText(group, "buy planet pack", xpos,    ypos+50, 0.45, "white", "CENTER")
+        newImage(group, "locking/lock",   xpos-55, ypos-10, 0.6, 0.9)
+        newText(group, "buy planet pack", xpos,    ypos+50, 0.4, "white", "CENTER")
 
         self.locks[#self.locks+1] = group
     end
@@ -245,51 +245,24 @@ function scene:runAnimations()
 
     -- Animate progress text
     local tips = {
-        {text="purchase planet to unlock items marked with *",   color="white",  rgb={255, 255, 255}},
-        {text="complete all zones to unlock new character",      color="pink",   rgb={255, 150, 150}},
-        {text="earn stars to unlock arcade games",               color="yellow", rgb={255, 255, 0}},
-        {text="rescue fuzzies to unlock challenge games",        color="blue",   rgb={100, 100, 255}},
-        {text="purchase planet for special character and zones", color="red",    rgb={255, 0,   0}},
+        {text="purchase planet to unlock items marked with *",   rgb={1,    1,    1}},
+        {text="complete all zones to unlock new character",      rgb={1,    0.5,  0.25}},
+        {text="earn stars to unlock arcade games",               rgb={1,    1,    0}},
+        {text="rescue fuzzies to unlock challenge games",        rgb={0.25, 0.5,  1}},
+        {text="rescue fuzzies to unlock challenge games",        rgb={0.5,  0.5,  1}},
     }
 
-    local tip = scene:createTextEffect(tips[1].text, centerX, 520, 0.45, "yellow", "CENTER")
-    local seq = anim:oustSeq("tip", tip)
+    local tip   = newText(self.view, tips[1].text, centerX, 520, 0.45, "white", "CENTER")
+    tip.counter = 1
 
-    seq:add("callbackLoop", {delay=4000, callback=function()
+    animateText(tip, function() 
         tip.counter = tip.counter + 1
         if tip.counter > #tips then tip.counter = 1 end
 
         local rgb = tips[tip.counter].rgb
         tip.text  = tips[tip.counter].text
-        --tip:setColor(rgb[1], rgb[2], rgb[3])
-    end})
-
-    seq:start()
-end
-
-
-function scene:createTextEffect(text, xpos, ypos, scale, color, align)
-    local effect = {
-        startNow = true,
-        loop = true,
-        restartOnChange = true,
-        restoreOnComplete = false,
-
-        inDelay = 0,
-        inCharDelay = 40,
-        inMode = "LEFT_RIGHT",
-        AnimateFrom = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
-
-        outDelay = 0,
-        outCharDelay = 40,
-        outMode = "RIGHT_LEFT",
-        AnimateTo = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
-    }
-
-    local label   = newText(self.view, text, xpos, ypos, scale, color, align)
-    label.counter = 0
-    label:applyInOutTransition(effect)
-    return label
+        tip:setColor(rgb[1], rgb[2], rgb[3])
+    end)
 end
 
 

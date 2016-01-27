@@ -64,7 +64,7 @@ if mode == "play" or mode == "record" then
 	state.data.planetSelected = 1
 	state.data.zoneSelected   = 2
 	state.data.gameSelected   = gameTypeStory
-	storyboard:gotoScene("scenes.play-zone")
+	storyboard:gotoScene("scenes.select-zone")
 
 elseif mode == "cut" then
 	state.cutsceneStory     = "cutscene-planet-intro"

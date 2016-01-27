@@ -270,12 +270,13 @@ function scene:startDemoTimer()
     after(20000, function()
         if not scene.userLeaving then
             if recorder:loadRandomDemo() then
-
                 loadSceneTransition()
                 after(1000, function()
                     if not scene.userLeaving then
                         audio.fadeOut({channel=self.musicChannel, time=1000})
                         storyboard:gotoScene("scenes.play-zone", {effect="fade", time=500})
+                    else
+                        recorder:restoreFromDemo()
                     end
                 end)
             end

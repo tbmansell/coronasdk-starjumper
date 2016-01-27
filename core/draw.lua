@@ -46,6 +46,30 @@ function newText(group, text, x, y, scale, color, align, wrapWidth)
 end
 
 
+function animateText(label, onComplete)
+    local effect = {
+        startNow            = true,
+        loop                = true,
+        restartOnChange     = true,
+        restoreOnComplete   = false,
+
+        inDelay             = 0,
+        inCharDelay         = 40,
+        inMode              = "LEFT_RIGHT",
+        AnimateFrom         = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
+
+        outDelay            = 0,
+        outCharDelay        = 40,
+        outMode             = "RIGHT_LEFT",
+        AnimateTo           = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
+
+        CompleteListener    = onComplete
+    }
+
+    label:applyInOutTransition(effect)
+end
+
+
 -- handles image generation, using base folder and optional scaling and alpha
 function newImage(group, image, x, y, scale, alpha)
     local image = new_image(group, "images/"..image..".png", x, y)
