@@ -452,29 +452,7 @@ end
 
 function hud:endLevelTip()
     hud.tipShop = newText(hud.endLevelGroup, "access the shop to buy helpful equipment", 650, 460, 0.5, "pink", "CENTER", 2000)
-
     animateText(hud.tipShop)
-
-    --[[
-    local effect = {
-        startNow = true,
-        loop = true,
-        restartOnChange = true,
-        restoreOnComplete = false,
-
-        inDelay = 0,
-        inCharDelay = 40,
-        inMode = "LEFT_RIGHT",
-        AnimateFrom = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
-
-        outDelay = 0,
-        outCharDelay = 40,
-        outMode = "RIGHT_LEFT",
-        AnimateTo = { alpha=0, xScale=0.5, yScale=0.5, time=2000 },
-    }
-
-    hud.tipShop:applyInOutTransition(effect)
-    ]]
 end
 
 

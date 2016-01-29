@@ -104,7 +104,7 @@ function spineStore:destroy()
 		end
 	end
 
-	for type=1, maxType do 
+	for type=1, maxType do
 		self:destroyList(self.created[type], type)
 	end
 
@@ -152,6 +152,20 @@ function spineStore:fetchObject(creator, type, params)
 	end
 
 	return created[index]
+end
+
+
+-- Adds an item to the spine collection and handles spineDelays
+-- @param object
+----
+function spineStore:addSpine(object)
+	if object.spineDelay and object.spineDelay > 0 then
+    	after(object.spineDelay, function()
+    		self.spineCollection:add(object)
+    	end)
+    else
+    	self.spineCollection:add(object)
+    end
 end
 
 
@@ -245,7 +259,7 @@ function spineStore:newCharacter(params)
 	local frame = params.animation or "Stationary"
 	local scale = params.size or 0.5
 
-    return builder:newSpineObject({type="player"}, {jsonName="player", imagePath="player", scale=scale, skin=skin, animation=frame, loop=params.loop})
+    return builder:newSpineObject({type="player"}, {jsonName="player", imagePath="player", scale=scale, skin=skin, animation=frame, loop=params.loop, spineDelay=params.spineDelay})
 end
 
 
@@ -530,7 +544,7 @@ end
 -- Requests to show a new character which is not an AI object: there is no hide as we dont re-use them
 -- @param spec - character spec including the model, skin, type, x and y
 ----
-function spineStore:showCharacter(spec)
+function spineStore:showCharacter(spec, spineDelay)
 	local char = self:fetchObject(self.newCharacter, typeCharacter, spec)
 
 	if char then
@@ -540,7 +554,8 @@ function spineStore:showCharacter(spec)
 
 		char:moveTo(spec.x, spec.y)
 		char:visible()
-		self.spineCollection:add(char)
+		char.spineDelay = spineDelay
+		self:addSpine(char)
 	end
 
 	return char

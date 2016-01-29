@@ -220,6 +220,8 @@ function scene:createZones(moveable)
     self.zones.stars.alpha  = 0
     self.zones.awards.alpha = 0
 
+    local nextZone = nil
+
     for number=1, #self.planetData.zones do
         local zone = {
             id    = number,
@@ -236,8 +238,8 @@ function scene:createZones(moveable)
         zone.tab        = new_image(moveable, "select-zone/tab-"..tabType, x+55, y-100)
         zone.textNumber = newText(moveable, zone.id, x+45, y-150, 0.5, "white", "CENTER")
 
-        zone.tab.zone = zone
-        zone.tab.tap  = scene.selectZone
+        zone.tab.zone   = zone
+        zone.tab.tap    = scene.selectZone
         zone.tab:addEventListener("tap", zone.tab)
 
         zone.image.zone = zone
@@ -247,16 +249,18 @@ function scene:createZones(moveable)
         if zone.state.completed then
             self:createZoneRanking(self.zones.stars, zone.data, zone.state.ranking, zone.data)
         end
-        
-        self.zones[#self.zones+1] = zone
 
         if number == state.data.zoneSelected then
-            self.player.image.x, self.player.image.y = zone.image.x - 5, zone.image.y - 10
-
-            if state.data.game ~= levelOverComplete then
-                self:animateNextZone(zone.image)
-            end
+            self.player.image.x = zone.image.x - 5
+            self.player.image.y = zone.image.y - 10
         end
+
+        if nextZone == nil and not zone.state.completed and state:zoneUnlocked(state.data.planetSelected, number) then
+            self:animateNextZone(moveable, zone.tab, zone.textNumber)
+            nextZone = number
+        end
+
+        self.zones[#self.zones+1] = zone
     end
 
     moveable:insert(self.zones.stars)
@@ -551,8 +555,21 @@ function scene:animatePlayerProgression()
 end
 
 
-function scene:animateNextZone(zoneImage)
-    local seq = anim:oustSeq("selectedZone", zoneImage)
+function scene:animateNextZone(moveable, zoneImage, zoneNumber)
+    local group = display.newGroup()
+
+    group.x      = zoneImage.x
+    group.y      = zoneImage.y
+    zoneNumber.x = zoneNumber.x - zoneImage.x
+    zoneNumber.y = zoneNumber.y - zoneImage.y
+    zoneImage.x  = 0
+    zoneImage.y  = 0
+
+    group:insert(zoneImage)
+    group:insert(zoneNumber)
+    moveable:insert(group)
+
+    local seq   = anim:oustSeq("selectedZone", group)
     seq:add("pulse", {time=1500, scale=0.05})
     seq:start()
 end

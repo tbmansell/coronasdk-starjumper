@@ -62,9 +62,9 @@ function scene:buildPages()
     self.view:insert(gearGroup)
     self.view:insert(specialGroup)
 
-    newImage(planetGroup,  "inapp-purchases/bgr-planet",  centerX, centerY)
-    newImage(gearGroup,    "inapp-purchases/bgr-gear",    centerX, centerY)
-    newImage(specialGroup, "inapp-purchases/bgr-special", centerX, centerY)
+    newImage(planetGroup,  "inapp-purchases/bgr", centerX, centerY)
+    newImage(gearGroup,    "inapp-purchases/bgr", centerX, centerY)
+    newImage(specialGroup, "inapp-purchases/bgr", centerX, centerY)
 
     -- Gear pack purchase info
     newImage(gearGroup, "inapp-purchases/iap-gear-jump", 190,     280)
@@ -166,7 +166,13 @@ end
 
 
 function scene:purchase(product)
+end
 
+
+function scene:animate(item)
+    local seq = anim:oustSeq("selectedZone-"..item)
+    seq:add("pulse", {time=1500, scale=0.05})
+    seq:start()
 end
 
 

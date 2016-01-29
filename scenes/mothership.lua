@@ -4,6 +4,7 @@ local anim          = require("core.animations")
 local soundEngine   = require("core.sound-engine")
 local stories       = require("core.story")
 local particles     = require("core.particles")
+local utils         = require("core.utils")
 local builder       = require("level-objects.builders.builder")
 local spineStore    = require("level-objects.collections.spine-store")
 --local friendBuilder = require("level-objects.builders.friend-builder")
@@ -15,7 +16,8 @@ local spineCollection = nil
 local lastTime        = 0
 
 -- Aliases:
-local play = globalSoundPlayer
+local play   = globalSoundPlayer
+local random = math.random
 
 
 -- Things that need to happen as fast as possible (every frame e.g 60 loops per second)
@@ -34,9 +36,9 @@ end
 function scene:enterScene(event)
     logAnalytics("mothership", "enterScene")
 
-    state:newScene("mothership")
+    --state:newScene("mothership")
     clearSceneTransition()
-    globalIgnorePhysicsEngine  = true
+    globalIgnorePhysicsEngine = true
 
     self.planet = state.data.planetSelected
     self.data   = planetData[self.planet]
@@ -48,13 +50,14 @@ function scene:enterScene(event)
     particleCollection = builder:newParticleEmitterCollection()
     spineStore:load(spineCollection)
 
-    newImage(self.view, "mothership/background", centerX, centerY)
+    newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
     Runtime:addEventListener("tap",        scene.skipStory)
 
     self:loadStory()
     self:loadCharacters()
+    self:animateCharacters()
     self:startCutscene()
 
     --stories:start(scene.story, function()end, function()end)
@@ -81,6 +84,7 @@ end
 
 function scene:loadCharacters(event)
     scene.characters = {}
+    scene.spineDelay = 0
 
     for model,data in pairs(characterData) do
         local char = characterData[model]
@@ -103,13 +107,15 @@ function scene:createCharacter(model, xpos, ypos, locked)
         spec.animation="Seated"
     end
 
-    local ai = spineStore:showCharacter(spec)
+    scene.spineDelay = scene.spineDelay + 133
+
+    local ai = spineStore:showCharacter(spec, scene.spineDelay)
     ai.model = model
     self.view:insert(ai.image)
 
-    scene.characters[characterNewton] = ai
+    scene.characters[model] = ai
 
-    if model == state.cutsceneCharacter then
+    if model == state.cutsceneCharacter and state.cutsceneStory == "cutscene-character-intro" then
         ai:x(-300)
         scene.focusCharacter = ai
 
@@ -122,6 +128,46 @@ function scene:createCharacter(model, xpos, ypos, locked)
 end
 
 
+function scene:animateCharacters()
+    for model, character in pairs(scene.characters) do
+        scene:animateCharater(character)
+    end
+end
+
+
+function scene:animateCharater(character)
+    if character.action then return end
+
+    local sequence, duration = scene:getCharacterAnimation()
+
+    character:loop(sequence)
+
+    local name = characterData[character.model].name
+    print(name.." "..sequence.." for "..duration)
+
+    after(duration, function() scene:animateCharater(character) end)
+end
+
+
+function scene:getCharacterAnimation()
+    local duration = random(7) * 1000
+    local num      = random(100)
+
+    if num <= 5 then
+        -- Small chance its sequence 4 (5th) - scratch head as stands out too much
+        return "Stationary 2", 2000
+    elseif num <= 25 then
+        return "Stationary 1", duration
+    elseif num <= 50 then
+        return "Stationary 3", duration
+    elseif num <= 75 then
+        return "Stationary 4", duration
+    else
+        return "Stationary", duration
+    end
+end
+
+
 function scene:startCutscene()
     if state.cutsceneStory == "cutscene-character-intro" then
         local ai    = scene.focusCharacter
@@ -129,18 +175,18 @@ function scene:startCutscene()
         local xpos  = centerX - characterData[model].cutscene.x
 
         ai:loop("Run New")
-
         print("moving from "..ai:x().." to "..xpos)
 
         local seq = anim:oustSeq("newCharacter", ai.image)
         seq:tran({x=xpos, time=3000})
         seq.onComplete = function() 
-            print("oncoplete")
+            print("oncomplete")
             ai:loop("Standard")
         end
         seq:start()
     end
 end
+
 
 
 --[[
@@ -177,7 +223,26 @@ end
 
 
 function scene:skipStory()
-    scene:exitMothership()
+    local delay = 0
+
+    for model, character in pairs(scene.characters) do
+        character.action = true
+
+        local num = random(100)
+
+        if     num <= 5  then character:animate("Taunt 1")
+        elseif num <= 10 then character:animate("Taunt 2")
+        elseif num <= 15 then character:animate("Taunt 3")
+        elseif num <= 20 then character:animate("Negable THROW PREP")
+        elseif num <= 25 then character:animate("1 2 Stars")
+        else                  character:animate("3 4 Stars") end
+
+        delay = delay + 150
+    end
+
+    after(2000, function()
+        scene:exitMothership()
+    end)
 end
 
 
@@ -189,8 +254,8 @@ end
 
 
 function scene:exitMothership()
-    loadSceneTransition(1)
-    after(10, function() storyboard:gotoScene(state.sceneAfterCutScene) end)
+    loadSceneTransition()
+    storyboard:gotoScene(state.sceneAfterCutScene, {effect="fade", time=750})
     return true
 end
 

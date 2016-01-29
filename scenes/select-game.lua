@@ -546,7 +546,7 @@ end
 function scene:selectStoryPlanet()
     -- If the first zone of the planet selected has not been completed we always show the intro cutscene before the zone select
     local zone = state:zoneState(1)
-
+    --[[
     if zone.completed then
         -- Go to the zone select scene
         if state.data.zoneSelected == nil or state.data.zoneSelected < 1 then
@@ -555,6 +555,7 @@ function scene:selectStoryPlanet()
 
         self.nextScene = "scenes.select-zone"
     else
+    ]]
         -- Go to the planet intro cutscene
         state.data.zoneSelected  = 1
         state.cutsceneStory      = "cutscene-planet-intro"
@@ -566,7 +567,7 @@ function scene:selectStoryPlanet()
         -- end test
 
         self.nextScene           = "scenes.mothership"
-    end
+    --end
 
     self:changeScene()
 end

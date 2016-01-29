@@ -271,10 +271,9 @@ function builder:newSpineCollection()
 	----
 	function coll:animateEach(event, visibleOnly)
 	    -- Calc delta
-	    local currentTime = event.time / 1000
-	    local delta       = currentTime - lastTime
-	    lastTime     	  = currentTime
-
+	    local time  = event.time / 1000
+	    local delta = time - lastTime
+	    lastTime    = time
 		local items = self.items
 	    local num   = #items
 
