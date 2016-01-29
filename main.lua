@@ -67,7 +67,7 @@ if mode == "play" or mode == "record" then
 	storyboard:gotoScene("scenes.play-zone")
 
 elseif mode == "cut" then
-	state.cutsceneStory     = "cutscene-planet-intro"
+	state.cutsceneStory     = "cutscene-character-intro"
 	state.cutsceneCharacter = characterSkyanna
 	storyboard:gotoScene("scenes.mothership")
 

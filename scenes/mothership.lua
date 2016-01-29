@@ -15,6 +15,41 @@ local scene           = storyboard.newScene()
 local spineCollection = nil
 local lastTime        = 0
 
+-- Lists each characters scene specific data in order of who should be drawn first (furthest back)
+local characterPosition = {
+    {
+        model = characterGygax,
+        xpos  = 700,
+        ypos  = 300,
+    },
+    {
+        model = characterHammer,
+        xpos  = 170, 
+        ypos  = 430,
+    },
+    {
+        model = characterGrey,
+        xpos  = 280,
+        ypos  = 480,
+    },
+    {
+        model = characterNewton,
+        xpos  = 50,
+        ypos  = 500,
+    },
+    {
+        model = characterSkyanna,
+        xpos  = 120,
+        ypos  = 530,
+    },
+    {
+        model = characterBrainiak,
+        xpos  = 230, 
+        ypos  = 550,
+    },
+}
+
+
 -- Aliases:
 local play   = globalSoundPlayer
 local random = math.random
@@ -50,6 +85,7 @@ function scene:enterScene(event)
     particleCollection = builder:newParticleEmitterCollection()
     spineStore:load(spineCollection)
 
+    newImage(self.view, "mothership/er", centerX, centerY)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
@@ -86,14 +122,17 @@ function scene:loadCharacters(event)
     scene.characters = {}
     scene.spineDelay = 0
 
-    for model,data in pairs(characterData) do
-        local char = characterData[model]
+    for _,pos in pairs(characterPosition) do
+        local model = pos.model
+        local char  = characterData[model]
 
         if char.playable then
+            print("added "..char.name.." x="..tostring(pos.xpos).." y="..tostring(pos.ypos))
+
             if state:characterUnlocked(model) then
-                scene:createCharacter(model, centerX - char.cutscene.x, char.cutscene.y + 30)
+                scene:createCharacter(model, centerX - pos.xpos, pos.ypos + 30)
             else
-                scene:createCharacter(model, centerX + char.cutscene.x, char.cutscene.y + 30, true)
+                scene:createCharacter(model, centerX + pos.xpos, pos.ypos + 30, true)
             end
         end
     end
@@ -109,7 +148,7 @@ function scene:createCharacter(model, xpos, ypos, locked)
 
     scene.spineDelay = scene.spineDelay + 133
 
-    local ai = spineStore:showCharacter(spec, scene.spineDelay)
+    local ai = spineStore:showCharacter(spec)--, scene.spineDelay)
     ai.model = model
     self.view:insert(ai.image)
 
@@ -178,7 +217,8 @@ function scene:startCutscene()
         print("moving from "..ai:x().." to "..xpos)
 
         local seq = anim:oustSeq("newCharacter", ai.image)
-        seq:tran({x=xpos, time=3000})
+        --seq:tran({x=xpos, time=6000})
+        seq:tran({x=xpos+300, time=6000})
         seq.onComplete = function() 
             print("oncomplete")
             ai:loop("Standard")
