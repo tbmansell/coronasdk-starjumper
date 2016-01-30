@@ -110,7 +110,7 @@ function friendBuilder:newBossUfo(camera, spec, x, y)
         skin = "Passenger-"..characterData[spec.playerModel].shipSkin.."-alien"
     end
 
-    local friend = builder:newSpineObject(spec, {jsonName="ufoboss", imagePath="ufoboss", scale=spec.size, skin=skin, animation=animation})
+    local friend = builder:newSpineObject(spec, {jsonName="gygax-ufo", imagePath="gygax/ufo", scale=spec.size, skin=skin, animation=animation})
 
     -- Allow override of destroy()
     builder:deepCopy(ufoBossDef, friend)

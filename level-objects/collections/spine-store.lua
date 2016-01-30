@@ -4,16 +4,18 @@ local builder = require("level-objects.builders.builder")
 
 -- local constants
 local typeCharacter        = 1
-local typeEffectsFlash	   = 2
-local typeEffectsExplosion = 3
-local typeFuzzy            = 4
-local typeGearShield	   = 5 
-local typeGearFlame		   = 6 
-local typeHolocube		   = 7
-local typeJumpMarker	   = 8 
-local typeLandingDust	   = 9
-local typeStartMarker      = 10
-local typeRing             = 11
+local typeBossUfo          = 2
+local typeBossChair        = 3
+local typeEffectsFlash	   = 4
+local typeEffectsExplosion = 5
+local typeFuzzy            = 6
+local typeGearShield	   = 7 
+local typeGearFlame		   = 8 
+local typeHolocube		   = 9
+local typeJumpMarker	   = 10
+local typeLandingDust	   = 11
+local typeStartMarker      = 12
+local typeRing             = 13
 -- max for looping
 local maxType              = typeRing
 
@@ -50,6 +52,7 @@ local spineStore = {
 	-- newRing()
 	-- newFuzzy()
 	-- newCharacter()
+	-- newBoss()
 	
 	-- showLandingDust()
 	-- showJumpMarker()
@@ -62,6 +65,8 @@ local spineStore = {
 	-- showRing()
 	-- showFuzzy()
 	-- showCharacter()
+	-- showBossUfo()
+	-- showBossChair()
 
 	-- hideJumpMarkers()
 	-- hideStartMarker()
@@ -254,12 +259,23 @@ function spineStore:newFuzzy(params)
 end
 
 
+-- Creates a new player character that is visual only and not part of the physics or game engine
+-- @return spineObject
+----
 function spineStore:newCharacter(params)
 	local skin  = characterData[params.model].skin
 	local frame = params.animation or "Stationary"
 	local scale = params.size or 0.5
 
     return builder:newSpineObject({type="player"}, {jsonName="player", imagePath="player", scale=scale, skin=skin, animation=frame, loop=params.loop, spineDelay=params.spineDelay})
+end
+
+
+-- Creates a new boss character that is visual only and not part of the physics or game engine
+-- @return spineObject
+----
+function spineStore:newBoss(params)
+	return builder:newSpineObject({type="boss"}, {jsonName="gygax-"..params.type, imagePath="gygax/"..params.type, scale=params.size, animation=params.animation, loop=params.loop, spineDelay=params.spineDelay})
 end
 
 
@@ -544,7 +560,7 @@ end
 -- Requests to show a new character which is not an AI object: there is no hide as we dont re-use them
 -- @param spec - character spec including the model, skin, type, x and y
 ----
-function spineStore:showCharacter(spec, spineDelay)
+function spineStore:showCharacter(spec)
 	local char = self:fetchObject(self.newCharacter, typeCharacter, spec)
 
 	if char then
@@ -554,11 +570,51 @@ function spineStore:showCharacter(spec, spineDelay)
 
 		char:moveTo(spec.x, spec.y)
 		char:visible()
-		char.spineDelay = spineDelay
+		char.spineDelay = spec.spineDelay
 		self:addSpine(char)
 	end
 
 	return char
+end
+
+
+-- Requests to show a ne Boss in a UFO: there is no hide as we dont re-use them
+-- @param spec - spine spec including the model, skin, type, x and y
+----
+function spineStore:showBossUfo(spec)
+	spec.type      = "ufo"
+	spec.animation = "Stationary"
+
+	local boss = self:fetchObject(self.newBoss, typeBossUfo, spec)
+
+	if char then
+		char:moveTo(spec.x, spec.y)
+		char:visible()
+		char.spineDelay = spec.spineDelay
+		self:addSpine(char)
+	end
+
+	return char
+end
+
+
+-- Requests to show a ne Boss in a UFO: there is no hide as we dont re-use them
+-- @param spec - spine spec including the model, skin, type, x and y
+----
+function spineStore:showBossChair(spec)
+	spec.type      = "chair"
+	spec.animation = "Standard"
+
+	local boss = self:fetchObject(self.newBoss, typeBossChair, spec)
+
+	if boss then
+		boss:moveTo(spec.x, spec.y)
+		boss:visible()
+		boss.spineDelay = spec.spineDelay
+		self:addSpine(boss)
+	end
+
+	return boss
 end
 
 

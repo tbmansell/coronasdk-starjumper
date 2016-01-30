@@ -20,32 +20,32 @@ local characterPosition = {
     {
         model = characterGygax,
         xpos  = 700,
-        ypos  = 300,
+        ypos  = 330,
     },
     {
         model = characterHammer,
         xpos  = 170, 
-        ypos  = 430,
+        ypos  = 460,
     },
     {
         model = characterGrey,
         xpos  = 280,
-        ypos  = 480,
+        ypos  = 510,
     },
     {
         model = characterNewton,
         xpos  = 50,
-        ypos  = 500,
+        ypos  = 530,
     },
     {
         model = characterSkyanna,
         xpos  = 120,
-        ypos  = 530,
+        ypos  = 560,
     },
     {
         model = characterBrainiak,
         xpos  = 230, 
-        ypos  = 550,
+        ypos  = 580,
     },
 }
 
@@ -92,6 +92,7 @@ function scene:enterScene(event)
     Runtime:addEventListener("tap",        scene.skipStory)
 
     self:loadStory()
+    self:loadBoss()
     self:loadCharacters()
     self:animateCharacters()
     self:startCutscene()
@@ -118,38 +119,43 @@ function scene:loadStory()
 end
 
 
+function scene:loadBoss()
+    scene.boss = spineStore:showBossChair({x=800, y=350, size=0.35})
+end
+
+
 function scene:loadCharacters(event)
     scene.characters = {}
     scene.spineDelay = 0
 
-    for _,pos in pairs(characterPosition) do
-        local model = pos.model
+    for _,data in pairs(characterPosition) do
+        local model = data.model
         local char  = characterData[model]
 
         if char.playable then
-            print("added "..char.name.." x="..tostring(pos.xpos).." y="..tostring(pos.ypos))
-
             if state:characterUnlocked(model) then
-                scene:createCharacter(model, centerX - pos.xpos, pos.ypos + 30)
+                scene:createCharacter(data, centerX - data.xpos, data.ypos)
             else
-                scene:createCharacter(model, centerX + pos.xpos, pos.ypos + 30, true)
+                scene:createCharacter(data, centerX + data.xpos, datas.ypos, true)
             end
         end
     end
 end
 
 
-function scene:createCharacter(model, xpos, ypos, locked)
-    local spec = {model=model, x=xpos, y=ypos, size=0.3}
+function scene:createCharacter(charData, xpos, ypos, locked)
+    local model = charData.model
+    local spec  = {model=model, x=xpos, y=ypos, size=0.3}
 
     if locked then
         spec.animation="Seated"
     end
 
-    scene.spineDelay = scene.spineDelay + 133
-
-    local ai = spineStore:showCharacter(spec)--, scene.spineDelay)
+    --scene.spineDelay = scene.spineDelay + 100
+    --local ai = spineStore:showCharacter(spec, scene.spineDelay)
+    local ai = spineStore:showCharacter(spec)
     ai.model = model
+    ai.scene = charData
     self.view:insert(ai.image)
 
     scene.characters[model] = ai
@@ -211,17 +217,17 @@ function scene:startCutscene()
     if state.cutsceneStory == "cutscene-character-intro" then
         local ai    = scene.focusCharacter
         local model = ai.model
-        local xpos  = centerX - characterData[model].cutscene.x
+        local xpos  = centerX - ai.scene.xpos
+        local ypos  = ai.scene.ypos
 
-        ai:loop("Run New")
-        print("moving from "..ai:x().." to "..xpos)
+        ai.action = true
+        ai:loop("Walk")
 
         local seq = anim:oustSeq("newCharacter", ai.image)
-        --seq:tran({x=xpos, time=6000})
-        seq:tran({x=xpos+300, time=6000})
+        seq:tran({x=xpos, time=6000})
         seq.onComplete = function() 
-            print("oncomplete")
-            ai:loop("Standard")
+            ai.action = false
+            scene:animateCharater(ai)
         end
         seq:start()
     end
