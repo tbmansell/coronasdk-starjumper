@@ -1,6 +1,6 @@
 local scripts = {
 	["cutscene-planet-intro-organia"] = {
-		custscene = true,
+		cutscene = true,
 		sequence  = {
 			{delay=5000, speaker=characterNewton, dir=right, text="Hey boss, things seem pretty remote down there. I can't imagine it is worth me getting out hey?"},
 			{delay=4000, speaker=characterGygax,  dir=right, text="Well well, my sensors are detecting pulse rings ahead. I'll just find a spot to land nearby"},
@@ -10,7 +10,7 @@ local scripts = {
 		},
 	},
 	["cutscene-planet-outro-organia"] = {
-		custscene = true,
+		cutscene = true,
 		sequence  = {
 			{delay=5000, speaker=characterNewton,  dir=right, text="Woohoo I just rocked! I think I just beat you didn't I? Didn't I?"},
 			{delay=6000, speaker=characterSkyanna, dir=left,  text="Hmm... You did good kid, but don't get cocky. It's going to get tougher out there"},
@@ -20,7 +20,7 @@ local scripts = {
 	},
 
 	["cutscene-planet-intro-apocalypsoid"] = {
-		custscene = true,
+		cutscene = true,
 		sequence  = {
 			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart"},
 			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
@@ -30,7 +30,7 @@ local scripts = {
 		},
 	},
 	["cutscene-planet-outro-apocalypsoid"] = {
-		custscene = true,
+		cutscene = true,
 		sequence  = {
 			{delay=5000, speaker=characterNewton,  dir=right, text="I say"},
 			{delay=6000, speaker=characterSkyanna, dir=left,  text="You say"},
@@ -38,6 +38,20 @@ local scripts = {
 			{delay=8000, speaker=characterSkyanna, dir=left,  text="Make some noise", y=80},
 		}
 	},
+
+
+	["cutscene-character-intro-skyanna"] = {
+		cutscene = true,
+		sequence  = {
+			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna"},
+			{delay=4000, speaker=characterSkyanna,  dir=left,              text="Sup?"},
+			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
+			{delay=4000, speaker=characterSkyanna,  dir=left,              text="Whatevs"},
+			{delay=15000, type="finish"},
+		},
+	},
+
+
 
 	--[[
 	["explain-zoneSelect"] = {

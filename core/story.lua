@@ -23,10 +23,11 @@ function stories:start(storyName, scenePauseHandler, sceneResumeHandler, alertHa
 
     if story.cutscene or story.forced then
     	after(story.delay or 0, function()
-		    self.pauseHandler  = scenePauseHandler
+    		self:startNow(storyName, scenePauseHandler, sceneResumeHandler)
+		    --[[self.pauseHandler  = scenePauseHandler
     		self.resumeHandler = sceneResumeHandler
     		self:init()
-    		self:show()
+    		self:show()]]
     	end)
 	else
 		alertHandler(nil, storyName)
@@ -46,8 +47,13 @@ function stories:startNow(storyName, scenePauseHandler, sceneResumeHandler)
     self.pauseHandler  = scenePauseHandler
 	self.resumeHandler = sceneResumeHandler
 
-	stories:init()
-	stories:show()
+	self:init()
+
+	if story.cutscene then
+		self:showInCutscene()
+	else
+		self:showInGame()
+	end
 end
 
 
@@ -60,7 +66,6 @@ function stories:init()
     -- lets show the story
     state.data.game = levelShowStory
 
-    self.speakerNumber = 0
     self.canSkip       = false
     self.timerHandlers = {}
 
@@ -69,19 +74,30 @@ function stories:init()
 end
 
 
-function stories:show()
+function stories:showInCutscene()
+	self.speakerNumber = 1
+	self.group  = display.newGroup()
+	story.alpha = story.alpha or 0.01
+
+	newBlocker(self.group, story.alpha, 0,0,0, stories.acknowledgeStory, "block")
+
+	after(1000, function() self.canSkip = true end)
+	self:run()
+end
+
+
+function stories:showInGame()
 	local buttonX = centerX
 	if story.close == "right" then buttonX = 700 end
 
+	self.speakerNumber = 0
 	self.group  = display.newGroup()
 	story.alpha = story.alpha or 0.5
 
-	if story.custscene then story.alpha = 0.01 end
+	newBlocker(self.group, story.alpha, 0,0,0, stories.acknowledgeStory, "block")
 
-    newBlocker(self.group, story.alpha, 0,0,0, stories.acknowledgeStory, "block")
-
-    self.labelInfo = newText(self.group, "(tap background to resume)", 490, 560, 0.5, "green", "CENTER")
-    self.btnClose  = newButton(self.group, buttonX, 510, "close", stories.acknowledgeStory)
+	self.labelInfo = newText(self.group, "(tap background to resume)", 490, 560, 0.5, "green", "CENTER")
+	self.btnClose  = newButton(self.group, buttonX, 510, "close", stories.acknowledgeStory)
 	self.btnClose.alpha = 0
 
 	local seq = anim:oustSeq("pulse", self.btnClose)
@@ -124,12 +140,27 @@ function stories:runSequenceEvent(event)
 	else
 		self.speakerNumber = self.speakerNumber + 1
 
+		local ypos  = 10
+		local group = self.group
+
+		if story.cutscene then
+			-- cutscene scripts replace the previous balloon
+			if self.eventGroup then
+				self.eventGroup:removeSelf()
+				self.eventGroup = nil
+			end
+			self.eventGroup = display.newGroup()
+			group = self.eventGroup
+		else
+			-- in game scripts show the balloon one after the other?
+			ypos = -120 + (self.speakerNumber * 120) + (event.y or 0)
+		end
+
 		local speaker = event.speaker or state.data.playerModel
 		local name    = characterData[speaker].title..": "..characterData[speaker].name
-		local ypos    = -120 + (self.speakerNumber * 120) + (event.y or 0)
-		local balloon = newImage(self.group, "message-tabs/messagetab-"..characterData[speaker].name..(event.size or ""), 0, ypos)
-		local title   = newText(self.group, name, 0, ypos+15, 0.35, "white", "LEFT")
-		local message = display.newText(self.group, event.text, 0, ypos+30, 440, 95, "arial", 18)
+		local balloon = newImage(group, "message-tabs/messagetab-"..characterData[speaker].name..(event.size or ""), 0, ypos)
+		local title   = newText(group, name, 0, ypos+15, 0.35, "white", "LEFT")
+		local message = display.newText(group, event.text, 0, ypos+30, 440, 95, "arial", 18)
 
 		balloon.anchorY = 0
 		balloon:scale(1, 0.7)
@@ -190,6 +221,11 @@ function stories:finish()
 	end)
 
     audio:resume()
+
+    if self.eventGroup then
+		self.eventGroup:removeSelf()
+		self.eventGroup = nil
+	end
 
 	self.group:removeSelf()
 	self.group         = nil

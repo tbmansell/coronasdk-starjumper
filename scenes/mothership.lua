@@ -7,7 +7,6 @@ local particles     = require("core.particles")
 local utils         = require("core.utils")
 local builder       = require("level-objects.builders.builder")
 local spineStore    = require("level-objects.collections.spine-store")
---local friendBuilder = require("level-objects.builders.friend-builder")
 
 
 -- Local vars:
@@ -18,19 +17,16 @@ local lastTime        = 0
 -- Lists each characters scene specific data in order of who should be drawn first (furthest back)
 local characterPosition = {
     {
-        model = characterGygax,
-        xpos  = 700,
-        ypos  = 330,
-    },
-    {
         model = characterHammer,
         xpos  = 170, 
-        ypos  = 460,
+        ypos  = 500,
+        hologram = {xpos=300, ypos=540}
     },
     {
         model = characterGrey,
         xpos  = 280,
         ypos  = 510,
+        hologram = {xpos=360, ypos=540}
     },
     {
         model = characterNewton,
@@ -41,11 +37,13 @@ local characterPosition = {
         model = characterSkyanna,
         xpos  = 120,
         ypos  = 560,
+        hologram = {xpos=180, ypos=540}
     },
     {
         model = characterBrainiak,
         xpos  = 230, 
         ypos  = 580,
+        hologram = {xpos=240, ypos=540}
     },
 }
 
@@ -85,11 +83,11 @@ function scene:enterScene(event)
     particleCollection = builder:newParticleEmitterCollection()
     spineStore:load(spineCollection)
 
-    newImage(self.view, "mothership/er", centerX, centerY)
+    --newImage(self.view, "mothership/er", centerX, centerY)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:addEventListener("tap",        scene.skipStory)
+    Runtime:addEventListener("tap",        scene.finishStory)
 
     self:loadStory()
     self:loadBoss()
@@ -97,7 +95,7 @@ function scene:enterScene(event)
     self:animateCharacters()
     self:startCutscene()
 
-    --stories:start(scene.story, function()end, function()end)
+    stories:start(scene.story, function()end, function() scene:finishStory() end)
 end
 
 
@@ -120,12 +118,14 @@ end
 
 
 function scene:loadBoss()
-    scene.boss = spineStore:showBossChair({x=800, y=350, size=0.35})
+    scene.boss = spineStore:showBossChair({x=830, y=250, size=0.35})
+    self.view:insert(scene.boss.image)
 end
 
 
 function scene:loadCharacters(event)
     scene.characters = {}
+    scene.holograms  = {}
     scene.spineDelay = 0
 
     for _,data in pairs(characterPosition) do
@@ -133,11 +133,13 @@ function scene:loadCharacters(event)
         local char  = characterData[model]
 
         if char.playable then
-            if state:characterUnlocked(model) then
+            --if state:characterUnlocked(model) then
                 scene:createCharacter(data, centerX - data.xpos, data.ypos)
-            else
-                scene:createCharacter(data, centerX + data.xpos, datas.ypos, true)
+            --else
+            if data.hologram then
+                scene:createHologram(data, centerX + data.hologram.xpos, data.hologram.ypos)
             end
+            --end
         end
     end
 end
@@ -146,10 +148,6 @@ end
 function scene:createCharacter(charData, xpos, ypos, locked)
     local model = charData.model
     local spec  = {model=model, x=xpos, y=ypos, size=0.3}
-
-    if locked then
-        spec.animation="Seated"
-    end
 
     --scene.spineDelay = scene.spineDelay + 100
     --local ai = spineStore:showCharacter(spec, scene.spineDelay)
@@ -163,13 +161,28 @@ function scene:createCharacter(charData, xpos, ypos, locked)
     if model == state.cutsceneCharacter and state.cutsceneStory == "cutscene-character-intro" then
         ai:x(-300)
         scene.focusCharacter = ai
-
-    elseif locked then
-        local seq = anim:oustSeq("hologram-"..model, ai.image)
-        ai.image.alpha = 0.7
-        seq:add("glow", {time=1000, delay=50, alpha=0.5})
-        seq:start()
     end
+end
+
+
+function scene:createHologram(charData, xpos, ypos)
+    scene.spineDelay = scene.spineDelay + 133
+    
+    local model = charData.model
+    local spec  = {model=model, x=xpos, y=ypos, size=0.2, animation="Hologram", spineDelay=scene.spineDelay}
+
+    local ai = spineStore:showCharacter(spec)
+    ai.model = model
+    ai.scene = charData
+    ai.image:scale(-1,1)
+    --ai:visible(0.5)
+
+    self.view:insert(ai.image)
+    scene.holograms[model] = ai
+    
+    local seq = anim:oustSeq("hologram-"..scene.spineDelay, ai.image)
+    seq:add("glow", {time=1250, delay=250, alpha=0.5})
+    seq:start()
 end
 
 
@@ -188,7 +201,6 @@ function scene:animateCharater(character)
     character:loop(sequence)
 
     local name = characterData[character.model].name
-    print(name.." "..sequence.." for "..duration)
 
     after(duration, function() scene:animateCharater(character) end)
 end
@@ -230,6 +242,19 @@ function scene:startCutscene()
             scene:animateCharater(ai)
         end
         seq:start()
+
+        --test
+        self.tvimage = newImage(self.view, "mothership/tv-planet1", centerX+600, 260)
+        self.tvimage.alpha = 0
+        self.tvimage:toBack()
+
+        local seq2 = anim:chainSeq("tv", self.tvimage)
+        seq2:wait(2000)
+        seq2:tran({alpha=1, time=2000})
+        seq2:tran({x=-120, time=15000})
+        seq2:start()
+        --test
+
     end
 end
 
@@ -268,7 +293,7 @@ end
 
 
 
-function scene:skipStory()
+function scene:finishStory()
     local delay = 0
 
     for model, character in pairs(scene.characters) do
@@ -286,15 +311,50 @@ function scene:skipStory()
         delay = delay + 150
     end
 
-    after(2000, function()
-        scene:exitMothership()
+    after(1000, function()
+        -- Turn off TV
+        local seqtv = anim:oustSeq("tv", self.tvimage)
+        seqtv:tran({alpha=0, time=1000})
+        seqtv:start()
+
+        -- Show Advert + shop button & next button
+        local group = display.newGroup()
+        group.alpha = 0
+        self.view:insert(group)
+
+        newBlocker(group)
+        newImage(group, "locking/popup-advert1", 140, 310)
+
+        local continueText   = newText(group,  "continue game", 900, 480, 0.5, "white", "RIGHT")
+        local shop, shopOver = newButton(group, 130, 550, "shop", function() scene:exitToStore() end)
+        local next, nextOver = newButton(group, 825, 550, "next", function() scene:exitMothership() end)
+
+        local seq1   = anim:chainSeq("button1", shop)
+        seq1.target2 = shopOver
+        seq1:add("pulse", {time=1500, scale=0.02, baseScale=1})
+        
+        local seq2   = anim:oustSeq("button2", next)
+        seq2.target2 = nextOver
+        seq2:add("pulse", {time=1500, scale=0.05, baseScale=1})
+
+        local seq3   = anim:oustSeq("button3", continueText)
+        seq3:add("pulse", {time=1500, scale=0.02, baseScale=0.5})
+
+        local seq4 = anim:oustSeq("endsequence", group)
+        seq4:tran({time=300, alpha=1})
+
+        seq1:start()
+        seq2:start()
+        seq3:start()
+        seq4:start()
     end)
 end
 
 
 function scene:exitToStore()
     loadSceneTransition(1)
-    after(10, function() storyboard:gotoScene("scenes.inapp-purchases") end)
+    --after(10, function() storyboard:gotoScene("scenes.inapp-purchases") end)
+    storyboard:gotoScene("scenes.inapp-purchases", {effect="fade", time=750})
     return true
 end
 
@@ -309,7 +369,7 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:removeEventListener("tap",        scene.skipStory)
+    Runtime:removeEventListener("tap",        scene.finishStory)
     anim:destroy()
     self.planetSpec = nil
 end

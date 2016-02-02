@@ -88,7 +88,7 @@ function newBlocker(group, alpha, r,g,b, onclick, touchEvent)
         onclick = function() return true end
     end
 
-    local rect = display.newRect(group, centerX, centerY, 1200, 1000)
+    local rect = display.newRect(group, centerX, centerY, 1400, 1000)
     rect.alpha = alpha or 0.5
     rect:setFillColor(r or 0, g or 0, b or 0)
     rect:addEventListener("tap", onclick)

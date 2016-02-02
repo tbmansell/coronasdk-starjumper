@@ -587,14 +587,14 @@ function spineStore:showBossUfo(spec)
 
 	local boss = self:fetchObject(self.newBoss, typeBossUfo, spec)
 
-	if char then
-		char:moveTo(spec.x, spec.y)
-		char:visible()
-		char.spineDelay = spec.spineDelay
-		self:addSpine(char)
+	if boss then
+		boss:moveTo(spec.x, spec.y)
+		boss:visible()
+		boss.spineDelay = spec.spineDelay
+		boss:addSpine(char)
 	end
 
-	return char
+	return boss
 end
 
 
