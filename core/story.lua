@@ -1,13 +1,8 @@
 local anim    = require("core.animations")
 local scripts = require("core.story-scripts")
 
--- @class main stories class
-local stories = {}
-
--- Local for performance:
-local story   = nil
-local storyId = nil
-local scene   = nil
+-- @class main storyTeller class
+local storyTeller = {}
 
 -- Aliases:
 local play = globalSoundPlayer
@@ -17,14 +12,13 @@ local play = globalSoundPlayer
 -- @param storyName          - string which matches one of the story-scripts
 -- @param scenePauseHndler   - callback to pause current scene when story starts
 -- @param sceneResumeHandler - callback to resume current scene when story finished
--- @param alertHandler       - callback to use for certain stories that dont interrupt thr unning of the game
+-- @param alertHandler       - callback to use for certain storyTeller that dont interrupt thr unning of the game
 -- @param scene              - a reference to the scene itself so scripts can call function on it
 ----
-function stories:start(storyName, scenePauseHandler, sceneResumeHandler, alertHandler, scene)
-	storyId = storyName
-    story   = scripts[storyId]
+function storyTeller:start(storyName, scenePauseHandler, sceneResumeHandler, alertHandler, scene)
+	local story = scripts[storyName]
 
-    if story == nil or not state:showStory(storyId) then
+    if story == nil or not state:showStory(storyName) then
     	return false
     end
 
@@ -44,21 +38,23 @@ end
 -- @param sceneResumeHandler - callback to resume current scene when story finished
 -- @param scene              - a reference to the scene itself so scripts can call function on it
 ----
-function stories:startNow(storyName, scenePauseHandler, sceneResumeHandler, scene)
-	storyId = storyName
-    story   = scripts[storyId]
+function storyTeller:startNow(storyName, scenePauseHandler, sceneResumeHandler, scene)
+	self.storyId = storyName
+    self.story   = scripts[storyName]
 
-    if story == nil or not state:showStory(storyId) then
+    if self.story == nil or not state:showStory(storyName) then
     	return false
     end
 
     self.pauseHandler  = scenePauseHandler
 	self.resumeHandler = sceneResumeHandler
 	self.scene         = scene
+	self.sequence 	   = 0
+	self.canSkip       = false
 
-	self:init()
+	self:setup()
 
-	if story.cutscene then
+	if self.story.cutscene then
 		self:showInCutscene()
 	else
 		self:showInGame()
@@ -66,7 +62,7 @@ function stories:startNow(storyName, scenePauseHandler, sceneResumeHandler, scen
 end
 
 
-function stories:init()
+function storyTeller:setup()
     -- if ingame then remove the players jump grid etc as this gets left
     if hud and hud.camera then
     	curve:clearUp(hud.camera)
@@ -75,38 +71,35 @@ function stories:init()
     -- lets show the story
     state.data.game = levelShowStory
 
-    self.canSkip       = false
-    self.timerHandlers = {}
-
     self.pauseHandler()
     audio.pause()
 end
 
 
-function stories:showInCutscene()
+function storyTeller:showInCutscene()
 	self.speakerNumber = 1
-	self.group  = display.newGroup()
-	story.alpha = story.alpha or 0.01
+	self.group         = display.newGroup()
+	self.story.alpha   = self.story.alpha or 0.01
 
-	newBlocker(self.group, story.alpha, 0,0,0, stories.acknowledgeStory, "block")
+	newBlocker(self.group, self.story.alpha, 0,0,0, storyTeller.skipEvent, "block")
 
 	after(1000, function() self.canSkip = true end)
 	self:run()
 end
 
 
-function stories:showInGame()
+function storyTeller:showInGame()
 	local buttonX = centerX
-	if story.close == "right" then buttonX = 700 end
+	if self.story.close == "right" then buttonX = 700 end
 
 	self.speakerNumber = 0
-	self.group  = display.newGroup()
-	story.alpha = story.alpha or 0.5
+	self.group         = display.newGroup()
+	self.story.alpha   = self.story.alpha or 0.5
 
-	newBlocker(self.group, story.alpha, 0,0,0, stories.acknowledgeStory, "block")
+	newBlocker(self.group, self.story.alpha, 0,0,0, storyTeller.skipEvent, "block")
 
 	self.labelInfo = newText(self.group, "(tap background to resume)", 490, 560, 0.5, "green", "CENTER")
-	self.btnClose  = newButton(self.group, buttonX, 510, "close", stories.acknowledgeStory)
+	self.btnClose  = newButton(self.group, buttonX, 510, "close", storyTeller.finish)
 	self.btnClose.alpha = 0
 
 	local seq = anim:oustSeq("pulse", self.btnClose)
@@ -118,22 +111,10 @@ function stories:showInGame()
 end
 
 
-function stories:acknowledgeStory()
-	local self = stories
-
-	if self.canSkip then
-		state:saveStoryViewed(storyId)
-		self:finish()
-		self.resumeHandler()
-	end
-	return true
-end
-
-
 -- Runs through the passed story and kicks of the sequence of events
-function stories:run()
-	local startSound = story.startSound or sounds.storyStart
-	local bgrMusic   = story.bgrMusic   or sounds.tuneStory
+function storyTeller:run()
+	local startSound = self.story.startSound or sounds.storyStart
+	local bgrMusic   = self.story.bgrMusic   or sounds.tuneStory
 
 	if state.data.gameSettings.music then
 		musicChannel = audio.findFreeChannel()
@@ -142,50 +123,86 @@ function stories:run()
 	
 	play(startSound)
 
-	local delay = 0
-	for _,event in pairs(story.sequence) do
-		delay = delay + (event.delay or 2000)
-		self:storyAfter(delay, function() self:runSequenceEvent(event) end)
-	end
-
-	-- once all sequences are done, we show thr gotit buton
-	self:storyAfter(delay+1000, function() self:runSequenceEvent({type="gotit"}) end)
+	self:runNextEvent()
 end
 
 
--- local version of global after() so timers can be killed when story is
-function stories:storyAfter(delay, func)
-	self.timerHandlers[#self.timerHandlers+1] = timer.performWithDelay(delay, func, 1)
-end
+function storyTeller:runNextEvent(ignoreDelay)
+	self.sequence = self.sequence + 1
 
+	local sequences = self.story.sequence
 
--- Runs a single sequence event from a story sequence
-function stories:runSequenceEvent(event)
-	if event.type == "finish" then
-		self:finish()
-		self.resumeHandler()
-		self.resumeHandler = nil
+	if self.sequence > #sequences then
+		local delay = self.story.delayEnd
 
-	elseif event.type == "gotit" then
-		self.btnClose.alpha  = 1
-		self.labelInfo.alpha = 0
+		if ignoreDelay or delay == nil then
+			self:runFinalEvent()
+		else
+			self.timerHandler = timer.performWithDelay(delay, function() self:runFinalEvent() end)
+		end
 	else
-		self.speakerNumber = self.speakerNumber + 1
+		local event = sequences[self.sequence]
 
-		self:showSpeechBalloon(event)
-
-		if event.action then
-			event.action(self.scene)
+		if ignoreDelay then
+			self:runSequenceEvent(event)
+		else
+			self.timerHandler = timer.performWithDelay((event.delay or 2000), function() self:runSequenceEvent(event) end, 1)
 		end
 	end
 end
 
 
-function stories:showSpeechBalloon(event)
+-- Runs a single sequence event from a story sequence
+function storyTeller:runSequenceEvent(event)
+	self.speakerNumber = self.speakerNumber + 1
+	self.timerHandler  = nil
+
+	self:showSpeechBalloon(event)
+
+	if event.action then
+		event.action(self.scene)
+	end
+
+	self:runNextEvent()
+end
+
+
+function storyTeller:runFinalEvent()
+	self.canSkip = false
+	self.timerHandler = nil
+
+	-- Cutscenes close out automatically, ingame scripts show close button and keep text on-screen
+	if self.story.cutscene then
+		self:finish()
+	else
+		self.btnClose.alpha  = 1
+		self.labelInfo.alpha = 0
+	end
+end
+
+
+function storyTeller:skipEvent()
+	local self = storyTeller
+
+	if self.canSkip then
+		if self.timerHandler then
+			timer.cancel(self.timerHandler)
+			self.timerHandler = nil
+		end
+
+		self.sequence = self.sequence - 1
+		self:runNextEvent(true)
+	end
+	-- return true to stop event bubbling
+	return true
+end
+
+
+function storyTeller:showSpeechBalloon(event)
 	local ypos  = 10
 	local group = self.group
 
-	if story.cutscene then
+	if self.story.cutscene then
 		-- cutscene scripts replace the previous balloon
 		if self.eventGroup then
 			self.eventGroup:removeSelf()
@@ -222,11 +239,27 @@ function stories:showSpeechBalloon(event)
 end
 
 
-function stories:finish()
-	if self.timerHandlers then
-		for _,handler in pairs(self.timerHandlers) do
-			timer.cancel(handler)
-		end
+function storyTeller:finish()
+	local self = storyTeller
+
+	-- Gaurd for skipping
+	if self.finished then return end
+	self.finished = true
+
+	state:saveStoryViewed(self.storyId)
+	self:cleanup()
+	self.resumeHandler()
+
+	self.resumeHandler = nil
+	self.pauseHandler  = nil
+	self.alertHandler  = nil
+end
+
+
+function storyTeller:cleanup()
+	if self.timerHandler then
+		timer.cancel(self.timerHandler)
+		self.timerHandler = nil
 	end
 
 	if musicChannel then 
@@ -249,9 +282,10 @@ function stories:finish()
 	self.group         = nil
 	self.btnPlay       = nil
 	self.labelInfo     = nil
-	self.timerHandlers = nil
+	self.storyId       = nil
+	self.story         = nil
 	self.scene         = nil
 end
 
 
-return stories
+return storyTeller

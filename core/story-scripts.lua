@@ -26,12 +26,12 @@ local scripts = {
 			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
 			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it"},
 			{delay=4000, speaker=characterNewton, dir=right, text="Ok, I'm fitting my spacesuit and getting ready."},
-			{delay=15000, type="finish"},
+			--{delay=15000, type="finish"},
 		},
 	},
 	["cutscene-planet-outro-apocalypsoid"] = {
 		cutscene = true,
-		sequence  = {
+		sequence = {
 			{delay=5000, speaker=characterNewton,  dir=right, text="I say"},
 			{delay=6000, speaker=characterSkyanna, dir=left,  text="You say"},
 			{delay=6000, speaker=characterNewton,  dir=right, text="I say"},
@@ -42,12 +42,13 @@ local scripts = {
 
 	["cutscene-character-intro-skyanna"] = {
 		cutscene = true,
-		sequence  = {
+		delayEnd = 10000,
+		sequence = {
 			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
 			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
 			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
 			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
-			{delay=15000, type="finish"},
+			--{delay=15000, type="finish"},
 		},
 	},
 

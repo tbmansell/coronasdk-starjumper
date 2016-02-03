@@ -83,11 +83,9 @@ function scene:enterScene(event)
     particleCollection = builder:newParticleEmitterCollection()
     spineStore:load(spineCollection)
 
-    --newImage(self.view, "mothership/er", centerX, centerY)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:addEventListener("tap",        scene.finishStory)
 
     self:loadStory()
     self:loadBoss()
@@ -312,6 +310,8 @@ function scene:finishStory()
     end
 
     after(1000, function()
+        local self = scene
+
         -- Turn off TV
         local seqtv = anim:oustSeq("tv", self.tvimage)
         seqtv:tran({alpha=0, time=1000})
@@ -369,7 +369,6 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:removeEventListener("tap",        scene.finishStory)
     anim:destroy()
     self.planetSpec = nil
 end
