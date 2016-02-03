@@ -43,10 +43,10 @@ local scripts = {
 	["cutscene-character-intro-skyanna"] = {
 		cutscene = true,
 		sequence  = {
-			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna"},
-			{delay=4000, speaker=characterSkyanna,  dir=left,              text="Sup?"},
+			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
+			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
 			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
-			{delay=4000, speaker=characterSkyanna,  dir=left,              text="Whatevs"},
+			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
 			{delay=15000, type="finish"},
 		},
 	},

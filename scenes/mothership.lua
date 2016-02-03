@@ -95,7 +95,7 @@ function scene:enterScene(event)
     self:animateCharacters()
     self:startCutscene()
 
-    stories:start(scene.story, function()end, function() scene:finishStory() end)
+    stories:start(scene.story, function()end, function() scene:finishStory() end, nil, self)
 end
 
 
@@ -242,20 +242,20 @@ function scene:startCutscene()
             scene:animateCharater(ai)
         end
         seq:start()
-
-        --test
-        self.tvimage = newImage(self.view, "mothership/tv-planet1", centerX+600, 260)
-        self.tvimage.alpha = 0
-        self.tvimage:toBack()
-
-        local seq2 = anim:chainSeq("tv", self.tvimage)
-        seq2:wait(2000)
-        seq2:tran({alpha=1, time=2000})
-        seq2:tran({x=-120, time=15000})
-        seq2:start()
-        --test
-
     end
+end
+
+
+function scene:showTvPlanet1()
+    self.tvimage = newImage(self.view, "mothership/tv-planet1", centerX+600, 260)
+    self.tvimage.alpha = 0
+    self.tvimage:toBack()
+
+    local seq2 = anim:chainSeq("tv", self.tvimage)
+    seq2:wait(2000)
+    seq2:tran({alpha=1, time=2000})
+    seq2:tran({x=-120, time=15000})
+    seq2:start()
 end
 
 

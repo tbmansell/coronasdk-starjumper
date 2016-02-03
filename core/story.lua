@@ -7,13 +7,20 @@ local stories = {}
 -- Local for performance:
 local story   = nil
 local storyId = nil
+local scene   = nil
 
 -- Aliases:
 local play = globalSoundPlayer
 
 
 -- Checks if a story has been seen, should be showed and if so, shows it now or triggers handler to allow later viewing
-function stories:start(storyName, scenePauseHandler, sceneResumeHandler, alertHandler)
+-- @param storyName          - string which matches one of the story-scripts
+-- @param scenePauseHndler   - callback to pause current scene when story starts
+-- @param sceneResumeHandler - callback to resume current scene when story finished
+-- @param alertHandler       - callback to use for certain stories that dont interrupt thr unning of the game
+-- @param scene              - a reference to the scene itself so scripts can call function on it
+----
+function stories:start(storyName, scenePauseHandler, sceneResumeHandler, alertHandler, scene)
 	storyId = storyName
     story   = scripts[storyId]
 
@@ -23,11 +30,7 @@ function stories:start(storyName, scenePauseHandler, sceneResumeHandler, alertHa
 
     if story.cutscene or story.forced then
     	after(story.delay or 0, function()
-    		self:startNow(storyName, scenePauseHandler, sceneResumeHandler)
-		    --[[self.pauseHandler  = scenePauseHandler
-    		self.resumeHandler = sceneResumeHandler
-    		self:init()
-    		self:show()]]
+    		self:startNow(storyName, scenePauseHandler, sceneResumeHandler, scene)
     	end)
 	else
 		alertHandler(nil, storyName)
@@ -36,7 +39,12 @@ end
 
 
 -- Checks if a story has been seen and if not displays it straight away
-function stories:startNow(storyName, scenePauseHandler, sceneResumeHandler)
+-- @param storyName          - string which matches one of the story-scripts
+-- @param scenePauseHndler   - callback to pause current scene when story starts
+-- @param sceneResumeHandler - callback to resume current scene when story finished
+-- @param scene              - a reference to the scene itself so scripts can call function on it
+----
+function stories:startNow(storyName, scenePauseHandler, sceneResumeHandler, scene)
 	storyId = storyName
     story   = scripts[storyId]
 
@@ -46,6 +54,7 @@ function stories:startNow(storyName, scenePauseHandler, sceneResumeHandler)
 
     self.pauseHandler  = scenePauseHandler
 	self.resumeHandler = sceneResumeHandler
+	self.scene         = scene
 
 	self:init()
 
@@ -121,66 +130,6 @@ function stories:acknowledgeStory()
 end
 
 
--- local version of global after() so timers can be killed when story is
-function stories:storyAfter(delay, func)
-	self.timerHandlers[#self.timerHandlers+1] = timer.performWithDelay(delay, func, 1)
-end
-
-
--- Runs a single sequence event from a story sequence
-function stories:runSequenceEvent(event)
-	if event.type == "finish" then
-		self:finish()
-		self.resumeHandler()
-		self.resumeHandler = nil
-
-	elseif event.type == "gotit" then
-		self.btnClose.alpha  = 1
-		self.labelInfo.alpha = 0
-	else
-		self.speakerNumber = self.speakerNumber + 1
-
-		local ypos  = 10
-		local group = self.group
-
-		if story.cutscene then
-			-- cutscene scripts replace the previous balloon
-			if self.eventGroup then
-				self.eventGroup:removeSelf()
-				self.eventGroup = nil
-			end
-			self.eventGroup = display.newGroup()
-			group = self.eventGroup
-		else
-			-- in game scripts show the balloon one after the other?
-			ypos = -120 + (self.speakerNumber * 120) + (event.y or 0)
-		end
-
-		local speaker = event.speaker or state.data.playerModel
-		local name    = characterData[speaker].title..": "..characterData[speaker].name
-		local balloon = newImage(group, "message-tabs/messagetab-"..characterData[speaker].name..(event.size or ""), 0, ypos)
-		local title   = newText(group, name, 0, ypos+15, 0.35, "white", "LEFT")
-		local message = display.newText(group, event.text, 0, ypos+30, 440, 95, "arial", 18)
-
-		balloon.anchorY = 0
-		balloon:scale(1, 0.7)
-		
-		message:setFillColor(0,0,0)
-		message.anchorX, message.anchorY = 0, 0
-		
-		if event.dir == left then
-			balloon.x = 290
-			title.x   = 130
-			message.x = 130
-		else
-			balloon.x = 670
-			title.x   = 510
-			message.x = 510
-		end
-	end
-end
-
-
 -- Runs through the passed story and kicks of the sequence of events
 function stories:run()
 	local startSound = story.startSound or sounds.storyStart
@@ -201,6 +150,75 @@ function stories:run()
 
 	-- once all sequences are done, we show thr gotit buton
 	self:storyAfter(delay+1000, function() self:runSequenceEvent({type="gotit"}) end)
+end
+
+
+-- local version of global after() so timers can be killed when story is
+function stories:storyAfter(delay, func)
+	self.timerHandlers[#self.timerHandlers+1] = timer.performWithDelay(delay, func, 1)
+end
+
+
+-- Runs a single sequence event from a story sequence
+function stories:runSequenceEvent(event)
+	if event.type == "finish" then
+		self:finish()
+		self.resumeHandler()
+		self.resumeHandler = nil
+
+	elseif event.type == "gotit" then
+		self.btnClose.alpha  = 1
+		self.labelInfo.alpha = 0
+	else
+		self.speakerNumber = self.speakerNumber + 1
+
+		self:showSpeechBalloon(event)
+
+		if event.action then
+			event.action(self.scene)
+		end
+	end
+end
+
+
+function stories:showSpeechBalloon(event)
+	local ypos  = 10
+	local group = self.group
+
+	if story.cutscene then
+		-- cutscene scripts replace the previous balloon
+		if self.eventGroup then
+			self.eventGroup:removeSelf()
+			self.eventGroup = nil
+		end
+		self.eventGroup = display.newGroup()
+		group = self.eventGroup
+	else
+		-- in game scripts show the balloon one after the other?
+		ypos = -120 + (self.speakerNumber * 120) + (event.y or 0)
+	end
+
+	local speaker = event.speaker or state.data.playerModel
+	local name    = characterData[speaker].title..": "..characterData[speaker].name
+	local balloon = newImage(group, "message-tabs/messagetab-"..characterData[speaker].name..(event.size or ""), 0, ypos)
+	local title   = newText(group, name, 0, ypos+15, 0.35, "white", "LEFT")
+	local message = display.newText(group, event.text, 0, ypos+30, 440, 95, "arial", 18)
+
+	balloon.anchorY = 0
+	balloon:scale(1, 0.7)
+	
+	message:setFillColor(0,0,0)
+	message.anchorX, message.anchorY = 0, 0
+	
+	if event.dir == left then
+		balloon.x = 290
+		title.x   = 130
+		message.x = 130
+	else
+		balloon.x = 670
+		title.x   = 510
+		message.x = 510
+	end
 end
 
 
@@ -232,6 +250,7 @@ function stories:finish()
 	self.btnPlay       = nil
 	self.labelInfo     = nil
 	self.timerHandlers = nil
+	self.scene         = nil
 end
 
 
