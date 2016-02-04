@@ -1,46 +1,41 @@
 local scripts = {
+
+-- CUTSCENES --
+
 	["cutscene-planet-intro-organia"] = {
 		cutscene = true,
-		sequence  = {
-			{delay=5000, speaker=characterNewton, dir=right, text="Hey boss, things seem pretty remote down there. I can't imagine it is worth me getting out hey?"},
-			{delay=4000, speaker=characterGygax,  dir=right, text="Well well, my sensors are detecting pulse rings ahead. I'll just find a spot to land nearby"},
-			{delay=4000, speaker=characterNewton, dir=right, text="Ooh those drops look pretty long, maybe we should just stay here where it is safe..."},
-			{delay=4000, speaker=characterGygax,  dir=right, text="Yes, I will indeed be staying here to monitor your training. My it does look cold out there..."},
-			{delay=15000, type="finish"},
-		},
-	},
-	["cutscene-planet-outro-organia"] = {
-		cutscene = true,
-		sequence  = {
-			{delay=5000, speaker=characterNewton,  dir=right, text="Woohoo I just rocked! I think I just beat you didn't I? Didn't I?"},
-			{delay=6000, speaker=characterSkyanna, dir=left,  text="Hmm... You did good kid, but don't get cocky. It's going to get tougher out there"},
-			{delay=6000, speaker=characterNewton,  dir=right, text="So does this mean you are going to help me? I would love to have you along to show me the ropes"},
-			{delay=8000, speaker=characterSkyanna, dir=left,  text="You talk a lot kid... but I'm in", y=80},
-		}
-	},
-
-	["cutscene-planet-intro-apocalypsoid"] = {
-		cutscene = true,
-		sequence  = {
-			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart"},
-			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
-			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it"},
-			{delay=4000, speaker=characterNewton, dir=right, text="Ok, I'm fitting my spacesuit and getting ready."},
-			--{delay=15000, type="finish"},
-		},
-	},
-	["cutscene-planet-outro-apocalypsoid"] = {
-		cutscene = true,
+		delayEnd = 4000,
 		sequence = {
-			{delay=5000, speaker=characterNewton,  dir=right, text="I say"},
-			{delay=6000, speaker=characterSkyanna, dir=left,  text="You say"},
-			{delay=6000, speaker=characterNewton,  dir=right, text="I say"},
-			{delay=8000, speaker=characterSkyanna, dir=left,  text="Make some noise", y=80},
-		}
+			{delay=2000, speaker=characterGygax,  dir=right, text="Welcome Newton, we have an emergency on our hands. All our Star Jumpers are missing..."},
+			{delay=5000, speaker=characterNewton, dir=left,  text="Oh no! I thought they were searching for energy rings over the galaxy, to power our homeworld", 
+			                                                 action=function(scene) scene:actionShowHolograms() end},
+			{delay=5000, speaker=characterGygax,  dir=right, text="I'm afraid none have returned from their quests and we cannot contact them. I suspect something sinister"},
+			{delay=5000, speaker=characterGygax,  dir=right, text="Behold Planet Organia: the location of our most recent missing Star Jumper - Skyanna", 
+															 action=function(scene) scene:actionShowPlanet1() end},
+			{delay=6000, speaker=characterNewton, dir=left,  text="*gulp* Why is it called Organia?"},
+			{delay=5000, speaker=characterGygax,  dir=right, text="It is a barren rocky planet rich in energy rings but the lifeforms are large organs that dont take kindly to visitors.", size="-big"},
+			{delay=5000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Star Jumper and I have no equipment"},
+			{delay=5000, speaker=characterGygax,  dir=right, text="I am going to train you how to collect HoloCubes and gain equipment, as we explore the locations our Star Jumpers went missing", size="-big"},
+			{delay=5000, speaker=characterGygax,  dir=right, text="There is more, I fear some intelligent enemy has been setting traps for our Star Jumpers and may have captured them.", size="-big",
+											                 action=function(scene) scene:actionShowBrainiak() end}, 
+			{delay=5000, speaker=characterNewton, dir=left, text="Oh dear. I wish I had stayed in bed"},
+		},
 	},
-
-
 	["cutscene-character-intro-skyanna"] = {
+		cutscene = true,
+		delayEnd = 4000,
+		sequence = {
+			{delay=2000, speaker=characterGygax,   dir=right, text="Congratulations we have rescued a captured Star Jumper - welcome back Skyanna!",
+												              action=function(scene) scene:actionShowHolograms() end},
+			{delay=5000, speaker=characterSkyanna, dir=left,  text="Hey! Thanks for the rescue. It's good to be away from that barren planet and the disgusting Brainiak"},
+			{delay=5000, speaker=characterGygax,   dir=right, text="Skyanna is our fastest Star Jumper. I think the last recorded test showed you were 50% faster than the rest", size="-big",
+															  action=function(scene) scene:actionShowNewCharacter() end},
+			{delay=5000, speaker=characterSkyanna, dir=left,  text="I get in and out fast without a doubt. I'm Ready for action once more thanks to you guys"},
+			{delay=5000, speaker=characterNewton,  dir=left,  text="I look forward to working with you. I've heard the story of how you scaled the fog pits of Poisened Earth"},
+			{delay=5000, speaker=characterSkyanna, dir=left,  text="Oh I've got some tales to tell you on our travels. You did good kid"},
+		},
+	},
+	["cutscene-character-intro-brainiak"] = {
 		cutscene = true,
 		delayEnd = 10000,
 		sequence = {
@@ -48,36 +43,42 @@ local scripts = {
 			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
 			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
 			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
-			--{delay=15000, type="finish"},
+		},
+	},
+
+	["cutscene-planet-intro-apocalypsoid"] = {
+		cutscene = true,
+		delayEnd = 10000,
+		sequence = {
+			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart"},
+			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it"},
+			{delay=4000, speaker=characterNewton, dir=right, text="Ok, I'm fitting my spacesuit and getting ready."},
+		},
+	},
+	["cutscene-character-intro-hammer"] = {
+		cutscene = true,
+		delayEnd = 10000,
+		sequence = {
+			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
+			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
+			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
+			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
+		},
+	},
+	["cutscene-character-intro-grey"] = {
+		cutscene = true,
+		delayEnd = 10000,
+		sequence = {
+			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
+			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
+			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
+			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
 		},
 	},
 
 
-
-	--[[
-	["explain-zoneSelect"] = {
-		sequence = {
-			{delay=500,                          dir=left,  text="Boss, I've opened my PlanetNav showing me the zones you have highlighted for exploring..."},
-			{delay=3500, speaker=characterGygax, dir=right, text="Very good. The bottom bar shows your progress accross this planet. Tap the icons to discover more"},
-			{delay=3500, speaker=characterGygax, dir=right, text="Your Holocubes on the left grant you access to the Cube-n-Carry store, essential for good explorers"},
-			{delay=3500, speaker=characterGygax, dir=right, text="Return here to retry zones and rescue all the Fuzzies, gain awards and earn more cubes"},
-		},
-	},]]
-	["explain-fuzzy"] = {
-	    sequence = {
-			{delay=500,                          dir=left,  text="Hey Boss, I rescued a Fuzzy!"},
-			{delay=3000, speaker=characterGygax, dir=right, text="Well done! We need to rescue all our ancient friends from each planet. Keep your eyes open as they may be hiding", size="-big"},
-			{delay=3000, speaker=characterGygax, dir=right, text="If you can rescue all Fuzzies on a planet they will reward you with some of their special technology. See the PlanetNav for details", size="-big"},
-		}
-	},
-	["explain-score"] = {
-		sequence = {
-			{delay=1000, speaker=characterGygax, dir=right, text="Well done you scored a jump by getting close to the marker. Green is perfect then yellow then red"},
-			{delay=3000, speaker=characterGygax, dir=right, text="If you can score green on all scorable ledges in a zone you will gain the Jump Pro award"},
-			{delay=3000,                    dir=left,  text="Great I've never had an award before..."},
-			{delay=3000, speaker=characterGygax, dir=right, text="Check the PlanetNav summary to see what awards will unlock for you. They will also unlock store items"},
-		}
-	},
+-- INGAME STORY SCRIPTS --
 
 	--[[["intro-planet1-zone1"] = {
 		forced   = true,
@@ -115,6 +116,34 @@ local scripts = {
 			{delay=3000, 					dir=left,  text="Ok, I think I can take you on... erm are you carrying something?"},
 			{delay=3000, speaker=characterSkyanna, dir=right, text="Why I don't know what you mean..."},
 		},
+	},
+
+
+-- INGAME HELP --
+
+	--[[
+	["explain-zoneSelect"] = {
+		sequence = {
+			{delay=500,                          dir=left,  text="Boss, I've opened my PlanetNav showing me the zones you have highlighted for exploring..."},
+			{delay=3500, speaker=characterGygax, dir=right, text="Very good. The bottom bar shows your progress accross this planet. Tap the icons to discover more"},
+			{delay=3500, speaker=characterGygax, dir=right, text="Your Holocubes on the left grant you access to the Cube-n-Carry store, essential for good explorers"},
+			{delay=3500, speaker=characterGygax, dir=right, text="Return here to retry zones and rescue all the Fuzzies, gain awards and earn more cubes"},
+		},
+	},]]
+	["explain-fuzzy"] = {
+	    sequence = {
+			{delay=500,                          dir=left,  text="Hey Boss, I rescued a Fuzzy!"},
+			{delay=3000, speaker=characterGygax, dir=right, text="Well done! We need to rescue all our ancient friends from each planet. Keep your eyes open as they may be hiding", size="-big"},
+			{delay=3000, speaker=characterGygax, dir=right, text="If you can rescue all Fuzzies on a planet they will reward you with some of their special technology. See the PlanetNav for details", size="-big"},
+		}
+	},
+	["explain-score"] = {
+		sequence = {
+			{delay=1000, speaker=characterGygax, dir=right, text="Well done you scored a jump by getting close to the marker. Green is perfect then yellow then red"},
+			{delay=3000, speaker=characterGygax, dir=right, text="If you can score green on all scorable ledges in a zone you will gain the Jump Pro award"},
+			{delay=3000,                    dir=left,  text="Great I've never had an award before..."},
+			{delay=3000, speaker=characterGygax, dir=right, text="Check the PlanetNav summary to see what awards will unlock for you. They will also unlock store items"},
+		}
 	},
 
 	["usegear-trajectory"] = {

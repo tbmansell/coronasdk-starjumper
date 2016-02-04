@@ -129,7 +129,8 @@ state = {
         unlocked = {
             -- list of characters unlocked
             --characters = { characterNewton },
-            characters = { characterNewton, characterSkyanna, characterHammer, characterBrainiak, characterGrey },
+            characters = { characterNewton, characterSkyanna },
+            --characters = { characterNewton, characterSkyanna, characterHammer, characterBrainiak, characterGrey },
             -- list of gear that is unlocked
             --gear = {},
             gear = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },

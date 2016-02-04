@@ -29,6 +29,7 @@ local actions = {
 }
 
 -- character personality stats
+--[[
 local characterPersonality = {
     [characterNewton] = {
         grade         = "novice",
@@ -76,6 +77,7 @@ local characterPersonality = {
         throws        = "back-porter",
     },
 }
+]]
 
 -- Aliases:
 local play = globalSoundPlayer
@@ -203,7 +205,7 @@ function scene:selectPlayer(event)
     local icon   = event.target
     local player = icon.playerModel
     local char   = characterData[player]
-    local person = characterPersonality[player]
+    local person = char.bio
 
     if state:characterUnlocked(player) then
         self.slots[self.playerModel]["selected"].alpha = 0

@@ -172,7 +172,7 @@
 			"Alien Neck": { "name": "Brain Alien/Neck", "rotation": -94.03, "width": 32, "height": 33 }
 		}
 	},
-	"Female  Alien": {
+	"Female Alien": {
 		"Arm Top Back": {
 			"Alien Arm bBack TOP": { "name": "Female Alien/Arm Top Back", "x": 41.95, "y": 2.41, "rotation": 92.4, "width": 40, "height": 108 }
 		},

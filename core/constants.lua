@@ -120,12 +120,20 @@ characterData = {
         enemy         = false,
         nativeNegable = nil,
         title         = "jumpr",
-        cutscene      = {x=50, y=500}
+        bio = {
+            grade     = "novice",
+            home      = "nexus",
+            age       = 17,
+            likes     = "video games",
+            hates     = "hard work",
+            ability   = "none",
+            throws    = "none",
+        }
     },
     [characterSkyanna] = {
         name          = "skyanna",
         title         = "jumpr",
-        skin          = "Female  Alien",
+        skin          = "Female Alien",
         shipSkin      = "female",
         color         = "aqua",
         playable      = true,
@@ -134,7 +142,15 @@ characterData = {
         lockText      = "complete 21 zones in organia to unlock",
         planet        = 1,
         buyMode       = "no",
-        cutscene      = {x=120, y=530}
+        bio = {
+            grade     = "jumpr",
+            home      = "nexus",
+            age       = 27,
+            likes     = "exercise",
+            hates     = "warm planets",
+            ability   = "fast run",
+            throws    = "freeze enemy",
+        }
     },
     [characterHammer] = {
         name          = "hammer",
@@ -148,7 +164,15 @@ characterData = {
         lockText      = "complete 21 zones in apocalypsoid to unlock",
         planet        = 2,
         buyMode       = "no",
-        cutscene      = {x=170, y=430}
+        bio = {
+            grade     = "jumpr",
+            home      = "nexus",
+            age       = 24,
+            likes     = "explosives",
+            hates     = "taunts",
+            ability   = "iron skin",
+            throws    = "impact bomb",
+        }
     },
     [characterBrainiak] = {
         name          = "brainiak",
@@ -162,7 +186,15 @@ characterData = {
         lockText      = "buy organia planet pack to unlock",
         planet        = 1,
         buyMode       = "storeOnly",
-        cutscene      = {x=230, y=550}
+        bio = {
+            grade     = "brain master",
+            home      = "organia",
+            age       = 20,
+            likes     = "fresh brains",
+            hates     = "fuzzies",
+            ability   = "ledge changer",
+            throws    = "electrifier",
+        }
     },
     [characterGrey] = {
         name          = "grey",
@@ -176,7 +208,15 @@ characterData = {
         lockText      = "buy apaocalypsoid planet pack to unlock",
         planet        = 2,
         buyMode       = "storeOnly",
-        cutscene      = {x=280, y=480}
+        bio = {
+            grade     = "great grey",
+            home      = "deep space",
+            age       = 185,
+            likes     = "earth movies",
+            hates     = "cows",
+            ability   = "teleporter",
+            throws    = "back-porter",
+        }
     },
     [characterCyborg] = {
         name          = "cyion",

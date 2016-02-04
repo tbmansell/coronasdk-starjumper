@@ -1,10 +1,8 @@
 local storyboard    = require("storyboard")
 local cameraLoader  = require("core.camera")
 local anim          = require("core.animations")
-local soundEngine   = require("core.sound-engine")
 local stories       = require("core.story")
 local particles     = require("core.particles")
-local utils         = require("core.utils")
 local builder       = require("level-objects.builders.builder")
 local spineStore    = require("level-objects.collections.spine-store")
 
@@ -83,6 +81,7 @@ function scene:enterScene(event)
     particleCollection = builder:newParticleEmitterCollection()
     spineStore:load(spineCollection)
 
+    self.tvimage = newImage(self.view, "mothership/logo", centerX, centerY-65)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
@@ -91,7 +90,6 @@ function scene:enterScene(event)
     self:loadBoss()
     self:loadCharacters()
     self:animateCharacters()
-    self:startCutscene()
 
     stories:start(scene.story, function()end, function() scene:finishStory() end, nil, self)
 end
@@ -102,22 +100,34 @@ function scene:loadStory()
         scene.story = state.cutsceneStory .."-".. planetData[state.data.planetSelected].name
         scene.type  = "planetIntro"
 
-    elseif state.cutsceneStory == "cutscene-planet-outro" then
-        scene.story = state.cutsceneStory .."-".. planetData[state.data.planetSelected].name
-        scene.type  = "planetOutro"
-
     elseif state.cutsceneStory == "cutscene-character-intro" then
         scene.story = state.cutsceneStory .."-".. characterData[state.cutsceneCharacter].name
         scene.type  = "character"
+        particles:loadEmitter("collectable-sparks")
     end
-
-    print("story="..scene.story)
 end
 
 
 function scene:loadBoss()
-    scene.boss = spineStore:showBossChair({x=830, y=250, size=0.35})
+    self.boss = spineStore:showBossChair({x=830, y=250, size=0.35})
     self.view:insert(scene.boss.image)
+    self:moveBoss()
+end
+
+
+function scene:moveBoss()
+    local seq = anim:oustSeq("bossHover", self.boss.image)
+
+    if self.hoverBossUp then
+        self.hoverBossUp = false
+        seq:tran({y=self.boss.image.y - 30, time=1333})
+    else
+        self.hoverBossUp = true
+        seq:tran({y=self.boss.image.y + 30, time=1333})
+    end
+
+    seq.onComplete = function() self:moveBoss() end
+    seq:start()
 end
 
 
@@ -131,13 +141,15 @@ function scene:loadCharacters(event)
         local char  = characterData[model]
 
         if char.playable then
-            --if state:characterUnlocked(model) then
+            local unlocked = state:characterUnlocked(model)
+            -- Show characters that are unlocked
+            if unlocked then
                 scene:createCharacter(data, centerX - data.xpos, data.ypos)
-            --else
-            if data.hologram then
+            end
+            -- Show holograms for characters locked plus also the focus character as it will become unlocked
+            if data.hologram and not unlocked or (unlocked and state.cutsceneCharacter == model) then
                 scene:createHologram(data, centerX + data.hologram.xpos, data.hologram.ypos)
             end
-            --end
         end
     end
 end
@@ -154,17 +166,17 @@ function scene:createCharacter(charData, xpos, ypos, locked)
     ai.scene = charData
     self.view:insert(ai.image)
 
-    scene.characters[model] = ai
+    self.characters[model] = ai
 
     if model == state.cutsceneCharacter and state.cutsceneStory == "cutscene-character-intro" then
-        ai:x(-300)
-        scene.focusCharacter = ai
+        ai:hide()
+        self.focusCharacter = ai
     end
 end
 
 
 function scene:createHologram(charData, xpos, ypos)
-    scene.spineDelay = scene.spineDelay + 133
+    self.spineDelay = scene.spineDelay + 133
     
     local model = charData.model
     local spec  = {model=model, x=xpos, y=ypos, size=0.2, animation="Hologram", spineDelay=scene.spineDelay}
@@ -173,20 +185,20 @@ function scene:createHologram(charData, xpos, ypos)
     ai.model = model
     ai.scene = charData
     ai.image:scale(-1,1)
-    --ai:visible(0.5)
+    ai:hide()
 
     self.view:insert(ai.image)
-    scene.holograms[model] = ai
-    
-    local seq = anim:oustSeq("hologram-"..scene.spineDelay, ai.image)
-    seq:add("glow", {time=1250, delay=250, alpha=0.5})
-    seq:start()
+    self.holograms[model] = ai
+
+    if model == state.cutsceneCharacter and state.cutsceneStory == "cutscene-character-intro" then
+        self.focusHologram = ai
+    end
 end
 
 
 function scene:animateCharacters()
-    for model, character in pairs(scene.characters) do
-        scene:animateCharater(character)
+    for model, character in pairs(self.characters) do
+        self:animateCharater(character)
     end
 end
 
@@ -223,72 +235,147 @@ function scene:getCharacterAnimation()
 end
 
 
-function scene:startCutscene()
-    if state.cutsceneStory == "cutscene-character-intro" then
-        local ai    = scene.focusCharacter
-        local model = ai.model
-        local xpos  = centerX - ai.scene.xpos
-        local ypos  = ai.scene.ypos
+function scene:fadeTv()
+    local seq = anim:oustSeq("tv", self.tvimage, true)
+    seq:tran({alpha=0, time=1000})
+    seq:start()
+end
 
-        ai.action = true
-        ai:loop("Walk")
 
-        local seq = anim:oustSeq("newCharacter", ai.image)
-        seq:tran({x=xpos, time=6000})
-        seq.onComplete = function() 
-            ai.action = false
-            scene:animateCharater(ai)
+------ FUNCTIONS CALLED BY CUTSCENE STORY SCRIPTS --------
+
+
+function scene:actionShowHolograms()
+    for i, hologram in pairs(scene.holograms) do
+        local seq = anim:oustSeq("hologram-"..i, hologram.image)
+        seq:tran({time=500, alpha=1})
+
+        -- If showing a new character: display a special sequence where the hologram is replaced with the real character
+        if state.cutsceneStory == "cutscene-character-intro" and hologram == self.focusHologram then
+            local char = self.focusCharacter.image
+            local gram = self.focusHologram.image
+            
+            seq:wait(1000)
+            seq:callback(function()
+                local charDust = particles:showEmitter(nil, "collectable-sparks", char.x, char.y, 3500, 1)
+                local gramDust = particles:showEmitter(nil, "collectable-sparks", gram.x, gram.y, 3500, 1)
+                
+                char.xScale, char.yScale = 0.1, 0.1
+
+                local seq2 = anim:oustSeq("characterAppear", char)
+                seq2:tran({alpha=1, xScale=1, yScale=1, time=2000, delay=500, ease="bounce"})
+                seq2:start()
+            end)
+            seq:tran({xScale=-1.5, yScale=1.5, alpha=0, time=2000, delay=500, ease="bounce"})
+        else
+            seq:add("glow", {time=1250, delay=250, alpha=0.5})
         end
+
         seq:start()
     end
 end
 
 
-function scene:showTvPlanet1()
-    self.tvimage = newImage(self.view, "mothership/tv-planet1", centerX+600, 260)
-    self.tvimage.alpha = 0
-    self.tvimage:toBack()
+function scene:actionShowPlanet1()
+    local seq = anim:chainSeq("tv", self.tvimage)
+    seq:tran({alpha=0, time=1000})
+    seq.onComplete = function() 
+        self.tvimage = newImage(self.view, "mothership/tv-planet1", centerX+600, 260)
+        self.tvimage.alpha = 0
+        self.tvimage:toBack()
 
-    local seq2 = anim:chainSeq("tv", self.tvimage)
-    seq2:wait(2000)
-    seq2:tran({alpha=1, time=2000})
-    seq2:tran({x=-120, time=15000})
-    seq2:start()
-end
-
-
-
---[[
-function scene:summaryCharacter(xpos, ypos, character, unlockText)
-    local data = characterData[character]
-
-    newImage(self.view, "hud/player-indicator-"..data.name, xpos, ypos)
-    newText(self.view, data.name, xpos+30, ypos, 0.5, data.color, "LEFT")
-
-    if state:characterUnlocked(character) then
-        newText(self.view, "unlocked!", xpos-30, ypos+40, 0.4, "green", "LEFT")
-    else
-        newImage(self.view, "locking/lock", xpos, ypos, 0.5, 0.7)
-        newText(self.view, unlockText, xpos-30, ypos+40, 0.4, "white", "LEFT")
+        local seq2 = anim:oustSeq("tv", self.tvimage)
+        seq2:tran({alpha=1, time=2000})
+        seq2:tran({x=-120, time=20000})
+        seq2:start()
     end
+    seq:start()
 end
 
 
-function scene:summaryNextPlanet(xpos, ypos)
-    local nextPlanet = planetData[self.planet+1]
+function scene:actionShowBrainiak()
+    local seq = anim:chainSeq("tv", self.tvimage)
+    seq:tran({alpha=0, time=1000})
+    seq.onComplete = function() 
+        self.tvimage:removeSelf()
+        self.tvimage = display.newGroup()
+        self.view:insert(self.tvimage)
 
-    newImage(self.view, "select-game/tab-planet2", xpos+10, ypos+10, 0.25)
-    newText(self.view, nextPlanet.name, xpos+30, ypos-20, 0.5, nextPlanet.color, "LEFT")
+        newImage(self.tvimage, "../levels/planet1/images/bgr-sky-1", centerX,    centerY)
+        newImage(self.tvimage, "player/Brain Alien/Head",            centerX+70, 260)
 
-    if state:planetUnlocked(self.planet+1) then
-        newText(self.view, "unlocked!", xpos+200, ypos+40, 0.45, "green", "RIGHT")
-    else
-        newImage(self.view, "locking/lock",     xpos, ypos, 0.5, 0.7)
-        newText(self.view, "complete 5 zones*", xpos-30, ypos+40, 0.45, "white", "LEFT")
+        self.tvimage.alpha = 0
+        self.tvimage:toBack()
+        self.tvimage:scale(-1.5,1.5)
+
+        local seq2 = anim:oustSeq("tv", self.tvimage)
+        seq2:tran({alpha=1, time=1000})
+        seq2:start()
     end
+    seq:start()
 end
-]]
 
+
+function scene:actionShowNewCharacter()
+    local char = scene.focusCharacter
+    local data = characterData[char.model]
+
+    local seq = anim:chainSeq("tv", self.tvimage)
+    seq:tran({alpha=0, time=1000})
+    seq.onComplete = function() 
+        self.tvimage:removeSelf()
+        self.tvimage = display.newGroup()
+        self.view:insert(self.tvimage)
+
+        newImage(self.tvimage, "../levels/planet1/images/bgr-sky-2", centerX,     centerY)
+        newImage(self.tvimage, "player/"..data.skin.."/Head",        centerX-240, 160)
+
+        self.tvimage.alpha = 0
+        self.tvimage:toBack()
+        self.tvimage:scale(1.5,1.5)
+
+        local seq2 = anim:oustSeq("tv", self.tvimage)
+        seq2:tran({alpha=1, time=1000})
+        seq2.onComplete = function() self:actionShowCharacterStats(data) end
+        seq2:start()
+    end
+    seq:start()
+end
+
+
+function scene:actionShowCharacterStats(data)
+    local name = newText(self.view, data.name, 530, 150, 0.7, data.color, "CENTER")
+    name.alpha = 0
+
+    local seq = anim:chainSeq("charStats", name)
+    seq:tran({alpha=1, time=250})
+
+    self:actionShowStat("grade:",   data.bio.grade,   185, data.color)
+    self:actionShowStat("home:",    data.bio.home,    210, data.color)
+    self:actionShowStat("age:",     data.bio.age,     235, data.color)
+    self:actionShowStat("likes:",   data.bio.likes,   260, data.color)
+    self:actionShowStat("hates:",   data.bio.hates,   285, data.color)
+    self:actionShowStat("ability:", data.bio.ability, 310, "red")
+    self:actionShowStat("throws:",  data.bio.throws,  335, data.color)
+
+    anim:startQueue("charStats")
+end
+
+
+function scene:actionShowStat(labelText, valueText, ypos, valueColor)
+    local label = newText(self.view, labelText, 480, ypos, 0.35, "grey",     "LEFT")
+    local value = newText(self.view, valueText, 565, ypos, 0.35, valueColor, "LEFT")
+    label.alpha = 0
+    value.alpha = 0
+
+    local seq = anim:chainSeq("charStats", label)
+    seq.target2 = value
+    seq:tran({alpha=1, time=250, ease="whizz"})
+end
+
+
+
+------ END FUNCTIONS CALLED BY CUTSCENE STORY SCRIPTS --------
 
 
 function scene:finishStory()
@@ -311,11 +398,6 @@ function scene:finishStory()
 
     after(1000, function()
         local self = scene
-
-        -- Turn off TV
-        local seqtv = anim:oustSeq("tv", self.tvimage)
-        seqtv:tran({alpha=0, time=1000})
-        seqtv:start()
 
         -- Show Advert + shop button & next button
         local group = display.newGroup()
