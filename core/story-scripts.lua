@@ -9,16 +9,16 @@ local scripts = {
 			{delay=2000, speaker=characterGygax,  dir=right, text="Welcome Newton, we have an emergency on our hands. All our Star Jumpers are missing..."},
 			{delay=5000, speaker=characterNewton, dir=left,  text="Oh no! I thought they were searching for energy rings over the galaxy, to power our homeworld", 
 			                                                 action=function(scene) scene:actionShowHolograms() end},
-			{delay=5000, speaker=characterGygax,  dir=right, text="I'm afraid none have returned from their quests and we cannot contact them. I suspect something sinister"},
+			{delay=5000, speaker=characterGygax,  dir=right, text="I'm afraid none have returned from their missions and we cannot contact them. I suspect something sinister"},
 			{delay=5000, speaker=characterGygax,  dir=right, text="Behold Planet Organia: the location of our most recent missing Star Jumper - Skyanna", 
 															 action=function(scene) scene:actionShowPlanet1() end},
 			{delay=6000, speaker=characterNewton, dir=left,  text="*gulp* Why is it called Organia?"},
 			{delay=5000, speaker=characterGygax,  dir=right, text="It is a barren rocky planet rich in energy rings but the lifeforms are large organs that dont take kindly to visitors.", size="-big"},
-			{delay=5000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Star Jumper and I have no equipment"},
-			{delay=5000, speaker=characterGygax,  dir=right, text="I am going to train you how to collect HoloCubes and gain equipment, as we explore the locations our Star Jumpers went missing", size="-big"},
-			{delay=5000, speaker=characterGygax,  dir=right, text="There is more, I fear some intelligent enemy has been setting traps for our Star Jumpers and may have captured them.", size="-big",
+			{delay=6000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Star Jumper and have no equipment"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="I am going to train you how to collect HoloCubes and gain equipment, as we explore the locations our Star Jumpers went missing", size="-big"},
+			{delay=6000, speaker=characterGygax,  dir=right, text="There is more, I fear some intelligent enemy has been setting traps for our Star Jumpers and may have captured them.", size="-big",
 											                 action=function(scene) scene:actionShowBrainiak() end}, 
-			{delay=5000, speaker=characterNewton, dir=left, text="Oh dear. I wish I had stayed in bed"},
+			{delay=6000, speaker=characterNewton, dir=left, text="Oh dear. I wish I had stayed in bed"},
 		},
 	},
 	["cutscene-character-intro-skyanna"] = {
@@ -28,11 +28,11 @@ local scripts = {
 			{delay=2000, speaker=characterGygax,   dir=right, text="Congratulations we have rescued a captured Star Jumper - welcome back Skyanna!",
 												              action=function(scene) scene:actionShowHolograms() end},
 			{delay=5000, speaker=characterSkyanna, dir=left,  text="Hey! Thanks for the rescue. It's good to be away from that barren planet and the disgusting Brainiak"},
-			{delay=5000, speaker=characterGygax,   dir=right, text="Skyanna is our fastest Star Jumper. I think the last recorded test showed you were 50% faster than the rest", size="-big",
+			{delay=6000, speaker=characterGygax,   dir=right, text="Skyanna is our fastest Star Jumper. I think the last recorded test showed you were 50% faster than the rest", size="-big",
 															  action=function(scene) scene:actionShowNewCharacter() end},
-			{delay=5000, speaker=characterSkyanna, dir=left,  text="I get in and out fast without a doubt. I'm Ready for action once more thanks to you guys"},
-			{delay=5000, speaker=characterNewton,  dir=left,  text="I look forward to working with you. I've heard the story of how you scaled the fog pits of Poisened Earth"},
-			{delay=5000, speaker=characterSkyanna, dir=left,  text="Oh I've got some tales to tell you on our travels. You did good kid"},
+			{delay=6000, speaker=characterSkyanna, dir=left,  text="I get in and out fast without a doubt. I'm Ready for action once more thanks to you guys"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="I look forward to working with you. I've heard the story of how you raced through the fog pits of Poisened Earth", size="-big"},
+			{delay=6000, speaker=characterSkyanna, dir=left,  text="You did good kid. Oh yes, I've got some tales to tell you on our travels"},
 		},
 	},
 	["cutscene-character-intro-brainiak"] = {
@@ -80,40 +80,40 @@ local scripts = {
 
 -- INGAME STORY SCRIPTS --
 
-	--[[["intro-planet1-zone1"] = {
+	["intro-planet1-zone1"] = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
 			{delay=2000, speaker=characterGygax,   dir=left,  text="To start a jump, pull down and behind your character into the jump grid. Pull further to get a higher or longer jump. Pull up to cancel the jump", size="-big"},
-			{delay=3000, speaker=characterHammer, dir=right, text="Get the angle just right to land on the next ledge score marker. Let go to run and jump for it. If you fall it hurts but that's no reason to be a coward newbie", size="-big"},
-			{delay=3000, speaker=characterSkyanna,   dir=right, text="Score high on jumps and collect rings to earn Holocubes and a better zone ranking. Good luck kid"},
-			{delay=3000,                      dir=right, text="The name is newton by the way... Oh I wished I had stayed in bed..."},
+			{delay=3000, speaker=characterHammer,  dir=right, text="Get the angle just right to land on the next ledge score marker. Let go to run and jump for it. If you fall it hurts but that's no reason to be a coward newbie", size="-big"},
+			{delay=3000, speaker=characterSkyanna, dir=right, text="Score high on jumps and collect rings to earn Holocubes and a better zone ranking. Good luck kid"},
+			{delay=3000,                           dir=right, text="The name is newton by the way... Oh I wished I had stayed in bed..."},
 		},
-	},]]
+	},
 	["intro-planet1-zone7"] = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
-			{delay=1000,                    dir=left,  text="So are we going home now?"},
+			{delay=1000,                         dir=left,  text="So are we going home now?"},
 			{delay=3000, speaker=characterGygax, dir=right, text="No, I'm going to make sure you are exploring to the stone we require"},
 			{delay=3000, speaker=characterGygax, dir=right, text="I will race you through this zone. If you beat me we can move on. Otherwise, you'll have to try again"},
-			{delay=3000,                    dir=left,  text="Great that's fair, shooting along in your spaceship..."},
+			{delay=3000,                         dir=left,  text="Great that's fair, shooting along in your spaceship..."},
 		},
 	},
 	["intro-planet1-zone14"] = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
-			{delay=1000, speaker=characterHammer, dir=right, text="Hey! Don't hang about, this zone is unstable. Get to the top before the eruption reaches you!"},
+			{delay=1000, speaker=characterGygax, dir=right, size="-big", text="Quick don't hang about, this zone is unstable! Get to the top before the eruption reaches you. But look out for Fuzzies who need rescuing!"},
 		},
 	},
 	["intro-planet1-zone21"] = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
-			{delay=1000, 					dir=left,  text="Hey there!"},
+			{delay=1000,                           dir=left,  text="Hey there!"},
 			{delay=3000, speaker=characterSkyanna, dir=right, text="Hey kid, you made it. Time to show me what you have learnt. Beat me through this zone and I'll join your expedition!", size="-big"},
-			{delay=3000, 					dir=left,  text="Ok, I think I can take you on... erm are you carrying something?"},
+			{delay=3000,                           dir=left,  text="Ok, I think I can take you on... erm are you carrying something?"},
 			{delay=3000, speaker=characterSkyanna, dir=right, text="Why I don't know what you mean..."},
 		},
 	},

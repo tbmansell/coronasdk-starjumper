@@ -299,10 +299,11 @@ function scene:actionShowBrainiak()
     seq.onComplete = function() 
         self.tvimage:removeSelf()
         self.tvimage = display.newGroup()
+        self.tvimage.x, self.tvimage.y = centerX, centerY
         self.view:insert(self.tvimage)
 
-        newImage(self.tvimage, "../levels/planet1/images/bgr-sky-1", centerX,    centerY)
-        newImage(self.tvimage, "player/Brain Alien/Head",            centerX+70, 260)
+        newImage(self.tvimage, "../levels/planet1/images/bgr-sky-1", 0, 0)
+        newImage(self.tvimage, "player/Brain Alien/Head",            -70, -50)
 
         self.tvimage.alpha = 0
         self.tvimage:toBack()
@@ -363,7 +364,7 @@ end
 
 
 function scene:actionShowStat(labelText, valueText, ypos, valueColor)
-    local label = newText(self.view, labelText, 480, ypos, 0.35, "grey",     "LEFT")
+    local label = newText(self.view, labelText, 480, ypos, 0.35, "black",    "LEFT")
     local value = newText(self.view, valueText, 565, ypos, 0.35, valueColor, "LEFT")
     label.alpha = 0
     value.alpha = 0
