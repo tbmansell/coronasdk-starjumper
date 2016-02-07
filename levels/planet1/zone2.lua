@@ -25,7 +25,7 @@ local levelData = {
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.3},
                     movement={rangeX={-500, -2000}, rangeY={0, -150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },    
+            },
 
         {object="ledge", x=280, y=-50, size="medium2"},
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=120, yforce=75, arc=70, num=5}},
