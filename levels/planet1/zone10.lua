@@ -71,7 +71,8 @@ local levelData = {
 
         {object="ledge", x=175, y=-600, size="medium", ai={loadGear=gearShield}},
             {object="enemy", type="brain", x=250, y=-350, size=0.5, color="Purple", 
-                movement={pattern=movePatternVertical, distance=175, speed=.7, pause=1000, moveStyle=moveStyleSwaySmall, pauseStyle=moveStyleSwaySmall}},
+                movement={pattern=movePatternVertical, distance=175, speed=.7, pause=1000, moveStyle=moveStyleSwaySmall, pauseStyle=moveStyleSwaySmall}
+            },
 
         {object="ledge", x=235, y=-100, type="finish"}
     },

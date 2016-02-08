@@ -23,7 +23,7 @@ local levelData = {
         {object="ledge", x=0, y=310, size="medium4"},
             {object="spike", x=100, y=-320, type="fg-spikes-float-4", size=0.5, rotation = -20, flip="x", physics={shape={-30,-75, 30,-75, 0,60}} },
 
-          {object="emitter", x=0, y=-150, timer={1000, 3000}, limit=4, layer=4,
+            {object="emitter", x=0, y=-150, timer={1000, 3000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="heart", color="Red", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.2},
                     movement={rangeX={-600, 600}, rangeY={-450, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},

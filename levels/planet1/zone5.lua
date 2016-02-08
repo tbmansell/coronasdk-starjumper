@@ -17,7 +17,7 @@ local levelData = {
             {object="scenery", x=150, y=-285, type="fg-foilage-1-yellow", layer=2},
             {object="rings", color=aqua, pattern={ {900,-350}, {0,75}, {0,75} }},
 
-        {object="emitter", x=0, y=-300, timer={3000, 6000}, limit=5, layer=4,
+            {object="emitter", x=0, y=-300, timer={3000, 6000}, limit=5, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.5, 0, 0.3},
                     movement={rangeX={900, 1500}, rangeY={-100, -100}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
@@ -66,14 +66,12 @@ local levelData = {
             {object="friend", type="fuzzy", y=-100, color="Orange", kinetic="bounce"},
             {object="scenery", x=-100, y=-200, type="fg-foilage-2-yellow", layer=2},
 
-        {object="emitter", x=600, y=0, timer={2500, 4500}, limit=5, layer=4,
+            {object="emitter", x=600, y=0, timer={2500, 4500}, limit=5, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.3},
                     movement={rangeX={-1000, -2000}, rangeY={-250, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },    
-    
-
+            },
 
         -- remaining ledges alternatives to not using spring shoes
         {object="ledge", x=-800, y=-260, size="medium"},
@@ -82,13 +80,11 @@ local levelData = {
 
         {object="ledge", x=350, y=-50, size="small"},
             {object="spike", x=-1000, y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
-            {object="spike", x=-835, y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
-
-            {object="spike", x=50,  y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
-            {object="spike", x=215, y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
-
-            {object="spike", x=550,  y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
-            {object="spike", x=715, y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
+            {object="spike", x=-835,  y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
+            {object="spike", x=50,    y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
+            {object="spike", x=215,   y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
+            {object="spike", x=550,   y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
+            {object="spike", x=715,   y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
 
 
         {object="ledge", x=400, y=300, type="finish"}

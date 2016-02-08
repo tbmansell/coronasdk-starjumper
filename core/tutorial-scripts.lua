@@ -4,7 +4,8 @@ local scripts = {
 			[1] = {
 				actions     = { {name="select-gear", target=gearTrajectory} },
 				showNote    = { delay=3000, image="leftbox", x=200, y=500, size=0.6, text="select trajectory jump equipment", color="white", textY=-20, inCamera=false },
-				showSpeech  = { delay=0, speaker=characterGygax, dir=right, y=50, text="Ok Newton, I will help you through this zone to get you started. I'll be supplying you some precious jump trajectory equipment"},
+				showSpeech  = { delay=0, speaker=characterGygax, dir=right, y=50, text="Ok Newton, I will help you through this zone to get you started. I'll be supplying you some precious jump trajectory equipment to learn jumping"
+				},
 			},
 			[2] = {
 				actions     = { {name="prepare-jump", target=nil} },

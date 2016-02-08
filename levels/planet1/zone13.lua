@@ -25,7 +25,7 @@ local levelData = {
 
         {object="ledge", x=300, y=-50, surface="lava"},
 
-          {object="emitter", x=0, y=200, timer={1000, 3000}, limit=3, layer=4,
+            {object="emitter", x=0, y=200, timer={1000, 3000}, limit=3, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.5},
                     movement={rangeX={-300, 600}, rangeY={-150, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},

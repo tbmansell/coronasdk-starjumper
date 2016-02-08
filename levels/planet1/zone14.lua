@@ -78,7 +78,6 @@ local levelData = {
         {object="ledge", x=-200, y=-200},
             {object="scenery", x=-60,  y=-97, type="fg-foilage-3-yellow", layer=2, onLedge=true},
 
-
             {object="emitter", x=0, y=-250, timer={1000, 3000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.4},

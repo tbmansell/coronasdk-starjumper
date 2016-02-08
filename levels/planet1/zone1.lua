@@ -1,7 +1,7 @@
 local levelData = {
     name             = "one small step for alien kind",
     tutorial         = "intro-planet1-zone1",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 50,
     playerStart      = playerStartFall,
     ceiling          = -1000,
     startLedge       = 1,
@@ -20,7 +20,7 @@ local levelData = {
             {object="scenery", x=370, y=-260, type="fg-foilage-2-yellow", layer=2, size=0.5, flip="x"},
 
             -- tutorial helper:
-            {object="friend", x=-250, y=-950, type="ufoboss", size=0.7, animation="Standard", storyModeOnly=true, 
+            {object="friend", x=-500, y=-950, type="ufoboss", size=0.7, animation="Standard", storyModeOnly=true, 
                 gearDropper={gear={ {100,gearTrajectory} }, wait=2000, limit=1},
                 movement={pattern=movePatternFollow, offsetY=-150, speed=3, pause=1000, pauseStyle=moveStyleWave}
             },
@@ -31,10 +31,8 @@ local levelData = {
             
         {object="ledge", x=280, y=-200},
             {object="scenery", x=0, y=-145, type="fg-flowers-3-yellow", layer=2, size=0.7, onLedge=true},
-            {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=250, yforce=20, arc=40, num=5}},
-
-
-            
+            --{object="rings", color=aqua, trajectory={x=50, y=-50, xforce=250, yforce=20, arc=40, num=5}},
+            {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=100, yforce=50, arc=40, num=3}},
 
         {object="ledge", x=250, y=150, size="big2"},
 

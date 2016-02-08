@@ -12,7 +12,7 @@ local scripts = {
 			{delay=5000, speaker=characterGygax,  dir=right, text="I'm afraid none have returned from their missions and we cannot contact them. I suspect something sinister"},
 			{delay=5000, speaker=characterGygax,  dir=right, text="Behold Planet Organia: the location of our most recent missing Star Jumper - Skyanna", 
 															 action=function(scene) scene:actionShowPlanet1() end},
-			{delay=6000, speaker=characterNewton, dir=left,  text="*gulp* Why is it called Organia?"},
+			{delay=6000, speaker=characterNewton, dir=left,  text="*gulp* Why is it called Organia boss?"},
 			{delay=5000, speaker=characterGygax,  dir=right, text="It is a barren rocky planet rich in energy rings but the lifeforms are large organs that dont take kindly to visitors.", size="-big"},
 			{delay=6000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Star Jumper and have no equipment"},
 			{delay=4000, speaker=characterGygax,  dir=right, text="I am going to train you how to collect HoloCubes and gain equipment, as we explore the locations our Star Jumpers went missing", size="-big"},
@@ -35,6 +35,7 @@ local scripts = {
 			{delay=6000, speaker=characterSkyanna, dir=left,  text="You did good kid. Oh yes, I've got some tales to tell you on our travels"},
 		},
 	},
+	-- TODO:
 	["cutscene-character-intro-brainiak"] = {
 		cutscene = true,
 		delayEnd = 10000,
@@ -46,6 +47,7 @@ local scripts = {
 		},
 	},
 
+	-- TODO:
 	["cutscene-planet-intro-apocalypsoid"] = {
 		cutscene = true,
 		delayEnd = 10000,
@@ -56,6 +58,7 @@ local scripts = {
 			{delay=4000, speaker=characterNewton, dir=right, text="Ok, I'm fitting my spacesuit and getting ready."},
 		},
 	},
+	-- TODO:
 	["cutscene-character-intro-hammer"] = {
 		cutscene = true,
 		delayEnd = 10000,
@@ -66,6 +69,7 @@ local scripts = {
 			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
 		},
 	},
+	-- TODO:
 	["cutscene-character-intro-grey"] = {
 		cutscene = true,
 		delayEnd = 10000,
@@ -80,16 +84,7 @@ local scripts = {
 
 -- INGAME STORY SCRIPTS --
 
-	["intro-planet1-zone1"] = {
-		forced   = true,
-		delay    = 1500,
-		sequence = {
-			{delay=2000, speaker=characterGygax,   dir=left,  text="To start a jump, pull down and behind your character into the jump grid. Pull further to get a higher or longer jump. Pull up to cancel the jump", size="-big"},
-			{delay=3000, speaker=characterHammer,  dir=right, text="Get the angle just right to land on the next ledge score marker. Let go to run and jump for it. If you fall it hurts but that's no reason to be a coward newbie", size="-big"},
-			{delay=3000, speaker=characterSkyanna, dir=right, text="Score high on jumps and collect rings to earn Holocubes and a better zone ranking. Good luck kid"},
-			{delay=3000,                           dir=right, text="The name is newton by the way... Oh I wished I had stayed in bed..."},
-		},
-	},
+	-- TODO:
 	["intro-planet1-zone7"] = {
 		forced   = true,
 		delay    = 1500,
@@ -107,6 +102,7 @@ local scripts = {
 			{delay=1000, speaker=characterGygax, dir=right, size="-big", text="Quick don't hang about, this zone is unstable! Get to the top before the eruption reaches you. But look out for Fuzzies who need rescuing!"},
 		},
 	},
+	-- TODO:
 	["intro-planet1-zone21"] = {
 		forced   = true,
 		delay    = 1500,
@@ -121,98 +117,97 @@ local scripts = {
 
 -- INGAME HELP --
 
-	--[[
-	["explain-zoneSelect"] = {
+	["explain-score"] = {
 		sequence = {
-			{delay=500,                          dir=left,  text="Boss, I've opened my PlanetNav showing me the zones you have highlighted for exploring..."},
-			{delay=3500, speaker=characterGygax, dir=right, text="Very good. The bottom bar shows your progress accross this planet. Tap the icons to discover more"},
-			{delay=3500, speaker=characterGygax, dir=right, text="Your Holocubes on the left grant you access to the Cube-n-Carry store, essential for good explorers"},
-			{delay=3500, speaker=characterGygax, dir=right, text="Return here to retry zones and rescue all the Fuzzies, gain awards and earn more cubes"},
-		},
-	},]]
+			{delay=500,  speaker=characterGygax, dir=right, text="Well done you scored points by getting close to the jump marker. Green is perfect then yellow and red last"},
+			{delay=3000, speaker=characterGygax, dir=right, text="If you can score green on all standard ledges in a zone you will gain the Jump Pro award"},
+			{delay=3000,                         dir=left,  text="Great I've never won an award before!"},
+			{delay=3000, speaker=characterGygax, dir=right, text="Be sure to check the PlanetNav summary to see how many awards you have won in each planet"},
+		}
+	},
 	["explain-fuzzy"] = {
 	    sequence = {
 			{delay=500,                          dir=left,  text="Hey Boss, I rescued a Fuzzy!"},
-			{delay=3000, speaker=characterGygax, dir=right, text="Well done! We need to rescue all our ancient friends from each planet. Keep your eyes open as they may be hiding", size="-big"},
-			{delay=3000, speaker=characterGygax, dir=right, text="If you can rescue all Fuzzies on a planet they will reward you with some of their special technology. See the PlanetNav for details", size="-big"},
-		}
-	},
-	["explain-score"] = {
-		sequence = {
-			{delay=1000, speaker=characterGygax, dir=right, text="Well done you scored a jump by getting close to the marker. Green is perfect then yellow then red"},
-			{delay=3000, speaker=characterGygax, dir=right, text="If you can score green on all scorable ledges in a zone you will gain the Jump Pro award"},
-			{delay=3000,                    dir=left,  text="Great I've never had an award before..."},
-			{delay=3000, speaker=characterGygax, dir=right, text="Check the PlanetNav summary to see what awards will unlock for you. They will also unlock store items"},
+			{delay=3000, speaker=characterGygax, dir=right, text="Well done! We need to rescue all our ancient friends from each planet. Keep your eyes open as they may be hiding or in danger", size="-big"},
+			{delay=3000, speaker=characterGygax, dir=right, text="Rescuing Fuzzies unlocks challenge game modes in each planet. See the PlanetNav for details", size="-big"},
 		}
 	},
 
 	["usegear-trajectory"] = {
 		sequence = {
-			{delay=500,              dir=right, text="Hey boss, I picked up a new peice of equipment, how will this help?"},
-			{speaker=characterGygax, dir=left,  text="Let me see... You have picked up the trajectory projection item"},
-			{speaker=characterGygax, dir=left,  text="Prepare for a jump and you will see the computer predict your jump as you look around. It will last for one jump per item you own", size="-big"},
-			{speaker=characterGygax, dir=left,  text="Items you own can be accessed from the HUD at the top. Select them before each jump. Stock-up before a zone run if you have enough Holocubes", size="-big"},
+			{delay=500,              dir=right, text="Hey boss, how do these Trajectory Projection items help again?"},
+			{speaker=characterGygax, dir=left,  text="They are helpful for a particularly hard jump, when you have enough time. Select them from your hud before you jump", size="-big"},
+			{speaker=characterGygax, dir=left,  text="When you are readying your jump, your projected path is shown - if you jumped from where you are CURRENTLY standing", size="-big"},
+			{speaker=characterGygax, dir=left,  text="Remember - when you sprint you run from the edge of the ledge, so adjust the path accordingly. Re-visit zone one to practise them", size="-big"},
 		}
 	},
 	["usegear-springshoes"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Yikes I've got some spring shoes, what do I do?"},
-			{speaker=characterGygax, dir=left,  text="These allow you to jump from any point of a ledge, instead of jumping from the end"},
-			{speaker=characterGygax, dir=left,  text="This can help you avoid obstacles close to an edge or reach places you otherwise could not get to"},
+			{delay=500,              dir=right, text="Cool, I've got some spring shoes, what do I do?"},
+			{speaker=characterGygax, dir=left,  text="They allow you to jump from any point of a ledge, instead of jumping from the end"},
+			{speaker=characterGygax, dir=left,  text="This can help you avoid danger close to an edge or reach places you otherwise could not get to"},
 		}
 	},
 	["usegear-shield"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Wahey I have a force shield. How long does it last?"},
+			{delay=500,              dir=right, text="Wahey, I have a force shield, how long does it last?"},
 			{speaker=characterGygax, dir=left,  text="The force shield will activate when you begin your run and lasts for 10 seconds"},
-			{speaker=characterGygax, dir=left,  text="You will be immune to dangerous enemies or obstcles, but not falling from a ledge!"},
+			{speaker=characterGygax, dir=left,  text="You will be immune to dangerous enemies or lethal obstcles, but not from obstructions or falling from a ledge!", size="-big"},
 		}
 	},
 	["usegear-freezetime"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Ooh this device looks impressive!"},
-			{speaker=characterGygax, dir=left,  text="Be careful, that is a time freezer! It should only be used in experienced hands, but as you have come across one I will let you have it...", size="-big"},
+			{delay=500,              dir=right, text="Ooh this device looks impressive..."},
+			{speaker=characterGygax, dir=left,  text="Be careful, that is a time freezer! It should only be used by experienced hands, but as you have come across one I will let you have it...", size="-big"},
 			{speaker=characterGygax, dir=left,  text="It will activate when you start your jump, so time it to get the best effect. It will stop once you land. You can cancel it with the icon below you", size="-big"},
-			{                   dir=right, text="I could have some fun with this"},
+			{                        dir=right, text="I could have some fun with this"},
 		}
 	},
 
 	["usegear-jetpack"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Hey hey I always wanted a jetpack!"},
-			{speaker=characterGygax, dir=left,  text="This is not a video game you know! Tap mid-jump to boost your jump and reach higher places or correct yourself", size="-big"},
+			{delay=500,              dir=right, text="Woohoo! I always wanted a jetpack!"},
+			{speaker=characterGygax, dir=left,  text="This is not a video game you know. Tap mid-jump to boost your jump and reach higher places or correct yourself", size="-big"},
 			{speaker=characterGygax, dir=left,  text="You have enough fuel for three bursts in a single jump"},
 		}
 	},
 	["usegear-glider"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Hmmm this looks kinda dangerous..."},
+			{delay=500,              dir=right, text="Hmmm this looks kinda dangerous..."},
 			{speaker=characterGygax, dir=left,  text="A glider can be used to travel long distances and skip ledges or reach places you otherwise could not"},
 			{speaker=characterGygax, dir=left,  text="Tap mid-air to activate then tap when in use to drop out of the glider and land below"},
 		}
 	},
 	["usegear-parachute"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Ah I feel safer with a parachute on me"},
-			{speaker=characterGygax, dir=left,  text="Tap mid-air to activate the parachute and you will travel directly down from your current position"},
-			{speaker=characterGygax, dir=left,  text="This can stop you flying past a ledge or reach difficult places"},
+			{delay=500,              dir=right, text="Ah I feel safer with a parachute on me"},
+			{speaker=characterGygax, dir=left,  text="Tap mid-air to activate the parachute and you will travel directly down from your current position. This can stop you flying past a ledge or reach difficult places", size="-big"},
+			{speaker=characterGygax, dir=left,  text="Tap again when parachuting to close the chute and fall fast"},
 		}
 	},
 	["usegear-reversejump"] = {
 		sequence = {
-			{delay=500,         dir=right, text="Hmm what is this odd looking item boss?"},
-			{speaker=characterGygax, dir=left,  text="Let me see... Ah yes this is the Jump Reverser. It will allow you to go back in time from a missed jump", size="-big"},
-			{speaker=characterGygax, dir=left,  text="Tap mid-jump to reverse time and repeat your jump. This will only work if you do not hit a ledge during your jump. If you fall too far it wont work either", size="-big"},
-			{                   dir=right, text="Great! Although I feel maybe you should have given me some of these from the start..."},
+			{delay=500,              dir=right, text="Hmm what is this odd looking item boss?"},
+			{speaker=characterGygax, dir=left,  text="Let me see... Ah yes, this is the TimeJump Reverser. It will allow you to travel back in time from a bad jump", size="-big"},
+			{speaker=characterGygax, dir=left,  text="Tap mid-jump to reverse time and repeat your jump. It will not work if you hit something during your jump, or if you fall too far", size="-big"},
+			{                        dir=right, text="Great! Although, I feel maybe we should have stocked up on them before we started this..."},
 		}
 	},
 
 	["usegear-gloves"] = {
 		sequence = {
-			{delay=500,         dir=right, text="What do you think of my nice gloves boss?"},
+			{delay=500,              dir=right, text="What do you think of my nice new gloves boss?"},
 			{speaker=characterGygax, dir=left,  text="Hmph they are for climbing not showing off. Put them on and they will save your hide"},
-			{speaker=characterGygax, dir=left,  text="If you hit the front of a ledge, you will be able to pull yourself onto the ledge and avoid falling"},
-			{                   dir=right, text="They do look good though..."},
+			{speaker=characterGygax, dir=left,  text="If you hit a ledge from the front, you will be able to pull yourself up and avoid falling"},
+			{                        dir=right, text="They do look good though..."},
+		}
+	},
+	["usegear-grapplehook"] = {
+		sequence = {
+			{delay=500,              dir=right, text="Now this grappling hook looks handy"},
+			{speaker=characterGygax, dir=left,  text="They can be used instead of climbing gloves, to reach out and pull yourself onto a ledge you have just jumped past", size="-big"},
+			{speaker=characterGygax, dir=left,  text="The rope range is limited, so they will only save you if you fall close past a ledge. Stock these and climbing gloves to be a versatile Jumper", size="-big"},
+			{                        dir=right, text="Hmm gloves or hook, what should I wear, decisions, decisions..."},
 		}
 	},
 }

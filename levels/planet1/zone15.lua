@@ -80,7 +80,6 @@ local levelData = {
         {object="ledge", x=-300, y=-200, positionFromLedge=10, size="medium", invisible={invisibleFor=3000, visibleFor=100, alpha=0.1}},
 
         {object="ledge", x=-250, y=-200, size="medium", invisible={invisibleFor=5500, visibleFor=200, alpha=0.1}},
-            
             {object="friend", type="fuzzy", color="Orange", onLedge=true},
             
             {object="emitter", x=0, y=-350, timer={1000, 3000}, limit=3, layer=4,

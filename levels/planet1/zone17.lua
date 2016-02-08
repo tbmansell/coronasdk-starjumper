@@ -14,13 +14,12 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-         {object="emitter", x=800, y=0, timer={1000, 2500}, limit=3, layer=4,
+            {object="emitter", x=800, y=0, timer={1000, 2500}, limit=3, layer=4,
                 item={
                     object="livebgr", type="stomach", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.4},
                     movement={rangeX={0, 250}, rangeY={-100, -1000}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
             },             
-
 
         {object="ledge", x=300, y=-150, size="small"},
 
@@ -60,7 +59,6 @@ local levelData = {
             {object="rings", color=aqua, pattern={ {-30,-50}, {30,-60,color=pink}, {30,60} }},
               
         {object="ledge", x=200, y=-150, size="medium3"},
-
             {object="enemy", type="stomach", x=400, y=-200, size=0.7, 
                 shooting={minWait=1, maxWait=3, velocity={varyX=200, varyY=100}, itemsMax=10, ammo={negDizzy, negTrajectory, negBooster}},
                 behaviour={mode=stateSleeping, awaken=2, range=6, atRange=stateResetting},
@@ -72,7 +70,7 @@ local levelData = {
        
         {object="ledge", x=200, y=-200, size="medium3"},
 
-           {object="emitter", x=0, y=-300, timer={1000, 3000}, limit=4, layer=4,
+            {object="emitter", x=0, y=-300, timer={1000, 3000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="stomach", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.2, 0, 0.6},
                     movement={rangeX={-600, 600}, rangeY={-175, -250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},

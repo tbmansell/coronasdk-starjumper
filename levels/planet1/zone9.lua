@@ -55,8 +55,7 @@ local levelData = {
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.4},
                     movement={rangeX={-800, 800}, rangeY={-400, 200}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },    
-     
+            },
         
         {object="ledge", x=100, y=100, size="big3", flip="x"},
            {object="scenery", x=0, y=-185, type="fg-flowers-4-yellow",layer=2, onLedge=true},

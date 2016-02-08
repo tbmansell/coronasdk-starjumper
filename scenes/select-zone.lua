@@ -325,12 +325,6 @@ end
 function scene:displayHud()
     local data = planetData[state.data.planetSelected]
 
-    local leftCover  = display.newRect(self.view, -200,             centerY, 400, contentHeight)
-    local rightCover = display.newRect(self.view, contentWidth+200, centerY, 400, contentHeight)
-    
-    leftCover:setFillColor(0,0,0)
-    rightCover:setFillColor(0,0,0)
-
     self.borderGroup = display.newGroup()
     local progress   = newImage(self.borderGroup, "hud/progress-tab", centerX, 508)
     newText(self.borderGroup, "progress", centerX, 515, 0.5, "red", "CENTER")

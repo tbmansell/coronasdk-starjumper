@@ -29,7 +29,6 @@ local levelData = {
                 }
             },
 
-
             --pinacle of scenery
             {object="scenery", x=0,   y=-170, type="fg-tree-4-yellow", rgb={200,100,255}},
             {object="scenery", x=200, y=200,  type="fg-wall-left"},
@@ -93,7 +92,7 @@ local levelData = {
 
         {object="ledge", x=350, y=0},
 
-             {object="emitter", x=0, y=-200, timer={1000, 3000}, limit=4, layer=4,
+            {object="emitter", x=0, y=-200, timer={1000, 3000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="stomach", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.6},
                     movement={rangeX={-600, 600}, rangeY={-200, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},

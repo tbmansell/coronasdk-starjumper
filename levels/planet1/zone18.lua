@@ -50,7 +50,6 @@ local levelData = {
         {object="obstacle", type="deathslide", x=-105, y=-300, length={-500,-400}, speed=5, animSpeed="FAST"},
             {object="scenery", x=-605, y=-480, type="fg-rock-3", size=0.2, layer=2}, 
 
-
         {object="ledge", x=0, y=400, size="medium2"},
             {object="rings", color=pink, pattern={ {90,-75}}},
 
@@ -82,7 +81,7 @@ local levelData = {
         {object="ledge", x=175, y=-75, size="small3"},
             {object="rings", color=aqua, pattern={ {-30,-50}, {30,-60,color=pink}, {30,60} }},
           
-         {object="emitter", x=0, y=250, timer={1000, 3000}, limit=4, layer=4,
+            {object="emitter", x=0, y=250, timer={1000, 3000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.4},
                     movement={rangeX={-400, 800}, rangeY={-150, 800}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},

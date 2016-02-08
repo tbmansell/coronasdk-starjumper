@@ -20,7 +20,6 @@ local levelData = {
             {object="rings", color=aqua, pattern={ {0,-225}, {0,75}, {0,75}, {-75,-75}, {150,0} }},
             {object="scenery", x=50, y=-325, type="fg-tree-3-yellow"},
 
-
             {object="emitter", x=-150, y=150, timer={2000, 3000}, limit=3, layer=4,
                 item={
                     object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.1},
@@ -36,7 +35,8 @@ local levelData = {
         {object="ledge", x=350, y=-50, size="medium2"},
             {object="enemy", type="heart", x=0, y=130, size=0.5, color="Red",
                 behaviour={mode=stateSleeping, awaken=0, range=5, atRange=stateResetting, thefts=20},
-                movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}},
+                movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
+            },
 
             {object="scenery", x=250,  y=-250, type="fg-tree-1-yellow"},
             {object="scenery", x=900,  y=-250, type="fg-tree-4-yellow"},
@@ -51,7 +51,6 @@ local levelData = {
             {object="wall", x=-400, y=-500, type="fg-rock-3", physics={shape="circle", bounce=1}},
 
         {object="ledge", x=-400, y=0, size="medium4"},
-
 
             {object="emitter", x=-150, y=-350, timer={1000, 2000}, limit=2, layer=4,
                 item={
@@ -96,7 +95,6 @@ local levelData = {
             {object="gear", type=gearGlider, x=0, y=-50},
             {object="scenery", x=400, y=-250, type="fg-tree-1-yellow"},
             {object="scenery", x=500, y=375, type="fg-rock-4"},
-
 
             {object="emitter", x=600, y=-125, timer={1000, 3000}, limit=3, layer=4,
                 item={

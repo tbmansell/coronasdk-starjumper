@@ -58,7 +58,7 @@ local levelData = {
         {object="ledge", x=250, y=150, size="small2"},
             {object="friend", type="fuzzy", onLedge=true, color="Orange"},
 
-         {object="emitter", x=0, y=-450, timer={1000, 2000}, limit=2, layer=4,
+            {object="emitter", x=0, y=-450, timer={1000, 2000}, limit=2, layer=4,
                 item={
                     object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.1},
                     movement={rangeX={-200, 2000}, rangeY={-50, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
@@ -85,7 +85,7 @@ local levelData = {
 
         {object="ledge", x=500, y=-150, size="medium3"},
 
-         {object="emitter", x=0, y=-250, timer={1000, 3000}, limit=3, layer=4,
+            {object="emitter", x=0, y=-250, timer={1000, 3000}, limit=3, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
                     movement={rangeX={-200, 2000}, rangeY={-250, 400}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
