@@ -24,7 +24,7 @@ local levelData = {
         {object="ledge", x=300, y=-100, size="medium3"},
             {object="randomizer", onLedge=true, items={{100,gearReverseJump}}},
 
-        {object="ledge", x=300, y=-200, size="big3", rotation=-15, triggerLedgeIds={5}},
+        {object="ledge", x=300, y=-200, size="big3", rotation=-15, triggerLedgeIds={5}, triggerEvent="brainiakTrap"},
             -- top row of blocks
             {object="scenery", x=-100, y=355, type="fg-wall-left"},
             {object="scenery", x=0,    y=355, type="fg-wall-middle"},
@@ -48,18 +48,20 @@ local levelData = {
         {object="ledge", x=25, y=-175, size="big", rotation=-45, ai={ignore=true}},
 
         -- #5
-        {object="ledge", x=0, y=-250, positionFromCenter=true, surface="collapsing", ai={ignore=true}},
+        {object="ledge", x=0, y=-250, positionFromCenter=true, surface="collapsing", targetName="trapLedge", ai={ignore=true}},
             {object="spike", x=-150, y=-160, type="fg-rock-1", size=0.6, rotation=-45, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}},
             {object="spike", x=-30,  y=-160, type="fg-rock-2", size=0.6, rotation=-45, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}},
 
-        {object="ledge", x=-500, y=80},
+        {object="ledge", x=-500, y=170},
             {object="spike", x=-450, y=-300, type="fg-spikes-float-1"},
 
-        {object="ledge", x=150, y=-200},
+        {object="ledge", x=150, y=-240},
             {object="randomizer", onLedge=true, items={{100,negBooster}}},
 
         -- rock fall between ledges
         {object="ledge", x=450, y=0, size="big2"},
+            {object="player", type="scripted", model=characterBrainiak, x=-140, y=0, direction=left, targetName="brainiak"},
+
             {object="scenery", x=-130, y=-105, type="fg-foilage-3-green", layer=2, size=0.4, copy=5, gap=-30, onLedge=true},
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=150, yforce=150, arc=65, num=5}},
             
@@ -117,6 +119,44 @@ local levelData = {
             {object="scenery", x=900, y=-450, type="fg-tree-6-yellow", layer=3},
         {object="ledge", x=500, y=100, type="finish"}
     },
+
+    -- Brainiak: taunts player next to rock trap before it collapse then runs off
+    customEvents = {
+        ["brainiakTrap"] = {
+            conditions   = {},
+            targets = {
+                {object="player", targetName="brainiak"},
+                {object="ledge",  targetName="trapLedge"},
+            },
+            delay        = 500,
+            freezePlayer = true,
+            action       = function(camera, player, source, targets)
+                -- function called when event triggered and conditions have been met. Params:
+                -- camera:  the camera to move around
+                -- player:  the main player
+                -- source:  the ledge which triggered the event
+                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+                sounds:loadPlayer(characterBrainiak)
+
+                local brainiak = targets[1]
+                camera:setFocus(brainiak.image)
+                brainiak:taunt()
+
+                after(2000, function() 
+                    camera:setFocus(player.image)
+                    hud:exitScript()
+
+                    brainiak:changeDirection()
+                    brainiak:runup(500, -500)
+
+                    after(1000, function()
+                        brainiak:destroy()
+                        sounds:unloadPlayer(characterBrainiak)                        
+                    end)
+                end)
+            end,
+        },
+    }
 }
 
 return levelData

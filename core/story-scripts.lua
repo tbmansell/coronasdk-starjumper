@@ -91,7 +91,7 @@ local scripts = {
 		sequence   = {
 			{delay=1000, speaker=characterBrainiak, dir=right, text="Foolish trespasser you have entered the domain of Brainiak, where all must tremble! Ha ha perhaps you are searching for your friend...", size="-big"},
 			{delay=3000,  							dir=left,  text="Skyanna! What have you done with her you fiend?"},
-			{delay=3000, speaker=characterBrainiak, dir=right, text="She is my prisoner little alien, one I am savouring for later. Mmm I think you will make a nice starter. My highly trained brainoids will deal with you...", size="-big"},
+			{delay=3000, speaker=characterBrainiak, dir=right, text="She is my prisoner little alien, one I am savouring for later. Mmm I think you will make a nice starter. My super smart brainoids will deal with you...", size="-big"},
 			{delay=3000,                            dir=left,  text="Wait - come back here!"},
 		},
 	},

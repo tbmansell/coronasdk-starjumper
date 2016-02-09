@@ -28,7 +28,7 @@ local levelData = {
         {object="ledge", x=360, y=100, size="medium"},
             {object="enemy", type="brain", x=320, y=-300, size=0.5, color="Purple",
                 behaviour={mode=stateSleeping, awaken=0},
-                movement={pattern=movePatternVertical, distance=200, speed=0.3, pause=2000, moveStyle=moveStyleSway, pauseStyle=moveStyleSwaySmall}
+                movement={pattern=movePatternVertical, distance=200, speed=0.6, pause=2000, moveStyle=moveStyleSway, pauseStyle=moveStyleSwaySmall}
             },
         
         {object="ledge", x=360, y=-175, size="medium2"},

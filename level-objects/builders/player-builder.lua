@@ -172,6 +172,7 @@ function playerBuilder:newScriptedPlayer(camera, spec, ledge)
         player:changeDirection()
     end
 
+    player:moveBy((spec.x or 0), (spec.y or 0))
     camera:add(player.image, 3)
 
     return player

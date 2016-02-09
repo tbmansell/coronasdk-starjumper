@@ -281,7 +281,7 @@ function ledge:land(player)
     -- trigger any special features of this ledge
     self:trigger(player)
     -- check if this ledge triggers special features on other ledges or obstacles
-    self:activateTriggers()
+    self:activateTriggers(player)
     self:shake(player.camera)
 end
 
