@@ -317,7 +317,8 @@ negableSlots = {
     [negTrajectory] = jump,
     [negDizzy]      = jump,
     [negBooster]    = air,
-    [negRocket]     = air
+    [negRocket]     = air,
+    [negTimeBomb]   = land,
 }
 
 gearUnlocks = {

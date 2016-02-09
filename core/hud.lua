@@ -264,6 +264,15 @@ function hud:exitScript()
 end
 
 
+function hud:showEffect(effect, target, params)
+    local spineStore = require("level-objects.collections.spine-store")
+
+    if effect == "explosion" then
+        spineStore:showExplosion(hud.camera, target, params)
+    end
+end
+
+
 -- shows the actual pause game menu with buttons to exit
 function hud:showPauseMenu()
     if state.data.game == levelPlaying then

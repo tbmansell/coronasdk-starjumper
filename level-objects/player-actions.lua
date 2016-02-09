@@ -814,8 +814,10 @@ function player:dropNegable(negable)
             item:body("dynamic")
             item:applyForce(-100*scale, -200*scale)
             after(250, function() item.isStolen=false end)
+            return item
         end
     end
+    return nil
 end
 
 

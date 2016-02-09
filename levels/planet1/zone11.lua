@@ -29,6 +29,7 @@ local levelData = {
             },    
 
         {object="ledge", x=300, y=0, size="medium"},
+            {object="gear", type=gearGlider, y=-50, regenerate=true},
 
         {object="ledge", x=350, y=200, size="big"},
             {object="rings", color=aqua, pattern={ {x=-65, y=-300}, {x=0, y=-65}, {x=0, y=135} }},
@@ -41,11 +42,11 @@ local levelData = {
         {object="obstacle", type="deathslide", x=200, y=-270, length={1400,0}, speed=4, animSpeed="SLOW"},
             {object="rings", color=aqua, pattern={ {500,100}, {300,0}, {300,0} }},
 
-        {object="ledge", x=0, y=350, size="medium2"},
+        {object="ledge", x=0, y=350, size="medium2", triggerEvent="brainiakTrap"},
 
         -- need glider to get to next ledge
-        {object="ledge", x=300, y=-150, size="small2", ai={loadGear=gearGlider, jumpVelocity={600,900}, useAirGearAfter={1000}}},
-            {object="gear", type=gearGlider, y=-50, regenerate=true},
+        {object="ledge", x=300, y=-150, size="small2", targetName="focusLedge", ai={loadGear=gearGlider, jumpVelocity={600,900}, useAirGearAfter={1000}}},
+            --{object="gear", type=gearGlider, y=-50, regenerate=true},
             {object="rings", color=aqua, pattern={ {x=650, y=-400}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25} }},
             {object="spike", x=400,  y=-100, type="fg-spikes-1",  physics={shape={-20,-90, 70,90, -80,90}}, flip="x"},
             {object="spike", x=700,  y=-100, type="fg-spikes-1",  physics={shape={-20,-90, 70,90, -80,90}}},
@@ -53,7 +54,11 @@ local levelData = {
             {object="spike", x=1300, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
             {object="spike", x=200,  y=120,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
 
-        {object="ledge", x=1400, y=50, size="big"},
+        {object="ledge", x=300, y=-150, size="medium", targetName="tempLedge"},
+            {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak"},
+
+        --{object="ledge", x=1400, y=50, size="big"},
+        {object="ledge", x=905, y=200, size="big"},
 
         {object="ledge", x=250, y=150, size="small2"},
             {object="friend", type="fuzzy", onLedge=true, color="Orange"},
@@ -100,6 +105,61 @@ local levelData = {
 
         {object="ledge", x=370, y=0, type="finish"}
     },
+
+        -- Brainiak: taunts player next to rock trap before it collapse then runs off
+    customEvents = {
+        ["brainiakTrap"] = {
+            conditions   = {},
+            targets = {
+                {object="player", targetName="brainiak"},
+                {object="ledge",  targetName="focusLedge"},
+                {object="ledge",  targetName="tempLedge"},
+            },
+            delay        = 1000,
+            freezePlayer = true,
+            action       = function(camera, player, source, targets)
+                -- function called when event triggered and conditions have been met. Params:
+                -- camera:  the camera to move around
+                -- player:  the main player
+                -- source:  the ledge which triggered the event
+                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+                sounds:loadPlayer(characterBrainiak)
+
+                local brainiak   = targets[1]
+                local ledgeFocus = targets[2]
+                local ledgeTemp  = targets[3]
+                local bomb       = nil
+
+                camera:setFocus(ledgeFocus.image)
+                camera:setFocusOffsetX(50)
+                
+                brainiak:setIndividualGear(gearJetpack)
+
+                after(1000, function() 
+                    brainiak:sound("randomCelebrate")
+                    bomb = brainiak:dropNegable(negTimeBomb) 
+                end)
+                after(2000, function() 
+                    brainiak:changeDirection()
+                    brainiak:runup(200, -2600) 
+                end)
+
+                after(3000, function() 
+                    hud:showEffect("explosion", ledgeTemp)
+                    player:sound("ledgeExplodingActivated")
+                    bomb:destroy()
+                    ledgeTemp:destroy() 
+                end)
+                after(4500, function()
+                    camera:setFocus(player.image)
+                    brainiak:destroy()
+                    sounds:unloadPlayer(characterBrainiak)
+                    hud:exitScript()
+                end)
+
+            end,
+        },
+    }
 }
 
 return levelData
