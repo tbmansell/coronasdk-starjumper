@@ -96,18 +96,21 @@ function enemyCollection:checkBehaviourChange(enemy, players)
     elseif enemy.mode == stateWaiting or enemy.mode == stateSleeping or (enemy.mode ~= stateResetting and enemy.behaviour.range) then
         -- Loop through all players and see if a player has woken an enemy
         for p=1, numPlayers do
-            local player      = playerItems[p]
-            local playerLedge = player.attachedLedge
+            local player = playerItems[p]
 
-            if playerLedge then
-                -- NOTE: find a better way to do this such as when landing on a ledge get the ledge to see if it wakes someone up
-                if enemy.mode == stateWaiting or enemy.mode == stateSleeping then
-                    if enemy:shouldAwaken(playerLedge.id, player) then
+            if player ~= -1 then
+                local playerLedge = player.attachedLedge
+
+                if playerLedge then
+                    -- NOTE: find a better way to do this such as when landing on a ledge get the ledge to see if it wakes someone up
+                    if enemy.mode == stateWaiting or enemy.mode == stateSleeping then
+                        if enemy:shouldAwaken(playerLedge.id, player) then
+                            break
+                        end
+                    elseif enemy.mode ~= stateResetting and enemy.behaviour.range then
+                        enemy:reachedRange(playerLedge.id)
                         break
                     end
-                elseif enemy.mode ~= stateResetting and enemy.behaviour.range then
-                    enemy:reachedRange(playerLedge.id)
-                    break
                 end
             end
         end

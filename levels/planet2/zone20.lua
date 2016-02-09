@@ -126,12 +126,8 @@ local levelData = {
 
         -- Stage 3
         {object="ledge", x=210, y=210, size="small"},
-
-      
-
-        {object="warpfield", x=350, y=100, size=0.35, radius=100, movement={steering=steeringMild, speed=3, pattern={{300,200},{-300,-200}}}},
+            {object="warpfield", x=350, y=100, size=0.35, radius=100, movement={steering=steeringMild, speed=3, pattern={{300,200},{-300,-200}}}},
         
-
         {object="ledge", x=170, y=270, size="small2"},
 
         {object="ledge", x=250, y=240, size="small3"},

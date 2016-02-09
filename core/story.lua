@@ -18,7 +18,7 @@ local play = globalSoundPlayer
 function storyTeller:start(storyName, scenePauseHandler, sceneResumeHandler, alertHandler, scene)
 	local story = scripts[storyName]
 
-    if story == nil or not state:showStory(storyName) then
+    if story == nil or (not story.alwaysShow and not state:showStory(storyName)) then
     	return false
     end
 
@@ -42,7 +42,7 @@ function storyTeller:startNow(storyName, scenePauseHandler, sceneResumeHandler, 
 	self.storyId = storyName
     self.story   = scripts[storyName]
 
-    if self.story == nil or not state:showStory(storyName) then
+    if self.story == nil or (not self.story.alwaysShow and not state:showStory(storyName)) then
     	return false
     end
 
@@ -69,7 +69,8 @@ function storyTeller:setup()
     end
 
     -- lets show the story
-    state.data.game = levelShowStory
+    self.prevGameState = state.data.game
+    state.data.game    = levelShowStory
 
     self.pauseHandler()
     audio.pause()
@@ -122,7 +123,6 @@ function storyTeller:run()
 	end
 	
 	play(startSound)
-
 	self:runNextEvent()
 end
 
@@ -248,7 +248,7 @@ function storyTeller:finish()
 
 	state:saveStoryViewed(self.storyId)
 	self:cleanup()
-	self.resumeHandler()
+	self.resumeHandler(self.prevGameState)
 
 	self.resumeHandler = nil
 	self.pauseHandler  = nil

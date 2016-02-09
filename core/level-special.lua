@@ -515,7 +515,19 @@ function newObjectsLoader:load(level)
 
 ---------- HANDLE CUSTOM EVENTS ----------
 
+    -- Called when the level starts to run through any timed custom events and trigger them
+    function level:startCustomEvents()
+        if self.data.customEvents then
+            for name,event in pairs(self.data.customEvents) do
+                if event.conditions.zoneStart then
+                    self:triggerCustomEvent(name, hud.player, self:getLedge(1))
+                end
+            end
+        end
+    end
 
+
+    -- Makes a check to see if the custom event name should be run and if so runs it
     function level:triggerCustomEvent(eventName, player, source)
         if self.data.customEvents then
             local event = self.data.customEvents[eventName]
@@ -525,6 +537,11 @@ function newObjectsLoader:load(level)
                     -- check if already been run
                     if not event.hasRun then
                         after(event.delay, function()
+                            if event.freezePlayer then
+                                state.data.game = levelRunScript
+                                hud:scriptMode(true)
+                            end
+
                             -- collect event targets
                             local camera  = hud.camera
                             local player  = player
@@ -568,6 +585,7 @@ function newObjectsLoader:load(level)
             if     target.object == "scenery"     then object = self.scenery:getTargetName(name)
             elseif target.object == "collectable" then object = self.collectables:getTargetName(name)
             elseif target.object == "ledge"       then object = self.ledges:getTargetName(name)
+            elseif target.object == "player"      then object = self.players:getTargetName(name)
             end
 
             if object then

@@ -323,13 +323,14 @@ function level:createElementsFromData(source, jumpObject)
             local objectType = item.object
             local element    = nil
 
-            if     objectType == "ledge"         then jumpObject = self:createLedge(item, jumpObject, zoneState)
-            elseif objectType == "obstacle"      then jumpObject = self:createObstacle(item, jumpObject)
-            elseif objectType == "enemy"         then element    = self:createEnemy(item, jumpObject)
-            elseif objectType == "friend"        then element    = self:createFriend(item, jumpObject, zoneState)
-            elseif objectType == "emitter"       then element    = self:createEmitter(item, jumpObject)
+            if     objectType == "ledge"         then jumpObject = self:createLedge(item,       jumpObject, zoneState)
+            elseif objectType == "obstacle"      then jumpObject = self:createObstacle(item,    jumpObject)
+            elseif objectType == "enemy"         then element    = self:createEnemy(item,       jumpObject)
+            elseif objectType == "friend"        then element    = self:createFriend(item,      jumpObject, zoneState)
+            elseif objectType == "emitter"       then element    = self:createEmitter(item,     jumpObject)
+            elseif objectType == "player"        then element    = self:createPlayer(item,      jumpObject)
             elseif collectableObject[objectType] then element    = self:createCollectable(item, jumpObject)
-            elseif sceneryObject[objectType]     then element    = self:createScenery(item, jumpObject) end
+            elseif sceneryObject[objectType]     then element    = self:createScenery(item,     jumpObject) end
             
             if objectType == "ledge" or objectType == "obstacle" then
                 local index = #jumpObjectRoute + 1
@@ -532,19 +533,20 @@ function level:createLiveBackground(item, jumpObject)
 end
 
 
-function level:createPlayer(item)
+function level:createPlayer(item, ledge)
     local player = nil
 
     if item.type == "main" then
         local ledgeId = self.data.startLedge or 1
+        player        = playerBuilder:newMainPlayer(camera, item, self:getLedge(ledgeId))
+        mainPlayer    = player
 
-        player = playerBuilder:newMainPlayer(camera, item, self:getLedge(ledgeId))
-        mainPlayer = player
+    elseif item.type == "scripted" then
+        player = playerBuilder:newScriptedPlayer(camera, item, ledge)
 
     elseif item.type == "ai" then
-        local ledgeId = item.startLedge or 1
         hasAiPlayers  = true
-        player = playerBuilder:newAiPlayer(camera, item, self:getLedge(ledgeId))
+        player = playerBuilder:newAiPlayer(camera, item, self:getLedge(item.startLedge or 1))
     end
 
     playerCollection:add(player)

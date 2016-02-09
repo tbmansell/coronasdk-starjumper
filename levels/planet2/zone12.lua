@@ -128,7 +128,10 @@ local levelData = {
                     targets[1]:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
                     targets[2]:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
 
-                    after(4000, function() camera:setFocus(player.image) end)
+                    after(4000, function() 
+                        camera:setFocus(player.image) 
+                        hud:exitScript()
+                    end)
                 end)
             end
         },

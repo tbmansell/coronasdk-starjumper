@@ -15,6 +15,7 @@ local playerBuilder = {
 	-- newPlayer()
 	-- newMainPlayer()
 	-- newAiPlayer()
+    -- newScriptedPlayer()
 }
 
 
@@ -154,6 +155,26 @@ function playerBuilder:newAiPlayer(camera, spec, ledge)
     camera:add(player.image, 3)
 
 	return player
+end
+
+
+-- Creates a player with no intelligence that is used for story scripts
+-- @param camera
+-- @param spec
+-- @param ledge
+-- @return new player object
+----
+function playerBuilder:newScriptedPlayer(camera, spec, ledge)
+    local player = self:newPlayer(camera, spec, ledge)
+    player.scripted = true
+    
+    if spec.direction == left then
+        player:changeDirection()
+    end
+
+    camera:add(player.image, 3)
+
+    return player
 end
 
 

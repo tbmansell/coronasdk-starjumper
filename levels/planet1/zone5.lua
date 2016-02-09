@@ -14,6 +14,7 @@ local levelData = {
 
     elements = {
         {object="ledge", type="start"},
+
             {object="scenery", x=150, y=-285, type="fg-foilage-1-yellow", layer=2},
             {object="rings", color=aqua, pattern={ {900,-350}, {0,75}, {0,75} }},
 
@@ -33,6 +34,8 @@ local levelData = {
         {object="ledge", x=360, y=-175, size="medium2"},
 
         {object="ledge", x=-300, y=-300, size="medium"},
+            {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak"},
+
             {object="scenery", x=-50, y=-97, type="fg-foilage-3-yellow", layer=2, onLedge=true},
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=180, yforce=75, arc=50, num=3}},
 
@@ -86,9 +89,53 @@ local levelData = {
             {object="spike", x=550,   y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
             {object="spike", x=715,   y=-500, type="fg-spikes-float-1", flip="y", size=0.8, physics={shape={-80,-110, 80,-110, 0,110}} },
 
-
         {object="ledge", x=400, y=300, type="finish"}
     },
+
+    -- Brainiak: just on the first ledge and introduces himself, then jumps away
+    customEvents = {
+        ["introduceBrainiak"] = {
+            conditions   = {
+                zoneStart = true,
+            },
+            targets = {
+                {object="player", targetName="brainiak"},
+            },
+            delay        = 1000,
+            freezePlayer = true,
+            action       = function(camera, player, source, targets)
+                -- function called when event triggered and conditions have been met. Params:
+                -- camera:  the camera to move around
+                -- player:  the main player
+                -- source:  the ledge which triggered the event
+                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+                sounds:loadPlayer(characterBrainiak)
+
+                local brainiak = targets[1]
+                camera:setFocus(brainiak.image)
+                brainiak:readyJump()
+
+                after(500,  function() brainiak:runup(-340, -450) end)
+                after(1500, function()
+                    hud:showStory("intro-brainiak", function()
+                        brainiak:dropNegable(negDizzy)
+
+                        after(1000, function() brainiak:setIndividualGear(gearJetpack) end)
+                        after(1500, function() brainiak:changeDirection() end)
+                        after(2000, function()
+                            camera:setFocus(player.image)
+                            brainiak:runup(250, -1600)
+                        end)
+                        after(4000, function()
+                            brainiak:destroy()
+                            sounds:unloadPlayer(characterBrainiak)
+                            hud:exitScript()
+                        end)
+                    end)
+                end)
+            end,
+        },
+    }
 }
 
 return levelData

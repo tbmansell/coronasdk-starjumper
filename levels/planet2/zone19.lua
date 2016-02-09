@@ -73,9 +73,6 @@ local levelData = {
             {object="key", x=0, y=-60, color="Yellow", onLedge=true},
             {object="rings", color=pink, pattern={ {-230,40} }},
 
-
-
-
             {object="emitter", x=0, y=1000, timer={3000, 6000}, limit=nil, force={ {-300, 300}, {-100, -300}, {45, 95} }, 
                 items={
                     {10, {object="scenery", layer=1, type="fg-debris-barrel-grey", size={6, 8}} },
@@ -166,7 +163,10 @@ local levelData = {
                     targets[3]:destroy()
                     targets[4]:destroy()
 
-                    after(2000, function() camera:setFocus(player.image) end)
+                    after(2000, function() 
+                        camera:setFocus(player.image) 
+                        hud:exitScript()
+                    end)
                 end)
             end
         },

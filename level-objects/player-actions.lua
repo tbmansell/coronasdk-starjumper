@@ -38,6 +38,7 @@ local player = {
 	-- prepareThrow()
 	-- cancelThrow()
 	-- throwNegable()
+    -- dropNegable()
 }
 
 
@@ -411,7 +412,7 @@ function player:landCorrection(ledge)
         end
     end)
 
-    if self:onStartLedge() then
+    if not self.scripted and self:onStartLedge() then
         after(500, function()
             -- walk to level start point if jumped too far back on start ledge
             self:changeDirection(right)
@@ -602,6 +603,7 @@ function player:ironSkinCollision()
     self:soundLand(true)
     self:animate("Landing FAR EDGE")
 end
+
 
 --------- PLAYER V PLAYER ACTIONS -----------
 
@@ -795,6 +797,25 @@ function player:throwNegable(velocityX, velocityY)
             player:stand()
         end
     end)
+end
+
+
+function player:dropNegable(negable)
+    local name = negable or utils.percentFrom(self.personality.traps)
+    local x, y = self:x(), self:y()-50
+
+    if negableSlots[name] then
+        local item = hud.level:generateNegable(x, y, name)
+        if item then
+            local scale = self:getCamera().scaleVelocity
+            -- initially mark as uncollectable until it can fly in the air for a second
+            item.isSensor = true
+            item.isStolen = true
+            item:body("dynamic")
+            item:applyForce(-100*scale, -200*scale)
+            after(250, function() item.isStolen=false end)
+        end
+    end
 end
 
 

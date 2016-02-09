@@ -249,12 +249,18 @@ function hud:pauseGame()
 end
 
 -- internal function used by the HUD
-function hud:resumeGame()
+function hud:resumeGame(gameState)
     if hud.timerHandle then timer.resume(hud.timerHandle) end
     track:resumeEventHandles()
-    hud.resumeGameHandler()
+    hud.resumeGameHandler(nil, gameState)
     audio.resume()
     recorder:resume()
+end
+
+
+function hud:exitScript()
+    state.data.game = levelPlaying
+    self:scriptMode(false)
 end
 
 
@@ -740,8 +746,18 @@ function hud:displayMessage(message, type)
 end
 
 
-function hud:showStory(storyId)
-    stories:start(storyId, hud.pauseGame, hud.resumeGame, hud.notifyStory)
+function hud:showStory(storyId, resumeHandler)
+    local resumeCallback = nil
+
+    -- Used for when an ingame script runs a story and then needs to execute more action after
+    if resumeHandler then
+        resumeCallback = function(gameState)
+            hud:resumeGame(gameState)
+            resumeHandler()
+        end
+    end
+
+    stories:start(storyId, hud.pauseGame, resumeCallback, hud.notifyStory)
 end
 
 

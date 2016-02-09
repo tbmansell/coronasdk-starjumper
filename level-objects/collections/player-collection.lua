@@ -27,33 +27,36 @@ function playerCollection:checkMovement(delta)
 
     for i=1,num do
         local player = items[i]
-	    local ledge  = player.attachedLedge
-	    local mode   = player.mode
 
-	    if mode == playerRun and ledge and ledge.inGame then
-	    	self:checkRunMovement(player, ledge, delta)
-	        
-	    elseif mode == playerWalk then
-	    	self:checkWalkMovement(player, delta)
+        if player ~= -1 then
+    	    local ledge  = player.attachedLedge
+    	    local mode   = player.mode
 
-        elseif mode == playerGrappling then
-            self:drawGrappleHook(player)
+    	    if mode == playerRun and ledge and ledge.inGame then
+    	    	self:checkRunMovement(player, ledge, delta)
+    	        
+    	    elseif mode == playerWalk then
+    	    	self:checkWalkMovement(player, delta)
 
-        elseif mode == playerOnVehicle then
-            if player.vehicleImage then
-                player.vehicleImage.x = player.image.x      --* delta
-                player.vehicleImage.y = (player.image.y-25) --* delta
-            end
-	    else
-    	    local correctBy = player.correctBy
-    		if correctBy ~= 0 then
-	    		self:checkCorrectionMovement(player, correctBy)
-	    	end
+            elseif mode == playerGrappling then
+                self:drawGrappleHook(player)
 
-	        if player.boundEmitter then
-	        	self:checkTrailMovement(player, player.boundEmitter)
-	        end
-	    end
+            elseif mode == playerOnVehicle then
+                if player.vehicleImage then
+                    player.vehicleImage.x = player.image.x      --* delta
+                    player.vehicleImage.y = (player.image.y-25) --* delta
+                end
+    	    else
+        	    local correctBy = player.correctBy
+        		if correctBy ~= 0 then
+    	    		self:checkCorrectionMovement(player, correctBy)
+    	    	end
+
+    	        if player.boundEmitter then
+    	        	self:checkTrailMovement(player, player.boundEmitter)
+    	        end
+    	    end
+        end
 	end
 end
 
@@ -132,9 +135,11 @@ function playerCollection:checkBehaviours(camera, floor)
     for i=1,num do
         local player = items[i]
 
-    	self:checkIfOutOfPlay(player, camera, floor)
-    	self:checkJumpBehaviour(player)
-    	self:checkDeadlyLedge(player)
+        if player ~= -1 then
+    	   self:checkIfOutOfPlay(player, camera, floor)
+    	   self:checkJumpBehaviour(player)
+    	   self:checkDeadlyLedge(player)
+        end
     end
 end
 
@@ -148,7 +153,7 @@ function playerCollection:checkIfOutOfPlay(player, camera, floor)
     -- NOTE: Check for debug status here:
     hud:debugPlayerMode(player)
 
-    if player.image.y > floor and player.markedOutOfPlay == nil then
+    if player ~= -1 and player.image.y > floor and player.markedOutOfPlay == nil then
         local main = player.main
         local mode = player.mode
 

@@ -448,6 +448,7 @@ function scene:startPlaying(player)
 
     soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
     level:startConstantSounds()
+    level:startCustomEvents()
 
     -- check if this zone has an intro script:
     if state.data.gameSelected == gameTypeStory then
@@ -488,8 +489,8 @@ function scene:pauseLevel()
 end
 
 
-function scene:resumeLevel()
-    state.data.game = levelPlaying
+function scene:resumeLevel(resumeGameState)
+    state.data.game = resumeGameState or levelPlaying
     Runtime:addEventListener("enterFrame", enterFrameFunction)
     physics:start()
     timer.resume(scene.gameLoopHandle)

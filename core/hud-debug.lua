@@ -161,6 +161,19 @@ function hud:switchScreenshotMode()
 end
 
 
+function hud:scriptMode(on)
+    if on then
+        self:hideGear()
+
+        if self.startLevelGroup then self.startLevelGroup.alpha = 0 end
+    else
+        self:showGearFull()
+
+        if self.startLevelGroup then self.startLevelGroup.alpha = 1 end
+    end
+end
+
+
 function hud:debugPlayerMode(player)
     if self.debugMode then
         local text = playerStates[player.mode].."|"..round(player:x())..", "..round(player:y()).."|alive="..tostring(player.inGame).." key="..tostring(player.key)

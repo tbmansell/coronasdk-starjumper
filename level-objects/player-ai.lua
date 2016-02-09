@@ -12,7 +12,6 @@ local player = {
 	-- aiLanded()
 	-- aiGrabbed()
 	-- hasCompletedLevel()
-	-- dropTrap()
 	-- checkForKeyGear()
 	-- preparedForJump()
 	-- holdForNextJump()
@@ -133,7 +132,7 @@ function player:waitForPlayer(level, mainPlayer)
 			self.waitingToCatchup = false
 			-- check if we're gonna throw a trap for them
 			if self.personality.dropTrapOnCatchup then
-				self:dropTrap()
+				self:dropNegable()
 				-- wait a second before running off
 				self:wait(1)
 			end
@@ -173,25 +172,6 @@ function player:waitForPlayer(level, mainPlayer)
 		self.waitingToCatchup = true
 		return true
 	end
-end
-
-
-function player:dropTrap()
-    local name = utils.percentFrom(self.personality.traps)
-    local x, y = self:x(), self:y()-50
-
-    if negableSlots[name] then
-        local item = hud.level:generateNegable(x, y, name)
-        if item then
-        	local scale = self:getCamera().scaleVelocity
-            -- initially mark as uncollectable until it can fly in the air for a second
-            item.isSensor = true
-            item.isStolen = true
-            item:body("dynamic")
-            item:applyForce(-100*scale, -200*scale)
-            after(250, function() item.isStolen=false end)
-        end
-    end
 end
 
 
