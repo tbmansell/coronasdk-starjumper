@@ -70,6 +70,7 @@ function storyTeller:setup()
 
     -- lets show the story
     self.prevGameState = state.data.game
+    self.playerName    = characterData[state.data.playerModel].name
     state.data.game    = levelShowStory
 
     self.pauseHandler()
@@ -219,7 +220,7 @@ function storyTeller:showSpeechBalloon(event)
 	local name    = characterData[speaker].title..": "..characterData[speaker].name
 	local balloon = newImage(group, "message-tabs/messagetab-"..characterData[speaker].name..(event.size or ""), 0, ypos)
 	local title   = newText(group, name, 0, ypos+15, 0.35, "white", "LEFT")
-	local message = display.newText(group, event.text, 0, ypos+30, 440, 95, "arial", 18)
+	local message = display.newText(group, self:parseText(event.text), 0, ypos+30, 440, 95, "arial", 18)
 
 	balloon.anchorY = 0
 	balloon:scale(1, 0.7)
@@ -236,6 +237,13 @@ function storyTeller:showSpeechBalloon(event)
 		title.x   = 510
 		message.x = 510
 	end
+end
+
+
+function storyTeller:parseText(text)
+	local name = string.upper(self.playerName:sub(1,1)) .. self.playerName:sub(2)
+
+	return text:gsub("{player}", name)
 end
 
 

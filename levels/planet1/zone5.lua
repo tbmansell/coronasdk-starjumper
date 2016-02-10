@@ -117,7 +117,7 @@ local levelData = {
 
                 after(500,  function() brainiak:runup(-340, -450) end)
                 after(1500, function()
-                    hud:showStory("intro-brainiak", function()
+                    hud:showStory("intro-brainiak-zone5", function()
                         brainiak:dropNegable(negDizzy)
 
                         after(1000, function() brainiak:setIndividualGear(gearJetpack) end)

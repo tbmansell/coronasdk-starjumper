@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.10.6"
+globalBuildVersion 		   = "0.10.7"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global timer for animating during loading scenes
@@ -62,7 +62,7 @@ if mode == "play" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 11
+	state.data.zoneSelected   = 21
 	state.data.gameSelected   = gameTypeStory
 	storyboard:gotoScene("scenes.play-zone")
 

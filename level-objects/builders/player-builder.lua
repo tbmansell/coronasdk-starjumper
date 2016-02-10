@@ -46,7 +46,9 @@ end
 ----
 function playerBuilder:newPlayer(camera, spec, ledge)
     local skin   = characterData[spec.model].skin
-	local player = builder:newSpineObject(spec, {jsonName="player", imagePath="player", scale=(spec.scale or 0.2), skin=skin, animation="Stationary"})
+    local scale  = spec.scale or 0.2
+    local anim   = spec.animation or "Stationary"
+	local player = builder:newSpineObject(spec, {jsonName="player", imagePath="player", scale=scale, skin=skin, animation=anim})
 
     -- Allow override of destroy()
     player.spineObjectDestroy = player.destroy
@@ -67,6 +69,11 @@ function playerBuilder:newPlayer(camera, spec, ledge)
 	player:reset()
     player:visible()
 	player:changeDirection(right)
+
+    -- apply animation after reset as that makes players stand:
+    if spec.animation then
+        player:loop(anim)
+    end
 
     self:applyCharacterAbilities(player)
 

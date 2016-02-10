@@ -84,8 +84,7 @@ local scripts = {
 
 -- IN-GAME STORY SCRIPTS --
 
-	["intro-brainiak"] = {
-		alwaysShow = true,
+	["intro-brainiak-zone5"] = {
 		forced     = true,
 		delay      = 1500,
 		sequence   = {
@@ -95,15 +94,14 @@ local scripts = {
 			{delay=3000,                            dir=left,  text="Wait - come back here!"},
 		},
 	},
-	-- TODO:
 	["intro-planet1-zone7"] = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
-			{delay=1000,                         dir=left,  text="So are we going home now?"},
-			{delay=3000, speaker=characterGygax, dir=right, text="No, I'm going to make sure you are exploring to the stone we require"},
-			{delay=3000, speaker=characterGygax, dir=right, text="I will race you through this zone. If you beat me we can move on. Otherwise, you'll have to try again"},
-			{delay=3000,                         dir=left,  text="Great that's fair, shooting along in your spaceship..."},
+			{delay=1000, speaker=characterGygax, dir=right, text="Right {player}, you have been doing well so far, but things are going to get harder so we must work on your speed training", size="-big"},
+			{delay=3000,                         dir=left,  text="Oh it's pretty cold down here and it was so safe and warm in the zone navigator"},
+			{delay=3000, speaker=characterGygax, dir=right, text="I will race you through this zone. If you beat me we can move on. Otherwise, you'll have to try again. Oh you might want to stock up on jetpacks too", size="-big"},
+			{delay=3000,                         dir=left,  text="I'm not sure this race is entirely fair..."},
 		},
 	},
 	["intro-planet1-zone14"] = {
@@ -113,15 +111,14 @@ local scripts = {
 			{delay=1000, speaker=characterGygax, dir=right, size="-big", text="Quick don't hang about, this zone is unstable! Get to the top before the eruption reaches you. But look out for Fuzzies who need rescuing!"},
 		},
 	},
-	-- TODO:
-	["intro-planet1-zone21"] = {
+	["race-brainiak-zone21"] = {
+	    alwaysShow=true,
 		forced   = true,
-		delay    = 1500,
 		sequence = {
-			{delay=1000,                           dir=left,  text="Hey there!"},
-			{delay=3000, speaker=characterSkyanna, dir=right, text="Hey kid, you made it. Time to show me what you have learnt. Beat me through this zone and I'll join your expedition!", size="-big"},
-			{delay=3000,                           dir=left,  text="Ok, I think I can take you on... erm are you carrying something?"},
-			{delay=3000, speaker=characterSkyanna, dir=right, text="Why I don't know what you mean..."},
+			{delay=1000, speaker=characterBrainiak, dir=right, text="Aaargh still you survive little alien. Enough toying with your friend. It's feeding time and my trap has done its work bringing more aliens here", size="-big"},
+			{delay=3000,                            dir=left,  text="I've not battled this far to give up now. Your evil ways will soon be at an end Brainiak. No-one eats my friends!", size="-big"},
+			{delay=3000, speaker=characterBrainiak, dir=right, text="Raaagh you can't stop me..."},
+			{delay=3000,                            dir=left,  text="Skyanna I'm coming for you!"},
 		},
 	},
 

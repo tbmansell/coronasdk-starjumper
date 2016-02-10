@@ -44,7 +44,7 @@ local levelData = {
             },
 
         {object="ledge", x=-300, y=150, size="small", positionFromLedge=4, ai={ignore=true}},
-            {object="gear", type=gearGloves, y=-40, onLedge=true},
+            {object="gear", type=gearGrappleHook, y=-40, onLedge=true},
 
         {object="ledge", x=300, y=-200, size="small2", positionFromLedge=6},
 

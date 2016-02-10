@@ -31,6 +31,12 @@ local math_random = math.random
 local math_round  = math.round
 
 
+-- Allows AI logic to be paused and resumed for script purposes
+function player:pauseAi(pause)
+	self.pauseAiLogic = pause
+end
+
+
 -- Used to tell the AI to wait X seconds before checking for a change of state again
 function player:wait(seconds)
 	-- currently where the game loop runs for times per second
@@ -40,6 +46,8 @@ end
 
 -- Main function which the AI uses to edtermine if it should performa and action
 function player:checkAIBehaviour(level)
+	if self.pauseAiLogic then return end
+
 	local mainPlayer = self.mainPlayerRef
 
 	-- Update any waiting timer

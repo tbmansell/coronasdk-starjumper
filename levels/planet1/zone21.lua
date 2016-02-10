@@ -19,9 +19,22 @@ local levelData = {
             
         -- AI start
         {object="ledge", x=300, y=-50},
+            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15,
+                personality={
+                    --waitForPlayer     = 3,    -- waits for player if they are this many ledges in front
+                    --waitCatchupTo     = 1,    -- once waited, waits until the player is 1 ledge in front, before continuing
+                    waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
+                    waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
+                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
+                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
+                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
+                    traps = {                 -- traps AI has to throw (currently infinite)
+                        {50,negTrajectory}, {100,negDizzy}
+                    },
+                }
+            },
 
         {object="ledge", x=300, y=-150, size="medium2"},
-
             {object="emitter", x=0, y=-150, timer={1000, 2000}, limit=4, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.2},
@@ -67,7 +80,7 @@ local levelData = {
                     object="livebgr", type="heart", color="Red", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.2},
                     movement={rangeX={-1000, 1000}, rangeY={-350, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },                  
+            },
 
         {object="ledge", x=250, y=0, surface="electric", timerOn=5000, timerOff=5000},
 
@@ -97,25 +110,28 @@ local levelData = {
                     object="livebgr", type="stomach", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.6},
                     movement={rangeX={-600, 600}, rangeY={-200, 250}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },           
+            },
 
         {object="ledge", x=275, y=0, movement={pattern={{500,-150}}, reverse=true,  distance=100, speed=1, pause=1000}},
 
         {object="ledge", x=800, y=0, size="medium3"},
         
-        {object="ledge", x=500, y=0, type="finish"}
+        {object="ledge", x=500, y=0, type="finish"},
+            {object="player", type="scripted", x=-200, y=0, model=characterSkyanna, direction=left, animation="Seated", targetName="skyanna"},
+            {object="enemy",  type="brain",    x=-320, y=-200, size=0.35, color="Purple", spineDelay=300, targetName="henchman1"},
+            {object="enemy",  type="brain",    x=-100,  y=-200, size=0.35, color="Blue",   spineDelay=600, targetName="henchman2"},
     },
 
+    --[[
     ai = {
         [1] = {
-            skin          = "Female  Alien",
-            model         = characterSkyanna,
+            model         = characterBrainiak,
             direction     = left,
             startSequence = "taunt",
             startTaunt    = 1,
             startLedge    = 2,
             lives         = 10,
-            waitingTimer  = 3.5,
+            waitingTimer  = 5,
             personality   = {
                 --waitForPlayer     = 3,    -- waits for player if they are this many ledges in front
                 waitCatchupTo     = 1,    -- once waited, waits until the player is 1 ledge in front, before continuing
@@ -129,7 +145,50 @@ local levelData = {
                 },
             }
         },
+    },]]
+
+    customEvents = {
+        ["intro"] = {
+            conditions   = {
+                zoneStart = true,
+            },
+            targets = {
+                {object="player", targetName="brainiak"},
+                {object="player", targetName="skyanna"},
+            },
+            delay        = 1000,
+            freezePlayer = true,
+            action       = function(camera, player, source, targets)
+                -- function called when event triggered and conditions have been met. Params:
+                -- camera:  the camera to move around
+                -- player:  the main player
+                -- source:  the ledge which triggered the event
+                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+                sounds:loadPlayer(characterBrainiak)
+
+                local brainiak = targets[1]
+                local skyanna  = targets[2]
+
+                brainiak:pauseAi(true)
+                brainiak:taunt()
+
+                after(1000, function()
+                    hud:showStory("race-brainiak-zone21", function()
+                        after(1000, function()
+                            camera:setFocus(skyanna.image)
+
+                            after(2000, function()
+                                camera:setFocus(player.image)
+                                hud:exitScript()
+                                brainiak:pauseAi(false)
+                            end)
+                        end)
+                    end)
+                end)
+            end,
+        },
     },
+
 }
 
 return levelData

@@ -756,7 +756,7 @@ end
 
 
 function hud:showStory(storyId, resumeHandler)
-    local resumeCallback = nil
+    local resumeCallback = resumeHandler or self.resumeGameHandler
 
     -- Used for when an ingame script runs a story and then needs to execute more action after
     if resumeHandler then

@@ -546,7 +546,8 @@ function level:createPlayer(item, ledge)
 
     elseif item.type == "ai" then
         hasAiPlayers  = true
-        player = playerBuilder:newAiPlayer(camera, item, self:getLedge(item.startLedge or 1))
+        player = playerBuilder:newAiPlayer(camera, item, ledge)
+        --player = playerBuilder:newAiPlayer(camera, item, self:getLedge(item.startLedge or 1))
     end
 
     playerCollection:add(player)
