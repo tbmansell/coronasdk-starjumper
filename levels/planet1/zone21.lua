@@ -4,6 +4,7 @@ local levelData = {
     defaultLedgeSize = "medium",
     aiRace           = true,
     playerStart      = playerStartWalk,
+    startLedge       = 18,
 
     backgroundOrder = {
         [bgrFront] = {1,  2, 3,  4},
@@ -20,7 +21,7 @@ local levelData = {
         -- AI start
         {object="ledge", x=300, y=-50},
             --[[
-            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15, lives=1000,
+            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15,
                 personality={
                     waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
                     waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
@@ -130,7 +131,7 @@ local levelData = {
 
         {object="ledge", x=800, y=0, size="medium3", ai={jumpVelocity={360,900}}},
 
-            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15, lives=1000,
+            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15,
                 personality={
                     waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
                     waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
@@ -143,7 +144,7 @@ local levelData = {
                 }
             },
         
-        {object="ledge", x=500, y=0, type="finish"},
+        {object="ledge", x=500, y=0, type="finish", triggerEvent="playerWins"},
             {object="player", type="scripted", x=-200, y=0, model=characterSkyanna, direction=left, animation="Seated", targetName="skyanna"},
             {object="enemy",  type="brain",    x=-320, y=-200, size=0.35, color="Purple", spineDelay=300, targetName="henchman1"},
             {object="enemy",  type="brain",    x=-100, y=-200, size=0.35, color="Blue",   spineDelay=600, targetName="henchman2"},
@@ -166,6 +167,7 @@ local levelData = {
 
                 sounds:loadPlayer(characterBrainiak)
 
+                skyanna.lives = 0
                 brainiak.completedCallback = function() hud:triggerEvent("brainiakWins") end
                 brainiak:pauseAi(true)
                 brainiak:taunt()
@@ -225,13 +227,45 @@ local levelData = {
                 local henchman1 = hud:getTarget("enemy",  "henchman1")
                 local henchman2 = hud:getTarget("enemy",  "henchman2")
 
+                print("EVENT: brainiakWins")
+
                 camera:setFocus(brainiak.image)
 
                 after(1000, function() brainiak:taunt("3 4 Stars") end)
                 after(3000, function()
-                    henchman1:changeDirection()
+                    henchman1:changeDirection(right, true)
+                    henchman1:setMovement(nil, {pattern={{75,0}}, speed=0.5,  oneWay=true, moveStyle=moveStyleSwaySmall})
+                    henchman2:setMovement(nil, {pattern={{-50,0}}, speed=0.5, oneWay=true, moveStyle=moveStyleSwaySmall})
+                    henchman1:move()
+                    henchman2:move()
 
                     hud:exitScript()
+                    player:failedCallback()
+                end)
+            end,
+        },
+        ["playerWins"] = {
+            freezePlayer = true,
+            action       = function(camera, player, source)
+                local skyanna   = hud:getTarget("player", "skyanna")
+                local henchman1 = hud:getTarget("enemy",  "henchman1")
+                local henchman2 = hud:getTarget("enemy",  "henchman2")
+
+                print("EVENT: playerWins")
+
+                after(1000, function() 
+                    player:taunt("3 4 Stars")
+                    skyanna:taunt("3 4 Stars")
+                end)
+                after(3000, function()
+                    --[[henchman1:changeDirection(right, true)
+                    henchman1:setMovement(nil, {pattern={{75,0}}, speed=0.5,  oneWay=true, moveStyle=moveStyleSwaySmall})
+                    henchman2:setMovement(nil, {pattern={{-50,0}}, speed=0.5, oneWay=true, moveStyle=moveStyleSwaySmall})
+                    henchman1:move()
+                    henchman2:move()]]
+
+                    hud:exitScript()
+                    player:completedCallback()
                 end)
             end,
         },

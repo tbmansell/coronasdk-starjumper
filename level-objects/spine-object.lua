@@ -49,14 +49,18 @@ function spineObject:loop(name)
 end
 
 
-function spineObject:changeDirection(direction)
-    if self.direction == right then
+function spineObject:changeDirection(direction, fixDirection)
+    if self.fixDirection then return end
+
+    if direction == right then
         self.skeleton.flipX = true
         self.direction = right
     else
         self.skeleton.flipX = false
         self.direction = left
     end
+
+    self.fixDirection = fixDirection
 end
 
 

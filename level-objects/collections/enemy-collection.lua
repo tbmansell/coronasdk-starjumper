@@ -70,7 +70,7 @@ function enemyCollection:checkBehaviours(mainPlayer, playerCollection, floorY)
         local enemy = items[i]
 
         if validObject(enemy) then
-            if mainPlayer then
+            if mainPlayer and not enemy.fixDirection then
                 enemy:checkDirection(mainPlayer:x())
             end
 
