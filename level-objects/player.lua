@@ -336,7 +336,7 @@ function player:loseLife()
 
     if (self.lives == 0 and not self.ai and not self.restartDontDie) or self:cantRestart() then
         self.lostAllLives = true
-        self:failedCallback()
+        if self.failedCallback then self:failedCallback() end
     else
         -- Survival Mode - start them from the very start
         if self.restartDontDie then

@@ -103,30 +103,19 @@ local levelData = {
                 -- player needs to have the following keys for event to trigger
                 keys = {"Yellow", "Red"},
             },
-            targets = {
-                -- objects of the type shown need to have these matching targetName attributes
-                {object="scenery", targetName="moveableEndScenery1"},
-                {object="scenery", targetName="moveableEndScenery2"},
-                {object="ledge",   targetName="endLedge"},
-            },
             delay        = 1000,  -- time before event starts from when it's triggered (eg. if player lands on ledge, good to give it time)
             freezePlayer = true,  -- means player cannot control the game while event is running
+            action       = function(camera, player, source)
+                local wall1    = hud:getTarget("scenery", "moveableEndScenery1")
+                local wall2    = hud:getTarget("scenery", "moveableEndScenery2")
+                local endLedge = hud:getTarget("ledge",   "endLedge")
 
-            -- the function called when the conditions are met and the targets found
-            action = function(camera, player, source, targets)
-                -- function called when event triggered and conditions have been met. Params:
-                -- camera:  the camera to move around
-                -- player:  the main player
-                -- source:  the ledge which triggered the event
-                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
                 globalSoundPlayer(sounds.checkpoint)
-                
-                local endLedge = targets[3]
                 camera:setFocus(endLedge.image)
 
                 after(2000, function()
-                    targets[1]:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
-                    targets[2]:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
+                    wall1:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
+                    wall2:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
 
                     after(4000, function() 
                         camera:setFocus(player.image) 

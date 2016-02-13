@@ -519,7 +519,7 @@ function newObjectsLoader:load(level)
     function level:startCustomEvents()
         if self.data.customEvents then
             for name,event in pairs(self.data.customEvents) do
-                if event.conditions.zoneStart then
+                if event.conditions and event.conditions.zoneStart then
                     self:triggerCustomEvent(name, hud.player, self:getLedge(1))
                 end
             end
@@ -542,13 +542,7 @@ function newObjectsLoader:load(level)
                                 hud:scriptMode(true)
                             end
 
-                            -- collect event targets
-                            local camera  = hud.camera
-                            local player  = player
-                            local source  = source
-                            local targets = self:getEventTargets(event)
-
-                            event.action(camera, player, source, targets)
+                            event.action(hud.camera, player, source)
                             event.hasRun = true
                         end)
                     end
@@ -575,25 +569,13 @@ function newObjectsLoader:load(level)
     end
 
 
-    function level:getEventTargets(event)
-        local targets = {}
-
-        for _,target in pairs(event.targets) do
-            local object = nil
-            local name   = target.targetName
-
-            if     target.object == "scenery"     then object = self.scenery:getTargetName(name)
-            elseif target.object == "collectable" then object = self.collectables:getTargetName(name)
-            elseif target.object == "ledge"       then object = self.ledges:getTargetName(name)
-            elseif target.object == "player"      then object = self.players:getTargetName(name)
-            elseif target.object == "enemy"       then object = self.enemies:getTargetName(name)
-            end
-
-            if object then
-                targets[#targets+1] = object
-            end
-        end
-        return targets
+    function level:getTarget(type, name)
+        if     type == "scenery"     then return self.scenery:getTargetName(name)
+        elseif type == "collectable" then return self.collectables:getTargetName(name)
+        elseif type == "ledge"       then return self.ledges:getTargetName(name)
+        elseif type == "player"      then return self.players:getTargetName(name)
+        elseif type == "enemy"       then return self.enemies:getTargetName(name)
+        else   return {} end
     end
 
 end

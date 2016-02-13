@@ -19,6 +19,7 @@ local levelData = {
         
         -- AI start
         {object="ledge", x=300, y=-50},
+            --[[
             {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15, lives=1000,
                 personality={
                     waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
@@ -30,7 +31,7 @@ local levelData = {
                         {50,negTrajectory}, {100,negDizzy}
                     },
                 }
-            },
+            },]]
 
             {object="enemy", type="brain", x=-550, y=-250, size=0.5, color="Purple", spineDelay=250, alpha=0, targetName="startBrain1", behaviour={mode=stateSleeping},
                 movement={pattern=movePatternVertical, distance=200, speed=0.2, moveStyle=moveStyleSway }
@@ -127,12 +128,25 @@ local levelData = {
 
         {object="ledge", x=275, y=0, movement={pattern={{500,-150}}, reverse=true,  distance=100, speed=1, pause=1000}},
 
-        {object="ledge", x=800, y=0, size="medium3"},
+        {object="ledge", x=800, y=0, size="medium3", ai={jumpVelocity={360,900}}},
+
+            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15, lives=1000,
+                personality={
+                    waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
+                    waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
+                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
+                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
+                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
+                    traps = {                 -- traps AI has to throw (currently infinite)
+                        {50,negTrajectory}, {100,negDizzy}
+                    },
+                }
+            },
         
         {object="ledge", x=500, y=0, type="finish"},
             {object="player", type="scripted", x=-200, y=0, model=characterSkyanna, direction=left, animation="Seated", targetName="skyanna"},
             {object="enemy",  type="brain",    x=-320, y=-200, size=0.35, color="Purple", spineDelay=300, targetName="henchman1"},
-            {object="enemy",  type="brain",    x=-100,  y=-200, size=0.35, color="Blue",   spineDelay=600, targetName="henchman2"},
+            {object="enemy",  type="brain",    x=-100, y=-200, size=0.35, color="Blue",   spineDelay=600, targetName="henchman2"},
     },
 
     customEvents = {
@@ -141,29 +155,18 @@ local levelData = {
             conditions   = {
                 zoneStart = true,
             },
-            targets = {
-                {object="player", targetName="brainiak"},
-                {object="player", targetName="skyanna"},
-                {object="enemy",  targetName="startBrain1"},
-                {object="enemy",  targetName="startBrain2"},
-                {object="enemy",  targetName="startBrain3"},
-            },
             delay        = 1000,
             freezePlayer = true,
-            action       = function(camera, player, source, targets)
-                -- function called when event triggered and conditions have been met. Params:
-                -- camera:  the camera to move around
-                -- player:  the main player
-                -- source:  the ledge which triggered the event
-                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+            action       = function(camera, player, source)
+                local brainiak = hud:getTarget("player", "brainiak")
+                local skyanna  = hud:getTarget("player", "skyanna")
+                local brain1   = hud:getTarget("enemy",  "startBrain1")
+                local brain2   = hud:getTarget("enemy",  "startBrain2")
+                local brain3   = hud:getTarget("enemy",  "startBrain3")
+
                 sounds:loadPlayer(characterBrainiak)
 
-                local brainiak = targets[1]
-                local skyanna  = targets[2]
-                local brain1   = targets[3]
-                local brain2   = targets[4]
-                local brain3   = targets[5]
-
+                brainiak.completedCallback = function() hud:triggerEvent("brainiakWins") end
                 brainiak:pauseAi(true)
                 brainiak:taunt()
                 
@@ -197,17 +200,11 @@ local levelData = {
         },
         -- Brainiak awakens the giant brain
         ["awakenGiant"] = {
-            conditions = {},
-            targets = {
-                {object="player", targetName="brainiak"},
-                {object="enemy",  targetName="giantBrain"},
-            },
-            delay        = 0,
             freezePlayer = true,
-            action       = function(camera, player, source, targets)
-                local player   = hud.player
-                local brainiak = targets[1]
-                local giant    = targets[2]
+            action       = function(camera, player, source)
+                local player   = hud.player -- do this as if AI jumps on the ledge, they become the player loaded in
+                local brainiak = hud:getTarget("player", "brainiak")
+                local giant    = hud:getTarget("enemy",  "giantBrain")
 
                 brainiak:pauseAi(true)
                 brainiak:taunt("3 4 Stars")
@@ -216,6 +213,24 @@ local levelData = {
                 after(3000, function()
                     camera:setFocus(player.image)
                     brainiak:pauseAi(false)
+                    hud:exitScript()
+                end)
+            end,
+        },
+        -- Brainiak arrives on the ledge first and the henchmen eat skyanna
+        ["brainiakWins"] = {
+            freezePlayer = true,
+            action       = function(camera, player, source)
+                local brainiak  = hud:getTarget("player", "brainiak")
+                local henchman1 = hud:getTarget("enemy",  "henchman1")
+                local henchman2 = hud:getTarget("enemy",  "henchman2")
+
+                camera:setFocus(brainiak.image)
+
+                after(1000, function() brainiak:taunt("3 4 Stars") end)
+                after(3000, function()
+                    henchman1:changeDirection()
+
                     hud:exitScript()
                 end)
             end,

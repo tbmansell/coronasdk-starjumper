@@ -258,36 +258,6 @@ function hud:resumeGame(gameState)
 end
 
 
-function hud:exitScript()
-    state.data.game = levelPlaying
-    self:scriptMode(false)
-end
-
-
-function hud:showEffect(effect, target, params)
-    local spineStore = require("level-objects.collections.spine-store")
-
-    if effect == "explosion" then
-        spineStore:showExplosion(hud.camera, target, params)
-    end
-end
-
-
-function hud:sequence(type, name, target1, target2, target3)
-    local seq = nil
-    if type == "oust" then 
-        seq = anim:oustSeq(name, target1)
-    else
-        seq = anim:chainSeq(name, target1)
-    end
-
-    if target2 then seq.target2 = target2 end
-    if target3 then seq.target3 = target3 end
-
-    return seq
-end
-
-
 -- shows the actual pause game menu with buttons to exit
 function hud:showPauseMenu()
     if state.data.game == levelPlaying then
@@ -891,7 +861,6 @@ end
 
 ---------- USED AS PROXY FOR PLAYER ----------
 
-
 function hud:showScoreMarkers(ledge, x)
     self.level:showLedgeScoreMarkers(ledge, x)
 end
@@ -915,3 +884,44 @@ function hud:firstLedge()
     return self.level:getLedge(1)
 end
 
+
+---------- USED FOR INGAME SCRIPTS ----------
+
+function hud:triggerEvent(eventName)
+    self.level:triggerCustomEvent(eventName, self.player, nil)
+end
+
+
+function hud:getTarget(type, name)
+    return self.level:getTarget(type, name)
+end
+
+
+function hud:exitScript()
+    state.data.game = levelPlaying
+    self:scriptMode(false)
+end
+
+
+function hud:showEffect(effect, target, params)
+    local spineStore = require("level-objects.collections.spine-store")
+
+    if effect == "explosion" then
+        spineStore:showExplosion(hud.camera, target, params)
+    end
+end
+
+
+function hud:sequence(type, name, target1, target2, target3)
+    local seq = nil
+    if type == "oust" then 
+        seq = anim:oustSeq(name, target1)
+    else
+        seq = anim:chainSeq(name, target1)
+    end
+
+    if target2 then seq.target2 = target2 end
+    if target3 then seq.target3 = target3 end
+
+    return seq
+end

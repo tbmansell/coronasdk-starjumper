@@ -105,7 +105,7 @@ local levelData = {
         
         {object="ledge", x=500, y=100, type="finish", positionFromLedge=15, targetName="endLedge"}
     },
-
+    
 
     customEvents = {
         -- list each event by name: reference this by adding triggerEvent=<name> on the ledge in question
@@ -114,30 +114,20 @@ local levelData = {
                 -- player needs to have the following keys for event to trigger
                 keys = {"Yellow", "Blue"},
             },
-            targets = {
-                -- objects of the type shown need to have these matching targetName attributes
-                {object="scenery", targetName="moveableEndScenery1"},
-                {object="scenery", targetName="moveableEndScenery2"},
-                {object="ledge",   targetName="endLedge"},
-            },
             delay        = 1000,  -- time before event starts from when it's triggered (eg. if player lands on ledge, good to give it time)
             freezePlayer = true,  -- means player cannot control the game while event is running
-
-            -- the function called when the conditions are met and the targets found
-            action = function(camera, player, source, targets)
-                -- function called when event triggered and conditions have been met. Params:
-                -- camera:  the camera to move around
-                -- player:  the main player
-                -- source:  the ledge which triggered the event
-                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+            action       = function(camera, player, source)
                 globalSoundPlayer(sounds.checkpoint)
                 
-                local endLedge = targets[3]
+                local wall1    = hud:getTarget("scenery", "moveableEndScenery1")
+                local wall2    = hud:getTarget("scenery", "moveableEndScenery2")
+                local endLedge = hud:getTarget("ledge",   "endLedge")
+
                 camera:setFocus(endLedge.image)
 
                 after(2000, function()
-                    targets[1]:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
-                    targets[2]:moveNow({pattern={{0,-100}}, speed=5, reverse=true, steering=steeringMild})
+                    wall1:moveNow({pattern={{0,-5000}}, speed=5, reverse=false})
+                    wall2:moveNow({pattern={{0,-100}},  speed=5, reverse=true, steering=steeringMild})
 
                     after(4000, function() 
                         camera:setFocus(player.image) 

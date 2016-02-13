@@ -98,20 +98,13 @@ local levelData = {
             conditions   = {
                 zoneStart = true,
             },
-            targets = {
-                {object="player", targetName="brainiak"},
-            },
             delay        = 1000,
             freezePlayer = true,
-            action       = function(camera, player, source, targets)
-                -- function called when event triggered and conditions have been met. Params:
-                -- camera:  the camera to move around
-                -- player:  the main player
-                -- source:  the ledge which triggered the event
-                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
+            action       = function(camera, player, source)
+                local brainiak = hud:getTarget("player", "brainiak")
+
                 sounds:loadPlayer(characterBrainiak)
 
-                local brainiak = targets[1]
                 camera:setFocus(brainiak.image)
                 brainiak:readyJump()
 

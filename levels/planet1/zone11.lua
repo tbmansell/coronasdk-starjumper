@@ -109,26 +109,15 @@ local levelData = {
         -- Brainiak: taunts player next to rock trap before it collapse then runs off
     customEvents = {
         ["brainiakTrap"] = {
-            conditions   = {},
-            targets = {
-                {object="player", targetName="brainiak"},
-                {object="ledge",  targetName="focusLedge"},
-                {object="ledge",  targetName="tempLedge"},
-            },
             delay        = 1000,
             freezePlayer = true,
-            action       = function(camera, player, source, targets)
-                -- function called when event triggered and conditions have been met. Params:
-                -- camera:  the camera to move around
-                -- player:  the main player
-                -- source:  the ledge which triggered the event
-                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
-                sounds:loadPlayer(characterBrainiak)
-
-                local brainiak   = targets[1]
-                local ledgeFocus = targets[2]
-                local ledgeTemp  = targets[3]
+            action       = function(camera, player, source)
+                local brainiak   = hud:getTarget("player", "brainiak")
+                local ledgeFocus = hud:getTarget("ledge",  "focusLedge")
+                local ledgeTemp  = hud:getTarget("ledge",  "tempLedge")
                 local bomb       = nil
+
+                sounds:loadPlayer(characterBrainiak)
 
                 camera:setFocus(ledgeFocus.image)
                 camera:setFocusOffsetX(50)

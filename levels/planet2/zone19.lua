@@ -134,34 +134,23 @@ local levelData = {
                 -- player needs to have the following keys for event to trigger
                 keys = {"Yellow", "Red"},
             },
-            targets = {
-                -- objects of the type shown need to have these matching targetName attributes
-                {object="scenery", targetName="moveableEndScenery1"},
-                {object="scenery", targetName="moveableEndScenery2"},
-                {object="scenery", targetName="moveableEndScenery3"},
-                {object="scenery", targetName="moveableEndScenery4"},
-                {object="ledge",   targetName="endLedge"},
-            },
             delay        = 1000,  -- time before event starts from when it's triggered (eg. if player lands on ledge, good to give it time)
             freezePlayer = true,  -- means player cannot control the game while event is running
+            action       = function(camera, player, source)
+                local wall1    = hud:getTarget("scenery", "moveableEndScenery1")
+                local wall2    = hud:getTarget("scenery", "moveableEndScenery2")
+                local wall3    = hud:getTarget("scenery", "moveableEndScenery3")
+                local wall4    = hud:getTarget("scenery", "moveableEndScenery4")
+                local endLedge = hud:getTarget("ledge",   "endLedge")
 
-            -- the function called when the conditions are met and the targets found
-            action = function(camera, player, source, targets)
-                -- function called when event triggered and conditions have been met. Params:
-                -- camera:  the camera to move around
-                -- player:  the main player
-                -- source:  the ledge which triggered the event
-                -- targets: the list of objects specified in targets ([1]=object1, [2]=object2)
                 globalSoundPlayer(sounds.checkpoint)
-                
-                local endLedge = targets[5]
                 camera:setFocus(endLedge.image)
 
                 after(2000, function()
-                    targets[1]:destroy()
-                    targets[2]:destroy()
-                    targets[3]:destroy()
-                    targets[4]:destroy()
+                    wall1:destroy()
+                    wall2:destroy()
+                    wall3:destroy()
+                    wall4:destroy()
 
                     after(2000, function() 
                         camera:setFocus(player.image) 

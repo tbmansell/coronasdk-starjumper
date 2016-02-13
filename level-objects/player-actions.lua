@@ -395,7 +395,7 @@ function player:landCorrection(ledge)
 
     if ledge.type == "finish" then
         self.startLedge = ledge
-        self:completedCallback()
+        if self.completedCallback then self:completedCallback() end
     end
 
     after(100, function()
