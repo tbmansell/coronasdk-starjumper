@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.10.7"
+globalBuildVersion 		   = "0.10.8"
 -- Global group used to do stuff during scene transitions
 globalSceneTransitionGroup = display.newGroup()
 -- Global timer for animating during loading scenes
@@ -21,7 +21,7 @@ centerY 	  = display.contentCenterY
 contentWidth  = display.contentWidth
 contentHeight = display.contentHeight
 
-require("core.constants")
+require("constants.globals")
 require("core.state")
 require("core.track")
 require("core.sounds")
@@ -47,7 +47,7 @@ sounds:loadRandom()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
-local mode       = "play"
+local mode       = "game"
 
 
 -- game:   play the full game as normal from the title screen
@@ -62,14 +62,14 @@ if mode == "play" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 21
+	state.data.zoneSelected   = 6
 	state.data.gameSelected   = gameTypeStory
 	storyboard:gotoScene("scenes.play-zone")
 
 elseif mode == "cut" then
 	state.cutsceneStory       = "cutscene-character-intro"
 	state.data.planetSelected = 1
-	state.cutsceneCharacter   = characterSkyanna
+	state.cutsceneCharacter   = characterKranio
 	storyboard:gotoScene("scenes.mothership")
 
 elseif mode == "gen" then

@@ -731,19 +731,15 @@ end
 
 
 function player:prepareThrow(icon, negable, category)
-    print("throwing "..category.." "..negable)
     self.mode = playerThrowing
     self:animate("Negable THROW PREP")
     self.gear[category] = negable
     self.negableShot    = icon
     self.negableShot.category = category
-
-    print("self.gear[category]="..self.gear[category])
 end
 
 
 function player:cancelThrow()
-    print("cancel throw")
     if self.negableShot then
         self.camera:remove(self.negableShot)
         self.negableShot:removeSelf()

@@ -116,7 +116,7 @@ local levelData = {
                 brainiak:readyJump()
 
                 after(500,  function() brainiak:runup(-340, -450) end)
-                after(1500, function()
+                after(3000, function()
                     hud:showStory("intro-brainiak-zone5", function()
                         brainiak:dropNegable(negDizzy)
 

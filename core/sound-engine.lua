@@ -392,26 +392,32 @@ end
 
 
 function engine:getPlayerJump(type)
+	local type = characterData[type].soundIndex
+	print("getPlayerJump: "..type)
     return self:getRandom(soundList.playerJump[type])
 end
 
 
 function engine:getPlayerImpact(type)
+	local type = characterData[type].soundIndex
     return self:getRandom(soundList.playerLand[type])
 end
 
 
 function engine:getPlayerWorry(type)
+	local type = characterData[type].soundIndex
     return self:getRandom(soundList.playerLandEdge[type])
 end
 
 
 function engine:getPlayerCelebrate(type)
+	local type = characterData[type].soundIndex
     return self:getRandom(soundList.playerCelebrate[type])
 end
 
 
 function engine:getPlayerTaunt(type)
+	local type = characterData[type].soundIndex
     return self:getRandom(soundList.playerTaunt[type])
 end
 

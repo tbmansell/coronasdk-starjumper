@@ -219,7 +219,8 @@ end
 
 
 function sounds:loadJumps(type)
-    local path = "sounds/player/"..characterData[type].name.."/"
+    local type = characterData[type].soundIndex
+    local path = "sounds/player/"..characterData[type].soundFolder.."/"
     local num  = 0
     
     if     type == characterNewton   then num = 7
@@ -235,7 +236,8 @@ end
 
 
 function sounds:loadLands(type)
-    local path = "sounds/player/"..characterData[type].name.."/"
+    local type = characterData[type].soundIndex
+    local path = "sounds/player/"..characterData[type].soundFolder.."/"
     local num  = 0
 
     if     type == characterNewton   then num = 8
@@ -251,7 +253,8 @@ end
 
 
 function sounds:loadLandEdges(type)
-    local path = "sounds/player/"..characterData[type].name.."/"
+    local type = characterData[type].soundIndex
+    local path = "sounds/player/"..characterData[type].soundFolder.."/"
     local num  = 0
 
     if     type == characterNewton   then num = 4
@@ -267,7 +270,8 @@ end
 
 
 function sounds:loadPlayerCelebrate(type)
-    local path = "sounds/player/"..characterData[type].name.."/"
+    local type = characterData[type].soundIndex
+    local path = "sounds/player/"..characterData[type].soundFolder.."/"
     local num  = 0
 
     if     type == characterNewton   then num = 3
@@ -283,7 +287,8 @@ end
 
 
 function sounds:loadPlayerTaunt(type)
-    local path = "sounds/player/"..characterData[type].name.."/"
+    local type = characterData[type].soundIndex
+    local path = "sounds/player/"..characterData[type].soundFolder.."/"
     local num  = 0
 
     if     type == characterNewton   then num = 0
@@ -311,6 +316,8 @@ end
 
 
 function sounds:loadPlayer(type)
+    local type = characterData[type].soundIndex
+
     if not playerLoaded[type] and self.playerJump[type] then
         playerLoaded[type] = true
         self:loadJumps(type)
@@ -323,6 +330,8 @@ end
 
 
 function sounds:unloadPlayer(type)
+    local type = characterData[type].soundIndex
+
     if self.playerJump[type] then
         for handle in pairs(self.playerJump[type]) do unloadSound(handle) end
         for handle in pairs(self.playerLand[type]) do unloadSound(handle) end

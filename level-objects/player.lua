@@ -18,7 +18,8 @@ local player = {
         mode           		= playerReady,
         direction      		= right,
         jumpType       		= "STANDARD",
-        lives          		= 2,
+        --lives          		= 2,
+        lives               = 20,
         lostAllLives   		= false,  -- used as a guard to stop destroy() being called more times than player has lives
         hasDied        		= false,
         topJumpsInaRow 		= 0,      -- used for awards
@@ -333,7 +334,7 @@ function player:loseLife()
 
     self.hasDied = true
 
-    if (self.lives == 0 and not self.restartDontDie) or self:cantRestart() then
+    if (self.lives == 0 and not self.ai and not self.restartDontDie) or self:cantRestart() then
         self.lostAllLives = true
         self:failedCallback()
     else
@@ -535,6 +536,11 @@ function player:setIndividualGear(newGear)
     self.gear[slot]  = newGear
     self.jetpackUses = 3
     self:loadGear()
+
+    -- For AI: treat loading a shield as if they are safe to run now
+    if self.ai and newGear == gearShield then
+        self.loadedShield = true
+    end
 end
 
 

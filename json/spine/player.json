@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "QbGHrUoPtdzymKVGIpadZubwj/Y", "spine": "2.1.27", "width": 271.44, "height": 571.74, "images": "" },
+"skeleton": { "hash": "j9Yvzx+rHhAmmnzdElTsoxDxtRw", "spine": "2.1.27", "width": 263.51, "height": 577.17, "images": "" },
 "bones": [
 	{ "name": "root", "color": "080808ff" },
 	{ "name": "Pelvis", "parent": "root", "x": -10.43, "y": 302.74 },
@@ -38,7 +38,7 @@
 	{ "name": "Foot Front Straight", "bone": "FRONT Leg Foot", "attachment": "Foot Front Straight" },
 	{ "name": "Leg Bottom Front", "bone": "FRONT Leg Bottom", "attachment": "Alien Leg BOTTOM" },
 	{ "name": "Leg Top Front", "bone": "FRONT Leg Top", "attachment": "Alien Leg TOP" },
-	{ "name": "Head", "bone": "Head", "attachment": "Alien Head Default" },
+	{ "name": "Head", "bone": "Head", "attachment": "Head Blink" },
 	{ "name": "Back Attachment", "bone": "Back - POWER UP", "attachment": "attachment-parachute" },
 	{ "name": "Head - Gear Skin", "bone": "Head - Gear" },
 	{ "name": "Arm Top Front", "bone": "FRONT Arm Top", "attachment": "Alien Arm Top FRONT" },
@@ -46,7 +46,8 @@
 	{ "name": "Hand", "bone": "FRONT Arm Hand", "attachment": "Alien Hand FRONT" },
 	{ "name": "attachment-handfront-ledgegloves", "bone": "Hand Front - POWER UP" },
 	{ "name": "Back - POWER UP ATTACHMENT", "bone": "Back - POWER UP ATTACHMENT" },
-	{ "name": "Muscle Alien/Head", "bone": "root" }
+	{ "name": "Muscle Alien/Head", "bone": "root" },
+	{ "name": "Brain Alien - Alt/Head", "bone": "root" }
 ],
 "skins": {
 	"default": {
@@ -88,7 +89,7 @@
 			"Alien Arm Top FRONT": { "name": "Brain Alien/Arm Top Front", "x": 49.13, "y": -1.81, "rotation": 96.47, "width": 53, "height": 113 }
 		},
 		"Arm bottom Back": {
-			"Alien Arm Back Bottom": { "name": "Brain Alien/Arm bottom Back", "x": 23.7, "y": -13.65, "rotation": 89.82, "width": 66, "height": 114 }
+			"Alien Arm Back Bottom": { "name": "Brain Alien/Arm bottom Back", "x": 31.49, "y": -13.97, "scaleY": 0.798, "rotation": 89.82, "width": 66, "height": 114 }
 		},
 		"Arm bottom Front": {
 			"Alien Arm Bottom FRONT": { "name": "Brain Alien/Arm bottom Front", "x": 34.78, "y": -18.09, "rotation": 88.52, "width": 66, "height": 114 }
@@ -170,6 +171,77 @@
 		},
 		"Neck": {
 			"Alien Neck": { "name": "Brain Alien/Neck", "rotation": -94.03, "width": 32, "height": 33 }
+		}
+	},
+	"Brain Enemy - Alt": {
+		"Arm Top Back": {
+			"Alien Arm bBack TOP": { "name": "Brain Alien - Alt/Arm Top Back", "x": 49.13, "y": -1.81, "rotation": 96.47, "width": 53, "height": 113 }
+		},
+		"Arm Top Front": {
+			"Alien Arm Top FRONT": { "name": "Brain Alien - Alt/Arm Top Front", "x": 49.13, "y": -1.81, "rotation": 96.47, "width": 53, "height": 113 }
+		},
+		"Arm bottom Back": {
+			"Alien Arm Back Bottom": {
+				"name": "Brain Alien - Alt/Arm bottom Back",
+				"x": 31.49,
+				"y": -13.97,
+				"scaleY": 0.798,
+				"rotation": 89.82,
+				"width": 66,
+				"height": 114
+			}
+		},
+		"Arm bottom Front": {
+			"Alien Arm Bottom FRONT": { "name": "Brain Alien - Alt/Arm bottom Front", "x": 34.78, "y": -18.09, "rotation": 88.52, "width": 66, "height": 114 }
+		},
+		"Body": {
+			"Alien Body": { "name": "Brain Alien - Alt/Body", "x": 53.37, "y": -6.2, "rotation": -87.74, "width": 97, "height": 168 }
+		},
+		"Hand": {
+			"Alien Hand FRONT": { "name": "Brain Alien - Alt/Hand", "x": 10.37, "y": -8.43, "rotation": 80.61, "width": 31, "height": 44 }
+		},
+		"Hand Back": {
+			"Alien Hand BACK": { "name": "Brain Alien - Alt/Hand Back", "x": 10.45, "y": -1.89, "rotation": 84.45, "width": 31, "height": 44 }
+		},
+		"Head": {
+			"Alien Head Default": {
+				"name": "Brain Alien - Alt/Head",
+				"x": 50.25,
+				"y": -14.03,
+				"scaleX": 0.745,
+				"scaleY": 0.745,
+				"rotation": -87.74,
+				"width": 300,
+				"height": 300
+			},
+			"Head Blink": {
+				"name": "Brain Alien - Alt/Head Blink",
+				"x": 49.68,
+				"y": -14.37,
+				"scaleX": 0.75,
+				"scaleY": 0.75,
+				"rotation": -87.74,
+				"width": 300,
+				"height": 300
+			}
+		},
+		"Head - Gear Skin": {
+			"Head - Gear Skin": { "name": "Brain Alien - Alt/Helmet", "rotation": -91.79, "width": 156, "height": 219 }
+		},
+		"Leg Bottom Back": {
+			"Alien Leg Back BOTTOM": { "name": "Brain Alien - Alt/Leg Bottom Back", "x": 56.07, "y": -10.26, "rotation": 87.99, "width": 45, "height": 159 }
+		},
+		"Leg Bottom Front": {
+			"Alien Leg BOTTOM": { "name": "Brain Alien - Alt/Leg Bottom Front", "x": 49.94, "y": -2.74, "rotation": 92.59, "width": 45, "height": 159 }
+		},
+		"Leg Top Back": {
+			"Alien Back Leg TOP": { "name": "Brain Alien - Alt/Leg Top Back", "x": 72.39, "y": 16.31, "rotation": 92.83, "width": 97, "height": 150 }
+		},
+		"Leg Top Front": {
+			"Alien Leg TOP": { "name": "Brain Alien - Alt/Leg Top Front", "x": 71.78, "y": 12.55, "rotation": 88.08, "width": 97, "height": 150 }
+		},
+		"Neck": {
+			"Alien Neck": { "name": "Brain Alien - Alt/Neck", "rotation": -94.03, "width": 32, "height": 33 }
 		}
 	},
 	"Female Alien": {
@@ -272,6 +344,51 @@
 			"Alien Pelvis": { "name": "Pelvis", "x": 5.46, "y": -7.21, "width": 66, "height": 38 }
 		}
 	},
+	"Grey - Alt": {
+		"Arm Top Back": {
+			"Alien Arm bBack TOP": { "name": "Grey Alien - Alt/Arm Top Back", "x": 41.35, "y": 1.62, "rotation": 89.33, "width": 40, "height": 108 }
+		},
+		"Arm Top Front": {
+			"Alien Arm Top FRONT": { "name": "Grey Alien - Alt/Arm Top Front", "x": 45.37, "y": 4.59, "rotation": 88.94, "width": 40, "height": 108 }
+		},
+		"Arm bottom Back": {
+			"Alien Arm Back Bottom": { "name": "Grey Alien - Alt/Arm bottom Back", "x": 33.41, "y": 0.64, "rotation": 91.2, "width": 34, "height": 99 }
+		},
+		"Arm bottom Front": {
+			"Alien Arm Bottom FRONT": { "name": "Grey Alien - Alt/Arm bottom Front", "x": 49.39, "y": 1.79, "rotation": 89.59, "width": 34, "height": 99 }
+		},
+		"Body": {
+			"Alien Body": { "name": "Grey Alien - Alt/Body", "x": 56, "y": -19.41, "rotation": -87.74, "width": 98, "height": 168 }
+		},
+		"Hand": {
+			"Alien Hand FRONT": { "name": "Grey Alien - Alt/Hand", "x": 21.7, "y": -1.14, "rotation": 80.61, "width": 31, "height": 41 }
+		},
+		"Hand Back": {
+			"Alien Hand BACK": { "name": "Grey Alien - Alt/Hand Back", "x": 12.75, "y": -0.02, "rotation": 81.15, "width": 31, "height": 41 }
+		},
+		"Head": {
+			"Alien Head Default": { "name": "Grey Alien - Alt/Head", "x": 63.55, "y": 3.28, "rotation": -87.74, "width": 162, "height": 170 },
+			"Head Blink": { "name": "Grey Alien - Alt/Head Blink", "x": 63.55, "y": 3.28, "rotation": -87.74, "width": 162, "height": 170 }
+		},
+		"Leg Bottom Back": {
+			"Alien Leg Back BOTTOM": { "name": "Grey Alien - Alt/Leg Bottom Back", "x": 67.52, "y": 0.56, "rotation": 86.75, "width": 31, "height": 150 }
+		},
+		"Leg Bottom Front": {
+			"Alien Leg BOTTOM": { "name": "Grey Alien - Alt/Leg Bottom Front", "x": 61.66, "y": -5.98, "rotation": 92.59, "width": 31, "height": 150 }
+		},
+		"Leg Top Back": {
+			"Alien Back Leg TOP": { "name": "Grey Alien - Alt/Leg Top Back", "x": 73.58, "y": 2.46, "rotation": 89.93, "width": 56, "height": 150 }
+		},
+		"Leg Top Front": {
+			"Alien Leg TOP": { "name": "Grey Alien - Alt/Leg Top Front", "x": 68.35, "y": -2.33, "rotation": 88.08, "width": 56, "height": 150 }
+		},
+		"Neck": {
+			"Alien Neck": { "name": "Grey Alien - Alt/Neck", "rotation": -94.03, "width": 34, "height": 32 }
+		},
+		"Pelvis": {
+			"Alien Pelvis": { "name": "Grey Alien - Alt/Pelvis", "width": 87, "height": 38 }
+		}
+	},
 	"Grey Enemy": {
 		"Arm Top Back": {
 			"Alien Arm bBack TOP": { "name": "Grey Alien/Arm Top Back", "x": 41.35, "y": 1.62, "rotation": 89.33, "width": 40, "height": 108 }
@@ -311,7 +428,7 @@
 			"Alien Leg TOP": { "name": "Grey Alien/Leg Top Front", "x": 68.35, "y": -2.33, "rotation": 88.08, "width": 56, "height": 150 }
 		},
 		"Neck": {
-			"Alien Neck": { "name": "Grey Alien/Neck", "x": 5.73, "y": -4.01, "rotation": -94.03, "width": 34, "height": 32 }
+			"Alien Neck": { "name": "Grey Alien/Neck", "rotation": -94.03, "width": 34, "height": 32 }
 		}
 	},
 	"Muscle Alien": {

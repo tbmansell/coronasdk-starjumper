@@ -273,6 +273,21 @@ function hud:showEffect(effect, target, params)
 end
 
 
+function hud:sequence(type, name, target1, target2, target3)
+    local seq = nil
+    if type == "oust" then 
+        seq = anim:oustSeq(name, target1)
+    else
+        seq = anim:chainSeq(name, target1)
+    end
+
+    if target2 then seq.target2 = target2 end
+    if target3 then seq.target3 = target3 end
+
+    return seq
+end
+
+
 -- shows the actual pause game menu with buttons to exit
 function hud:showPauseMenu()
     if state.data.game == levelPlaying then
@@ -755,18 +770,21 @@ function hud:displayMessage(message, type)
 end
 
 
-function hud:showStory(storyId, resumeHandler)
-    local resumeCallback = resumeHandler or self.resumeGameHandler
+function hud:showStory(storyId, postStoryCallback)
+    local resumeCallback = postStoryCallback or self.resumeGameHandler
 
     -- Used for when an ingame script runs a story and then needs to execute more action after
-    if resumeHandler then
+    if postStoryCallback then
         resumeCallback = function(gameState)
             hud:resumeGame(gameState)
-            resumeHandler()
+            postStoryCallback()
         end
     end
 
-    stories:start(storyId, hud.pauseGame, resumeCallback, hud.notifyStory)
+    -- if story not played then make the callback: for this to work accurately the story script needs a 0 delay
+    if stories:start(storyId, hud.pauseGame, resumeCallback, hud.notifyStory) == false and postStoryCallback then
+        postStoryCallback()
+    end
 end
 
 

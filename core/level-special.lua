@@ -586,6 +586,7 @@ function newObjectsLoader:load(level)
             elseif target.object == "collectable" then object = self.collectables:getTargetName(name)
             elseif target.object == "ledge"       then object = self.ledges:getTargetName(name)
             elseif target.object == "player"      then object = self.players:getTargetName(name)
+            elseif target.object == "enemy"       then object = self.enemies:getTargetName(name)
             end
 
             if object then

@@ -189,6 +189,15 @@ function player:checkForKeyGear(level)
 	
 	local from = self.attachedLedge
 	if from then
+		local jumpLogic = from.ai
+	
+		if jumpLogic then
+			if jumpLogic.loadGear then
+				self:setIndividualGear(jumpLogic.loadGear)
+			end
+		end		
+
+		-- Check for gear on the ledge:
 		for _,object in pairs(from.boundItems) do
 			if object.image and object.regenerate then
 				local pos = object:x() - self:x()
@@ -247,7 +256,6 @@ function player:holdForNextJump()
 	local from, to = self.jumpFrom, self.jumpTarget
 
 	if from.image == nil or to.image == nil then
-		print("AI ledge missing: waiting ")
 		self:wait(1)
 	end
 
@@ -270,6 +278,9 @@ function player:holdForNextJump()
 			-- if in range go for it straight away as any delay could miss
 			self:readyJump()
 		end
+	elseif self.loadedShield or self.shielded then
+		-- If loaded a shield or currently shielded - dont hang around
+		self:readyJump()
 	elseif to.deadlyTimer then
 		-- logic to say: if arrive at deadly timer ledge and its currently deadly, then wait for it to go non deadly and jump,
 		-- but if arrive at ledge and is not deadly, wait for it to go deadly and off again before jumping
@@ -299,11 +310,11 @@ end
 -- calculates velocity for next jump
 function player:analyseNextJump()
 	-- clear gear (not negables)
-	local gear = self.gear
-	if gearSlots[gear[jump]] ~= nega then gear[jump] = nil end
-	if gearSlots[gear[air]]  ~= nega then gear[air]  = nil end
-	if gearSlots[gear[land]] ~= nega then gear[land] = nil end
-	self:setGear(gear)
+--	local gear = self.gear
+--	if gearSlots[gear[jump]] ~= nega then gear[jump] = nil end
+--	if gearSlots[gear[air]]  ~= nega then gear[air]  = nil end
+--	if gearSlots[gear[land]] ~= nega then gear[land] = nil end
+--	self:setGear(gear)
 
 	-- if level has ai={} override rules, use them here
 	local from = self.attachedLedge or self.attachedObstacle
@@ -311,6 +322,7 @@ function player:analyseNextJump()
 	
 	if jumpLogic then
 		if jumpLogic.loadGear then
+			print("loading gear: "..jumpLogic.loadGear)
 			self:setIndividualGear(jumpLogic.loadGear)
 		end
 
@@ -392,8 +404,7 @@ function player:possibleNextJump(velx, vely, hitType)
 		--print("AI not doing corner jump with vel: "..velx..", "..vely)
 
 	elseif hitType == "side" then
-		--print("AI doing jump with gloves with vel: "..velx..", "..vely)
-		self:setGear({[jump]=nil, [air]=nil, [land]=gearGloves})
+		self:setIndividualGear(gearGloves)
 		self:doNextJump(velx, vely)
 	end
 end

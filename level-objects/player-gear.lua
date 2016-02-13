@@ -199,6 +199,7 @@ end
 function player:shieldExpired()
     if self.shielded then
         self.shielded = false
+        self.loadedShield = false
 
         after(50, function()
             spineStore:hideGearShield(self:getCamera(), self)

@@ -36,14 +36,18 @@ local scripts = {
 		},
 	},
 	-- TODO:
-	["cutscene-character-intro-brainiak"] = {
+	["cutscene-character-intro-kranio"] = {
 		cutscene = true,
-		delayEnd = 10000,
+		delayEnd = 4000,
 		sequence = {
-			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
-			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
-			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
-			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
+			{delay=2000, speaker=characterGygax,   dir=right, text="Good news everyone, a missing Star Jumper has escaped from planet Organia - welcome back Kranio, son of Brainiak!", size="-big",
+												              action=function(scene) scene:actionShowHolograms() end},
+			{delay=5000, speaker=characterKranio,  dir=left,  text="I have to apologise for Brainiaks evil scheme with Skyanna. I tried to stop him but he banished me to the grey matter zone.", size="-big"},
+			{delay=6000, speaker=characterGygax,   dir=right, text="Kranio has the unqiue ability to convert any dangerous ledge into a safe one, once per zone",
+															  action=function(scene) scene:actionShowNewCharacter() end},
+			{delay=6000, speaker=characterKranio,  dir=left,  text="I say stuff"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="Then i say stuff", size="-big"},
+			{delay=6000, speaker=characterKranio,  dir=left,  text="The I say more stuff"},
 		},
 	},
 
@@ -70,7 +74,7 @@ local scripts = {
 		},
 	},
 	-- TODO:
-	["cutscene-character-intro-grey"] = {
+	["cutscene-character-intro-greyson"] = {
 		cutscene = true,
 		delayEnd = 10000,
 		sequence = {
@@ -86,7 +90,7 @@ local scripts = {
 
 	["intro-brainiak-zone5"] = {
 		forced     = true,
-		delay      = 1500,
+		delay      = 0,
 		sequence   = {
 			{delay=1000, speaker=characterBrainiak, dir=right, text="Foolish trespasser you have entered the domain of Brainiak, where all must tremble! Ha ha perhaps you are searching for your friend...", size="-big"},
 			{delay=3000,  							dir=left,  text="Skyanna! What have you done with her you fiend?"},
@@ -112,8 +116,8 @@ local scripts = {
 		},
 	},
 	["race-brainiak-zone21"] = {
-	    alwaysShow=true,
 		forced   = true,
+		delay    = 0,
 		sequence = {
 			{delay=1000, speaker=characterBrainiak, dir=right, text="Aaargh still you survive little alien. Enough toying with your friend. It's feeding time and my trap has done its work bringing more aliens here", size="-big"},
 			{delay=3000,                            dir=left,  text="I've not battled this far to give up now. Your evil ways will soon be at an end Brainiak. No-one eats my friends!", size="-big"},

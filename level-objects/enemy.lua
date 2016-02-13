@@ -90,19 +90,25 @@ function enemy:shouldAwaken(ledgeId, player)
 	local rightLimit = self.startLedge.id + (awaken or 0)
 
     if ledgeId >= leftLimit and ledgeId <= rightLimit then
-		if self.mode == stateSleeping or self.mode == stateWaiting then
-            self:sound("awaken", self.awakenSound)
-			self:loop("Standard")
-		end
-        self.player = player
-		self.mode   = stateActive
-        
-		if self.movement then
-			self:moveNow()
-		end
+		self:awaken(player)
         return true
 	end
     return false
+end
+
+
+function enemy:awaken(player)
+    if self.mode == stateSleeping or self.mode == stateWaiting then
+        self:sound("awaken", self.awakenSound)
+        self:loop("Standard")
+    end
+        
+    self.player = player
+    self.mode   = stateActive
+        
+    if self.movement then
+        self:moveNow()
+    end
 end
 
 

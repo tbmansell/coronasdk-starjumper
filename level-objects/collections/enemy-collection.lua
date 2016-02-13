@@ -104,7 +104,9 @@ function enemyCollection:checkBehaviourChange(enemy, players)
                 if playerLedge then
                     -- NOTE: find a better way to do this such as when landing on a ledge get the ledge to see if it wakes someone up
                     if enemy.mode == stateWaiting or enemy.mode == stateSleeping then
-                        if enemy:shouldAwaken(playerLedge.id, player) then
+                        --if enemy:shouldAwaken(playerLedge.id, player) then
+                        -- WARNING: cheated here for zone21 so chasing enemy follows the player and not the AI: nto sure of better way to do this yet
+                        if enemy:shouldAwaken(playerLedge.id, hud.player) then
                             break
                         end
                     elseif enemy.mode ~= stateResetting and enemy.behaviour.range then

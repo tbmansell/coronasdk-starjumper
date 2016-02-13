@@ -342,6 +342,10 @@ function enemyBuilder:setupCommonEnemy(camera, spec, x, y, jumpObject, enemy)
     	enemy:changeDirection(right)
     end
 
+    if spec.alpha then
+        enemy:visible(spec.alpha)
+    end
+
     if enemy.behaviour and enemy.behaviour.mode then
     	enemy.mode = enemy.behaviour.mode
 

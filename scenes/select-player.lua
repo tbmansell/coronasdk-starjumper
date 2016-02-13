@@ -28,56 +28,6 @@ local actions = {
     {name="Negable THROW PREP",     duration=2000, exit="Negable THROW", exitDuration=1000},
 }
 
--- character personality stats
---[[
-local characterPersonality = {
-    [characterNewton] = {
-        grade         = "novice",
-        home          = "nexus",
-        age           = 17,
-        likes         = "video games",
-        hates         = "hard work",
-        ability       = "none",
-        throws        = "none",
-    },
-    [characterSkyanna] = {
-        grade         = "jumpr",
-        home          = "nexus",
-        age           = 27,
-        likes         = "exercise",
-        hates         = "warm planets",
-        ability       = "fast run",
-        throws        = "freeze enemy",
-    },
-    [characterHammer] = {
-        grade         = "jumpr",
-        home          = "nexus",
-        age           = 24,
-        likes         = "explosives",
-        hates         = "taunts",
-        ability       = "iron skin",
-        throws        = "impact bomb",
-    },
-    [characterBrainiak] = {
-        grade         = "brain master",
-        home          = "organia",
-        age           = 20,
-        likes         = "fresh brains",
-        hates         = "fuzzies",
-        ability       = "ledge changer",
-        throws        = "electrifier",
-    },
-    [characterGrey] = {
-        grade         = "great grey",
-        home          = "deep space",
-        age           = 185,
-        likes         = "earth movies",
-        hates         = "cows",
-        ability       = "teleporter",
-        throws        = "back-porter",
-    },
-}
-]]
 
 -- Aliases:
 local play = globalSoundPlayer
@@ -169,7 +119,12 @@ function scene:createPlayerIcons()
             end
 
             unselected.playerModel = player
-            unselected.tap = scene.selectPlayer
+
+            unselected.tap = function()
+
+                scene:selectPlayer()
+            end
+
             unselected:addEventListener("tap", unselected)
             selected:addEventListener("tap", function() return true end)
 
@@ -206,6 +161,8 @@ function scene:selectPlayer(event)
     local player = icon.playerModel
     local char   = characterData[player]
     local person = char.bio
+
+    --play(sounds.generalClick)
 
     if state:characterUnlocked(player) then
         self.slots[self.playerModel]["selected"].alpha = 0
@@ -299,7 +256,6 @@ end
 
 function scene:gotoInAppPurchase()
     play(sounds.generalClick)
-
     state.inappPurchaseType = "planet"
     storyboard:gotoScene("scenes.inapp-purchases")
     return true

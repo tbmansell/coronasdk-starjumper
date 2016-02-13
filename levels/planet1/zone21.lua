@@ -16,13 +16,11 @@ local levelData = {
         {object="ledge", type="start"},
             {object="scenery", x=100, y=-400, type="fg-tree-4-yellow", copy=12, gap=400, layer=4, darken=100},
             {object="scenery", x=360, y=-300, type="fg-tree-4-yellow", copy=2,  gap=300, flip="x"},
-            
+        
         -- AI start
         {object="ledge", x=300, y=-50},
-            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15,
+            {object="player", type="ai", model= characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15, lives=1000,
                 personality={
-                    --waitForPlayer     = 3,    -- waits for player if they are this many ledges in front
-                    --waitCatchupTo     = 1,    -- once waited, waits until the player is 1 ledge in front, before continuing
                     waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
                     waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
                     reposition        = 30,   -- distance they will reposition themselves on a ledge by
@@ -32,6 +30,16 @@ local levelData = {
                         {50,negTrajectory}, {100,negDizzy}
                     },
                 }
+            },
+
+            {object="enemy", type="brain", x=-550, y=-250, size=0.5, color="Purple", spineDelay=250, alpha=0, targetName="startBrain1", behaviour={mode=stateSleeping},
+                movement={pattern=movePatternVertical, distance=200, speed=0.2, moveStyle=moveStyleSway }
+            },
+            {object="enemy", type="brain", x=-280, y=-215, size=0.45, color="Purple", spineDelay=500, alpha=0, targetName="startBrain2", behaviour={mode=stateSleeping},
+                movement={pattern=movePatternVertical, distance=250, speed=1.2, moveStyle=moveStyleSwaySmall }
+            },
+            {object="enemy", type="brain", x=150, y=250, size=0.4, color="Blue", spineDelay=750, alpha=0, targetName="startBrain3", behaviour={mode=stateSleeping},
+                movement={pattern=movePatternVertical, distance=-350, speed=1.5, moveStyle=moveStyleSwayBig }
             },
 
         {object="ledge", x=300, y=-150, size="medium2"},
@@ -63,17 +71,22 @@ local levelData = {
 
         {object="ledge", x=150, y=280},
 
-        {object="ledge", x=150, y=200, size="medium3"},
+        {object="ledge", x=150, y=200, size="medium3", triggerEvent="awakenGiant", ai={loadGear=gearShield}},
+            -- Giant brain that follows player / brainiak
+            {object="enemy", type="brain", x=100, y=-600, size=1.1, color="Blue", targetName="giantBrain",
+                behaviour={mode=stateSleeping, awaken=0, range=20, atRange=stateResetting},
+                movement={pattern=movePatternFollow, speed=0.3, pause=1000, moveStyle=moveStyleSwaySmall, pauseStyle=moveStyleSwayBig}
+            },
 
-        {object="ledge", x=250, y=-100, surface="spiked", timerOff=4000},
+        {object="ledge", x=300, y=-100, surface="spiked", timerOff=4500},
 
-        {object="ledge", x=250, y=100},
+        {object="ledge", x=350, y=100, ai={loadGear=gearGrappleHook}},
             {object="rings", color=aqua, trajectory={x=150, y=-150, xforce=100, yforce=100, arc=40, num=3}},
 
-        {object="ledge", x=350, y=-400, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
+        {object="ledge", x=350, y=-400, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}, ai={loadGear=gearGloves}},
             {object="rings", color=aqua, trajectory={x=50, y=100, xforce=50, yforce=0, arc=40, num=3}},
 
-        {object="ledge", x=300, y=200, size="small2"},
+        {object="ledge", x=300, y=200, size="medium2", ai={loadGear=gearShield}},
 
             {object="emitter", x=0, y=-150, timer={1000, 2500}, limit=5, layer=4,
                 item={
@@ -88,7 +101,7 @@ local levelData = {
 
         {object="ledge", x=250, y=0, surface="spiked", timerOff=4000},
 
-        {object="ledge", x=300, y=-100},
+        {object="ledge", x=300, y=-100, ai={loadGear=gearGrappleHook}},
 
         {object="ledge", x=900, movement={pattern=movePatternHorizontal, distance=600, speed=2}},
             {object="scenery", x=1500, y=150, type="fg-wall-left"},
@@ -122,32 +135,8 @@ local levelData = {
             {object="enemy",  type="brain",    x=-100,  y=-200, size=0.35, color="Blue",   spineDelay=600, targetName="henchman2"},
     },
 
-    --[[
-    ai = {
-        [1] = {
-            model         = characterBrainiak,
-            direction     = left,
-            startSequence = "taunt",
-            startTaunt    = 1,
-            startLedge    = 2,
-            lives         = 10,
-            waitingTimer  = 5,
-            personality   = {
-                --waitForPlayer     = 3,    -- waits for player if they are this many ledges in front
-                waitCatchupTo     = 1,    -- once waited, waits until the player is 1 ledge in front, before continuing
-                waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
-                waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
-                reposition        = 30,   -- distance they will reposition themselves on a ledge by
-                dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
-                tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
-                traps = {                 -- traps AI has to throw (currently infinite)
-                    {50,negTrajectory}, {100,negDizzy}
-                },
-            }
-        },
-    },]]
-
     customEvents = {
+        -- Whizzes to skyanna and back, then brainiak summons 3 brains
         ["intro"] = {
             conditions   = {
                 zoneStart = true,
@@ -155,6 +144,9 @@ local levelData = {
             targets = {
                 {object="player", targetName="brainiak"},
                 {object="player", targetName="skyanna"},
+                {object="enemy",  targetName="startBrain1"},
+                {object="enemy",  targetName="startBrain2"},
+                {object="enemy",  targetName="startBrain3"},
             },
             delay        = 1000,
             freezePlayer = true,
@@ -168,10 +160,13 @@ local levelData = {
 
                 local brainiak = targets[1]
                 local skyanna  = targets[2]
+                local brain1   = targets[3]
+                local brain2   = targets[4]
+                local brain3   = targets[5]
 
                 brainiak:pauseAi(true)
                 brainiak:taunt()
-
+                
                 after(1000, function()
                     hud:showStory("race-brainiak-zone21", function()
                         after(1000, function()
@@ -179,11 +174,49 @@ local levelData = {
 
                             after(2000, function()
                                 camera:setFocus(player.image)
-                                hud:exitScript()
-                                brainiak:pauseAi(false)
+
+                                after(1500, function()
+                                    brainiak:animate("3 4 Stars")
+                                    local seq = hud:sequence("oust", "zone21-intro", brain1.image, brain2.image, brain3.image)
+                                    seq:tran({alpha=1, time=1000})
+                                    seq.onComplete = function()
+                                        brain1:awaken(player)
+                                        brain2:awaken(player)
+                                        brain3:awaken(player)
+                                    end
+                                    seq:start()
+
+                                    hud:exitScript()
+                                    brainiak:pauseAi(false)
+                                end)
                             end)
                         end)
                     end)
+                end)
+            end,
+        },
+        -- Brainiak awakens the giant brain
+        ["awakenGiant"] = {
+            conditions = {},
+            targets = {
+                {object="player", targetName="brainiak"},
+                {object="enemy",  targetName="giantBrain"},
+            },
+            delay        = 0,
+            freezePlayer = true,
+            action       = function(camera, player, source, targets)
+                local player   = hud.player
+                local brainiak = targets[1]
+                local giant    = targets[2]
+
+                brainiak:pauseAi(true)
+                brainiak:taunt("3 4 Stars")
+
+                after(1000, function() camera:setFocus(giant.image) end)
+                after(3000, function()
+                    camera:setFocus(player.image)
+                    brainiak:pauseAi(false)
+                    hud:exitScript()
                 end)
             end,
         },

@@ -1,0 +1,99 @@
+{
+"skeleton": {
+	"hash": "0prjaHgRVz1XFLRole6QSaqPN68",
+	"spine": "2.1.27",
+	"width": 447,
+	"height": 224,
+	"images": "./../../Space Ship/Hologram Base/"
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "Beam", "parent": "root", "length": 134, "x": -0.49, "y": 0.99, "rotation": 90 },
+	{ "name": "WHite LIght", "parent": "root", "length": 147, "x": -0.49, "y": 99 }
+],
+"slots": [
+	{ "name": "Hologram_beam", "bone": "Beam", "attachment": "Hologram_beam" },
+	{ "name": "Hologram_white", "bone": "WHite LIght", "attachment": "Hologram_white" }
+],
+"skins": {
+	"default": {
+		"Hologram_beam": {
+			"Hologram_beam": { "x": 89, "rotation": -90, "width": 447, "height": 223 }
+		},
+		"Hologram_white": {
+			"Hologram_white": { "x": 2, "y": -81, "width": 290, "height": 81 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"slots": {
+			"Hologram_beam": {
+				"color": [
+					{ "time": 0, "color": "ffffff7b" },
+					{ "time": 0.8333, "color": "3bff00ff" },
+					{ "time": 1.6666, "color": "ffffff7b" }
+				]
+			},
+			"Hologram_white": {
+				"color": [
+					{ "time": 0, "color": "36ff0500" },
+					{ "time": 0.6666, "color": "38ff046c" },
+					{ "time": 1.3333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.6666, "color": "ffffff00" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			},
+			"Beam": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 0.0255, "x": 1, "y": 1 },
+					{ "time": 0.3588, "x": 1.123, "y": 1, "curve": "stepped" },
+					{ "time": 0.4333, "x": 1.123, "y": 1 },
+					{ "time": 0.8333, "x": 1, "y": 1 },
+					{ "time": 1.2666, "x": 1.123, "y": 1 },
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			},
+			"WHite LIght": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.6666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0 },
+					{ "time": 1.5, "x": 0, "y": 138.9 },
+					{ "time": 1.6666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1 },
+					{ "time": 1.5, "x": 1.42, "y": 1 },
+					{ "time": 1.6666, "x": 1, "y": 1 }
+				]
+			}
+		}
+	}
+}
+}

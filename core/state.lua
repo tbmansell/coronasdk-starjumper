@@ -129,7 +129,7 @@ state = {
         unlocked = {
             -- list of characters unlocked
             --characters = { characterNewton },
-            characters = { characterNewton, characterSkyanna },
+            characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterGreyson },
             --characters = { characterNewton, characterSkyanna, characterHammer, characterBrainiak, characterGrey },
             -- list of gear that is unlocked
             --gear = {},

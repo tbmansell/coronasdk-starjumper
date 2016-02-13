@@ -1,5 +1,4 @@
 local storyboard    = require("storyboard")
-local cameraLoader  = require("core.camera")
 local anim          = require("core.animations")
 local stories       = require("core.story")
 local particles     = require("core.particles")
@@ -16,32 +15,32 @@ local lastTime        = 0
 local characterPosition = {
     {
         model = characterHammer,
-        xpos  = 170, 
+        xpos  = 270, 
         ypos  = 500,
-        hologram = {xpos=300, ypos=540}
+        hologram = {xpos=300, ypos=555}
     },
     {
-        model = characterGrey,
-        xpos  = 280,
+        model = characterGreyson,
+        xpos  = 380,
         ypos  = 510,
         hologram = {xpos=360, ypos=540}
     },
     {
         model = characterNewton,
-        xpos  = 50,
+        xpos  = 150,
         ypos  = 530,
     },
     {
         model = characterSkyanna,
-        xpos  = 120,
+        xpos  = 220,
         ypos  = 560,
         hologram = {xpos=180, ypos=540}
     },
     {
-        model = characterBrainiak,
-        xpos  = 230, 
+        model = characterKranio,
+        xpos  = 330, 
         ypos  = 580,
-        hologram = {xpos=240, ypos=540}
+        hologram = {xpos=240, ypos=555}
     },
 }
 
@@ -81,13 +80,14 @@ function scene:enterScene(event)
     particleCollection = builder:newParticleEmitterCollection()
     spineStore:load(spineCollection)
 
-    self.tvimage = newImage(self.view, "mothership/logo", centerX, centerY-65)
+    self.tvimage = newImage(self.view, "mothership/tv-logo", centerX, centerY-65)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
 
     self:loadStory()
     self:loadBoss()
+    self:loadHologramBase()
     self:loadCharacters()
     self:animateCharacters()
 
@@ -96,6 +96,8 @@ end
 
 
 function scene:loadStory()
+    particles:loadEmitter("ufo-trail")
+
     if state.cutsceneStory == "cutscene-planet-intro" then
         scene.story = state.cutsceneStory .."-".. planetData[state.data.planetSelected].name
         scene.type  = "planetIntro"
@@ -110,13 +112,20 @@ end
 
 function scene:loadBoss()
     self.boss = spineStore:showBossChair({x=830, y=250, size=0.35})
+
+    self.boss.particles = particles:showEmitter(nil, "ufo-trail", self.boss:x(), self.boss:y(), "forever", 0.6)
+    self.boss.particles:scale(0.1, 0.1)
+
+    self.view:insert(scene.boss.particles)
     self.view:insert(scene.boss.image)
+
     self:moveBoss()
 end
 
 
 function scene:moveBoss()
     local seq = anim:oustSeq("bossHover", self.boss.image)
+    seq.target2 = self.boss.particles
 
     if self.hoverBossUp then
         self.hoverBossUp = false
@@ -128,6 +137,16 @@ function scene:moveBoss()
 
     seq.onComplete = function() self:moveBoss() end
     seq:start()
+end
+
+
+function scene:loadHologramBase()
+    self.hologramBase   = newImage(self.view, "effects/hologram/Hologram_base", 745, 550)
+    self.hologramEffect = builder:newSpineObject({type="hologram"}, {jsonName="hologram", imagePath="effects/hologram", scale=1, animation="animation"})
+
+    self.hologramEffect:moveTo(745, 550)
+    spineStore:addSpine(self.hologramEffect)
+    self.view:insert(self.hologramEffect.image)
 end
 
 
@@ -143,7 +162,7 @@ function scene:loadCharacters(event)
         if char.playable then
             local unlocked = state:characterUnlocked(model)
             -- Show characters that are unlocked
-            if unlocked then
+            if unlocked or state.cutsceneCharacter == model then
                 scene:createCharacter(data, centerX - data.xpos, data.ypos)
             end
             -- Show holograms for characters locked plus also the focus character as it will become unlocked
@@ -161,15 +180,20 @@ function scene:createCharacter(charData, xpos, ypos, locked)
 
     --scene.spineDelay = scene.spineDelay + 100
     --local ai = spineStore:showCharacter(spec, scene.spineDelay)
-    local ai = spineStore:showCharacter(spec)
-    ai.model = model
-    ai.scene = charData
-    self.view:insert(ai.image)
+    local ai  = spineStore:showCharacter(spec)
+    ai.model  = model
+    ai.scene  = charData
 
+    ai.shadow = newImage(self.view, "mothership/shadow", xpos+5, ypos)
+    ai.shadow.alpha = 0.65
+    ai.shadow:scale(0.9, 0.9)
+
+    self.view:insert(ai.image)
     self.characters[model] = ai
 
     if model == state.cutsceneCharacter and state.cutsceneStory == "cutscene-character-intro" then
         ai:hide()
+        ai.shadow.alpha = 0
         self.focusCharacter = ai
     end
 end
@@ -248,7 +272,7 @@ end
 function scene:actionShowHolograms()
     for i, hologram in pairs(scene.holograms) do
         local seq = anim:oustSeq("hologram-"..i, hologram.image)
-        seq:tran({time=500, alpha=1})
+        seq:tran({time=500, alpha=0.5})
 
         -- If showing a new character: display a special sequence where the hologram is replaced with the real character
         if state.cutsceneStory == "cutscene-character-intro" and hologram == self.focusHologram then
@@ -263,12 +287,14 @@ function scene:actionShowHolograms()
                 char.xScale, char.yScale = 0.1, 0.1
 
                 local seq2 = anim:oustSeq("characterAppear", char)
-                seq2:tran({alpha=1, xScale=1, yScale=1, time=2000, delay=500, ease="bounce"})
+                seq2.target2 = self.focusCharacter.shadow
+                seq2:tran({alpha=0.75, xScale=1, yScale=1, time=2000, delay=500, ease="bounce"})
+                --seq2.onComplete = function() self.focusCharacter.shadow.alpha = 0.65 end
                 seq2:start()
             end)
             seq:tran({xScale=-1.5, yScale=1.5, alpha=0, time=2000, delay=500, ease="bounce"})
         else
-            seq:add("glow", {time=1250, delay=250, alpha=0.5})
+            seq:add("glow", {time=1250, delay=250, alpha=0.25})
         end
 
         seq:start()
@@ -298,16 +324,9 @@ function scene:actionShowBrainiak()
     seq:tran({alpha=0, time=1000})
     seq.onComplete = function() 
         self.tvimage:removeSelf()
-        self.tvimage = display.newGroup()
-        self.tvimage.x, self.tvimage.y = centerX, centerY
-        self.view:insert(self.tvimage)
-
-        newImage(self.tvimage, "../levels/planet1/images/bgr-sky-1", 0, 0)
-        newImage(self.tvimage, "player/Brain Alien/Head",            -70, -50)
-
+        self.tvimage = newImage(self.view, "mothership/tv-enemy1", centerX, centerY-60)
         self.tvimage.alpha = 0
         self.tvimage:toBack()
-        self.tvimage:scale(-1.5,1.5)
 
         local seq2 = anim:oustSeq("tv", self.tvimage)
         seq2:tran({alpha=1, time=1000})
@@ -325,15 +344,19 @@ function scene:actionShowNewCharacter()
     seq:tran({alpha=0, time=1000})
     seq.onComplete = function() 
         self.tvimage:removeSelf()
+
+        --[[
         self.tvimage = display.newGroup()
         self.view:insert(self.tvimage)
 
-        newImage(self.tvimage, "../levels/planet1/images/bgr-sky-2", centerX,     centerY)
-        newImage(self.tvimage, "player/"..data.skin.."/Head",        centerX-240, 160)
+        display.newImage(self.tvimage, "levels/planet1/images/bgr-sky-2.png", centerX,     centerY)
+        newImage(self.tvimage,         "player/"..data.skin.."/Head",         centerX-240, 160)
+        ]]
+        self.tvimage = newImage(self.view, "mothership/tv-"..data.name, centerX, centerY-60)
 
         self.tvimage.alpha = 0
         self.tvimage:toBack()
-        self.tvimage:scale(1.5,1.5)
+        --self.tvimage:scale(1.5,1.5)
 
         local seq2 = anim:oustSeq("tv", self.tvimage)
         seq2:tran({alpha=1, time=1000})
