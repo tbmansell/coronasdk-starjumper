@@ -170,8 +170,10 @@ end
 
 
 function player:stopMomentum(completely)
-    self.image.angularVelocity = 0
-    self.image:setLinearVelocity(0, 0)
+    if self.image then
+        self.image.angularVelocity = 0
+        self.image:setLinearVelocity(0, 0)
+    end
 
     if completely then
     	self:setGravity(0)

@@ -527,6 +527,18 @@ function newObjectsLoader:load(level)
     end
 
 
+    -- Called when the level starts to run through any timed custom events and trigger them
+    function level:finishCustomEvents()
+        if self.data.customEvents then
+            for name,event in pairs(self.data.customEvents) do
+                if event.conditions and event.conditions.zoneFinish then
+                    self:triggerCustomEvent(name, hud.player, self:getLastLedge())
+                end
+            end
+        end
+    end
+
+
     -- Makes a check to see if the custom event name should be run and if so runs it
     function level:triggerCustomEvent(eventName, player, source)
         if self.data.customEvents then
@@ -560,6 +572,20 @@ function newObjectsLoader:load(level)
                         if not player:hasUnlocked(color) then
                             return false
                         end
+                    end
+                elseif name == "zoneFinish" then
+                    local mode = state.data.game
+
+                    if mode == levelOverFailed or mode == levelOverComplete then
+                        return false
+                    end
+                elseif name == "player" then
+                    if condition == "main" then
+                        if not player.main then
+                            return false
+                        end
+                    elseif condition ~= player.model then
+                        return false
                     end
                 end
             end

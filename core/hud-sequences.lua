@@ -207,6 +207,8 @@ function hud:levelCompleteSequence(passGuard)
         return
     end
 
+    hud.level:finishCustomEvents()
+
     state.data.game = levelOverComplete
 
     local game = state.data.gameSelected

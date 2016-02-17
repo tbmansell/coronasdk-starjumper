@@ -345,7 +345,7 @@ function playerCollection:checkAIBehaviour(level)
     for i=1,num do
         local player = items[i]
 
-        if player.ai then
+        if player ~= -1 and player.ai then
         	player:checkAIBehaviour(level)
         end
    end

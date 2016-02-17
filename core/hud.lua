@@ -887,8 +887,8 @@ end
 
 ---------- USED FOR INGAME SCRIPTS ----------
 
-function hud:triggerEvent(eventName)
-    self.level:triggerCustomEvent(eventName, self.player, nil)
+function hud:triggerEvent(eventName, player)
+    self.level:triggerCustomEvent(eventName, player or self.player, nil)
 end
 
 
