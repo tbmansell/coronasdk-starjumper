@@ -194,6 +194,11 @@ function newLockedPopup(sceneGroup, id, type, title, description)
         description = "complete "..zones.." zones in "..planetData[other].name.." to unlock"
         planet      = id
 
+    elseif type == "zones" then
+        newImage(group, "select-game/race-zone-green", 170, 265)
+        description = "buy "..planetData[id].name.." planet pack to unlock"
+        buymode     = "storeOnly"
+
     elseif type == "game" then
         newImage(group, "select-game/tab-"..gameTypeData[id].icon, 170, 265, 0.35)
 

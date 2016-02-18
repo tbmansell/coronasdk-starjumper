@@ -22,8 +22,10 @@ local killedBySpecial   = false
 local specialRise       = false
 local skyChanging       = false
 local skyBlue           = nil
-local warpPullMovement1 = {pattern=moveTemplateJerky,        distance=100, isTemplate=true, speed=1, dontDraw=true, steering=steeringMild}
-local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=100, isTemplate=true, speed=1, dontDraw=true, steering=steeringMild}
+--local warpPullMovement1 = {pattern=moveTemplateJerky,        distance=100, isTemplate=true, speed=1, dontDraw=true, steering=steeringMild}
+--local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=100, isTemplate=true, speed=1, dontDraw=true, steering=steeringMild}
+local warpPullMovement1 = {pattern=moveTemplateJerky,        distance=50, isTemplate=true, speed=0.5, dontDraw=true, steering=steeringMild}
+local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=50, isTemplate=true, speed=0.5, dontDraw=true, steering=steeringMild}
 
 
 -- Aliases
@@ -62,7 +64,7 @@ local function collideWarp(self, event)
     if object == nil then return end
 
     if event.phase == "began" then
-        if object.inGame and not object.belongsToSpineStore and not object.collideWithWarp and not object.isPlayer then
+        if object.inGame and not object.belongsToSpineStore and not object.collideWithWarp and object.isLedge then --not object.isPlayer then
             if not object.isMoving then
                 object.collideWithWarp = true
 

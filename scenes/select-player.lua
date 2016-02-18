@@ -121,16 +121,14 @@ function scene:createPlayerIcons()
             unselected.playerModel = player
 
             unselected.tap = function()
-
-                scene:selectPlayer()
+                scene:selectPlayer({target=unselected})
             end
 
             unselected:addEventListener("tap", unselected)
             selected:addEventListener("tap", function() return true end)
 
             if player == self.playerModel then
-                local event = {target=unselected}
-                self:selectPlayer(event)
+                self:selectPlayer({target=unselected})
             end
         
             if pos%3 == 0 then

@@ -130,7 +130,6 @@ state = {
             -- list of characters unlocked
             --characters = { characterNewton },
             characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterGreyson },
-            --characters = { characterNewton, characterSkyanna, characterHammer, characterBrainiak, characterGrey },
             -- list of gear that is unlocked
             --gear = {},
             gear = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
@@ -797,7 +796,7 @@ function state:initialiseData()
     self.data.tutorialsAcknowledged = {}
     
     for i=1, #planetData do
-        self:setupNewPlanet(i, planetData[i].normalZones)
+        self:setupNewPlanet(i, planetData[i].normalZones + planetData[i].secretZones)
     end
 end
 

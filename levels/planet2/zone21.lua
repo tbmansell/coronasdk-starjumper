@@ -120,7 +120,7 @@ local levelData = {
     },
 
 
-    ai = {
+    --[[ai = {
         [1] = {
             skin          = "Grey Enemy",
             model         = characterGrey,
@@ -144,7 +144,7 @@ local levelData = {
            }
         },
 
-    },
+    },]]
 }
 
 return levelData

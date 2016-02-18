@@ -49,7 +49,7 @@ local function moveBackground(event)
     elseif event.phase == "moved" and event.xStart and scene.startX then
         local x = (event.x - event.xStart) + scene.startX
 
-        if x < 0 and x > -2880 then
+        if x < 0 and x > -3750 then
             scene.moveable.x = x
         end
     end
@@ -118,7 +118,7 @@ function scene:createSceneMoveableContent(event)
     group:insert(moveable)
     moveable:insert(front)
 
-    local bgr = display.newImage(moveable, "levels/"..planet.."/images/zone-select.png", 1920, centerY, true)
+    local bgr = display.newImage(moveable, "levels/"..planet.."/images/zone-select.png", 2350, centerY, true)
     bgr:addEventListener("touch", moveBackground)
     bgr:addEventListener("tap", scene.closePopup)
 
@@ -134,21 +134,15 @@ function scene:createSceneMoveableContent(event)
 
     self:createAnimatedItems(camera, moveable)
 
-    local overlay = display.newImage(moveable, "levels/"..planet.."/images/zone-select-overlay.png", 1920, centerY-10, true)
+    local overlay = display.newImage(moveable, "levels/"..planet.."/images/zone-select-overlay.png", 2400, centerY-10, true)
     local px = state.data.zoneSelected or 1
 
     -- NOTE: this works for planet1 but may change for other planets
-    if px < 5 then
-        -- dont move along
-    elseif px < 9 then
-        scene.moveable.x = -750
-    elseif px < 14 then
-        scene.moveable.x = -1500
-    elseif px < 18 then
-        scene.moveable.x = -2200
-    elseif px < 22 then
-        scene.moveable.x = -2900
-    end
+    if     px < 5 then  -- dont move along
+    elseif px < 9 then  scene.moveable.x = -750
+    elseif px < 14 then scene.moveable.x = -1500
+    elseif px < 18 then scene.moveable.x = -2200
+    elseif px < 22 then scene.moveable.x = -2900 end
 
     moveable:insert(camera)
 end
@@ -245,6 +239,10 @@ function scene:createZones(moveable)
         zone.image.zone = zone
         zone.image.tap  = scene.selectZone
         zone.image:addEventListener("tap", zone.image)
+
+        if zone.data.secret then
+            new_image(moveable, "locking/lock", x+40, y-100, 0.6, 0.9)
+        end
 
         if zone.state.completed then
             self:createZoneRanking(self.zones.stars, zone.data, zone.state.ranking, zone.data)
@@ -346,6 +344,10 @@ function scene:selectZone(event)
 
     -- Dont allow viewing zone details unless it's playable
     if not state:zoneUnlocked(state.data.planetSelected, zone.id) then
+        if zone.data.secret then
+            local planet = state.data.planetSelected
+            newLockedPopup(self.view, planet, "zones", planetData[planet].name.."|secret zones")
+        end
         return
     end
 
