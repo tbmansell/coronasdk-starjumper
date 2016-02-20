@@ -18,7 +18,7 @@ local play = globalSoundPlayer
 function storyTeller:start(storyName, scenePauseHandler, sceneResumeHandler, alertHandler, scene)
 	local story = scripts[storyName]
 
-    if story == nil or (not story.alwaysShow and not state:showStory(storyName)) then
+    if self:avoidStory(story, storyName) then 
     	return false
     end
 
@@ -42,7 +42,7 @@ function storyTeller:startNow(storyName, scenePauseHandler, sceneResumeHandler, 
 	self.storyId = storyName
     self.story   = scripts[storyName]
 
-    if self.story == nil or (not self.story.alwaysShow and not state:showStory(storyName)) then
+    if self:avoidStory(self.story, storyName) then 
     	return false
     end
 
@@ -59,6 +59,28 @@ function storyTeller:startNow(storyName, scenePauseHandler, sceneResumeHandler, 
 	else
 		self:showInGame()
 	end
+end
+
+
+-- Determines if story should not be shown:
+-- @return true to not show story, false to show story
+function storyTeller:avoidStory(story, storyName)
+	if story == nil or (not story.alwaysShow and not state:showStory(storyName)) then
+		-- Story not found or already seen
+    	return true
+    end
+
+    local condition = story.condition
+
+    if condition and condition.characterNotIn then
+    	if table.indexOf(condition.characterNotIn, state.data.playerModel) ~= nil then
+    		-- Character played is one listed as not to show for script
+    		return true
+    	end
+    end
+
+    -- Allow the story to be showed
+    return false
 end
 
 

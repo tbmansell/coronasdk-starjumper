@@ -80,7 +80,7 @@ characterData = {
         bio = {
             grade     = "novice",
             home      = "nexus",
-            age       = 17,
+            age       = 15,
             likes     = "video games",
             hates     = "hard work",
             ability   = "none",
@@ -131,13 +131,13 @@ characterData = {
             age       = 20,
             likes     = "fresh brains",
             hates     = "fuzzies",
-            ability   = "ledge changer",
+            ability   = "mind matter",
             throws    = "electrifier",
         }
     },
     [characterKranio] = {
         name          = "kranio",
-        title         = "new recruit",
+        title         = "jumper",
         skin          = "Brain Enemy - Alt",
         shipSkin      = "green",
         color         = "purple",
@@ -150,12 +150,12 @@ characterData = {
         soundIndex    = characterBrainiak,
         soundFolder   = "brainiak",
         bio = {
-            grade     = "son of brainiak",
+            grade     = "jumper",
             home      = "organia",
-            age       = 15,
+            age       = 17,
             likes     = "vegetables",
             hates     = "brainiak",
-            ability   = "ledge changer",
+            ability   = "mind matter",
             throws    = "electrifier",
         }
     },
@@ -209,7 +209,7 @@ characterData = {
     },
     [characterGreyson] = {
         name          = "greyson",
-        title         = "enemy",
+        title         = "jumper",
         skin          = "Grey - Alt",
         shipSkin      = "green",
         color         = "grey",

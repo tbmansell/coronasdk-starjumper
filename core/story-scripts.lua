@@ -6,19 +6,18 @@ local scripts = {
 		cutscene = true,
 		delayEnd = 4000,
 		sequence = {
-			{delay=2000, speaker=characterGygax,  dir=right, text="Welcome Newton, we have an emergency on our hands. All our Star Jumpers are missing..."},
-			{delay=5000, speaker=characterNewton, dir=left,  text="Oh no! I thought they were searching for energy rings over the galaxy, to power our homeworld", 
+			{delay=2000, speaker=characterGygax,  dir=right, text="We have an emergency on our hands, young Newton! Contact has been lost with all Star Jumpers..."},
+			{delay=5000, speaker=characterNewton, dir=left,  text="Oh no! Without the energy rings they discover, our homeworld will soon run out of power", 
 			                                                 action=function(scene) scene:actionShowHolograms() end},
-			{delay=5000, speaker=characterGygax,  dir=right, text="I'm afraid none have returned from their missions and we cannot contact them. I suspect something sinister"},
-			{delay=5000, speaker=characterGygax,  dir=right, text="Behold Planet Organia: the location of our most recent missing Star Jumper - Skyanna", 
+			{delay=5000, speaker=characterGygax,  dir=right, text="Behold Planet Organia: the last known location of the two Star Jumpers - Skyanna and Kranio", 
 															 action=function(scene) scene:actionShowPlanet1() end},
 			{delay=6000, speaker=characterNewton, dir=left,  text="*gulp* Why is it called Organia boss?"},
-			{delay=5000, speaker=characterGygax,  dir=right, text="It is a barren rocky planet rich in energy rings but the lifeforms are large organs that dont take kindly to visitors.", size="-big"},
-			{delay=6000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Star Jumper and have no equipment"},
-			{delay=4000, speaker=characterGygax,  dir=right, text="I am going to train you how to collect HoloCubes and gain equipment, as we explore the locations our Star Jumpers went missing", size="-big"},
-			{delay=6000, speaker=characterGygax,  dir=right, text="There is more, I fear some intelligent enemy has been setting traps for our Star Jumpers and may have captured them.", size="-big",
+			{delay=4000, speaker=characterGygax,  dir=right, text="It is a warm rocky planet populated with giant brains, hearts and shooting stomachs, which dont take kindly to visitors", size="-big"},
+			{delay=6000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Jumper"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="I shall train you in the techniques and equipment, as we explore the locations they went missing", size="-big"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="There is more. Sightings of the evil Brainiak have been made and I fear he may have something to do with this", size="-big",
 											                 action=function(scene) scene:actionShowBrainiak() end}, 
-			{delay=6000, speaker=characterNewton, dir=left, text="Oh dear. I wish I had stayed in bed"},
+			{delay=6000, speaker=characterNewton, dir=left, text="Oh dear, worst day ever"},
 		},
 	},
 	["cutscene-character-intro-skyanna"] = {
@@ -27,27 +26,26 @@ local scripts = {
 		sequence = {
 			{delay=2000, speaker=characterGygax,   dir=right, text="Congratulations we have rescued a captured Star Jumper - welcome back Skyanna!",
 												              action=function(scene) scene:actionShowHolograms() end},
-			{delay=5000, speaker=characterSkyanna, dir=left,  text="Hey! Thanks for the rescue. It's good to be away from that barren planet and the disgusting Brainiak"},
+			{delay=5000, speaker=characterSkyanna, dir=left,  text="Hey! Thanks for the rescue. It's good to be away from that barren planet and the evil Brainiak"},
 			{delay=6000, speaker=characterGygax,   dir=right, text="Skyanna is our fastest Star Jumper. I think the last recorded test showed you were 50% faster than the rest", size="-big",
 															  action=function(scene) scene:actionShowNewCharacter() end},
 			{delay=6000, speaker=characterSkyanna, dir=left,  text="I get in and out fast without a doubt. I'm Ready for action once more thanks to you guys"},
-			{delay=6000, speaker=characterNewton,  dir=right, text="I look forward to working with you. I've heard the story of how you raced through the fog pits of Poisened Earth", size="-big"},
-			{delay=6000, speaker=characterSkyanna, dir=left,  text="You did good kid. Oh yes, I've got some tales to tell you on our travels"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="I look forward to working with you. I've heard the story of how you raced through the fog pits of *Poisened Earth*", size="-big"},
+			{delay=6000, speaker=characterSkyanna, dir=left,  text="Oh yes, I've got some tales to tell you on our travels. You did good kid"},
 		},
 	},
-	-- TODO:
 	["cutscene-character-intro-kranio"] = {
 		cutscene = true,
 		delayEnd = 4000,
 		sequence = {
-			{delay=2000, speaker=characterGygax,   dir=right, text="Good news everyone, a missing Star Jumper has escaped from planet Organia - welcome back Kranio, son of Brainiak!", size="-big",
+			{delay=2000, speaker=characterGygax,   dir=right, text="Good news everyone, a missing Star Jumper has returned from planet Organia - welcome back Kranio!",
 												              action=function(scene) scene:actionShowHolograms() end},
-			{delay=5000, speaker=characterKranio,  dir=left,  text="I have to apologise for Brainiaks evil scheme with Skyanna. I tried to stop him but he banished me to the grey matter zone.", size="-big"},
-			{delay=6000, speaker=characterGygax,   dir=right, text="Kranio has the unqiue ability to convert any dangerous ledge into a safe one, once per zone",
+			{delay=5000, speaker=characterKranio,  dir=left,  text="I was banished to the Grey Matter Zone by my father Brainiak, so that I could not spoil his plans. I vow to stop his evil ways", size="-big"},
+			{delay=6000, speaker=characterGygax,   dir=right, text="Kranio has a unique Mind Matter ability to convert any dangerous ledge into a safe one, once per zone",
 															  action=function(scene) scene:actionShowNewCharacter() end},
-			{delay=6000, speaker=characterKranio,  dir=left,  text="I say stuff"},
-			{delay=6000, speaker=characterNewton,  dir=right, text="Then i say stuff", size="-big"},
-			{delay=6000, speaker=characterKranio,  dir=left,  text="The I say more stuff"},
+			{delay=6000, speaker=characterKranio,  dir=left,  text="It is how I escaped Brainiak's minions and has really helped me out of some tricky situations"},
+			{delay=6000, speaker=characterNewton,  dir=right, text="I look forward to working with you. It must be hard having an evil Brain Master for a father", size="-big"},
+			{delay=6000, speaker=characterKranio,  dir=left,  text="I turned my back on his legacy and brain empire to free all minds everywhere"},
 		},
 	},
 
@@ -89,9 +87,10 @@ local scripts = {
 -- IN-GAME STORY SCRIPTS --
 
 	["intro-brainiak-zone5"] = {
-		forced     = true,
-		delay      = 0,
-		sequence   = {
+		forced    = true,
+		delay     = 0,
+		condition = { characterNotIn={characterSkyanna, characterKranio} },
+		sequence  = {
 			{delay=1000, speaker=characterBrainiak, dir=right, text="Foolish trespasser you have entered the domain of Brainiak, where all must tremble! Ha ha perhaps you are searching for your friend...", size="-big"},
 			{delay=3000,  							dir=left,  text="Skyanna! What have you done with her you fiend?"},
 			{delay=3000, speaker=characterBrainiak, dir=right, text="She is my prisoner little alien, one I am savouring for later. Mmm I think you will make a nice starter. My super smart brainoids will deal with you...", size="-big"},
@@ -116,9 +115,10 @@ local scripts = {
 		},
 	},
 	["race-brainiak-zone21"] = {
-		forced   = true,
-		delay    = 0,
-		sequence = {
+		forced    = true,
+		delay     = 0,
+		condition = { characterNotIn={characterSkyanna, characterKranio} },
+		sequence  = {
 			{delay=1000, speaker=characterBrainiak, dir=right, text="Aaargh still you survive little alien. Enough toying with your friend. It's feeding time and my trap has done its work bringing more aliens here", size="-big"},
 			{delay=3000,                            dir=left,  text="I've not battled this far to give up now. Your evil ways will soon be at an end Brainiak. No-one eats my friends!", size="-big"},
 			{delay=3000, speaker=characterBrainiak, dir=right, text="Raaagh you can't stop me..."},
@@ -220,6 +220,19 @@ local scripts = {
 			{speaker=characterGygax, dir=left,  text="They can be used instead of climbing gloves, to reach out and pull yourself onto a ledge you have just jumped past", size="-big"},
 			{speaker=characterGygax, dir=left,  text="The rope range is limited, so they will only save you if you fall close past a ledge. Stock these and climbing gloves to be a versatile Jumper", size="-big"},
 			{                        dir=right, text="Hmm gloves or hook, what should I wear, decisions, decisions..."},
+		}
+	},
+
+	["intro-character-kranio"] = {
+		sequence = {
+			{speaker=characterKranio, dir=left, text="I have the unique special ability to transform the material of a deadly ledge into a safe one with my mind, once per zone", size="-big"},
+			{speaker=characterKranio, dir=left, text="Tap a nearby dangerous ledge and I will change it. If a ledge cannot be changed or my power is used up, you will hear a warning sound", size="-big"},
+		}
+	},
+	["intro-character-greyson"] = {
+		sequence = {
+			{speaker=characterGreyson, dir=left, text="I have the unique special ability to teleport to the ledge next to me, with my alien technology, once per zone", size="-big"},
+			{speaker=characterGreyson, dir=left, text="Tap the ledge immediately before or after the one I am on to teleport. If a ledge cannot be teleported to or my power up, is used you will hear a warning sound", size="-big"},
 		}
 	},
 }

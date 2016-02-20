@@ -453,6 +453,7 @@ function scene:startPlaying(player)
     -- check if this zone has an intro script:
     if state.data.gameSelected == gameTypeStory then
         hud:showStory("intro-planet"..state.data.planetSelected.."-zone"..state.data.zoneSelected)
+        hud:showStory("intro-character-"..characterData[state.data.playerModel].name)
         hud:showTutorial(level.data.tutorial)
     end
     
