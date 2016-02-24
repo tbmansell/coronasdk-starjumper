@@ -393,7 +393,6 @@ end
 
 function engine:getPlayerJump(type)
 	local type = characterData[type].soundIndex
-	print("getPlayerJump: "..type)
     return self:getRandom(soundList.playerJump[type])
 end
 

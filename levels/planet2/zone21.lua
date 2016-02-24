@@ -71,7 +71,7 @@ local levelData = {
 
         {object="ledge", x=320, y=-250, surface=pulley, distance=275, speed=2, reverse="true"},
             {object="scenery", x=340, y=-400, type="fgflt-pole-5"},
-            {object="wall",    x=-50, y=-390, type="fg-rock-2", size=1, rotation=-45, physics={shape="circle", friction=0.3, bounce=1}},   
+            {object="wall",    x=-50, y=-490, type="fg-rock-2", size=1, rotation=-45, physics={shape="circle", friction=0.3, bounce=1}},   
         
         {object="ledge", x=275, y=250, surface=pulley, distance=-225, speed=2, reverse="true"},
 
@@ -79,7 +79,7 @@ local levelData = {
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=100, yforce=150, arc=50, num=5}},
 
         -- Phase 3
-        {object="obstacle", x=250, y=-300, timerOn=1000, timerOff=750, type="electricgate"},
+        {object="obstacle", x=250, y=-300, timerOn=1000, timerOff=1000, type="electricgate"},
             {object="wall", x=-53,  y=-750, type="fg-wall-divider-halfsize", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
             {object="wall", x=-53,  y=190, type="fg-wall-divider", flip="y", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
       

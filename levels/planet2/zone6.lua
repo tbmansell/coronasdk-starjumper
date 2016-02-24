@@ -2,7 +2,7 @@ local levelData = {
     name             = "express elevator to hell...",
     timeBonusSeconds = 28,
     ceiling          = -1500,
-    startLedge       = 6,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},
@@ -29,7 +29,7 @@ local levelData = {
                 }
             },    
 
-        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,0}}, reverse=true, speed=3, pause=1000}},
+        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,0}}, reverse=true, speed=1.5, pause=1000}},
 
         --Fuzzy
         {object="ledge", x=200, y=280, size="medium3"},
@@ -40,7 +40,7 @@ local levelData = {
                 movement={pattern=moveTemplateVertical, isTemplate=true, distance=1, reverse=true, speed=2.5, pause=3000, pauseStyle=moveStyleSwayBig, --[[steering=steeringMild]]}
             },
            
-        {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate"},
+        {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate", antishield=true},
            
             {object="emitter", x=0, y=-950, timer={2000, 6000}, limit=nil, force={ {-500, 500}, {100, 300}, {0, 360} }, 
                 items={
@@ -55,13 +55,13 @@ local levelData = {
             {object="wall", x=-475, y=-400, type="fg-rock-1", size=1.2, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
             {object="rings", color=aqua, trajectory={x=30, y=-200, xforce=110, yforce=170, arc=65, num=3}},
 
-        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,-200}}, reverse=true,  distance=800, speed=1.5, pause=1000}},
+        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,-200}}, reverse=true,  distance=800, speed=2.5, pause=1000}},
 
         {object="ledge", x=600, y=-350, size="small2"},
 --            {object="enemy", type="greynapper", skin="fuzzy-napper", x=650, y=-125, size=0.5,
 --                movement={pattern=moveTemplateVertical, isTemplate=true, distance=1, reverse=true, speed=2.5, pause=3000, pauseStyle=moveStyleSwayBig}, --steering=steeringMild}
 --            },
-            {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate"},
+            {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate", antishield=true},
 
             {object="emitter", x=0, y=-800, timer={2000, 6000}, limit=nil, force={ {-500, 500}, {100, 300}, {0, 360} }, 
                 items={

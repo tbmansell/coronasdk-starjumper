@@ -68,7 +68,7 @@ function collectableBuilder:newRings(camera, spec, x, y, jumpObject)
                 movement.patternStart = i
             end
 
-            local ringSpec  = {object="ring", position=i, color=spec.color, isTemp=false, movement=movement}
+            local ringSpec  = {object="ring", position=i, color=(item.color or spec.color), isTemp=false, movement=movement}
             rings[#rings+1] = self:newRing(camera, ringSpec, x, y)
         end
     -- 2. in a trajectory mimicking a players jump between ledges

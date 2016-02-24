@@ -240,14 +240,16 @@ function player:setPhysicsFilter(action)
     self.physicsFilterPrev = self.physicsFilter
     self.physicsFilter     = filter
 
-    local xvel, yvel = self:getForce()
-    physics.removeBody(self.image)
+    after(1, function()
+        local xvel, yvel = self:getForce()
+        physics.removeBody(self.image)
 
-    self:setPhysics(self:getCamera().scaleImage, filter)
+        self:setPhysics(self:getCamera().scaleImage, filter)
 
-    if xvel ~= 0 or yvel ~= 0 then
-        self:applyForce(xvel, yvel)
-    end
+        if xvel ~= 0 or yvel ~= 0 then
+            self:applyForce(xvel, yvel)
+        end
+    end)
 end
 
 
@@ -358,6 +360,7 @@ function player:loseLife()
             self:getCamera():track()
         else
             self:reset()
+            self:aiRecordDeath()
             hud:reset(self)
             self.gear = {[jump]=nil, [air]=nil, [land]=nil}
         end

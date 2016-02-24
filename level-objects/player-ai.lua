@@ -48,8 +48,6 @@ end
 function player:checkAIBehaviour(level)
 	if self.pauseAiLogic then return end
 
-	local mainPlayer = self.mainPlayerRef
-
 	-- Update any waiting timer
 	if self.waitingTimer > 0 then self.waitingTimer = self.waitingTimer - 1 end
 
@@ -62,13 +60,17 @@ function player:checkAIBehaviour(level)
 			if not self:hasCompletedLevel(level) and
 			   self:checkForKeyGear(level) and
 			   self:preparedForJump(level) and
-			   not self:waitForPlayer(level, mainPlayer)
+			   not self:checkForAttack()
+			   --not self:waitForPlayer(level)
 			then
+				self:checkForAttack()
 				self:holdForNextJump()
 			end
 		elseif mode == playerDrag then
 			-- if player preparing for jump, run for jump
-			self:analyseNextJump()
+			if not self:checkForAttack() then
+				self:analyseNextJump()
+			end
 		elseif mode == playerSwing then
 			self:analyseSwing()
 		elseif mode == playerHang then
@@ -126,6 +128,8 @@ function player:waitForPlayer(level, mainPlayer)
 		return false
 	end
 
+	local mainPlayer = self.mainPlayerRef
+
 	if not mainPlayer.attachedLedge then
 		-- player could be in the middle of dieing so wait
 		self:wait(1)
@@ -135,51 +139,87 @@ function player:waitForPlayer(level, mainPlayer)
 	local dist = self.attachedLedge.id - mainPlayer.attachedLedge.id
 
 	if self.waitingToCatchup then
-		if dist <= self.personality.waitCatchupTo then
-			-- player has caught up, so stop waiting
-			self.waitingToCatchup = false
-			-- check if we're gonna throw a trap for them
-			if self.personality.dropTrapOnCatchup then
-				self:dropNegable()
-				-- wait a second before running off
-				self:wait(1)
-			end
+		return self:waitForPlayerUpdate(dist)
 
-			return false
-		else
-			-- check if ai taunts player:
-			if self.personality.tauntOnCatchup and not self.taunting then
-				after((1+math_random(4))*1000, function()
-					if self.mode == playerReady and not self.taunting then 
-						self:taunt()
-					end
-				end)
-			end
-
-			-- wait a second to check again if they have caught up
-			self:wait(1)
-			return true
-		end
 	elseif dist >= self.personality.waitForPlayer then
-		-- change direciton to wait for them
-		if (mainPlayer:x() < self:x() and self.direction == right) or
-		   (mainPlayer:x() > self:x() and self.direction == left) then
-		   self:changeDirection()
-		end
+		self:waitForPlayerStart(mainPlayer)
+	end
+	return true
+end
 
-		-- if drops traps, then move to front of ledge so good chance it will land where player jumps
+
+function player:waitForPlayerStart(mainPlayer)
+	-- change direciton to wait for them
+	if (mainPlayer:x() < self:x() and self.direction == right) or
+	   (mainPlayer:x() > self:x() and self.direction == left) then
+	   self:changeDirection()
+	end
+
+	-- if drops traps, then move to front of ledge so good chance it will land where player jumps
+	if self.personality.dropTrapOnCatchup then
+		local moveBy = self.attachedLedge:rightEdge() - self:x() - 30
+		if moveBy > 0 then
+			self:moveOnLedge(moveBy)
+		end
+	end
+
+	-- wait a second to check again if they have caught up
+	self:wait(1)
+	self.waitingToCatchup = true
+end
+
+
+function player:waitForPlayerUpdate(dist)
+	if dist <= self.personality.waitCatchupTo then
+		-- player has caught up, so stop waiting
+		self.waitingToCatchup = false
+		-- check if we're gonna throw a trap for them
 		if self.personality.dropTrapOnCatchup then
-			local moveBy = self.attachedLedge:rightEdge() - self:x() - 30
-			if moveBy > 0 then
-				self:moveOnLedge(moveBy)
-			end
+			self:dropNegable()
+			-- wait a second before running off
+			self:wait(1)
 		end
-
+		return false
+	else
+		-- check if ai taunts player:
+		if self.personality.tauntOnCatchup and not self.taunting then
+			after((1+math_random(4))*1000, function()
+				if self.mode == playerReady and not self.taunting then 
+					self:taunt()
+				end
+			end)
+		end
 		-- wait a second to check again if they have caught up
 		self:wait(1)
-		self.waitingToCatchup = true
 		return true
 	end
+end
+
+
+-- Check to see if another player is in range for an attack (for now just the main player)
+function player:checkForAttack()
+	local pers = self.personality
+
+	-- dont attack player if not in personality or on a deadly ledge
+	if not pers.attackPlayer or self:onDeadlyLedge() then
+		return false
+	end
+
+	local mainPlayer = self.mainPlayerRef
+
+	if mainPlayer.attachedLedge and self.attachedLedge and mainPlayer.attachedLedge.id == self.attachedLedge.id then
+		local targetMode = mainPlayer.mode
+
+		if targetMode == playerReady or targetMode == playerDrag then
+			self:targetOtherPlayer(mainPlayer)
+
+			-- Disable attacking by turning off attackPlayer temporarily rather than waiting, otherwise if wait() the attack is pointless
+			pers.attackPlayer = false
+			after(pers.waitFromAttack*1000, function() pers.attackPlayer = true end)
+			return true
+		end
+	end
+	return false
 end
 
 
@@ -192,7 +232,7 @@ function player:checkForKeyGear(level)
 		local jumpLogic = from.ai
 	
 		if jumpLogic then
-			if jumpLogic.loadGear then
+			if jumpLogic.loadGear and self:applyJumpLogic(jumpLogic) then
 				self:setIndividualGear(jumpLogic.loadGear)
 			end
 		end		
@@ -252,7 +292,7 @@ end
 
 -- determines how long player should wait until they do the jump
 function player:holdForNextJump()
-	-- Recheck direction as could have changed to wait for player
+	-- Re-check direction as could have changed to wait for player
 	local from, to = self.jumpFrom, self.jumpTarget
 
 	if from.image == nil or to.image == nil then
@@ -272,7 +312,6 @@ function player:holdForNextJump()
 		local ax, ay = math_abs(xdist), math_abs(ydist)
 
 		if ax > 500 or ay > 250 then
-			--print("waiting for moving ledge distance: ax="..ax.." ay="..ay)
 			self:wait(1)
 		else
 			-- if in range go for it straight away as any delay could miss
@@ -321,19 +360,20 @@ function player:analyseNextJump()
 	local jumpLogic = from.ai
 	
 	if jumpLogic then
-		if jumpLogic.loadGear then
-			print("loading gear: "..jumpLogic.loadGear)
-			self:setIndividualGear(jumpLogic.loadGear)
-		end
+		if self:applyJumpLogic(jumpLogic) then
+			if jumpLogic.loadGear and self:applyJumpLogic(jumpLogic) then
+				self:setIndividualGear(jumpLogic.loadGear)
+			end
 
-		if jumpLogic.useAirGearAfter then
-			self.triggerJumpAction = jumpLogic.useAirGearAfter
-		end
+			if jumpLogic.useAirGearAfter then
+				self.triggerJumpAction = jumpLogic.useAirGearAfter
+			end
 
-		if jumpLogic.jumpVelocity then
-			local vel = jumpLogic.jumpVelocity
-			self:doNextJump(vel[1], -vel[2])
-			return
+			if jumpLogic.jumpVelocity then
+				local vel = jumpLogic.jumpVelocity
+				self:doNextJump(vel[1], -vel[2])
+				return
+			end
 		end
 	end
 
@@ -342,6 +382,30 @@ function player:analyseNextJump()
 
 	self.mode = playerAnalysingJump
     self:wait(1)
+end
+
+
+function player:applyJumpLogic(jumpLogic)
+	local condition = jumpLogic.condition
+
+	if condition then
+		-- If there is a condition applied to the jumplogic and it is not met: we return here, so the action is not performed
+		if condition.attempts then
+			-- Logic only applies if AI has performed a number of attempts (path searches and failed jumps)
+			local data = self.pathFinderData
+
+			if data == nil then 
+				return false 
+			end
+
+			local attempts = (data.pathAttempts or 0) + (data.died or 0)
+
+			if attempts < condition.attempts then 
+				return false
+			end
+		end
+	end
+	return true
 end
 
 
@@ -420,6 +484,8 @@ function player:pathFinderFailed()
 	local done   = false
 
 	if decide then
+		decide.pathAttempts = (decide.pathAttempts or 0) + 1
+
 		if from and from:topEdge() < target:topEdge() then
 			-- logic for lower ledges
 			if decide.ignoreLowerJumpModifier == nil then
@@ -455,6 +521,15 @@ function player:pathFinderFailed()
 	end
 	
 	self.mode = playerReady
+end
+
+
+function player:aiRecordDeath()
+	local data = self.pathFinderData
+
+	if data then
+		if data.died then data.died = data.died + 1 else data.died = 1 end
+	end
 end
 
 

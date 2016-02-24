@@ -87,7 +87,7 @@ local levelData = {
         
     --- ledges to end 
 
-        {object="ledge", x=1300, y=350, size="big3", positionFromLedge=15, movement={pattern={{20,-30},{-10,20},{10,-40},{-20,48}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=1300, y=350, size="big3", positionFromLedge=15, movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=-120, yforce=75, arc=70, num=5}},
             {object="wall", x=386,  y=-218, type="fg-wall-divider",  targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=400,  y=-425, type="fg-wall-divider-fs-completedown", targetName="moveableEndScenery2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},

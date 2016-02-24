@@ -37,19 +37,19 @@ local levelData = {
         {object="ledge", x=270, y=-150, size="big2"},
             {object="key", x=0, y=-60, color="Red", onLedge=true},
 
-        {object="ledge", x=500, y=0, size="big2"},
+        {object="ledge", x=600, y=0, size="big2"},
             {object="key", x=0, y=-60, color="Blue", onLedge=true},
 
-        {object="ledge", x=-500, y=-550, size="big2", keylock="Blue", triggerEvent="unlockLevelEnd"},
+        {object="ledge", x=-600, y=-550, size="big2", keylock="Blue", triggerEvent="unlockLevelEnd"},
             {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=200, yforce=50, arc=50, num=5}},
             {object="rings", color=red, pattern={ {447,-390} }},
 
-        {object="ledge", x=500, y=0, size="big2", keylock="Red", triggerEvent="unlockLevelEnd"},
+        {object="ledge", x=600, y=0, size="big2", keylock="Red", triggerEvent="unlockLevelEnd"},
 
-        {object="ledge", x=-1000, y=250, surface=oneshot, size="med-small", destroyAfter=300},
+        {object="ledge", x=-1100, y=250, surface=oneshot, size="med-small", destroyAfter=300},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=40, yforce=125, arc=40, num=3}},
         
-        {object="ledge", x=675, y=0, surface=oneshot, size="med-small", destroyAfter=300},
+        {object="ledge", x=725, y=0, surface=oneshot, size="med-small", destroyAfter=300},
             {object="friend", type="fuzzy", x=-30, color="Orange", onLedge=true},
 
         {object="enemy", type="greyufo", x=-175, y=-400, size=0.6, 

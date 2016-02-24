@@ -60,7 +60,7 @@ function ledgeBuilder:newLedge(camera, spec, prev)
 		return self:newStartLedge(camera, spec)
 	elseif spec.type == "finish" then
 		return self:newFinishLedge(camera, spec, prev)
-	else 
+	else
 	    return self:newPathLedge(camera, spec, prev)
 	end
 end

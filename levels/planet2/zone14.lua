@@ -27,13 +27,13 @@ local levelData = {
 
         {object="obstacle", x=110, y=-130, timerOn=5000, timerOff=1500, type="electricgate"},    
 
-            {object="emitter", x=200, y=-1000, timer={3000, 4000}, layer=3, limit=nil, force={ {0, 0}, {100,300}, {90, 91} }, 
+            {object="emitter", x=200, y=-1000, timer={3000, 5000}, layer=3, limit=nil, force={ {0, 0}, {100,300}, {90, 91} }, 
                 item={object="spike", type="fg-rock-3", size={5, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
-            {object="emitter", x=550, y=-1000, timer={3000, 5000}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 46} }, 
+            {object="emitter", x=550, y=-1000, timer={3000, 6000}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 46} }, 
                 item={object="spike", type="fg-rock-2", size={5, 8}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter={groupindex=-2}} }
             },
-            {object="emitter", x=800, y=-1000, timer={3500, 4500}, layer=3, limit=nil, force={ {40, 45}, {100, 300}, {0, 1} }, 
+            {object="emitter", x=800, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {40, 45}, {100, 300}, {0, 1} }, 
                 item={object="spike", type="fg-rock-3", size={4, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
@@ -48,14 +48,14 @@ local levelData = {
         {object="obstacle", x=110, y=-130, timerOn=4000, timerOff=2500, type="electricgate"},  
             {object="spike", x=870,  y=-1117, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},  
 
-        {object="ledge", x=275, y=180, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=275, y=180, size="medium",movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="scenery", x=500, y=-400, type="fgflt-pole-5"},
             {object="rings", color=aqua, trajectory={x=100, y=-100, xforce=75, yforce=110, arc=50, num=3}},
 
         {object="ledge", x=270, y=200, surface="electric"},    
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=50, yforce=170, arc=40, num=3}},
 
-        {object="ledge", x=285, y=-220, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=285, y=-220, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
 
         {object="ledge", x=200, y=130, size="medsmall2"}, ---- Rotating
             {object="scenery", x=500, y=-400, type="fgflt-pole-1"},
@@ -65,15 +65,15 @@ local levelData = {
 
         ----------- OUtside Ledges 2          
 
-            {object="emitter", x=200, y=-1000, timer={3500, 4500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
+            {object="emitter", x=200, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
                 item={object="spike", type="fg-rock-1", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
-            {object="emitter", x=700, y=-1000, timer={3500, 5000}, layer=3, limit=nil, force={ {-25, -35}, {200, 400}, {45, 90} }, 
+            {object="emitter", x=700, y=-1000, timer={3500, 6000}, layer=3, limit=nil, force={ {-25, -35}, {200, 400}, {45, 90} }, 
                 item={object="spike", type="fg-rock-5", size={4, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter={groupindex=-2}} }
             },
 
-            {object="emitter", x=1000, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
+            {object="emitter", x=1000, y=-1000, timer={3500, 6500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
                 item={object="spike", type="fg-rock-4", size={5, 7}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
@@ -99,13 +99,13 @@ local levelData = {
         {object="obstacle", x=110, y=-130, timerOn=4000, timerOff=2500, type="electricgate"},  
         {object="spike", x=870,  y=-1117, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, right=-20}, bounce=1}},  
 
-        {object="ledge", x=275, y=250, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=275, y=250, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}},
             {object="friend", type="fuzzy", x=230, y=-420, color="Pink", kinetic="hang", direction=left},
 
         {object="ledge", x=190, y=-70, surface=pulley, distance=-225, speed=2, reverse="true"},
              {object="rings", color=aqua, trajectory={x=103, y=-150, xforce=100, yforce=15, arc=40, num=3}}, 
 
-        {object="ledge", x=340, y=90, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=340, y=90, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
 
         {object="ledge", x=220, y=-50, size="medsmall2"}, ---- Rotating
             {object="scenery", x=500, y=-400, type="fgflt-pole-1"},
@@ -115,23 +115,23 @@ local levelData = {
 
         ----------- OUtside Ledges 3          
 
-            {object="emitter", x=200, y=-1000, timer={4000, 5000}, layer=3, limit=nil, force={ {-10, -27}, {300, 600}, {45, 90} }, 
+            {object="emitter", x=200, y=-1000, timer={4000, 6000}, layer=3, limit=nil, force={ {-10, -27}, {300, 600}, {45, 90} }, 
                 item={object="spike", type="fg-rock-1", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
-            {object="emitter", x=700, y=-1000, timer={3500, 4500}, layer=3, limit=nil, force={ {75, 90}, {300, 600}, {45, 90} }, 
+            {object="emitter", x=700, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {75, 90}, {300, 600}, {45, 90} }, 
                 item={object="spike", type="fg-rock-3", size={4,6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter={groupindex=-2}} }
             },
 
-            {object="emitter", x=1000, y=-1000, timer={4000, 5000}, layer=3, limit=nil, force={ {88, 100}, {300, 500}, {45, 90} }, 
+            {object="emitter", x=1000, y=-1000, timer={4000, 6000}, layer=3, limit=nil, force={ {88, 100}, {300, 500}, {45, 90} }, 
                 item={object="spike", type="fg-rock-4", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
-            {object="emitter", x=1700, y=-1000, timer={3000, 4500}, layer=3, limit=nil, force={ {-15, 35}, {300, 400}, {45, 90} }, 
+            {object="emitter", x=1700, y=-1000, timer={3000, 5500}, layer=3, limit=nil, force={ {-15, 35}, {300, 400}, {45, 90} }, 
                 item={object="spike", type="fg-rock-2", size={5, 7}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter={groupindex=-2}} }
             },
 
-            {object="emitter", x=2400, y=-1000, timer={3500, 4500}, layer=3, limit=nil, force={ {15, 65}, {300, 400}, {45, 90} }, 
+            {object="emitter", x=2400, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {15, 65}, {300, 400}, {45, 90} }, 
                 item={object="spike", type="fg-rock-1", size={3, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 

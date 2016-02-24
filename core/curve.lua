@@ -444,7 +444,7 @@ end
 function curve:hideJumpGrid(camera)
     if fingerPoint ~= nil then
         camera:remove(fingerPoint)
-        fingerPoint:removeSelf()
+        if fingerPoint.removeSelf then fingerPoint:removeSelf() end
         fingerPoint = nil
     end
 
@@ -452,13 +452,13 @@ function curve:hideJumpGrid(camera)
 
     if xAxis ~= nil then
         camera:remove(xAxis)
-        xAxis:removeSelf()
+        if xAxis.removeSelf then xAxis:removeSelf() end
         xAxis = nil
     end
     
     if yAxis ~= nil then
         camera:remove(yAxis)
-        yAxis:removeSelf()
+        if yAxis.removeSelf then yAxis:removeSelf() end
         yAxis = nil
     end
 
@@ -475,7 +475,7 @@ function curve:hideJumpGrid(camera)
     transition.to(grid, {alpha=0, time=100, onComplete=function()
         if grid ~= nil then
             camera:remove(grid)
-            grid:removeSelf()
+            if grid.removeSelf then grid:removeSelf() end
             grid = nil
         end
     end})

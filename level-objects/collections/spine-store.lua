@@ -376,13 +376,9 @@ function spineStore:showGearShield(camera, player, params)
 		player.shieldImage = shield
 
         local seq = anim:oustSeq("playerShield", shield.image)
-        --seq:tran({time=500, scale=1, playSound=sounds.gearShield})
-        seq:tran({time=500, scale=1, playSound=sounds.gearShield})
-        seq:callback(function() player:sound("gearShield") end)
+        seq:tran({time=500, scale=1, playSound=sounds.gearShieldUp})
         seq:callbackAfter(8000, function() shield:loop("Pulse") end)
-        --seq:tran({time=1000, delay=2000, scale=0.1, playSound=sounds.gearShield, playDelay=2000})
-        seq:tran({time=1000, delay=2000, scale=0.1})
-        seq:callbackAfter(2000, function() player:sound("gearShield") end)
+        seq:tran({time=1000, delay=2000, scale=0.1, playSound=sounds.gearShieldDown, playDelay=2000})
         seq.onComplete = function() player:shieldExpired() end
         seq:start()
         
@@ -678,7 +674,7 @@ end
 function spineStore:hideGearShield(camera, player)
 	local shield = player.shieldImage
 
-	if shield then
+	if shield and shield.seq then
 		anim:removeSeq(shield.seq)
 		shield.seq = nil
 

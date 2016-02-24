@@ -79,8 +79,9 @@ local levelData = {
 
         {object="ledge", x=390, y=155, size="small3"},
 
-         {object="ledge", x=300, y=-85, surface="collapsing", movement={pattern={{0,250}}, reverse=true, speed=3, pause=2000}}, 
-            {object="friend", type="fuzzy", x=230, y=30, color="Yellow", kinetic="hang", direction=right},
+         {object="ledge", x=300, y=-85, surface="collapsing", movement={pattern={{0,250}}, reverse=true, speed=3, pause=3000}}, 
+             {object="friend", x=-100, type="fuzzy", color="Red", onLedge=true},
+           -- {object="friend", type="fuzzy", x=230, y=30, color="Yellow", kinetic="hang", direction=right},
 
         {object="ledge", x=220, y=370, size="medsmall3", rotation=20}, 
             {object="rings", color=aqua, pattern={ {650,-50}, {200, 80}, {200, 80} }}, 
@@ -98,7 +99,7 @@ local levelData = {
 
         {object="ledge", x=700, y=334, size="medsmall3", rotation=20},
 
-        {object="ledge", x=320, y=70, surface="collapsing"},
+        {object="ledge", x=320, y=70, size="big2"},
             --{object="rings", color=aqua, pattern={ {510,-150}, {40,-80}, {40,80} }},
             {object="wall", x=-50, y=-160, type="fg-rock-5", size=.8, rotation=90, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}},
 

@@ -50,10 +50,10 @@ local levelData = {
                 movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
             },
 ]]
-        {object="ledge", x=500, y=-150, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=500, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
 
-        {object="ledge", x=400, y=-150, size="medium", movement={pattern={{40,-32},{-75,-72},{-35,40},{57,60}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}},
                  {object="scenery", x=400, y=-325, rotation=20, type="fgflt-pole-1"},
        
 
@@ -115,15 +115,15 @@ local levelData = {
           
         {object="ledge", x=1500, y=-200, size="big2"},              
 
-        {object="ledge", x=300, y=-150, size="small3", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=300, y=-150, size="small3", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}},
 
-        {object="ledge", x=270, y=225, size="small2", movement={pattern={{30,-34},{-30,30},{-30,-34},{30,30}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=270, y=225, size="small2", movement={bobbingPattern=moveTemplateBobUp2, speed=1.5, distance=50}},
 
             {object="enemy", type="greynapper", skin="ring-stealer", x=0, y=-550, size=0.5,
                 movement={pattern=moveTemplateVertical, isTemplate=true, distance=100, reverse=true, speed=2.5, pause=3000, pauseStyle=moveStyleSwayBig, --[[steering=steeringMild]]}
             },
 
-        {object="ledge", x=325, y=-210, size="small3", movement={pattern={{40,-44},{-40,40},{-40,-44},{40,40}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},        
+        {object="ledge", x=325, y=-210, size="small3", movement={bobbingPattern=moveTemplateBobUp3, speed=1, distance=50}},        
 
         {object="ledge", x=300, y=-150, surface="electric"},   
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=130, yforce=120, arc=40, num=3}},
@@ -132,10 +132,10 @@ local levelData = {
         {object="obstacle", type="spacerocket", x=500, y=-150, angle=-20, takeoff="slow", force={1000,-700}, rotation={time=100, degrees=-1}},	    
                 {object="scenery", x=2200, y=-500, rotation=-11, type="fgflt-pole-2"},
 
-        {object="ledge", x=1700, y=-150, size="medium", movement={pattern={{50,-54},{-50,50},{-50,-54},{50,50}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},
+        {object="ledge", x=1700, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp3, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
 
-        {object="ledge", x=400, y=-150, size="medium", movement={pattern={{40,-32},{-75,-72},{-35,40},{57,60}}, speed=1, pause=0, dontDraw=true, steering=steeringSmall}},  
+        {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},  
 
         {object="ledge", x=350, y=150, surface="exploding"},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=40, yforce=140, arc=40, num=3}},

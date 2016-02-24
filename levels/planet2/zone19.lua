@@ -70,7 +70,7 @@ local levelData = {
    
         --- Right Side
         {object="ledge", x=2100, y=-500, size="medium3", positionFromLedge=1},
-            {object="key", x=0, y=-60, color="Yellow", onLedge=true},
+            --{object="key", x=0, y=-60, color="Yellow", onLedge=true},
             {object="rings", color=pink, pattern={ {-230,40} }},
 
             {object="emitter", x=0, y=1000, timer={3000, 6000}, limit=nil, force={ {-300, 300}, {-100, -300}, {45, 95} }, 
@@ -91,7 +91,7 @@ local levelData = {
             },
 
         {object="ledge", x=2100, y=-1000, size="medium3", positionFromLedge=1},
-            {object="key", x=0, y=-60, color="Red", onLedge=true},
+            --{object="key", x=0, y=-60, color="Red", onLedge=true},
             {object="rings", color=pink, pattern={ {-230,40} }},
 
         {object="ledge", x=300, y=250, size="medium3"},     

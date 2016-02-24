@@ -30,11 +30,11 @@ local levelData = {
             {object="gear", type=gearParachute, x=0, y=-100, regenerate=false},
 
 -- JBase Level
-        {object="ledge", x=375, y=200, surface=oneshot, size="medium", destroyAfter=300, positionFromLedge=1},
+        {object="ledge", x=375, y=200, size="medium", positionFromLedge=1},
         
-        {object="ledge", x=445, y=0, surface=oneshot, size="medium", destroyAfter=300},
+        {object="ledge", x=445, y=0, size="medium"},
         
-        {object="ledge", x=445, y=0, surface=oneshot, size="medium", destroyAfter=300},
+        {object="ledge", x=445, y=0, size="medium"},
 -- Key Ledges
         {object="ledge", x=123, y=220, surface=oneshot, size="medium", destroyAfter=300, positionFromLedge=3},
             {object="key", x=0, y=-60, color="Yellow", onLedge=true},

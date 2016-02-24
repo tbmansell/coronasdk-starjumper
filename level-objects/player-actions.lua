@@ -44,6 +44,7 @@ local player = {
 
 -- Aliases:
 local math_random = math.random
+local math_round  = math.round
 
 
 function player:changeDirection(direction)
@@ -609,55 +610,64 @@ end
 
 
 function player:targetOtherPlayer(victim)
-    local attacker = self
-    local mode     = attacker.mode
-    local attackerLedge = attacker.attachedLedge
-    local victimLedge   = victim.attachedLedge
+    local attacker   = self
+    local mode       = attacker.mode
+    local ledge      = self.attachedLedge
+    local otherLedge = victim.attachedLedge
 
     -- attacker must be on a ledge and it must be the same as the victims
     if (mode == playerReady or mode == playerWalk or mode == playerRun or mode == playerDrag) and
-       attackerLedge and victimLedge and attackerLedge.id == victimLedge.id 
+       ledge and otherLedge and ledge.id == otherLedge.id 
     then
-        local distance = victim:x() - self:x()
-
+        local selfX    = self:x()
+        local victimX  = victim:x()
+        local width    = victim:width() * 2
+        local distance = math_round(victimX - selfX)
+        
         -- face other player
-        if (self:x() > victim:x() and self.direction == right) or
-           (self:x() < victim:x() and self.direction == left) 
-        then
+        if (distance < 0 and self.direction == right) or (distance > 0 and self.direction == left) then
             self:changeDirection()
         end
 
-        --if distance <= self.width then
-        if math.abs(distance) <= 50 then
-            self:attackOtherPlayer(victim)
-            -- fix possibility player has also entered drag mode if also triggering their own touchArea
-            after(50, function() self.mode=playerReady end)
+        -- target closest edge to player IF there is room on ledge, otherwise target other edge
+        if distance >= 0 then
+            -- victim is to the left of attacker:
+            distance = math_round(distance - width)
         else
-            attacker.attackTarget = victim
-            self:moveOnLedge(distance)
+            -- victim is to the right of attacker
+            distance = math_round(distance + width + 10)
+        end
+
+        -- Make sure distance does not take attacker past either ledge edge. If so, dont attack
+        if (selfX + distance) > ledge:leftEdge() and (selfX + distance) < ledge:rightEdge() then
+            if distance == 0 then
+                self:attackOtherPlayer(victim)
+            else
+                attacker.attackTarget = victim
+                self:moveOnLedge(distance)
+            end
         end
     end
 end
 
 
 function player:attackOtherPlayer(victim)
-    local distance = victim:x() - self:x()
+    local attackZone = (victim:width() * 2) + 10
+    local distance   = victim:x() - self:x()
 
-    if math.abs(distance) <= 50 then
-        if (self:x() > victim:x() and self.direction == right) or
-           (self:x() < victim:x() and self.direction == left) 
-        then
+    if math.abs(distance) <= attackZone then
+        if (distance < 0 and self.direction == right) or (distance > 0 and self.direction == left) then
             self:changeDirection()
         end
 
         local attack = math_random(3)
-        if attack == 1 then
-            self:shove(victim)
-        elseif attack == 2 then
-            self:yank(victim)
-        elseif attack == 3 then
-            self:trip(victim)
-        end
+
+        if     attack == 1 then self:trip(victim)
+        elseif attack == 2 then self:shove(victim)
+        elseif attack == 3 then self:yank(victim) end
+
+        self:soundLand(true)
+        victim:sound("randomImpactVoice")
     end
     self.attackTarget = nil
 end
@@ -668,7 +678,6 @@ function player:shove(victim)
 
     after(250, function()
         if table.indexOf(playerAttackableModes, victim.mode) then
-            local self  = player
             victim.mode = playerJumpStart
             victim:animate("Death JUMP HIGH")
 
@@ -691,7 +700,6 @@ function player:yank(victim)
 
     after(500, function()
         if table.indexOf(playerAttackableModes, victim.mode) then
-            local self = player
             victim.mode = playerJumpStart
             victim:animate("Death JUMP HIGH")
 
@@ -714,12 +722,18 @@ function player:trip(victim)
 
     after(250, function()
         if table.indexOf(playerAttackableModes, victim.mode) then
+            local anim = "Fall FRONT"
+
+            if victim:runDistance() < (victim:height() - 20) then
+                anim = "Fall BACK"
+            end
+
             victim.mode = playerFall
-            victim:animate("Death LAVA LEDGE BACKWARD")
+            victim:animate(anim)
 
-            after(500, function() player:animate("Taunt 1") end)
-
-            after(2000, function() 
+            after(500,  function() self:animate("Taunt 1") end)
+            after(2000, function() victim:animate("Landing HIGH") end)
+            after(3200, function() 
                 if victim.mode ~= playerKilled then
                     victim.mode = playerReady
                     victim:stand()

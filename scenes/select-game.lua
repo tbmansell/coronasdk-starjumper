@@ -147,7 +147,6 @@ function scene:displayHud()
     group:insert(self.progressGroup)
 
     local progress = newImage(self.progressGroup, "hud/progress-tab", centerX, 508)
-    newText(self.progressGroup, "progress", centerX, 515, 0.5, "red", "CENTER")
     progress:addEventListener("tap", scene.exitToPlanetProgress)
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(group, spineStore, scene.exitToShop, scene.exitToPlayerStore)

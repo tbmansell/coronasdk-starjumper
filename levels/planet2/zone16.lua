@@ -57,10 +57,10 @@ local levelData = {
 
         {object="ledge", x=-253, y=-285, size="small3"},     
 
-        {object="ledge", x=550, y=100, surface="exploding"},
+        {object="ledge", x=500, y=100, surface="exploding"},
             {object="rings", color=pink, pattern={ {-70,-60} }},
 
-        {object="ledge", x=265, y=270, size="medium"},
+        {object="ledge", x=315, y=270, size="medium"},
             {object="rings", color=aqua, trajectory={x=-110, y=-150, xforce=-80, yforce=0, arc=55, num=3}},
 
             {object="emitter", x=500, y=-800, timer={3000, 6000}, limit=nil, force={ {-1, -600}, {100, 300}, {45, 90} }, 
