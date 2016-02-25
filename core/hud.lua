@@ -4,7 +4,6 @@ local stories      = require("core.story")
 local tutorials    = require("core.tutorial")
 local messages     = require("core.messages")
 local particles    = require("core.particles")
-local recorder     = require("core.recorder")
 
 -- GLOBAL class
 hud = {}
@@ -44,9 +43,13 @@ function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)
 
     self.textTime:scale(0.5, 0.5)
     self.textTime.alpha = 0
-    --self.textDebugMode.alpha      = 0
-    --self.textPhysicsMode.alpha    = 0
-    --self.textScreenshotMode.alpha = 0
+    self.textDebugMode.alpha      = 0
+    self.textPhysicsMode.alpha    = 0
+    self.textScreenshotMode.alpha = 0
+
+    if player.specialAbility then
+        self.specialAbilityIcon = newImage(self.group, "hud/special-ability", 90, 60, 0.3)
+    end
 
     self.iconLives:addEventListener("tap",       hud.showPauseMenu)
     self.iconLives:addEventListener("touch",     function() return true end)
@@ -239,26 +242,17 @@ function hud:destroy()
 end
 
 
--- internal function used by the HUD
 function hud:pauseGame()
     if hud.timerHandle then timer.pause(hud.timerHandle) end
-    track:pauseEventHandles()
     hud.pauseGameHandler()
-    audio.pause()
-    recorder:pause()
 end
 
--- internal function used by the HUD
 function hud:resumeGame(gameState)
-    if hud.timerHandle then timer.resume(hud.timerHandle) end
-    track:resumeEventHandles()
     hud.resumeGameHandler(nil, gameState)
-    audio.resume()
-    recorder:resume()
+    if hud.timerHandle then timer.resume(hud.timerHandle) end
 end
 
 
--- shows the actual pause game menu with buttons to exit
 function hud:showPauseMenu()
     if state.data.game == levelPlaying then
         hud:pauseGame()
@@ -868,6 +862,13 @@ end
 
 function hud:hideScoreMarkers()
     self.level:hideLedgeScoreMarkers()
+end
+
+
+function hud:hideSpecialAbility()
+    if self.specialAbilityIcon then
+        self.specialAbilityIcon.alpha = 0
+    end
 end
 
 

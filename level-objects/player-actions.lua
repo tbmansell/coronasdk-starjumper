@@ -201,14 +201,15 @@ end
 
 
 function player:jump()
-    self:stopSound(self.runSound)
-    self.runSound = nil
-
     if self.gear[air] == negRocket or self.gear[air] == negBooster then
         self:sound("gearJetpack")
     else
         self:sound("randomJump")
     end
+
+    -- NOTE: doing this before playing the jump sound was stopping that from playing as they were assigned to the same channel for some reason
+    self:stopSound(self.runSound)
+    self.runSound = nil
 
     local ledge = self.attachedLedge
 

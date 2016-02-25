@@ -224,7 +224,7 @@ function sounds:loadJumps(type)
     local path = "sounds/player/"..characterData[type].soundFolder.."/"
     local num  = 0
     
-    if     type == characterNewton   then num = 7
+    if     type == characterNewton   then num = 8
     elseif type == characterSkyanna  then num = 7
     elseif type == characterHammer   then num = 7
     elseif type == characterBrainiak then num = 4

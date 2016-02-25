@@ -484,18 +484,28 @@ end
 function scene:pauseLevel()
     state.data.game = levelPaused
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
-    physics:pause()
+
+    track:pauseEventHandles()
     timer.pause(scene.gameLoopHandle)
+    physics:pause()
     anim:pause()
+    particles:pause()
+    audio.pause()
+    recorder:pause()
 end
 
 
 function scene:resumeLevel(resumeGameState)
     state.data.game = resumeGameState or levelPlaying
     Runtime:addEventListener("enterFrame", enterFrameFunction)
+
+    recorder:resume()
+    audio.resume()
+    particles:resume()
+    anim:resume()
     physics:start()
     timer.resume(scene.gameLoopHandle)
-    anim:resume()
+    track:resumeEventHandles()
 end
 
 

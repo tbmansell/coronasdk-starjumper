@@ -200,18 +200,20 @@ function playerBuilder:applyCharacterAbilities(player)
 
     elseif player.model == characterKranio then
         -- Brainiak: can convert one spine ledge into a normal ledge of the same size, per zone
-        player.transformLedge = 1
+        player.specialAbility = 1
 
         function player:tapOtherLedge(ledge)
-            if self.transformLedge > 0 then
+            if self.specialAbility > 0 then
                 hud.level:transformLedge(self.attachedLedge, ledge, function(success)
                     if success then
-                        self.transformLedge = self.transformLedge - 1
+                        self.specialAbility = self.specialAbility - 1
                         self:sound("playerTeleport")
                     else
                         self:sound("shopCantBuy")
                     end
                 end)
+
+                if self.specialAbility == 0 then hud:hideSpecialAbility() end
             else
                 self:sound("shopCantBuy")
             end
@@ -219,15 +221,15 @@ function playerBuilder:applyCharacterAbilities(player)
 
     elseif player.model == characterGreyson then
         -- Grey: can teleport to the next / previous ledge once per zone
-        player.teleportLedge = 1
+        player.specialAbility = 1
         
         function player:tapOtherLedge(ledge)
             local id = self.attachedLedge.id
             -- check if they have teleport power left and ledge is next or previous only
-            if self.teleportLedge > 0 and ledge.type ~= "start" and ledge.type ~= "finish" and (ledge.id == id-1 or ledge.id == id+1) then
-                self.mode          = playerTeleporting
-                self.teleportLedge = self.teleportLedge - 1
-                self.goingBackward = (ledge:x() < self.attachedLedge:x())
+            if self.specialAbility > 0 and ledge.type ~= "start" and ledge.type ~= "finish" and (ledge.id == id-1 or ledge.id == id+1) then
+                self.mode           = playerTeleporting
+                self.specialAbility = self.specialAbility - 1
+                self.goingBackward  = (ledge:x() < self.attachedLedge:x())
 
                 local warp = hud.level:createWarpField(self:getCamera(), self:y()+100)
                 warp:hide()
@@ -247,6 +249,8 @@ function playerBuilder:applyCharacterAbilities(player)
                 seq:tran({time=500, alpha=0})
                 seq.onComplete = function() warp:destroy() end
                 seq:start()
+
+                if self.specialAbility == 0 then hud:hideSpecialAbility() end
             else
                 self:sound("shopCantBuy")
             end

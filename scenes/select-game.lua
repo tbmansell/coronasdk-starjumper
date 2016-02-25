@@ -251,7 +251,7 @@ function scene:loadPlayers()
             playerGroup.x   = 1500
             playerGroup.y   = 55
 
-            playerTab:addEventListener("tap", function() scene:selectPlayer(playerGroup) end)
+            playerTab:addEventListener("tap", function() scene:selectPlayer(playerGroup, true) end)
 
             if currentPlayer == i then
                 self.selectedPlayer = playerGroup
@@ -801,14 +801,15 @@ function scene:slideZonesOut(animName)
 end
 
 
-function scene:selectPlayer(playerGroup)
+function scene:selectPlayer(playerGroup, playSound)
     local newPlayer = playerGroup.playerModel
 
     if newPlayer ~= scene.selectedPlayer.playerModel then
         if state:characterUnlocked(newPlayer) then
             sounds:unloadPlayer(state.data.playerModel)
             sounds:loadPlayer(newPlayer)
-            play(sounds.generalClick)
+
+            if playSound then play(sounds.generalClick) end
 
             state.data.playerModel = newPlayer
 

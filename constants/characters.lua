@@ -125,7 +125,7 @@ characterData = {
         buyMode       = "storeOnly",
         soundIndex    = characterBrainiak,
         soundFolder   = "brainiak",
-        bio = {
+        --[[bio = {
             grade     = "brain master",
             home      = "organia",
             age       = 20,
@@ -133,7 +133,7 @@ characterData = {
             hates     = "fuzzies",
             ability   = "mind matter",
             throws    = "electrifier",
-        }
+        }]]
     },
     [characterKranio] = {
         name          = "kranio",
@@ -149,6 +149,7 @@ characterData = {
         buyMode       = "storeOnly",
         soundIndex    = characterBrainiak,
         soundFolder   = "brainiak",
+        --specialAbility= true,
         bio = {
             grade     = "jumper",
             home      = "organia",
@@ -197,7 +198,7 @@ characterData = {
         buyMode       = "storeOnly",
         soundIndex    = characterGrey,
         soundFolder   = "grey",
-        bio = {
+        --[[bio = {
             grade     = "great grey",
             home      = "deep space",
             age       = 185,
@@ -205,7 +206,7 @@ characterData = {
             hates     = "cows",
             ability   = "teleporter",
             throws    = "back-porter",
-        }
+        }]]
     },
     [characterGreyson] = {
         name          = "greyson",
@@ -221,6 +222,7 @@ characterData = {
         buyMode       = "storeOnly",
         soundIndex    = characterGrey,
         soundFolder   = "greyson",
+        --specialAbility= true,
         bio = {
             grade     = "renegade grey",
             home      = "deep space",

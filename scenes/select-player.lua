@@ -121,14 +121,14 @@ function scene:createPlayerIcons()
             unselected.playerModel = player
 
             unselected.tap = function()
-                scene:selectPlayer({target=unselected})
+                scene:selectPlayer({target=unselected}, true)
             end
 
             unselected:addEventListener("tap", unselected)
             selected:addEventListener("tap", function() return true end)
 
             if player == self.playerModel then
-                self:selectPlayer({target=unselected})
+                self:selectPlayer({target=unselected}, false)
             end
         
             if pos%3 == 0 then
@@ -153,14 +153,14 @@ function scene:createInAppPurchase()
 end
 
 
-function scene:selectPlayer(event)
+function scene:selectPlayer(event, playSound)
     local self   = scene
     local icon   = event.target
     local player = icon.playerModel
     local char   = characterData[player]
     local person = char.bio
 
-    --play(sounds.generalClick)
+    if playSound then play(sounds.generalClick) end
 
     if state:characterUnlocked(player) then
         self.slots[self.playerModel]["selected"].alpha = 0
@@ -203,6 +203,8 @@ end
 
 
 function scene:changeToPlayer()
+    play(sounds.sceneEnter)
+
     state.data.playerModel = scene.playerModel
     state.data.playerSkin  = characterData[scene.playerModel].skin
 
@@ -264,14 +266,6 @@ function scene:exitToShop()
     state.musicSceneContinue = false
     play(sounds.sceneEnter)
     storyboard:gotoScene("scenes.shop")
-    return true
-end
-
-
-function scene:exitToPlayerStore()
-    state.musicSceneContinue = false
-    play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.select-player")
     return true
 end
 

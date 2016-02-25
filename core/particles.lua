@@ -54,6 +54,24 @@ function particles:destroy()
 end
 
 
+function particles:pause()
+    for _,data in pairs(createdEmitters) do
+        if data then
+            data:pause()
+        end
+    end
+end
+
+
+function particles:resume()
+    for _,data in pairs(createdEmitters) do
+        if data then
+            data:start()
+        end
+    end
+end
+
+
 function particles:showEmitter(camera, name, x, y, duration, alpha, layer)
     -- Typically we preload them all, but if called without pre-loading then check if loaded before calling
     if emitterData[name] == nil then

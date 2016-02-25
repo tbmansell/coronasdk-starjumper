@@ -91,6 +91,7 @@ function storyTeller:setup()
     end
 
     -- lets show the story
+    self.finished      = false
     self.prevGameState = state.data.game
     self.playerName    = characterData[state.data.playerModel].name
     state.data.game    = levelShowStory
