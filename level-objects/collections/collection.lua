@@ -63,14 +63,16 @@ end
 -- @param object to remove
 ----
 function collection:remove(object)
-	-- instead of setting an element to nil, set to -1 as nil breaks usage of #
-	local name = self.name
-	local link = object.collections[name]
+	if object.collections then
+		-- instead of setting an element to nil, set to -1 as nil breaks usage of #
+		local name = self.name
+		local link = object.collections[name]
 
-	if link then
-		-- remove objects ref to this standard collection
-		self.items[link.id] = -1
-		object.collections[name] = nil
+		if link then
+			-- remove objects ref to this standard collection
+			self.items[link.id] = -1
+			object.collections[name] = nil
+		end
 	end
 end
 

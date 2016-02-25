@@ -222,7 +222,6 @@ function playerBuilder:applyCharacterAbilities(player)
         player.teleportLedge = 1
         
         function player:tapOtherLedge(ledge)
-            print("tapOtherLedge")
             local id = self.attachedLedge.id
             -- check if they have teleport power left and ledge is next or previous only
             if self.teleportLedge > 0 and ledge.type ~= "start" and ledge.type ~= "finish" and (ledge.id == id-1 or ledge.id == id+1) then

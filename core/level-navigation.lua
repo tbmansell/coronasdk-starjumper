@@ -216,8 +216,7 @@ function newObjectsLoader:load(level)
         if targetLedge.type ~= "start"  and 
            targetLedge.type ~= "finish" and 
            targetLedge.isSpine and 
-           --(targetLedge.id == fromLedge.id-1 or targetLedge.id == fromLedge.id+1) and
-           (targetLedge.id == fromLedge.id-3 or targetLedge.id == fromLedge.id+3) and
+           (targetLedge.id >= fromLedge.id-3 or targetLedge.id <= fromLedge.id+3) and
            not targetLedge.isMoving and
            not self.players:playerOnLedge(targetLedge)
         then

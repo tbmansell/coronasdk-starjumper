@@ -84,7 +84,11 @@ end
 
 -- Checks if an object is within the furthesr range we play a sound from
 local function inSoundRange(sourceObject, range)
-	local x, y = sourceObject.image.x, sourceObject.image.y
+	local image = sourceObject.image 
+
+	if image == nil then return false end
+
+	local x, y     = image.x, image.y
 	local distance = soundRanges[range]
 
 	return x >= distance[1] and x <= distance[2] and y >= distance[3] and y <= distance[4]

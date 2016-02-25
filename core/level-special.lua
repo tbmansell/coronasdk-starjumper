@@ -1,5 +1,6 @@
 --local spineFactory = require("core.spine-factory")
 local anim        = require("core.animations")
+local particles   = require("core.particles")
 local builder     = require("level-objects.builders.builder")
 local spineStore  = require("level-objects.collections.spine-store")
 
@@ -22,10 +23,8 @@ local killedBySpecial   = false
 local specialRise       = false
 local skyChanging       = false
 local skyBlue           = nil
---local warpPullMovement1 = {pattern=moveTemplateJerky,        distance=100, isTemplate=true, speed=1, dontDraw=true, steering=steeringMild}
---local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=100, isTemplate=true, speed=1, dontDraw=true, steering=steeringMild}
-local warpPullMovement1 = {pattern=moveTemplateJerky,        distance=50, isTemplate=true, speed=0.5, dontDraw=true, steering=steeringMild}
-local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=50, isTemplate=true, speed=0.5, dontDraw=true, steering=steeringMild}
+local warpPullMovement1 = {pattern=moveTemplateJerky,        distance=30, isTemplate=true, speed=0.5, dontDraw=true, steering=steeringMild}
+local warpPullMovement2 = {pattern=moveTemplateJerkyReverse, distance=30, isTemplate=true, speed=0.5, dontDraw=true, steering=steeringMild}
 
 
 -- Aliases
@@ -45,13 +44,6 @@ local function collideLava(self, event)
     if event.phase == "began" then
         if object.image and (object.isLedge or object.isObstacle) and not (object.collideWithLava or object.isFinish or object.isSpine) then
             object.collideWithLava = true
-
-            --[[local seq = anim:oustSeq("lavad-"..object.key, object.image)
-            seq:add("filter", {delay=150, effect="frostedGlass", start=0, finish=200, increment=1})
-            seq.onComplete = function()
-                object.image.alpha = 0
-            end
-            seq:start()]]
         end
     end
 end
@@ -64,7 +56,7 @@ local function collideWarp(self, event)
     if object == nil then return end
 
     if event.phase == "began" then
-        if object.inGame and not object.belongsToSpineStore and not object.collideWithWarp and object.isLedge then --not object.isPlayer then
+        if object.inGame and not object.belongsToSpineStore and not object.collideWithWarp and object.isLedge then
             if not object.isMoving then
                 object.collideWithWarp = true
 
@@ -80,8 +72,9 @@ local function collideWarp(self, event)
 
                 after(10000, function()
                     if object.inGame then
+                        warp.object:sound("ledgeExplodingActivated", {duration=4000})
+                        
                         spineStore:showExplosion(hud.camera, object)
-                        object:sound("ledgeExplodingActivated")
                         object:destroy(hud.camera, true)
                     end
                 end)
@@ -338,11 +331,13 @@ function newObjectsLoader:load(level)
         physics.addBody(lava, "dynamic", {isSensor=true, shape={-500,-640, 500,-640, 500,-320, -500,-320}})
         
         lava.gravityScale = 0
+        lava.particles    = particles:showEmitter(nil, "lava-bubbles", lava.x, lava.y - (lava.height/2) + 150, "forever", 0.8, 2)
         lava.collision    = collideLava
         lava:addEventListener("collision", lava)
 
         -- fix X axis so we dont have to create a large image
         camera:add(lava, 2, false, false, false, true)
+        camera:add(lava.particles, 2, false, false, false, true)
 
         after(10000, function() specialRise = true end)
     end
@@ -409,6 +404,7 @@ function newObjectsLoader:load(level)
         -- Check if should rise
         if specialRise then
             lava.y = lava.y - 0.5
+            lava.particles.y = lava.particles.y - 0.5
         end
     end
 
@@ -425,8 +421,11 @@ function newObjectsLoader:load(level)
         physics.addBody(warp.image, "dynamic", {isSensor=true, shape={-500,-640, 550,-640, 550,-200, -500,-200}})
         warp:moveTo(centerX-50, 800)
         warp.image.gravityScale = 0
+        warp.particles          = particles:showEmitter(nil, "warp-field-sparks", warp:x(), 600, "forever", 0.8, 1)
         warp.image.collision    = collideWarp
         warp.image:addEventListener("collision", warp.image)
+
+        camera:add(warp.particles, 1, false, false, false, true)
 
         warpFollowers = {}
         warpFollowers[#warpFollowers+1] = self:createWarpField(camera, 950)
@@ -441,6 +440,7 @@ function newObjectsLoader:load(level)
 
         warp.alwaysAnimate = true
         warp:moveTo(centerX-50, ypos)
+        warp.key = "warpfield"
 
         self.spines:add(warp)
         camera:add(warp.image, 1, false, false, false, true)
@@ -506,10 +506,11 @@ function newObjectsLoader:load(level)
 
         -- Check if should rise
         if specialRise then
-            warp:moveBy(0,-1)
+            warp:moveBy(0, -0.6)
+            warp.particles.y = warp.particles.y - 0.6
 
             for i=1,#warpFollowers do
-                warpFollowers[i]:moveBy(0,-1)
+                warpFollowers[i]:moveBy(0, -0.6)
             end
         end
     end
