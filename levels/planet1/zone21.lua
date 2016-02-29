@@ -179,7 +179,7 @@ local levelData = {
                 brainiak:taunt()
                 
                 after(1000, function()
-                    hud:showStory("race-brainiak-zone21", function()
+                    hud:showStory("race-brainiak-planet1-zone21", function()
                         after(1000, function()
                             camera:setFocus(skyanna.image)
 

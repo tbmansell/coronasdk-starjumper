@@ -10,7 +10,7 @@ local scripts = {
 			{delay=5000, speaker=characterNewton, dir=left,  text="Oh no! Without the energy rings they discover, our homeworld will soon run out of power", 
 			                                                 action=function(scene) scene:actionShowHolograms() end},
 			{delay=5000, speaker=characterGygax,  dir=right, text="Behold Planet Organia: the last known location of the two Star Jumpers - Skyanna and Kranio", 
-															 action=function(scene) scene:actionShowPlanet1() end},
+															 action=function(scene) scene:actionShowPlanet() end},
 			{delay=6000, speaker=characterNewton, dir=left,  text="*gulp* Why is it called Organia boss?"},
 			{delay=4000, speaker=characterGygax,  dir=right, text="It is a warm rocky planet populated with giant brains, hearts and shooting stomachs, which dont take kindly to visitors", size="-big"},
 			{delay=6000, speaker=characterNewton, dir=left,  text="But how can I help? I'm not a trained Jumper"},
@@ -54,9 +54,11 @@ local scripts = {
 		cutscene = true,
 		delayEnd = 10000,
 		sequence = {
-			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart",
+															 action=function(scene) scene:actionShowPlanet() end},
 			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
-			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it",
+															 action=function(scene) scene:actionShowEarlGrey() end},
 			{delay=4000, speaker=characterNewton, dir=right, text="Ok, I'm fitting my spacesuit and getting ready."},
 		},
 	},
@@ -65,28 +67,28 @@ local scripts = {
 		cutscene = true,
 		delayEnd = 10000,
 		sequence = {
-			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
-			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
-			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
-			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
+			{delay=2000, speaker=characterGygax,   dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
+			{delay=4000, speaker=characterHammer,  dir=left,               text="Sup?"},
+			{delay=4000, speaker=characterGygax,   dir=right, size="-big", text="We hope you can help us rescue the universe"},
+			{delay=4000, speaker=characterHammer,  dir=left,               text="Whatevs"},
 		},
 	},
 	-- TODO:
-	["cutscene-character-intro-greyson"] = {
+	["cutscene-character-intro-renegrey"] = {
 		cutscene = true,
 		delayEnd = 10000,
 		sequence = {
 			{delay=2000, speaker=characterGygax,    dir=right, size="-big", text="Welcome to the club skyanna", action=function(mothership) mothership:showTvPlanet1() end},
-			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Sup?"},
+			{delay=4000, speaker=characterReneGrey, dir=left,               text="Sup?"},
 			{delay=4000, speaker=characterGygax,    dir=right, size="-big", text="We hope you can help us rescue the universe"},
-			{delay=4000, speaker=characterSkyanna,  dir=left,               text="Whatevs"},
+			{delay=4000, speaker=characterReneGrey, dir=left,               text="Whatevs"},
 		},
 	},
 
 
 -- IN-GAME STORY SCRIPTS --
 
-	["intro-brainiak-zone5"] = {
+	["intro-brainiak-planet1-zone5"] = {
 		forced    = true,
 		delay     = 0,
 		condition = { characterNotIn={characterSkyanna, characterKranio} },
@@ -114,7 +116,7 @@ local scripts = {
 			{delay=1000, speaker=characterGygax, dir=right, size="-big", text="Quick don't hang about, this zone is unstable! Get to the top before the eruption reaches you. But look out for Fuzzies who need rescuing!"},
 		},
 	},
-	["race-brainiak-zone21"] = {
+	["race-brainiak-planet1-zone21"] = {
 		forced    = true,
 		delay     = 0,
 		condition = { characterNotIn={characterSkyanna, characterKranio} },

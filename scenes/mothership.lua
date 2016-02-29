@@ -302,34 +302,17 @@ function scene:actionShowHolograms()
 end
 
 
-function scene:actionShowPlanet1()
+function scene:actionShowPlanet()
     local seq = anim:chainSeq("tv", self.tvimage)
     seq:tran({alpha=0, time=1000})
     seq.onComplete = function() 
-        self.tvimage = newImage(self.view, "mothership/tv-planet1", centerX+600, 260)
+        self.tvimage = newImage(self.view, "mothership/tv-planet"..self.planet, centerX+600, 260)
         self.tvimage.alpha = 0
         self.tvimage:toBack()
 
         local seq2 = anim:oustSeq("tv", self.tvimage)
         seq2:tran({alpha=1, time=2000})
         seq2:tran({x=-120, time=20000})
-        seq2:start()
-    end
-    seq:start()
-end
-
-
-function scene:actionShowBrainiak()
-    local seq = anim:chainSeq("tv", self.tvimage)
-    seq:tran({alpha=0, time=1000})
-    seq.onComplete = function() 
-        self.tvimage:removeSelf()
-        self.tvimage = newImage(self.view, "mothership/tv-enemy1", centerX, centerY-60)
-        self.tvimage.alpha = 0
-        self.tvimage:toBack()
-
-        local seq2 = anim:oustSeq("tv", self.tvimage)
-        seq2:tran({alpha=1, time=1000})
         seq2:start()
     end
     seq:start()
@@ -344,19 +327,9 @@ function scene:actionShowNewCharacter()
     seq:tran({alpha=0, time=1000})
     seq.onComplete = function() 
         self.tvimage:removeSelf()
-
-        --[[
-        self.tvimage = display.newGroup()
-        self.view:insert(self.tvimage)
-
-        display.newImage(self.tvimage, "levels/planet1/images/bgr-sky-2.png", centerX,     centerY)
-        newImage(self.tvimage,         "player/"..data.skin.."/Head",         centerX-240, 160)
-        ]]
         self.tvimage = newImage(self.view, "mothership/tv-"..data.name, centerX, centerY-60)
-
         self.tvimage.alpha = 0
         self.tvimage:toBack()
-        --self.tvimage:scale(1.5,1.5)
 
         local seq2 = anim:oustSeq("tv", self.tvimage)
         seq2:tran({alpha=1, time=1000})
@@ -397,6 +370,31 @@ function scene:actionShowStat(labelText, valueText, ypos, valueColor)
     seq:tran({alpha=1, time=250, ease="whizz"})
 end
 
+
+function scene:actionShowEnemy(name)
+    local seq = anim:chainSeq("tv", self.tvimage)
+    seq:tran({alpha=0, time=1000})
+    seq.onComplete = function() 
+        self.tvimage:removeSelf()
+        self.tvimage = newImage(self.view, "mothership/tv-"..name, centerX, centerY-60)
+        self.tvimage.alpha = 0
+        self.tvimage:toBack()
+
+        local seq2 = anim:oustSeq("tv", self.tvimage)
+        seq2:tran({alpha=1, time=1000})
+        seq2:start()
+    end
+    seq:start()
+end
+
+
+function scene:actionShowBrainiak()
+    self:actionShowEnemy("brainiak")
+end
+
+function scene:actionShowEarlGrey()
+    self:actionShowEnemy("earlgrey")
+end
 
 
 ------ END FUNCTIONS CALLED BY CUTSCENE STORY SCRIPTS --------
