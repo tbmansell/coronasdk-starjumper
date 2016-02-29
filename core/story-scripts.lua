@@ -231,8 +231,8 @@ local scripts = {
 	},
 	["intro-character-greyson"] = {
 		sequence = {
-			{speaker=characterGreyson, dir=left, text="I have the unique special ability to teleport to the ledge next to me, with my alien technology, once per zone", size="-big"},
-			{speaker=characterGreyson, dir=left, text="Tap the ledge immediately before or after the one I am on to teleport. If a ledge cannot be teleported to or my power up, is used you will hear a warning sound", size="-big"},
+			{speaker=characterReneGrey, dir=left, text="I have the unique special ability to teleport to the ledge next to me, with my alien technology, once per zone", size="-big"},
+			{speaker=characterReneGrey, dir=left, text="Tap the ledge immediately before or after the one I am on to teleport. If a ledge cannot be teleported to or my power up, is used you will hear a warning sound", size="-big"},
 		}
 	},
 }

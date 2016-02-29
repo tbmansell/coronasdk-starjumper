@@ -10,7 +10,7 @@ local planetData = {
         [gameTypeArcadeRacer] = {stars=70},
     },
     unlockFriend = characterHammer,
-    unlockEnemy  = characterGrey,
+    unlockEnemy  = characterEarlGrey,
 
     -- Story mode zone select scene markers:
     zones = {
@@ -74,7 +74,7 @@ local planetData = {
 
         {object="warpfield", x=2840, y=400, size=0.9, radius=1},
 
-        {object="player", model=characterGrey,   x=3650, y=315, size=0.17, direction=left},
+        {object="player", model=characterEarlGrey,   x=3650, y=315, size=0.17, direction=left},
         {object="player", model=characterHammer, x=3670, y=315, size=0.17, direction=left, animation="Seated"},
     },
 
@@ -197,7 +197,7 @@ local planetData = {
             },
             [5] = {
                 skin          = "Grey Enemy",
-                model         = characterGrey,
+                model         = characterEarlGrey,
                 direction     = right,
                 startLedge    = 1,
                 lives         = 9999,

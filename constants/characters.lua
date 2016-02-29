@@ -1,4 +1,4 @@
--- player models
+-- core models
 characterGygax     = 1
 characterNewton    = 2
 -- planet one:
@@ -7,8 +7,8 @@ characterBrainiak  = 4
 characterKranio    = 5
 -- planet two:
 characterHammer    = 6
-characterGrey      = 7
-characterGreyson   = 8
+characterEarlGrey      = 7
+characterReneGrey   = 8
 
 
 -- Player behaviour modes
@@ -32,9 +32,9 @@ playerTeleporting   = 16
 playerOnVehicle     = 17
 playerGrappling     = 18
 
-playerNonLandModes    = {playerReady, playerWalk, playerDrag, playerRun, playerJumpStart}
+playerNonLandModes    = {playerReady, playerWalk,      playerDrag, playerRun,       playerJumpStart}
 playerNegPersistModes = {playerRun,   playerJumpStart, playerJump, playerFallStart, playerFall, playerSwing, playerHang}
-playerAttackableModes = {playerReady, playerWalk, playerDrag, playerRun}
+playerAttackableModes = {playerReady, playerWalk,      playerDrag, playerRun}
 
 -- AI behaviour modes
 stateActive    = 0
@@ -57,23 +57,23 @@ playerStartFall  = 3
 characterData = {
     [characterGygax] = {
         name          = "gygax",
+        playable      = false,
+        enemy         = false,
         title         = "navigator",
         bonus         = "",
         skin          = "",
         shipSkin      = "",
         hudImage      = "",
         color         = "aqua",
-        playable      = false,
-        enemy         = false,
     },
     [characterNewton] = {
         name          = "newton",
+        playable      = true,
+        enemy         = false,
         title         = "rookie",
         skin          = "Green Space Man",
         shipSkin      = "green",
         color         = "green",
-        playable      = true,
-        enemy         = false,
         nativeNegable = nil,
         soundIndex    = characterNewton,
         soundFolder   = "newton",
@@ -89,12 +89,12 @@ characterData = {
     },
     [characterSkyanna] = {
         name          = "skyanna",
+        playable      = true,
+        enemy         = false,
         title         = "jumper",
         skin          = "Female Alien",
         shipSkin      = "female",
         color         = "aqua",
-        playable      = true,
-        enemy         = false,
         nativeNegable = negFreezeTarget,
         lockText      = "complete 21 zones in organia to unlock",
         planet        = 1,
@@ -113,43 +113,31 @@ characterData = {
     },
     [characterBrainiak] = {
         name          = "brainiak",
-        title         = "enemy",
+        playable      = false,
+        enemy         = true,
+        title         = "brain master",
         skin          = "Brain Enemy",
         shipSkin      = "green",
         color         = "purple",
-        playable      = false,
-        enemy         = true,
         nativeNegable = negElectrifier,
-        lockText      = "buy organia planet pack to unlock",
         planet        = 1,
-        buyMode       = "storeOnly",
         soundIndex    = characterBrainiak,
         soundFolder   = "brainiak",
-        --[[bio = {
-            grade     = "brain master",
-            home      = "organia",
-            age       = 20,
-            likes     = "fresh brains",
-            hates     = "fuzzies",
-            ability   = "mind matter",
-            throws    = "electrifier",
-        }]]
     },
     [characterKranio] = {
         name          = "kranio",
-        title         = "jumper",
+        playable      = true,
+        enemy         = false,
+        title         = "brainiak son",
         skin          = "Brain Enemy - Alt",
         shipSkin      = "green",
         color         = "purple",
-        playable      = true,
-        enemy         = false,
         nativeNegable = negElectrifier,
         lockText      = "buy organia planet pack to unlock",
         planet        = 1,
         buyMode       = "storeOnly",
         soundIndex    = characterBrainiak,
         soundFolder   = "brainiak",
-        --specialAbility= true,
         bio = {
             grade     = "jumper",
             home      = "organia",
@@ -162,12 +150,12 @@ characterData = {
     },
     [characterHammer] = {
         name          = "hammer",
+        playable      = true,
+        enemy         = false,
         title         = "jumper",
         skin          = "Muscle Alien",
         shipSkin      = "muscle",
         color         = "yellow",
-        playable      = true,
-        enemy         = false,
         nativeNegable = negImpactBomb,
         lockText      = "complete 21 zones in apocalypsoid to unlock",
         planet        = 2,
@@ -184,47 +172,35 @@ characterData = {
             throws    = "impact bomb",
         }
     },
-    [characterGrey] = {
-        name          = "grey",
-        title         = "enemy",
+    [characterEarlGrey] = {
+        name          = "earlgrey",
+        playable      = false,
+        enemy         = true,
+        title         = "grey lord",
         skin          = "Grey Enemy",
         shipSkin      = "green",
         color         = "grey",
-        playable      = false,
-        enemy         = true,
         nativeNegable = negBackPorter,
-        lockText      = "buy apaocalypsoid planet pack to unlock",
         planet        = 2,
-        buyMode       = "storeOnly",
-        soundIndex    = characterGrey,
-        soundFolder   = "grey",
-        --[[bio = {
-            grade     = "great grey",
-            home      = "deep space",
-            age       = 185,
-            likes     = "earth movies",
-            hates     = "cows",
-            ability   = "teleporter",
-            throws    = "back-porter",
-        }]]
+        soundIndex    = characterEarlGrey,
+        soundFolder   = "earlgrey",
     },
-    [characterGreyson] = {
-        name          = "greyson",
-        title         = "jumper",
+    [characterReneGrey] = {
+        name          = "renegrey",
+        playable      = true,
+        enemy         = false,
+        title         = "renegade grey",
         skin          = "Grey - Alt",
         shipSkin      = "green",
         color         = "grey",
-        playable      = true,
-        enemy         = false,
         nativeNegable = negBackPorter,
         lockText      = "buy apaocalypsoid planet pack to unlock",
         planet        = 2,
         buyMode       = "storeOnly",
-        soundIndex    = characterGrey,
-        soundFolder   = "greyson",
-        --specialAbility= true,
+        soundIndex    = characterEarlGrey,
+        soundFolder   = "earlgrey",
         bio = {
-            grade     = "renegade grey",
+            grade     = "jumper",
             home      = "deep space",
             age       = 185,
             likes     = "earth movies",

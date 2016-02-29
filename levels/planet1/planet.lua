@@ -138,6 +138,7 @@ local planetData = {
         --state.data.zoneSelected = 19   -- passes - uses shield to bypass nasty spike section
         --state.data.zoneSelected = 20   -- passes - uses shield to bypass spiked ledge to deathslide
         --state.data.zoneSelected = 21   -- passes
+        --[[
         ai = {
             [1] = {
                 skin          = "Green Space Man",
@@ -217,7 +218,7 @@ local planetData = {
             },
             [5] = {
                 skin          = "Grey Enemy",
-                model         = characterGrey,
+                model         = characterEarlGrey,
                 inSpaceRace   = false,
                 direction     = right,
                 startLedge    = 1,
@@ -234,7 +235,7 @@ local planetData = {
                     },
                 },
             },
-        },
+        },]]
     },
 }
 

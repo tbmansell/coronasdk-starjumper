@@ -219,7 +219,7 @@ function playerBuilder:applyCharacterAbilities(player)
             end
         end
 
-    elseif player.model == characterGreyson then
+    elseif player.model == characterReneGrey then
         -- Grey: can teleport to the next / previous ledge once per zone
         player.specialAbility = 1
         
