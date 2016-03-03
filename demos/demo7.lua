@@ -2,7 +2,7 @@ local data = {
     game      = gameTypeTimeAttack,
     planet    = 1,
     zone      = 6,
-    player    = 2,
+    player    = 6,
     actions   = {
         {timeRun=6020,	timeDiff=6020,	event="select-gear", target="jetpack"},
         {timeRun=6531,	timeDiff=511,	event="prepare-jump", target="ledge_start_1"},

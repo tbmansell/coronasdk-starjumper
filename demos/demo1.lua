@@ -2,7 +2,7 @@ local data = {
     game      = gameTypeStory,
     planet    = 2,
     zone      = 4,
-    player    = 1,
+    player    = 2,
     actions   = {
         {timeRun=513,	timeDiff=513,	event="cancel-jump"},
         {timeRun=5084,	timeDiff=4571,	event="prepare-jump", target="ledge_start_1"},

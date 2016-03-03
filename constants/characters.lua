@@ -1,13 +1,13 @@
 -- core models
-characterGygax     = 1
-characterNewton    = 2
+characterGygax      = 1
+characterNewton     = 2
 -- planet one:
-characterSkyanna   = 3
-characterBrainiak  = 4
-characterKranio    = 5
+characterSkyanna    = 3
+characterBrainiak   = 4
+characterKranio     = 5
 -- planet two:
-characterHammer    = 6
-characterEarlGrey      = 7
+characterHammer     = 6
+characterEarlGrey   = 7
 characterReneGrey   = 8
 
 

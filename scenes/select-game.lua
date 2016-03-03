@@ -267,10 +267,10 @@ end
 
 function scene:loadZones()
     self.zones       = {}
-    self.numberZones = 21
+    self.numberZones = 26
 
     -- Create the max number possible for any zone (even though we wont always show them)
-    for i=1, 21 do
+    for i=1, self.numberZones do
         local zoneGroup    = new_group()
         local zoneTabRed   = new_image(zoneGroup, "select-game/zone-red", 0, 0)
         local zoneTabGreen = new_image(zoneGroup, "select-game/zone-green", 0, 0)
@@ -776,14 +776,21 @@ function scene:slideZonesIn(animName)
     for i=1, #self.zones do
         local zone = self.zones[i]
         local seq  = anim:chainSeq(animName, zone)
+        local xpos = nil
+        local ypos = nil
 
         if i < 12 then
-            local xpos = 70 + ((i-1) * 85)
-            seq:tran({y=250, x=xpos, time=50, ease="spring"})
-        elseif i < 23 then
-            local xpos = 70 + ((i-12) * 85)
-            seq:tran({y=370, x=xpos, time=50, ease="spring"})
+            xpos = 70 + ((i-1) * 85)
+            ypos = 200
+        elseif i < 22 then
+            xpos = 70 + ((i-12) * 85)
+            ypos = 320
+        elseif i < 30 then
+            xpos = 70 + ((i-19) * 85)
+            ypos = 440
         end
+
+        seq:tran({y=ypos, x=xpos, time=30})
     end
 end
 
@@ -793,7 +800,7 @@ function scene:slideZonesOut(animName)
         local zone = self.zones[i]
         local seq  = anim:chainSeq(animName, zone)
 
-        seq:tran({y=centerY, x=1500, time=50})
+        seq:tran({y=centerY, x=1500, time=30})
     end
 
     local seq = anim:chainSeq(animName, scene.selectedPlanet)

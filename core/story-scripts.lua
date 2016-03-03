@@ -52,14 +52,16 @@ local scripts = {
 	-- TODO:
 	["cutscene-planet-intro-apocalypsoid"] = {
 		cutscene = true,
-		delayEnd = 10000,
+		delayEnd = 4000,
 		sequence = {
-			{delay=4000, speaker=characterGygax,  dir=right, text="Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart",
+			{delay=2000, speaker=characterGygax,  dir=right, text="We have a new more challenging location to investigate Newton, now you are getting   Welcome to the dying planet of Apocalypsoid. We cant set down because the planet is breaking apart",
+															 action=function(scene) scene:actionShowHolograms() end},
+			{delay=4000, speaker=characterNewton, dir=left,  text="Yikes. What are we doing here then?"},
+			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it",
 															 action=function(scene) scene:actionShowPlanet() end},
-			{delay=4000, speaker=characterNewton, dir=right, text="Yikes. What are we doing here then?"},
+			{delay=4000, speaker=characterNewton, dir=left,  text="Ok, I'm fitting my spacesuit and getting ready."},
 			{delay=4000, speaker=characterGygax,  dir=right, text="It is a last chance to grab and energy rings and rescue any fuzzies thrown into the space around it",
 															 action=function(scene) scene:actionShowEarlGrey() end},
-			{delay=4000, speaker=characterNewton, dir=right, text="Ok, I'm fitting my spacesuit and getting ready."},
 		},
 	},
 	-- TODO:

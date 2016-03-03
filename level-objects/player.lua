@@ -581,7 +581,13 @@ function player:loadGear()
         skeleton:setAttachment("attachment-handback-ledgegloves",  "attachment-handback-ledgegloves")
     else
         skeleton:setAttachment("attachment-handfront-ledgegloves", nil)
-        skeleton:setAttachment("attachment-handback-ledgegloves", nil)
+        skeleton:setAttachment("attachment-handback-ledgegloves",  nil)
+    end
+
+    if self.gear[land] == gearGrappleHook then
+        skeleton:setAttachment("attachment-handfront-grapplegun",  "attachment-grapplegun")
+    else
+        skeleton:setAttachment("attachment-handfront-grapplegun",  nil)
     end
 
     if state.data.planetSelected == 2 then

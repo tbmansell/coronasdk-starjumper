@@ -535,10 +535,14 @@ local function glowLoop(seq, handler)
         handler.larger = false
         alpha  = seq.target.alpha + handler.params.alpha
         salpha = seq.target.alpha - handler.params.alpha
+
+        delay = handler.params.delayFaded or delay
     else
         handler.larger = true
         alpha  = seq.target.alpha - handler.params.alpha
         salpha = seq.target.alpha + handler.params.alpha
+
+        
     end
 
     if salpha > 1 then salpha = 1 elseif salpha < 0 then salpha = 0 end
@@ -562,8 +566,9 @@ end
 -- Repeatedly fades in and out for a duration
 function anim:createGlow(seq, eventHandler)
     function eventHandler:run(seq)
-        local handler = self
-        local expires = self.params.expires or nil
+        local handler    = self
+        local expires    = self.params.expires or nil
+        local delayStart = self.params.delayStart or 0
 
         if seq.target.alpha < 0 then handler.larger = true else handler.larger = false end
 
@@ -575,7 +580,7 @@ function anim:createGlow(seq, eventHandler)
             table.insert(seq.timerHandles, handle)
         end
 
-        glowLoop(seq, self)
+        after(delayStart, function() glowLoop(seq, self) end)
     end
 end
 

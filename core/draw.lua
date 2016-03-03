@@ -1,6 +1,7 @@
 local storyboard = require("storyboard")
 local TextCandy  = require("text_candy.lib_text_candy")
 local anim       = require("core.animations")
+local particles  = require("core.particles")
 
 -- Aliases:
 local math_round  = math.round
@@ -164,88 +165,6 @@ function newMenuHud(group, spineStore, tapCubeCallback, tapScoreCallback)
 end
 
 
--- Displays the locked popup with info relelvent to the item that was locked
-function newLockedPopup(sceneGroup, id, type, title, description)
-    local group = display.newGroup()
-
-    local exitHandler = function()
-        group:removeSelf()
-        return true
-    end
-
-    local buyHandler = function()
-        group:removeSelf()
-        storyboard:gotoScene("scenes.inapp-purchases")
-        return true
-    end
-
-    local buymode = "both"
-    local planet  = state.data.planetSelected or 1
-    local blocker = newBlocker(group, 0.8, 0,0,0, exitHandler, "block")
-    local popup   = newImage(group, "locking/popup", centerX, centerY)
-
-    popup:addEventListener("tap", function() return true end)
-
-    if type == "planet" then
-        newImage(group, "select-game/race-zone-green", 170, 265)
-
-        local other = id-1
-        local zones = 5 - state:numberZonesCompleted(other, gameTypeStory)
-        description = "complete "..zones.." zones in "..planetData[other].name.." to unlock"
-        planet      = id
-
-    elseif type == "zones" then
-        newImage(group, "select-game/race-zone-green", 170, 265)
-        description = "buy "..planetData[id].name.." planet pack to unlock"
-        buymode     = "storeOnly"
-
-    elseif type == "game" then
-        newImage(group, "select-game/tab-"..gameTypeData[id].icon, 170, 265, 0.35)
-
-    elseif type == "character" then
-        newImage(group, "select-player/head-"..characterData[id].name.."-selected", 170, 265, 0.8)
-        
-        buymode = characterData[id].buyMode
-        local charPlanet = characterData[id].planet
-        local planetName = planetData[charPlanet].name
-
-        if buymode == "storeOnly" then
-            description = characterData[id].lockText
-        elseif not state:planetUnlocked(charPlanet) then
-            description = "unlock and complete "..planetName.." to unlock"
-        else
-            local zones = planetData[charPlanet].normalZones - state:numberZonesCompleted(charPlanet, gameTypeStory)
-            description = "complete "..zones.." zones in "..planetName.." to unlock"
-        end
-    elseif type == "gear" then
-        newImage(group, "collectables/gear-"..gearNames[gearSlots[id]].."-"..id, 170, 265, 0.5)
-
-        local zones = gearUnlocks[id].unlockAfter - state:totalStoryZonesCompleted()
-        buymode     = gearUnlocks[id].buyMode
-        description = "complete "..zones.." zones to unlock"
-    end
-
-    newText(group, title,       370, 160, 0.8, "red",   "CENTER")
-    newText(group, description, 370, 260, 0.5, "white", "CENTER", 550)
-
-    if buymode == "storeOnly" or buymode == "both" then
-        newImage(group, "locking/buy-to-unlock", 170, 410)
-        newText(group, "purchase in store", 370, 400, 0.5, "white", "CENTER")
-
-        if buymode == "both" then
-            newText(group, "or", 170, 400, 0.8, "red")
-        end
-    end
-
-    state.inappPurchaseType = "planet"
-    if type == "gear" then state.inappPurchaseType = "gear" end
-
-    newImage(group, "locking/popup-advert"..planet, 700, 300)
-    newButton(group, 370, 455, "close", exitHandler)
-    newButton(group, 700, 455, "buy",   buyHandler)
-end
-
-
 -- Randomly modifies an images RGB and alpha values
 function randomizeImage(image, doAlpha, alphaMin)
     local r, g, b = math_random(), math_random(), math_random()
@@ -346,5 +265,137 @@ end
 
 function capitalise(s)
     return string.upper(string.sub(s,1,1))..string.sub(s,2)
+end
+
+
+
+--- Code for locked popups ---
+
+local function newLockedPopupSpecifics(group, id, type, buymode, description, planet)
+    if type == "planet" then
+        newImage(group, "select-game/race-zone-green", 170, 265)
+
+        local other = id-1
+        local zones = 5 - state:numberZonesCompleted(other, gameTypeStory)
+        description = "complete "..zones.." zones in "..planetData[other].name.." to unlock"
+        planet      = id
+
+    elseif type == "zones" then
+        newImage(group, "select-game/race-zone-green", 170, 265)
+        description = "buy "..planetData[id].name.." planet pack to unlock"
+        buymode     = "storeOnly"
+
+    elseif type == "game" then
+        newImage(group, "select-game/tab-"..gameTypeData[id].icon, 170, 265, 0.35)
+
+    elseif type == "character" then
+        newImage(group, "select-player/head-"..characterData[id].name.."-selected", 170, 265, 0.8)
+        
+        buymode = characterData[id].buyMode
+        local charPlanet = characterData[id].planet
+        local planetName = planetData[charPlanet].name
+
+        if buymode == "storeOnly" then
+            description = characterData[id].lockText
+        elseif not state:planetUnlocked(charPlanet) then
+            description = "unlock and complete "..planetName.." to unlock"
+        else
+            local zones = planetData[charPlanet].normalZones - state:numberZonesCompleted(charPlanet, gameTypeStory)
+            description = "complete "..zones.." zones in "..planetName.." to unlock"
+        end
+    elseif type == "gear" then
+        newImage(group, "collectables/gear-"..gearNames[gearSlots[id]].."-"..id, 170, 265, 0.5)
+
+        local zones = gearUnlocks[id].unlockAfter - state:totalStoryZonesCompleted()
+        buymode     = gearUnlocks[id].buyMode
+        description = "complete "..zones.." zones to unlock"
+    end
+
+    return buymode, description, planet
+end
+
+
+local function newLockedPopupGeneral(group, title, description, buymode, planet)
+    newText(group, title,       370, 160, 0.8, "red",   "CENTER")
+    newText(group, description, 370, 260, 0.5, "white", "CENTER", 550)
+
+    if buymode == "storeOnly" or buymode == "both" then
+        newImage(group, "locking/buy-to-unlock", 170, 410)
+        newText(group, "purchase in store", 370, 400, 0.5, "white", "CENTER")
+
+        if buymode == "both" then
+            newText(group, "or", 170, 400, 0.8, "red")
+        end
+    end
+
+    state.inappPurchaseType = "planet"
+    if type == "gear" then state.inappPurchaseType = "gear" end
+
+    newImage(group, "locking/popup-advert"..planet, 700, 300)
+end
+
+
+local function newLockedPopupSparkle(group, type, xpos, ypos, params)
+    local camera = {add = function(self, item) group:insert(item) end}
+
+    local params   = params or {}
+    local sparkle  = particles:showEmitter(camera, "menu-flare"..type, xpos, ypos, "forever", params.alpha)
+    sparkle.alpha  = 0
+
+    sparkle:scale(0.5, 0.5)
+
+    local seq = anim:oustSeq("sparkle-"..type, sparkle, true)
+    seq:tran({time=1000, alpha=1, delay=params.delayStart})
+    seq:add("glow", {time=(params.duration or 2000), alpha=(params.alpha or 1), delay=params.delay, delayFaded=params.delayFaded})
+    seq:start()
+
+    return seq
+end
+
+
+-- Displays the locked popup with info relelvent to the item that was locked
+function newLockedPopup(sceneGroup, id, type, title, description)
+    local group = display.newGroup()
+    local seq1, seq2, seq3 = nil, nil, nil
+
+    local exitHandler = function()
+        seq1:destroy()
+        seq2:destroy()
+        seq3:destroy()
+        group:removeSelf()
+        return true
+    end
+
+    local buyHandler = function()
+        seq1:destroy()
+        seq2:destroy()
+        seq3:destroy()
+        group:removeSelf()
+        storyboard:gotoScene("scenes.inapp-purchases")
+        return true
+    end
+
+    local buymode = "both"
+    local planet  = state.data.planetSelected or 1
+    local blocker = newBlocker(group, 0.8, 0,0,0, exitHandler, "block")
+    local popup   = newImage(group, "locking/popup", centerX, centerY)
+
+    popup:addEventListener("tap", function() return true end)
+
+    buymode, description, planet = newLockedPopupSpecifics(group, id, type, buymode, description, planet)
+
+    newLockedPopupGeneral(group, title, description, buymode, planet)
+
+    newButton(group, 370, 455, "close", exitHandler)
+
+    local b1, b1o = newButton(group, 700, 455, "buy", buyHandler)
+
+    seq1 = anim:oustSeq("buyButton", b1, true)
+    seq1.target2 = b1o
+    seq1:add("pulse", {time=1500, scale=0.035})
+    seq1:start()
+
+    seq2 = newLockedPopupSparkle(group, 1, 700, 135, {delay=2000, delayStart=1000,  delayFaded=5000})
+    seq3 = newLockedPopupSparkle(group, 2, 700, 450, {delay=2000, delayStart=5000,  delayFaded=5000})
 end
 
