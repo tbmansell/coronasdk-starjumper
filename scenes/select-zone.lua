@@ -323,10 +323,14 @@ end
 function scene:displayHud()
     local data = planetData[state.data.planetSelected]
 
-    self.borderGroup = display.newGroup()
-    local progress   = newImage(self.borderGroup, "hud/progress-tab", centerX, 508)
-    newText(self.borderGroup, "progress", centerX, 515, 0.5, "red", "CENTER")
+    self.borderGroup  = display.newGroup()
+    local progress    = newImage(self.borderGroup, "hud/progress-tab", centerX, 508)
+    self.progressText = newText(self.borderGroup, "progress", centerX, 515, 0.5, "red", "CENTER")
+
+    animateText(self.progressText)
+
     progress:addEventListener("tap", scene.exitToPlanetProgress)
+    self.progressText:addEventListener("tap", scene.exitToPlanetProgress)
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.borderGroup, spineStore, scene.exitToShop, scene.exitToPlayerStore)
 
@@ -605,6 +609,7 @@ function scene:exitScene(event)
 
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
     track:cancelEventHandles()
+
     anim:destroy()
     particles:destroy()
     friendCollection:destroy()
@@ -619,6 +624,10 @@ function scene:exitScene(event)
     camera.destroy()
     soundEngine:destroy()
 
+    self.progressText:removeInOutTransition()
+    self.progressText:removeSelf()
+    self.progressText = nil
+
     self:closePopup()
     self.player:destroy()
     self.zones.stars:removeSelf()
@@ -632,6 +641,7 @@ function scene:exitScene(event)
 
     cameraHolder      = nil
     globalIgnorePhysicsEngine = false
+    self.progressText = nil
     self.player       = nil
     self.borderGroup  = nil
     self.moveable     = nil

@@ -252,7 +252,8 @@ function scene:runAnimations()
         {text="rescue fuzzies to unlock challenge games",        rgb={0.5,  0.5,  1}},
     }
 
-    local tip   = newText(self.view, tips[1].text, centerX, 520, 0.45, "white", "CENTER")
+    self.tip  = newText(self.view, tips[1].text, centerX, 520, 0.45, "white", "CENTER")
+    local tip = self.tip
     tip.counter = 1
 
     animateText(tip, function() 
@@ -303,13 +304,18 @@ end
 function scene:exitScene(event)
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
     anim:destroy()
+
+    self.tip:removeInOutTransition()
+    self.tip:removeSelf()
+    self.tip = nil
+
     self.planetSpec = nil
 end
 
 
 -- Called AFTER scene has finished moving offscreen:
 function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.title")
+    storyboard.purgeScene("scenes.progress")
 end
 
 

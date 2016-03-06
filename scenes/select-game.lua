@@ -59,6 +59,10 @@ function scene:enterScene(event)
         self.creating = false
     else
         self:updateScene()
+
+        if self.progressText then
+            animateText(self.progressText)
+        end
     end
 
     self:startMusic()
@@ -146,8 +150,13 @@ function scene:displayHud()
     self.progressGroup.alpha = 0
     group:insert(self.progressGroup)
 
-    local progress = newImage(self.progressGroup, "hud/progress-tab", centerX, 508)
+    local progress    = newImage(self.progressGroup, "hud/progress-tab", centerX, 508)
+    self.progressText = newText(self.progressGroup,  "progress",         centerX, 515, 0.5, "red", "CENTER")
+
+    animateText(self.progressText)
+
     progress:addEventListener("tap", scene.exitToPlanetProgress)
+    self.progressText:addEventListener("tap", scene.exitToPlanetProgress)
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(group, spineStore, scene.exitToShop, scene.exitToPlayerStore)
 
@@ -966,6 +975,10 @@ function scene:exitScene(event)
     end
 
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+
+    if self.progressText then
+        self.progressText:removeInOutTransition()
+    end
 end
 
 
