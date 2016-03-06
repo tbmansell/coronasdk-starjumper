@@ -180,6 +180,14 @@ function scene:loadPlanetTabs()
         if planetData[i].comingSoon then
             planetGroup.soon = newText(planetGroup, "coming soon", -20, -80, 0.8, "red", "CENTER")
             planetGroup.soon:rotate(15)
+        else
+            -- Create planet progress summary for use with story mode
+            local progress       = new_group()
+            planetGroup.progress = progress
+            planetGroup:insert(progress)
+            
+            new_image(progress, "select-game/progress", -135, 0)
+ 
         end
 
         planetGroup.planet = i
@@ -309,10 +317,10 @@ end
 
 
 function scene:updateGameProgress()
-    local game = state.data.gameSelected
+    local curGame = state.data.gameSelected
 
     for i,group in pairs(self.planets) do
-        self:showGameProgress(group, gameTypeStory, i)
+        self:showPlanetProgress(group, curGame, i)
         self:showPlanetUnlockStatus(group, i)
     end
 
@@ -324,6 +332,38 @@ function scene:updateGameProgress()
     for _,group in pairs(self.allGameModes["challenge"]) do
         self:showGameProgress(group, group.game)
         self:showGameUnlockStatus(group, group.game)
+    end
+end
+
+
+function scene:showPlanetProgress(group, curGame, planetSelected)
+    if state:planetUnlocked(planet) then
+        self:showIconUnlocked(group)
+    else
+        self:showIconLocked(group, -25, -5)
+    end
+
+    local data = planetData[planetSelected]
+
+    if curGame == gameTypeStory then
+        if group.progress then group.progress.alpha = 1 end
+
+        local totalZones = data.normalZones + data.secretZones
+        local zoneText   = state:numberZonesCompleted(planetSelected, gameTypeStory).." / "..totalZones
+        local starText   = state:planetStarRanking(planetSelected, gameTypeStory).." / "..(totalZones * 5)
+        local fuzzyText  = state:numberFuzziesCollected(planetSelected).." / "..data.fuzzies
+
+        if group.progressZone then
+            group.progressZone:setText(zoneText)
+            group.progressStar:setText(starText)
+            group.progressFuzzy:setText(fuzzyText)
+        else
+            group.progressZone  = newText(group.progress, zoneText,  -135, -85, 0.35, "green",  "CENTER")
+            group.progressStar  = newText(group.progress, starText,  -135, 0,   0.35, "yellow", "CENTER")
+            group.progressFuzzy = newText(group.progress, fuzzyText, -135, 80,  0.35, "aqua",   "CENTER")
+        end
+    else
+        if group.progress then group.progress.alpha = 0 end
     end
 end
 
@@ -359,12 +399,6 @@ end
 
 function scene:showPlanetUnlockStatus(group, planet)
     if state:planetUnlocked(planet) then
-        if state.data.gameSelected == gameTypeStory then
-            group.scoreLabel.alpha = 1
-        else
-            group.scoreLabel.alpha = 0
-        end
-
         self:showIconUnlocked(group)
     else
         self:showIconLocked(group, -25, -5)
