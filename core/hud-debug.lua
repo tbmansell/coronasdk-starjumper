@@ -163,11 +163,15 @@ end
 
 function hud:scriptMode(on)
     if on then
-        self:hideGear()
+        if self.selectorSwitch then
+            self:hideGear()
+        end
 
         if self.startLevelGroup then self.startLevelGroup.alpha = 0 end
     else
-        self:showGearFull()
+        if self.selectorSwitch then
+            self:showGearFull()
+        end
 
         if self.startLevelGroup then self.startLevelGroup.alpha = 1 end
     end

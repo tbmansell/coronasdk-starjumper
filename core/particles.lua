@@ -45,7 +45,7 @@ end
 
 function particles:destroy()
     for _,data in pairs(createdEmitters) do
-        if data then
+        if data and data.removeSelf then
             data:removeSelf()
         end
     end
@@ -56,7 +56,7 @@ end
 
 function particles:pause()
     for _,data in pairs(createdEmitters) do
-        if data then
+        if data and data.pause then
             data:pause()
         end
     end

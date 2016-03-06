@@ -3,9 +3,6 @@ local anim       = require("core.animations")
 local particles  = require("core.particles")
 local scene      = storyboard.newScene()
 
--- Aliases:
-local play = globalSoundPlayer
-
 -- Local vars:
 local IAPData = {
     planets = {
@@ -27,6 +24,17 @@ local IAPData = {
         -- NONE
     }
 }
+
+local planetSparkles = {
+    {x=100, y=130}, {x=400, y=130}, {x=850, y=120}, {x=470, y=500}, {x=210, y=520}, {x=600, y=610},
+}
+
+local gearSparkles = {
+    {x=170, y=230}, {x=470, y=230}, {x=770, y=230}, {x=70,  y=470}, {x=450, y=490},
+}
+
+-- Aliases:
+local play = globalSoundPlayer
 
 
 -- Called when the scene's view does not exist:
@@ -100,13 +108,6 @@ function scene:buildPlanetPage(planetGroup)
 
     local soon = newText(planetGroup, "coming soon", 780, 400, 0.8, "red", "CENTER")
     soon:rotate(15)
-
-    self:createSparkle(planetGroup, 1, 130, 180, {delay=2000, delayStart=1000,  delayFaded=21000})
-    self:createSparkle(planetGroup, 2, 400, 300, {delay=2000, delayStart=5000,  delayFaded=21000})
-    self:createSparkle(planetGroup, 1, 850, 120, {delay=2000, delayStart=9000,  delayFaded=21000})
-    self:createSparkle(planetGroup, 2, 520, 500, {delay=2000, delayStart=13000, delayFaded=21000})
-    self:createSparkle(planetGroup, 1, 210, 520, {delay=2000, delayStart=17000, delayFaded=21000})
-    self:createSparkle(planetGroup, 2, 650, 610, {delay=2000, delayStart=21000, delayFaded=21000})
 end
 
 
@@ -120,12 +121,6 @@ function scene:buildGearPage(gearGroup)
     self:newGearBuyers(gearGroup, 425, 335, "small-air-gear",  "large-air-gear")
     self:newGearBuyers(gearGroup, 740, 335, "small-land-gear", "large-land-gear")
     self:newGearBuyers(gearGroup, 750, 535, "small-all-gear",  "large-all-gear")
-
-    self:createSparkle(gearGroup, 1, 170, 230, {delay=2000, delayStart=1000,  delayFaded=17000})
-    self:createSparkle(gearGroup, 2, 470, 230, {delay=2000, delayStart=5000,  delayFaded=17000})
-    self:createSparkle(gearGroup, 1, 770, 230, {delay=2000, delayStart=9000,  delayFaded=17000})
-    self:createSparkle(gearGroup, 2, 70,  470, {delay=2000, delayStart=13000, delayFaded=17000})
-    self:createSparkle(gearGroup, 1, 450, 490, {delay=2000, delayStart=17000, delayFaded=17000})
 end
 
 
@@ -184,6 +179,16 @@ function scene:showPage(page)
         play(sounds.generalClick)
     end
 
+    local sparkles = nil
+    if     page == "planet" then sparkles = planetSparkles
+    elseif page == "gear" then sparkles = gearSparkles end
+
+    stopSparkles()
+
+    if sparkles then
+        newRandomSparkle(self.view, 1000, sparkles)
+    end
+
     for name, group in pairs(self.pages) do
         if name == page then
             group.alpha = 1
@@ -211,34 +216,12 @@ function scene:animate(item, item2, params)
 end
 
 
-function scene:createSparkle(group, type, xpos, ypos, params)
-    local camera = {add = function(self, item) group:insert(item) end}
-
-    self.sparkleId = (self.sparkleId or 0) + 1
-    local params   = params or {}
-    local sparkle  = particles:showEmitter(camera, "menu-flare"..type, xpos, ypos, "forever", params.alpha)
-    sparkle.alpha  = 0
-
-    sparkle:scale(0.5, 0.5)
-
-    local seq = anim:oustSeq("sparkle-"..self.sparkleId, sparkle)
-    seq:tran({time=1000, alpha=1, delay=params.delayStart})
-    seq:add("glow", {time=(params.duration or 2000), alpha=(params.alpha or 1), delay=params.delay, delayFaded=params.delayFaded})
-    seq:start()
-end
-
-
 function scene:activateOption(option)
     local seq = anim:oustSeq("menuActivate", option)
     seq:tran({time=250, scale=1.5})
     seq:tran({time=500, scale=0.01})
     seq:start()
 end
-
-
---function scene:add(item)
---    self.pages[self.page]:insert(item)
---end
 
 
 function scene:exitInApPurchases()

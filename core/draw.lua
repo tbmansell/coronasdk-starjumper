@@ -3,6 +3,14 @@ local TextCandy  = require("text_candy.lib_text_candy")
 local anim       = require("core.animations")
 local particles  = require("core.particles")
 
+-- local vars:
+local sparklSeq = nil
+local goSparkle = false
+
+local lockedSparkles = {
+    {x=580, y=135}, {x=780, y=135}, {x=660, y=450}, {x=740, y=450}
+}
+
 -- Aliases:
 local math_round  = math.round
 local math_random = math.random
@@ -268,17 +276,67 @@ function capitalise(s)
 end
 
 
+--- Code for random sparkl effects
+
+function newRandomSparkle(group, delay, sparkles, previousNum)
+    goSparkle = true
+
+    after(delay, function()
+        if goSparkle then
+            local num = math_random(#sparkles)
+
+            if previousNum then
+                while num == previousNum do
+                    num = math_random(#sparkles)
+                end
+            end
+
+            newSparkle(group, delay, sparkles, num)
+        end
+    end)
+end
+
+
+function newSparkle(group, delay, sparkles, num)
+    local camera   = { add = function(self, item) group:insert(item) end }
+    local point    = sparkles[num]
+    local type     = point.type     or 1
+    local alpha    = point.alpha    or 1
+    local duration = point.duration or 2500
+
+    local sparkle  = particles:showEmitter(camera, "menu-flare"..type, point.x, point.y, "forever")
+    sparkle.alpha  = 0
+    sparkle:scale(0.5, 0.5)
+
+    sparkleSeq = anim:oustSeq("sparkle", sparkle, true)
+    sparkleSeq:tran({time=500, alpha=alpha})
+    sparkleSeq:tran({time=500, alpha=0, delay=duration})
+    sparkleSeq.onComplete = function() newRandomSparkle(group, delay, sparkles, num) end
+    sparkleSeq:start()
+end
+
+
+function stopSparkles()
+    goSparkle = false
+
+    if sparkleSeq then
+        sparkleSeq:destroy()
+        sparkleSeq = nil
+    end
+end
+
 
 --- Code for locked popups ---
 
-local function newLockedPopupSpecifics(group, id, type, buymode, description, planet)
+local function newLockedPopupSpecifics(group, id, type, description)
+    local buymode = "both"
+
     if type == "planet" then
         newImage(group, "select-game/race-zone-green", 170, 265)
 
-        local other = id-1
-        local zones = 5 - state:numberZonesCompleted(other, gameTypeStory)
+        local other = id - 1
+        local zones = 5  - state:numberZonesCompleted(other, gameTypeStory)
         description = "complete "..zones.." zones in "..planetData[other].name.." to unlock"
-        planet      = id
 
     elseif type == "zones" then
         newImage(group, "select-game/race-zone-green", 170, 265)
@@ -311,7 +369,7 @@ local function newLockedPopupSpecifics(group, id, type, buymode, description, pl
         description = "complete "..zones.." zones to unlock"
     end
 
-    return buymode, description, planet
+    return buymode, description
 end
 
 
@@ -321,7 +379,7 @@ local function newLockedPopupGeneral(group, title, description, buymode, planet)
 
     if buymode == "storeOnly" or buymode == "both" then
         newImage(group, "locking/buy-to-unlock", 170, 410)
-        newText(group, "purchase in store", 370, 400, 0.5, "white", "CENTER")
+        newText(group,  "purchase in store",     370, 400, 0.5, "white", "CENTER")
 
         if buymode == "both" then
             newText(group, "or", 170, 400, 0.8, "red")
@@ -335,67 +393,49 @@ local function newLockedPopupGeneral(group, title, description, buymode, planet)
 end
 
 
-local function newLockedPopupSparkle(group, type, xpos, ypos, params)
-    local camera = {add = function(self, item) group:insert(item) end}
-
-    local params   = params or {}
-    local sparkle  = particles:showEmitter(camera, "menu-flare"..type, xpos, ypos, "forever", params.alpha)
-    sparkle.alpha  = 0
-
-    sparkle:scale(0.5, 0.5)
-
-    local seq = anim:oustSeq("sparkle-"..type, sparkle, true)
-    seq:tran({time=1000, alpha=1, delay=params.delayStart})
-    seq:add("glow", {time=(params.duration or 2000), alpha=(params.alpha or 1), delay=params.delay, delayFaded=params.delayFaded})
-    seq:start()
-
-    return seq
-end
-
-
 -- Displays the locked popup with info relelvent to the item that was locked
-function newLockedPopup(sceneGroup, id, type, title, description)
+function newLockedPopup(sceneGroup, id, type, title, callback, description)
     local group = display.newGroup()
     local seq1, seq2, seq3 = nil, nil, nil
 
     local exitHandler = function()
-        seq1:destroy()
-        seq2:destroy()
-        seq3:destroy()
+        seq:destroy()
+        stopSparkles()
         group:removeSelf()
+
+        if callback then callback() end
+
         return true
     end
 
     local buyHandler = function()
-        seq1:destroy()
-        seq2:destroy()
-        seq3:destroy()
+        seq:destroy()
+        stopSparkles()
         group:removeSelf()
         storyboard:gotoScene("scenes.inapp-purchases")
         return true
     end
 
-    local buymode = "both"
     local planet  = state.data.planetSelected or 1
     local blocker = newBlocker(group, 0.8, 0,0,0, exitHandler, "block")
     local popup   = newImage(group, "locking/popup", centerX, centerY)
 
+    if type == "planet" then planet = id end
+
     popup:addEventListener("tap", function() return true end)
 
-    buymode, description, planet = newLockedPopupSpecifics(group, id, type, buymode, description, planet)
-
+    local buymode, description = newLockedPopupSpecifics(group, id, type, description)
     newLockedPopupGeneral(group, title, description, buymode, planet)
 
     newButton(group, 370, 455, "close", exitHandler)
-
     local b1, b1o = newButton(group, 700, 455, "buy", buyHandler)
 
-    seq1 = anim:oustSeq("buyButton", b1, true)
-    seq1.target2 = b1o
-    seq1:add("pulse", {time=1500, scale=0.035})
-    seq1:start()
+    seq = anim:oustSeq("buyButton", b1, true)
+    seq.target2 = b1o
+    seq:add("pulse", {time=1500, scale=0.035})
+    seq:start()
 
-    seq2 = newLockedPopupSparkle(group, 1, 700, 135, {delay=2000, delayStart=1000,  delayFaded=5000})
-    seq3 = newLockedPopupSparkle(group, 2, 700, 450, {delay=2000, delayStart=5000,  delayFaded=5000})
+    stopSparkles()
+    newRandomSparkle(group, 1000, lockedSparkles)
 end
 

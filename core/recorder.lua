@@ -55,7 +55,7 @@ local lapse
 function recorder:init()
 	self.time      = osTime()
 	self.startTime = self.time
-	self.lapseTime = 0     
+	self.lapseTime = 0
 	self.pauseTime = 0
 	self.planet    = state.data.planetSelected
 	self.zone      = state.data.zoneSelected

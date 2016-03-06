@@ -1,5 +1,6 @@
 local storyboard  = require("storyboard")
 local anim        = require("core.animations")
+local particles   = require("core.particles")
 local builder     = require("level-objects.builders.builder")
 local spineStore  = require("level-objects.collections.spine-store")
 
@@ -8,10 +9,25 @@ local scene           = storyboard.newScene()
 local spineCollection = nil
 local lastTime        = 0
 
+local planetSparkles = {
+    {x=100, y=110}, {x=250, y=110}, {x=100, y=420}, {x=250, y=420},
+    {x=400, y=110}, {x=550, y=110}, {x=400, y=420}, {x=550, y=420},
+}
+
+local gameModeSparkles = {
+    {x=500, y=115}, {x=720, y=115},
+    {x=500, y=255}, {x=720, y=255}
+}
+
+local zoneSparkles = {
+    {x=500, y=50}, {x=600, y=50}, {x=700, y=50}, {x=800, y=50}, {x=900, y=50},
+}
+
 -- Aliases:
-local play      = globalSoundPlayer
-local new_group = display.newGroup
-local new_image = newImage
+local play        = globalSoundPlayer
+local new_group   = display.newGroup
+local new_image   = newImage
+local math_random = math.random
 
 
 -- Things that need to happen as fast as possible (every frame e.g 60 loops per second)
@@ -66,6 +82,7 @@ function scene:enterScene(event)
     end
 
     self:startMusic()
+    self:startSparkles()
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
 end
 
@@ -107,6 +124,21 @@ function scene:startMusic()
         audio.setVolume(0.5,    {channel=self.musicChannel})
         audio.setMaxVolume(0.5, {channel=self.musicChannel})
         play(sounds.tuneTitle, {channel=self.musicChannel, fadein=8000, loops=-1})
+    end
+end
+
+
+function scene:startSparkles()
+    local sparkles = nil
+
+    if     self.context == "selectPlanet" then sparkles = planetSparkles
+    elseif self.context == "selectGame"   then sparkles = gameModeSparkles
+    elseif self.context == "selectZone"   then sparkles = zoneSparkles end
+
+    stopSparkles()
+
+    if sparkles then
+        newRandomSparkle(self.view, 1000, sparkles)
     end
 end
 
@@ -185,8 +217,9 @@ function scene:loadPlanetTabs()
     for i=1, #planetData do
         local planetGroup = new_group()
         local planetTab   = new_image(planetGroup, "select-game/tab-planet"..i, 0, 0, 0.85)
+        local comingSoon  = planetData[i].comingSoon
 
-        if planetData[i].comingSoon then
+        if comingSoon then
             planetGroup.soon = newText(planetGroup, "coming soon", -20, -80, 0.8, "red", "CENTER")
             planetGroup.soon:rotate(15)
         else
@@ -196,7 +229,6 @@ function scene:loadPlanetTabs()
             planetGroup:insert(progress)
             
             new_image(progress, "select-game/progress", -135, 0)
- 
         end
 
         planetGroup.planet = i
@@ -552,6 +584,8 @@ function scene:contextBack()
         anim:startQueue("secondaryAnims")
         anim:startQueue("tertiaryAnims")
     end
+
+    scene:startSparkles()
 end
 
 
@@ -579,7 +613,7 @@ function scene:selectPlanet(group)
             seq:tran({time=1000, alpha=1})
             seq:start()
         else
-            newLockedPopup(self.view, planet, "planet", planetData[planet].name)
+            newLockedPopup(self.view, planet, "planet", planetData[planet].name, function() scene:startSparkles() end)
         end
     end
 end
@@ -632,6 +666,8 @@ function scene:selectOtherPlanet(planetIndex)
     self:slideGameModesIn("planetSlideSelect")
     anim:startQueue("planetSlideSelect")
     anim:startQueue("planetSlideSelect2")
+
+    scene:startSparkles()
 end
 
 
@@ -694,7 +730,7 @@ function scene:selectGameMode(gameGroup)
             description  = "earn "..amount.." stars"
         end
 
-        newLockedPopup(self.view, game, "game", gameTypeData[game].name, description.." to unlock")
+        newLockedPopup(self.view, game, "game", gameTypeData[game].name, function() scene:startSparkles() end, description.." to unlock")
         package.loaded[file] = nil
     end
 end
@@ -736,6 +772,8 @@ function scene:selectChallengeGame(gameGroup)
     anim:startQueue("zoneSlideSelect")
     anim:startQueue("zoneSlideSelect2")
     anim:startQueue("zoneSlideSelect3")
+
+    scene:startSparkles()
 end
 
 
@@ -870,19 +908,23 @@ function scene:selectPlayer(playerGroup, playSound)
             scene.selectedPlayer = playerGroup
             scene.selectedPlayer:scale(1.3, 1.3)
         else
-            newLockedPopup(self.view, newPlayer, "character", characterData[newPlayer].name)
+            newLockedPopup(self.view, newPlayer, "character", characterData[newPlayer].name, function() scene:startSparkles() end)
         end
     end
 end
 
 
 function scene:selectZone(zoneGroup)
-    if state:zoneUnlocked(state.data.planetSelected, zoneGroup.zone) then
+    local planet = state.data.planetSelected
+
+    if state:zoneUnlocked(planet, zoneGroup.zone) then
         state.data.zoneSelected = zoneGroup.zone
 
         scene:bobOption(zoneGroup)
         scene.nextScene = "scenes.play-zone"
         scene:changeScene()
+    elseif zoneGroup.zone > 21 then
+        newLockedPopup(self.view, planet, "zones", "secret zones", function() scene:startSparkles() end)
     end
 end
 
