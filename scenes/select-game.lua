@@ -128,21 +128,6 @@ function scene:startMusic()
 end
 
 
-function scene:startSparkles()
-    local sparkles = nil
-
-    if     self.context == "selectPlanet" then sparkles = planetSparkles
-    elseif self.context == "selectGame"   then sparkles = gameModeSparkles
-    elseif self.context == "selectZone"   then sparkles = zoneSparkles end
-
-    stopSparkles()
-
-    if sparkles then
-        newRandomSparkle(self.view, 1000, sparkles)
-    end
-end
-
-
 ---------- DISPLAY CREATORS ----------
 
 
@@ -227,6 +212,7 @@ function scene:loadPlanetTabs()
             local progress       = new_group()
             planetGroup.progress = progress
             planetGroup:insert(progress)
+            progress.alpha = 0
             
             new_image(progress, "select-game/progress", -135, 0)
         end
@@ -378,33 +364,33 @@ end
 
 
 function scene:showPlanetProgress(group, curGame, planetSelected)
-    if state:planetUnlocked(planet) then
+    if state:planetUnlocked(planetSelected) then
         self:showIconUnlocked(group)
-    else
-        self:showIconLocked(group, -25, -5)
-    end
 
-    local data = planetData[planetSelected]
+        if curGame == gameTypeStory then
+            local data = planetData[planetSelected]
+            
+            if group.progress then group.progress.alpha = 1 end
 
-    if curGame == gameTypeStory then
-        if group.progress then group.progress.alpha = 1 end
+            local totalZones = data.normalZones + data.secretZones
+            local zoneText   = state:numberZonesCompleted(planetSelected, gameTypeStory).." / "..totalZones
+            local starText   = state:planetStarRanking(planetSelected, gameTypeStory).." / "..(totalZones * 5)
+            local fuzzyText  = state:numberFuzziesCollected(planetSelected).." / "..data.fuzzies
 
-        local totalZones = data.normalZones + data.secretZones
-        local zoneText   = state:numberZonesCompleted(planetSelected, gameTypeStory).." / "..totalZones
-        local starText   = state:planetStarRanking(planetSelected, gameTypeStory).." / "..(totalZones * 5)
-        local fuzzyText  = state:numberFuzziesCollected(planetSelected).." / "..data.fuzzies
-
-        if group.progressZone then
-            group.progressZone:setText(zoneText)
-            group.progressStar:setText(starText)
-            group.progressFuzzy:setText(fuzzyText)
+            if group.progressZone then
+                group.progressZone:setText(zoneText)
+                group.progressStar:setText(starText)
+                group.progressFuzzy:setText(fuzzyText)
+            else
+                group.progressZone  = newText(group.progress, zoneText,  -135, -85, 0.35, "green",  "CENTER")
+                group.progressStar  = newText(group.progress, starText,  -135, 0,   0.35, "yellow", "CENTER")
+                group.progressFuzzy = newText(group.progress, fuzzyText, -135, 80,  0.35, "aqua",   "CENTER")
+            end
         else
-            group.progressZone  = newText(group.progress, zoneText,  -135, -85, 0.35, "green",  "CENTER")
-            group.progressStar  = newText(group.progress, starText,  -135, 0,   0.35, "yellow", "CENTER")
-            group.progressFuzzy = newText(group.progress, fuzzyText, -135, 80,  0.35, "aqua",   "CENTER")
+            if group.progress then group.progress.alpha = 0 end
         end
     else
-        if group.progress then group.progress.alpha = 0 end
+        self:showIconLocked(group, -25, -5)
     end
 end
 
@@ -932,6 +918,81 @@ end
 ---------- GENERAL ----------
 
 
+function scene:startSparkles()
+    local sparkles = nil
+
+    if     self.context == "selectPlanet" then sparkles = planetSparkles
+    elseif self.context == "selectGame"   then sparkles = gameModeSparkles
+    elseif self.context == "selectZone"   then sparkles = zoneSparkles end
+
+    if sparkles then
+        newRandomSparkle(self.view, 1000, sparkles)
+    end
+
+    self:startPulsing()
+end
+
+
+function scene:stopPulsing()
+    for i=1, #self.planets do
+        anim:destroyQueue("planetPulser"..i)
+    end
+
+    if self.gameModes then 
+        for i=1, #self.gameModes do
+            anim:destroyQueue("gamePulser"..i)
+        end
+    end
+
+    if self.zones then
+        for i=1, #self.zones do
+            anim:destroyQueue("zonePulser"..i)
+        end
+    end
+end
+
+
+function scene:startPulsing()
+    local planet = state.data.planetSelected
+
+    if self.context == "selectPlanet" then 
+        for i=1, #self.planets do
+            local planet = self.planets[i]
+
+            if state:planetUnlocked(i) then
+                self:pulseItem("planetPulser", planet, i)
+            end
+        end
+    elseif self.context == "selectGame" then
+        for i=1, #self.gameModes do
+            local game = self.gameModes[i]
+
+            if state:gameUnlocked(planet, game.game) then
+                self:pulseItem("gamePulser", game, i)
+            end
+        end
+    elseif self.context == "selectZone" then
+        for i=1, #self.zones do
+            local zone = self.zones[i]
+
+            if state:zoneUnlocked(planet, i) then
+                self:pulseItem("zonePulser", zone, i, 133)
+            end
+        end
+    end
+end
+
+
+function scene:pulseItem(name, item, num, delay)
+    local wait = (num-1) * (delay or 500)
+
+    local seq = anim:oustSeq(name..num, item)
+    seq:wait(wait)
+    seq:add("pulse", {time=1500, scale=0.01})
+    seq:start() 
+end
+
+
 function scene:startAnimations(animName)
     for i=1, #self.planets do
         local planet = self.planets[i]
@@ -948,19 +1009,11 @@ end
 function scene:bobOption(option)
     play(sounds.generalClick)
 
+    self:stopPulsing()
+
     local seq = anim:chainSeq("menuActivate", option)
     seq:tran({time=150, scale=1.2})
     seq:tran({time=150, scale=1})
-    seq:start()
-end
-
-
-function scene:activateOption(option)
-    play(sounds.generalClick)
-
-    local seq = anim:chainSeq("menuActivate", option)
-    seq:tran({time=250, scale=1.5})
-    seq:tran({time=500, scale=0.01})
     seq:start()
 end
 
@@ -1017,6 +1070,10 @@ function scene:exitScene(event)
     end
 
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+
+    anim:destroy()
+    particles:destroy()
+    stopSparkles()
 
     if self.progressText then
         self.progressText:removeInOutTransition()

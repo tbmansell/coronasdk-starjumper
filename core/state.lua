@@ -62,7 +62,7 @@ state = {
         },
 
         -- complete level progress for game,  in this format:
-        --[[
+        --[[]
         levelProgress  = {
             [1] = {  -- planet 
                 [gameTypeStory] = {  -- game type

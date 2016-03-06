@@ -30,7 +30,8 @@ local planetSparkles = {
 }
 
 local gearSparkles = {
-    {x=170, y=230}, {x=470, y=230}, {x=770, y=230}, {x=70,  y=470}, {x=450, y=490},
+    {x=70, y=100}, {x=370, y=100}, {x=900, y=100}, 
+    {x=70, y=470}, {x=900, y=480},
 }
 
 -- Aliases:
@@ -183,8 +184,6 @@ function scene:showPage(page)
     if     page == "planet" then sparkles = planetSparkles
     elseif page == "gear" then sparkles = gearSparkles end
 
-    stopSparkles()
-
     if sparkles then
         newRandomSparkle(self.view, 1000, sparkles)
     end
@@ -212,14 +211,6 @@ function scene:animate(item, item2, params)
     local seq   = anim:oustSeq("pulse-"..self.pulseId, item)
     seq.target2 = item2
     seq:add("pulse", {time=1500, scale=0.035, baseScale=params.baseScale})
-    seq:start()
-end
-
-
-function scene:activateOption(option)
-    local seq = anim:oustSeq("menuActivate", option)
-    seq:tran({time=250, scale=1.5})
-    seq:tran({time=500, scale=0.01})
     seq:start()
 end
 

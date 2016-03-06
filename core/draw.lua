@@ -276,9 +276,10 @@ function capitalise(s)
 end
 
 
---- Code for random sparkl effects
+--- Code for random sparkle effects
 
 function newRandomSparkle(group, delay, sparkles, previousNum)
+    stopSparkles()
     goSparkle = true
 
     after(delay, function()
@@ -298,7 +299,7 @@ end
 
 
 function newSparkle(group, delay, sparkles, num)
-    local camera   = { add = function(self, item) group:insert(item) end }
+    local camera   = { add = function(self, item) if group.insert then group:insert(item) end end }
     local point    = sparkles[num]
     local type     = point.type     or 1
     local alpha    = point.alpha    or 1
@@ -435,7 +436,6 @@ function newLockedPopup(sceneGroup, id, type, title, callback, description)
     seq:add("pulse", {time=1500, scale=0.035})
     seq:start()
 
-    stopSparkles()
     newRandomSparkle(group, 1000, lockedSparkles)
 end
 
