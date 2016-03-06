@@ -121,7 +121,6 @@ local levelData = {
                         end)
                         after(4000, function()
                             brainiak:destroy()
-                            sounds:unloadPlayer(characterBrainiak)
                             hud:exitScript()
                         end)
                     end)

@@ -263,7 +263,6 @@ function level:createElements(levelElements)
 
     self:createFloor()
     self:setLocalAssignments()
-    self:assignTriggerLedges()
     self:createBackgrounds(camera)
     self:createEventHandlers()
 
@@ -547,7 +546,6 @@ function level:createPlayer(item, ledge)
     elseif item.type == "ai" then
         hasAiPlayers  = true
         player = playerBuilder:newAiPlayer(camera, item, ledge)
-        --player = playerBuilder:newAiPlayer(camera, item, self:getLedge(item.startLedge or 1))
     end
 
     playerCollection:add(player)
@@ -575,26 +573,6 @@ end
 function level:defaultMainPlayer()
     mainPlayer = self.players.items[1]
 end
-
-
--- Creates enough clouds to fill the whole level
---[[
-function level:createInitialClouds(camera)
-    self.windSpeed     = self.data.windSpeed or 1
-    self.windDirection = self.data.windDirection or left
-
-    windSpeed          = self.windSpeed
-    windDirectionRight = self.windDirection == right
-
-    local colourer = self.data.defaultCloudColor
-    local x = levelEndX
-
-    while x > levelStartX do
-        self.scenery:createCloud(camera, x, levelStartX, levelEndX, windDirectionRight, windSpeed, colourer)
-        x = x - (200 + (math_random(6)*100))  -- space between 300 and 800
-    end
-end
-]]
 
 
 -- Creates gear dynamically in-game
@@ -675,36 +653,6 @@ function level:modifyLevelBounds(ledge)
 end
 
 
--- Once the ledges have been created, loop back though them and where some reference other ledges, make assignments
-----
-function level:assignTriggerLedges()
-    local allLedges = ledgeCollection.items
-    local num       = #allLedges
-
-    for i=1,num do
-        local ledge = allLedges[i]
-
-        if ledge.triggerLedgeIds then
-            local ids = ledge.triggerLedgeIds
-            ledge.triggerLedges = {}
-
-            for _,id in pairs(ids) do
-                ledge.triggerLedges[#ledge.triggerLedges+1] = self:getLedge(id)
-            end
-        end
-
-        if ledge.triggerObstacleIds then
-            local ids = ledge.triggerObstacleIds
-            ledge.triggerObstacles = {}
-
-            for _,id in pairs(ids) do
-                ledge.triggerObstacles[#ledge.triggerObstacles+1] = self:getObstacle(id)
-            end
-        end
-    end
-end
-
-
 -- Loops through all objects and kicks off any that have a constant sound
 ----
 function level:startConstantSounds()
@@ -712,11 +660,6 @@ function level:startConstantSounds()
     enemyCollection:startConstantSounds()
     friendCollection:startConstantSounds()
     collectableCollection:startConstantSounds()
-    --playerCollection:startConstantSounds()
-    --ledgeCollection:startConstantSounds()
-    --obstacleCollection:startConstantSounds()
-    --sceneryCollection:startConstantSounds()
-    --emitterCollection:startConstantSounds()
 end
 
 

@@ -161,11 +161,17 @@ function ledgeBuilder:newPathLedge(camera, spec, prev)
     ledge.moveX    = spec.x or 0
     ledge.moveY    = spec.y or 0
 
-    ledge:setPhysics(1)
+    ledge:setPhysics(camera.scaleImage)
 	self:positionLedge(ledge, prev)
 	self:setupCommonLedge(ledge)
 	self:setupPathLedge(camera, ledge)
 	camera:add(ledge.image, 3)
+
+    -- This is used for ledges created once a game has started (eg. kranios ledge transform)
+    if camera.scaleImage ~= 1 then
+        ledge.image.xScale = camera.scaleImage
+        ledge.image.yScale = camera.scaleImage
+    end
 
 	return ledge
 end

@@ -43,8 +43,8 @@ function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)
 
     self.textTime:scale(0.5, 0.5)
     self.textTime.alpha = 0
-    self.textDebugMode.alpha      = 0
-    self.textPhysicsMode.alpha    = 0
+    --self.textDebugMode.alpha      = 0
+    --self.textPhysicsMode.alpha    = 0
     self.textScreenshotMode.alpha = 0
 
     if player.specialAbility then

@@ -137,12 +137,11 @@ local levelData = {
                     camera:setFocus(player.image)
                     hud:exitScript()
 
-                    brainiak:changeDirection()
-                    brainiak:runup(500, -500)
+                    brainiak:setIndividualGear(gearJetpack)
+                    brainiak:runup(-700, -700)
 
                     after(1000, function()
                         brainiak:destroy()
-                        sounds:unloadPlayer(characterBrainiak)                        
                     end)
                 end)
             end,

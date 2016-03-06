@@ -293,8 +293,8 @@ end
 function ledge:activateTriggers(player, ignoreKeylock)
     -- By default dont allow triggers if the ledge is keylocked
     if not self.keylock or ignoreKeylock then
-        self:activateTriggerOn(self.triggerLedges)
-        self:activateTriggerOn(self.triggerObstacles)
+        self:activateTriggerOn(self.triggerLedgeIds,    "ledge")
+        self:activateTriggerOn(self.triggerObstacleIds, "obstacle")
 
         -- Only trigger custom events if the ledge is not locked (they will be linked) - important that trigger() is called first give the ledge a chance to unlock
         if self.triggerEvent and not self.locked then
@@ -307,15 +307,22 @@ end
 -- Activates triggers on the list of objects passed
 -- @param objects
 ----
-function ledge:activateTriggerOn(objects)
-    if objects then
-        local num = #objects
-
-        for i=1,num do
+function ledge:activateTriggerOn(ids, type)
+    if ids then
+        for _,id in pairs(ids) do
             local delay = 0
             if self.keylock then delay=1000 end
 
-            after(delay, function() objects[i]:trigger() end)
+            after(delay, function() 
+                local target = nil
+
+                if     type == "ledge"    then target = hud.level:getLedge(id)
+                elseif type == "obstacle" then target = hud.level:getObstacle(id) end
+
+                if target and target ~= -1 then
+                    target:trigger() 
+                end
+            end)
         end
     end
 end

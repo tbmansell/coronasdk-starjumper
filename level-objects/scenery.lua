@@ -72,10 +72,12 @@ function scenery:playerCollideWall(player)
     player.lastWallCollision = self.key
 
     after(1500, function()
-        local xvel, yvel = player:getForce()
-        if xvel == 0 and yvel == 0  and player.lastWallCollision == self.key and (player.mode == playerMissedDeath or player.mode == playerFall) then
-            player.lastWallCollision = nil
-            player:explode()
+        if player and player ~= 01 and player.inGame then
+            local xvel, yvel = player:getForce()
+            if xvel == 0 and yvel == 0  and player.lastWallCollision == self.key and (player.mode == playerMissedDeath or player.mode == playerFall) then
+                player.lastWallCollision = nil
+                player:explode()
+            end
         end
     end)
 

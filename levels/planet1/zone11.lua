@@ -144,7 +144,6 @@ local levelData = {
                 after(4500, function()
                     camera:setFocus(player.image)
                     brainiak:destroy()
-                    sounds:unloadPlayer(characterBrainiak)
                     hud:exitScript()
                 end)
 

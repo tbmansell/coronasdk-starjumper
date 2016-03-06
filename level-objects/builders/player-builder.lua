@@ -204,10 +204,13 @@ function playerBuilder:applyCharacterAbilities(player)
 
         function player:tapOtherLedge(ledge)
             if self.specialAbility > 0 then
-                hud.level:transformLedge(self.attachedLedge, ledge, function(success)
+                hud.level:transformLedge(self.attachedLedge, ledge, function(success, newLedge)
                     if success then
                         self.specialAbility = self.specialAbility - 1
                         self:sound("playerTeleport")
+
+                        self:emit("usegear-red", {xpos=self:x(), ypos=self:y()}, false)
+                        self:emit("usegear-red", {xpos=newLedge:x(), ypos=newLedge:y()}, false)
                     else
                         self:sound("shopCantBuy")
                     end
@@ -242,9 +245,13 @@ function playerBuilder:applyCharacterAbilities(player)
                     if self.goingBackward then xpos = ledge:rightEdge()-30 end
                     if ledge:isRotated()  then xpos = ledge:x() end
 
+                    self:emit("usegear-blue", {xpos=self:x(),  ypos=self:y()}, false)
+
                     self.attachedLedge:release(self)
                     self.mode = playerFall
                     self:moveTo(xpos, ledge:topEdge()-50)
+
+                    self:emit("usegear-blue", {xpos=self:x(), ypos=self:y()}, false)
                 end)
                 seq:tran({time=500, alpha=0})
                 seq.onComplete = function() warp:destroy() end

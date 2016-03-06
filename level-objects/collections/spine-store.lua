@@ -437,15 +437,15 @@ function spineStore:showGearFlame(camera, object, params)
 end
 
 
--- Requests to show a flash effect on he player
+-- Requests to show a flash effect on the player
 -- @param camera
--- @param player
+-- @param target
 ----
-function spineStore:showFlash(camera, player, size)
+function spineStore:showFlash(camera, target, size)
 	local effect = self:fetchObject(self.newEffectFlash, typeEffectsFlash, size)
 
 	if effect then
-		effect:moveTo(player:pos())
+		effect:moveTo(target:pos())
 		effect:visible()
 		effect:animate("stone")
 

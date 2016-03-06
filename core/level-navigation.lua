@@ -215,20 +215,22 @@ function newObjectsLoader:load(level)
     function level:transformLedge(fromLedge, targetLedge, resultCallback)
         if targetLedge.type ~= "start"  and 
            targetLedge.type ~= "finish" and 
-           targetLedge.isSpine and 
+           (targetLedge.isSpine or targetLedge.invisible) and 
            (targetLedge.id >= fromLedge.id-3 or targetLedge.id <= fromLedge.id+3) and
            not targetLedge.isMoving and
            not self.players:playerOnLedge(targetLedge)
         then
             local newLedge = hud.level:createLedge(targetLedge:clone())
-            newLedge.id    = targetLedge.id
-            newLedge.key   = targetLedge.key
+            
+            newLedge.id             = targetLedge.id
+            newLedge.key            = targetLedge.key.."_transformed"
             newLedge.zoneRouteIndex = ledge.zoneRouteIndex
+            newLedge.triggered      = true
 
             targetLedge:destroy()
-            resultCallback(true)
+            resultCallback(true, newLedge)
         else
-            resultCallback(false)
+            resultCallback(false, newLedge)
         end
     end
 
