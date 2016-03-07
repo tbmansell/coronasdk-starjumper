@@ -166,7 +166,7 @@ function scene:loadCharacters(event)
                 scene:createCharacter(data, centerX - data.xpos, data.ypos)
             end
             -- Show holograms for characters locked plus also the focus character as it will become unlocked
-            if data.hologram and not unlocked or (unlocked and state.cutsceneCharacter == model) then
+            if data.hologram and not unlocked or (scene.type == "character" and unlocked and state.cutsceneCharacter == model) then
                 scene:createHologram(data, centerX + data.hologram.xpos, data.hologram.ypos)
             end
         end

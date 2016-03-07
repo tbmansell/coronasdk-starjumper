@@ -41,6 +41,7 @@ local soundRanges = {
 	]]
 }
 
+-- Aliases:
 local soundList 	 = sounds
 local math_random 	 = math.random
 local play 			 = globalSoundPlayer
@@ -52,6 +53,7 @@ local getVolume		 = audio.getVolume
 local setMaxVolume 	 = audio.setMaxVolume
 local freeChannel 	 = audio.findFreeChannel
 local channelPlaying = audio.isChannelPlaying
+local format         = string.format
 
 
 ------------- LOCAL FUNCTIONS -----------------
@@ -173,7 +175,8 @@ end
 
 -- Play a level ambient background sound
 local function playBackground(params)
-	local delay = math_random(params.quietTime)
+	local delay = math_random(params.quietTime/10)*10
+
 	bgrAfter(delay, function()
 		local channel   = params.channel
 		local seekStart = math_random(params.length/2)
@@ -317,7 +320,7 @@ function engine:updateSounds()
 			elseif started then
 				-- if a sound is loaded with a set volume we dont vary it by distance
 				local suggestedVolume = getSoundRange(params.source)
-				local actualVolume    = tonumber(string.format("%.1f", getVolume({channel=channel})))
+				local actualVolume    = tonumber(format("%.1f", getVolume({channel=channel})))
 
 				-- if now out of range then remove Sound
 				if suggestedVolume == -1 then
