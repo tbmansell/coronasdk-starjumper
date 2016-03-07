@@ -149,7 +149,18 @@
 				"height": 300
 			}
 		},
-		
+		"Head - Gear Skin": {
+			"Head - Gear Skin": {
+				"name": "Brain Alien/Helmet",
+				"x": 90.09,
+				"y": -16.35,
+				"scaleX": 1.193,
+				"scaleY": 1.193,
+				"rotation": -82.79,
+				"width": 156,
+				"height": 219
+			}
+		},
 		"Leg Bottom Back": {
 			"Alien Leg Back BOTTOM": { "name": "Brain Alien/Leg Bottom Back", "x": 56.07, "y": -10.26, "rotation": 87.99, "width": 45, "height": 159 }
 		},
@@ -218,7 +229,9 @@
 				"height": 300
 			}
 		},
-		
+		"Head - Gear Skin": {
+			"Head - Gear Skin": { "name": "Brain Alien - Alt/Helmet", "rotation": -91.79, "width": 156, "height": 219 }
+		},
 		"Leg Bottom Back": {
 			"Alien Leg Back BOTTOM": { "name": "Brain Alien - Alt/Leg Bottom Back", "x": 56.07, "y": -10.26, "rotation": 87.99, "width": 45, "height": 159 }
 		},

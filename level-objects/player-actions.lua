@@ -257,6 +257,7 @@ function player:jump()
 
     self:createJumpActionTriggers()
     self:createJumpTrail()
+    self.jumpSnapshots = { x=self:x(), y=self:y() }
 end
 
 

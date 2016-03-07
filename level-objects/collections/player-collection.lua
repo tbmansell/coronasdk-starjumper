@@ -228,22 +228,45 @@ end
 -- @param player
 ----
 function playerCollection:checkUseGrappleHook(player, jumpedFrom)
-    local grappleRange = 300
+    --local grappleRange = 300
+    local grappleRange = 1300
     local px, py       = player:pos()
     local ledge, curX, curY, curSideX, curSideY = hud.level:getClosestLedgeAtPoint(px, py)
+
+    -- Record player y positions at key points
+    player.jumpSnapshots[#player.jumpSnapshots+1] = { x=px, y=py }
 
     if ledge and ledge.key ~= jumpedFrom.key then
         local xvel, yvel = player:getForce()
         local leftEdge, rightEdge, topEdge = ledge:leftEdge(), ledge:rightEdge(), ledge:topEdge()
 
+        print("ledge "..ledge.key.." topEdge="..topEdge)
+
+        -- Under ledge and within grapple range:
         if py > topEdge and ((py - topEdge) <= grappleRange) then
-            if xvel > 0 and px > rightEdge and (px - rightEdge) <= grappleRange then
-                player:useGrappleHook(ledge, right)
-            elseif xvel < 0 and px < leftEdge and (leftEdge - px) <= grappleRange then
-                player:useGrappleHook(ledge, left)
+            -- Check that player has been over the ledge at some point
+            local snaps = player.jumpSnapshots
+            local num   = #snaps
+            local valid = false
+
+            for i=1, num do
+                local pos = snaps[i]
+                print("player="..tostring(pos["y"]))
+                if pos.y < topEdge then
+                    print("VALID: "..pos.y.." < "..topEdge)
+                    valid = true
+                    break
+                end
+            end
+
+            if valid then
+                if xvel > 0 and px > rightEdge and (px - rightEdge) <= grappleRange then
+                    player:useGrappleHook(ledge, right)
+                elseif xvel < 0 and px < leftEdge and (leftEdge - px) <= grappleRange then
+                    player:useGrappleHook(ledge, left)
+                end
             end
         end
-
     end
 end
 
@@ -255,7 +278,7 @@ function playerCollection:drawGrappleHook(player)
     end
 
     local ledge   = player.grappleTarget
-    local playerY = player:y() - (player:height()/2)
+    local playerY = player:y() - 80
 
     if ledge and ledge.inGame then
         if player.grappleSide == right then

@@ -38,7 +38,7 @@ local levelData = {
 
         {object="ledge", x=-300, y=-190, size="small"},
             {object="enemy", type="stomach", x=-250, y=275, size=0.8, 
-                shooting={minWait=2, maxWait=4, velocity={varyX=50, varyY=10}, itemsMax=10, ammo={negDizzy, negTrajectory}},
+                shooting={minWait=2, maxWait=4, velocity={varyX=50, varyY=10}, itemsMax=3, ammo={negDizzy, negTrajectory}},
                 behaviour={mode=stateSleeping, awaken=3},
                 movement={pattern=movePatternVertical, distance=-500, speed=2, pause=1000, moveStyle=moveStyleSwayBig}
             },
@@ -60,7 +60,7 @@ local levelData = {
               
         {object="ledge", x=200, y=-150, size="medium3"},
             {object="enemy", type="stomach", x=400, y=-200, size=0.7, 
-                shooting={minWait=1, maxWait=3, velocity={varyX=200, varyY=100}, itemsMax=10, ammo={negDizzy, negTrajectory, negBooster}},
+                shooting={minWait=1, maxWait=3, velocity={varyX=200, varyY=100}, itemsMax=5, ammo={negDizzy, negTrajectory, negBooster}},
                 behaviour={mode=stateSleeping, awaken=2, range=6, atRange=stateResetting},
                 movement={pattern=movePatternFollow, followXOnly=true, speed=5, pause=1000, moveStyle="sway-small"}
             },

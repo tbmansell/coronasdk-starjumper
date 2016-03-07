@@ -261,8 +261,6 @@ end
 -- and the sound is uniquely identified by the sourceObject key plus the action name - as some source objects can produce multiple sounds at once
 -- Note: this also checks if the same action is running and aborts if so
 function engine:playManagedAction(sourceObject, actionName, params)
-	if sourceObject.isPlayer then print("playManagedAction actionName="..actionName) end
-
 	-- safety check so we can safely pass in nils without always having to check in the source object (more compact calling code)
 	if sourceObject and actionName and params and enabled then
 		local key     = sourceObject.key..":"..actionName
@@ -270,8 +268,6 @@ function engine:playManagedAction(sourceObject, actionName, params)
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
-			if sourceObject.isPlayer then print("playManagedAction "..actionName.." already in queue") end
-
 			return 0
 		end
 
@@ -288,15 +284,11 @@ function engine:playManagedAction(sourceObject, actionName, params)
 			--print("ADDED sound "..key.." channel="..params.channel.." duration="..params.duration)
 			soundQueue[queueId] = params
 			-- signal that the sound has just been added
-			if sourceObject.isPlayer then print("playManagedAction "..actionName.." ADDED channel="..params.channel) end
-
 			return 1
 		else
 			resetConstantSound(params)
 		end
 	end
-
-	if sourceObject.isPlayer then print("playManagedAction "..actionName.." could not be added") end
 
 	-- signal that the sound could not be added
 	return -1

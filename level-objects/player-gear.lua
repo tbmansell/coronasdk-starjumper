@@ -571,12 +571,13 @@ end
 
 
 function player:useGrappleHook(ledge, side)
-    local offsetX, offsetY = 0, -(ledge:height()/2)
+    local camera = self:getCamera()
+    local hookX, offsetX, offsetY = 0, 0, -(ledge:height()/2)
 
     if side == right then 
-        offsetX = ledge:width()/2
+        offsetX, hookX = ledge:width()/2, ledge:rightEdge()
     else
-        offsetX = -(ledge:width()/2)
+        offsetX, hookX = -(ledge:width()/2), ledge:leftEdge()
     end
 
     self.mode          = playerGrappling
@@ -584,8 +585,14 @@ function player:useGrappleHook(ledge, side)
     self.grappleTarget = ledge
     self.grappleSide   = side
 
-    --self:animate("Death JUMP "..(player.jumpType or "HIGH"))
-    self:animate("Powerup GRAPPLEHOOK")
+    self.skeleton:setAttachment("attachment-handfront-grapplegun",  nil)
+    self:changeDirection()
+    self:animate("Powerup GRAPPLEHOOK QUICK")
+
+    self.grappleHook = display.newImage("images/player/grapple-hook.png", hookX, ledge:topEdge())
+    self.grappleHook:scale(0.2, 0.2)
+    if side == right then self.grappleHook:scale(-1,1) end
+    camera:add(self.grappleHook, 2)
 
     local seq = anim:oustSeq("grappleHook", self.grappleJoint)
     seq:tran({maxLength=0, time=1000})
@@ -593,6 +600,10 @@ function player:useGrappleHook(ledge, side)
         if self.mode == playerGrappling then
             self.grappleJoint:removeSelf()
             self.grappleJoint = nil
+
+            camera:remove(self.grappleHook)
+            self.grappleHook:removeSelf()
+            self.grappleHook = nil
 
             self:moveBy(0, -20)
             self.mode = playerJump
