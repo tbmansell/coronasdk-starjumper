@@ -16,6 +16,7 @@ local playerCollection = {
 
 -- Aliases:
 local atan = math.atan
+local abs  = math.abs
 
 
 -- Checks the players movement: walking, running or landing correction
@@ -227,44 +228,31 @@ end
 -- Check if player has GrappleHook and has fallen passed a ledge to hook at the right distance to hook onto
 -- @param player
 ----
-function playerCollection:checkUseGrappleHook(player, jumpedFrom)
-    --local grappleRange = 300
-    local grappleRange = 1300
-    local px, py       = player:pos()
-    local ledge, curX, curY, curSideX, curSideY = hud.level:getClosestLedgeAtPoint(px, py)
+function playerCollection:checkUseGrappleHook(player, from)
+    local grappleRange   = 400
+    local px, py         = player:pos()
+    local ledge, _,_,_,_ = hud.level:getClosestLedgeAtPoint(px, py)
 
-    -- Record player y positions at key points
-    player.jumpSnapshots[#player.jumpSnapshots+1] = { x=px, y=py }
-
-    if ledge and ledge.key ~= jumpedFrom.key then
-        local xvel, yvel = player:getForce()
-        local leftEdge, rightEdge, topEdge = ledge:leftEdge(), ledge:rightEdge(), ledge:topEdge()
-
-        print("ledge "..ledge.key.." topEdge="..topEdge)
+    if ledge and ledge.key ~= from.key then
+        local toTop   = ledge:topEdge()
+        local fromTop = from:topEdge()
+        local distY   = abs(fromTop - toTop)
 
         -- Under ledge and within grapple range:
-        if py > topEdge and ((py - topEdge) <= grappleRange) then
-            -- Check that player has been over the ledge at some point
-            local snaps = player.jumpSnapshots
-            local num   = #snaps
-            local valid = false
+        if py > toTop and (py - toTop) <= grappleRange and distY < 250 then
+            
+            local xvel,     yvel      = player:getForce()
+            local toLeft,   toRight   = ledge:leftEdge(), ledge:rightEdge()
+            local fromLeft, fromRight = from:leftEdge(),  from:rightEdge()
+            local distX = 0
 
-            for i=1, num do
-                local pos = snaps[i]
-                print("player="..tostring(pos["y"]))
-                if pos.y < topEdge then
-                    print("VALID: "..pos.y.." < "..topEdge)
-                    valid = true
-                    break
-                end
-            end
+            if     xvel > 0 then distX = toLeft   - fromRight
+            elseif xvel < 0 then distX = fromLeft - toRight end
 
-            if valid then
-                if xvel > 0 and px > rightEdge and (px - rightEdge) <= grappleRange then
-                    player:useGrappleHook(ledge, right)
-                elseif xvel < 0 and px < leftEdge and (leftEdge - px) <= grappleRange then
-                    player:useGrappleHook(ledge, left)
-                end
+            if xvel > 0 and px > toRight and (px - toRight) <= grappleRange and distX > 100 then
+                player:useGrappleHook(ledge, right)
+            elseif xvel < 0 and px < toLeft and (toLeft - px) <= grappleRange and distX > 100 then
+                player:useGrappleHook(ledge, left)
             end
         end
     end

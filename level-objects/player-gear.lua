@@ -580,6 +580,8 @@ function player:useGrappleHook(ledge, side)
         offsetX, hookX = -(ledge:width()/2), ledge:leftEdge()
     end
 
+    self:sound("whoosh")
+
     self.mode          = playerGrappling
     self.grappleJoint  = physics.newJoint("rope", ledge.image, self.image, offsetX, offsetY)
     self.grappleTarget = ledge
@@ -591,37 +593,40 @@ function player:useGrappleHook(ledge, side)
 
     self.grappleHook = display.newImage("images/player/grapple-hook.png", hookX, ledge:topEdge())
     self.grappleHook:scale(0.2, 0.2)
+
     if side == right then self.grappleHook:scale(-1,1) end
     camera:add(self.grappleHook, 2)
 
     local seq = anim:oustSeq("grappleHook", self.grappleJoint)
     seq:tran({maxLength=0, time=1000})
-    seq.onComplete = function()
-        if self.mode == playerGrappling then
-            self.grappleJoint:removeSelf()
-            self.grappleJoint = nil
-
-            camera:remove(self.grappleHook)
-            self.grappleHook:removeSelf()
-            self.grappleHook = nil
-
-            self:moveBy(0, -20)
-            self.mode = playerJump
-
-            if self.grappleLine then
-                self.grappleLine:removeSelf()
-                self.grappleLine = nil
-            end
-
-            self.grappleTarget = nil
-        end
-    end
-
+    seq.onComplete = function() self:grappleHookComplete(camera) end
     seq:start()
+    
     self:destroyEmitter()
     hud:useUpGear(gearGrappleHook)
 end
 
+
+function player:grappleHookComplete(camera)
+    if self.mode == playerGrappling then
+        self.grappleJoint:removeSelf()
+        self.grappleJoint = nil
+
+        camera:remove(self.grappleHook)
+        self.grappleHook:removeSelf()
+        self.grappleHook = nil
+
+        self:moveBy(0, -20)
+        self.mode = playerJump
+
+        if self.grappleLine then
+            self.grappleLine:removeSelf()
+            self.grappleLine = nil
+        end
+
+        self.grappleTarget = nil
+    end
+end
 
 
 return player
