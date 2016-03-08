@@ -137,6 +137,24 @@ local scripts = {
 		},
 	},
 
+	["intro-planet2-zone7"] = {
+		forced   = true,
+		delay    = 1500,
+		sequence = {
+			{delay=1000, speaker=characterGygax, dir=right, text="Danger {player}! You've entered a gravity storm zone, which I can't get near to help you. Escape quick before it destroys the whole zone!", size="-big"},
+		},
+	},
+	["intro-planet2-zone14"] = {
+		forced   = true,
+		delay    = 1500,
+		condition = { characterNotIn={characterReneGrey} },
+		sequence = {
+			{delay=1000, speaker=characterGygax,    dir=right, text="Warning {player}, you've entered an asteroid field. My ship has taken a hit and I can't get to you. Hold on there is a transmission coming through...", size="-big"},
+			{delay=4000, speaker=characterReneGrey, dir=right, text="Space Jumper - this is ReneGrey. I'm in the zone and will try to guide you through. Zoom out your view to help dodge the falling asteroids. Watch out for me...", size="-big"},
+		},
+	},
+
+
 
 -- INGAME HELP --
 

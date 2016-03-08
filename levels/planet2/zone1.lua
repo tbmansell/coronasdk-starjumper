@@ -21,6 +21,12 @@ local levelData = {
                     {100, {object="scenery", layer=1, type="fg-debris-barrel-red", size={6, 8}} },
                 }
             },
+
+
+{object="enemy", type="greynapper", skin="ring-stealer", x=1500, y=200, size=0.4, theme="space",
+    movement={pattern=moveTemplateVertical, isTemplate=true, distance=50, reverse=true, speed=2, pause=3000, pauseStyle=moveStyleSwayBig, steering=steeringMild}
+},
+
         
         {object="obstacle", x=250, y=-100, timerOn=3000, timerOff=4000, type="electricgate"},
         

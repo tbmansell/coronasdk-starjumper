@@ -11,15 +11,6 @@ local levelData = {
         [bgrSky]   = {2, 1}
     },
 
-
-    --[[backgroundSounds = {
-        {sound=sounds.backgroundSoundWind1, quietTime=4000, minVolume=1, maxVolume=2},
-        {sound=sounds.backgroundSoundWind2, quietTime=7000, minVolume=1, maxVolume=2},
-        {sound=sounds.backgroundSoundWind3, quietTime=1000, minVolume=1, maxVolume=4},
-        {sound=sounds.backgroundSoundWind4, quietTime=2000, minVolume=1, maxVolume=4},
-        {sound=sounds.backgroundSoundWind5, quietTime=3000, minVolume=1, maxVolume=4},
-    },]]
-
     elements = {
         {object="ledge", type="start"},
 

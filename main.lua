@@ -47,7 +47,7 @@ sounds:loadRandom()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
-local mode       = "cut"
+local mode       = "play"
 
 
 -- game:   play the full game as normal from the title screen
@@ -61,7 +61,7 @@ if mode == "play" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
+	state.data.planetSelected = 2
 	state.data.zoneSelected   = 14
 	state.data.gameSelected   = gameTypeStory
 	storyboard:gotoScene("scenes.play-zone")
