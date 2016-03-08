@@ -115,13 +115,31 @@ sounds = {
     gearSpringshoes             = loadSound("sounds/gearSpringShoes_time1.wav"),
     gearTrajectory              = loadSound("sounds/gearTrajectory_time1.wav"),
     
-    -- Ambiant level background sounds:
-    backgroundSoundWind1        = loadSound("sounds/ambient/wind1_time40.wav"),
-    backgroundSoundWind2        = loadSound("sounds/ambient/wind2_time28.wav"),
-    backgroundSoundWind3        = loadSound("sounds/ambient/wind3_time24.wav"),
-    backgroundSoundWind4        = loadSound("sounds/ambient/wind4_time28.wav"),
-    backgroundSoundWind5        = loadSound("sounds/ambient/wind5_time40.wav"),
-    backgroundSoundLava1        = loadSound("sounds/ambient/lava1_time15.wav"),
+    -- Ambient level background sounds:
+    backgroundSoundWind1        = loadSound("sounds/ambient/nature/wind1_time40.mp3"),
+    backgroundSoundWind2        = loadSound("sounds/ambient/nature/wind2_time28.mp3"),
+    backgroundSoundWind3        = loadSound("sounds/ambient/nature/wind3_time24.mp3"),
+    backgroundSoundWind4        = loadSound("sounds/ambient/nature/wind4_time28.mp3"),
+    backgroundSoundWind5        = loadSound("sounds/ambient/nature/wind5_time40.mp3"),
+    backgroundSoundLava1        = loadSound("sounds/ambient/nature/lava1_time15.mp3"),
+
+    backgroundSoundBirds1       = loadSound("sounds/ambient/animals/birds1.mp3"),
+    backgroundSoundBirds2       = loadSound("sounds/ambient/animals/birds2.mp3"),
+    backgroundSoundBirds3       = loadSound("sounds/ambient/animals/birds3.mp3"),
+    backgroundSoundBirds4       = loadSound("sounds/ambient/animals/birds4.mp3"),
+    backgroundSoundCats1        = loadSound("sounds/ambient/animals/birds1.mp3"),
+    backgroundSoundCats2        = loadSound("sounds/ambient/animals/birds2.mp3"),
+    backgroundSoundCats3        = loadSound("sounds/ambient/animals/birds3.mp3"),
+
+    backgroundSoundSpace1       = loadSound("sounds/ambient/space/space1.mp3"),
+    backgroundSoundSpace2       = loadSound("sounds/ambient/space/space2.mp3"),
+    backgroundSoundSpace3       = loadSound("sounds/ambient/space/space3.mp3"),
+    backgroundSoundSpace4       = loadSound("sounds/ambient/space/space4.mp3"),
+    backgroundSoundSpace5       = loadSound("sounds/ambient/space/space5.mp3"),
+    backgroundSoundSpace6       = loadSound("sounds/ambient/space/space6.mp3"),
+    backgroundSoundSpace7       = loadSound("sounds/ambient/space/space7.mp3"),
+    backgroundSoundSpace8       = loadSound("sounds/ambient/space/space8.mp3"),
+    backgroundSoundSpace9       = loadSound("sounds/ambient/space/space9.mp3"),
 
     -- Ledges:
     ledgeCollapsingActivated    = loadSound("sounds/elements/ledgeCollapsingActivated_time4.wav"),
@@ -141,7 +159,7 @@ sounds = {
     rocketActive                = loadSound("sounds/gearJetpack_time3.wav"),
 
     -- Ledges & Obstacles
-    electricActivated           = loadSound("sounds/elements/electricActivated_time23.wav"),    
+    electricActivated           = loadSound("sounds/elements/electricActivated_time23.wav"),
 
     -- Friends common:
     friendBossActive            = loadSound("sounds/elements/friendBossActive_time16.mp3"),

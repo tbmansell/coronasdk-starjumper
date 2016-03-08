@@ -175,7 +175,11 @@ end
 
 -- Play a level ambient background sound
 local function playBackground(params)
-	local delay = math_random(params.quietTime/10)*10
+	local delay = 0 
+
+	if params.quietTime >= 1000 then
+		delay = math_random(params.quietTime/10)*10
+	end
 
 	bgrAfter(delay, function()
 		local channel   = params.channel
