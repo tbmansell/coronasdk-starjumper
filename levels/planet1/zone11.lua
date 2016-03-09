@@ -55,9 +55,8 @@ local levelData = {
             {object="spike", x=200,  y=120,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
 
         {object="ledge", x=300, y=-150, size="medium", targetName="tempLedge"},
-            {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak"},
+            {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak", storyModeOnly=true},
 
-        --{object="ledge", x=1400, y=50, size="big"},
         {object="ledge", x=905, y=200, size="big"},
 
         {object="ledge", x=250, y=150, size="small2"},
@@ -109,6 +108,9 @@ local levelData = {
         -- Brainiak: taunts player next to rock trap before it collapse then runs off
     customEvents = {
         ["brainiakTrap"] = {
+            conditions   = {
+                storyMode = true,
+            },
             delay        = 1000,
             freezePlayer = true,
             action       = function(camera, player, source)

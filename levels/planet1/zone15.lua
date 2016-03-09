@@ -60,7 +60,7 @@ local levelData = {
 
         -- rock fall between ledges
         {object="ledge", x=450, y=0, size="big2"},
-            {object="player", type="scripted", model=characterBrainiak, x=-140, y=0, direction=left, targetName="brainiak"},
+            {object="player", type="scripted", model=characterBrainiak, x=-140, y=0, direction=left, targetName="brainiak", storyModeOnly=true},
 
             {object="scenery", x=-130, y=-105, type="fg-foilage-3-green", layer=2, size=0.4, copy=5, gap=-30, onLedge=true},
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=150, yforce=150, arc=65, num=5}},
@@ -123,6 +123,9 @@ local levelData = {
     -- Brainiak: taunts player next to rock trap before it collapse then runs off
     customEvents = {
         ["brainiakTrap"] = {
+            conditions   = {
+                storyMode = true,
+            },
             delay        = 500,
             freezePlayer = true,
             action       = function(camera, player, source)

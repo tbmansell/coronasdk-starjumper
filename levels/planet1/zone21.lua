@@ -21,17 +21,17 @@ local levelData = {
         -- AI start
         {object="ledge", x=300, y=-50},
             
-            {object="player", type="ai", model=characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15,
+            {object="player", type="ai", model=characterBrainiak, targetName="brainiak", direction=left, waitingTimer=15, storyModeOnly=true,
                 personality={ waitFromLand=1, waitForJump=1, waitFromAttack=3, reposition=30, attackPlayer=true }
             },
 
-            {object="enemy", type="brain", x=-550, y=-250, size=0.5, color="Purple", spineDelay=250, alpha=0, targetName="startBrain1", behaviour={mode=stateSleeping},
+            {object="enemy", type="brain", x=-550, y=-250, size=0.5, color="Purple", spineDelay=250, alpha=0, targetName="startBrain1", behaviour={mode=stateSleeping}, storyModeOnly=true,
                 movement={pattern=movePatternVertical, distance=200, speed=0.2, moveStyle=moveStyleSway }
             },
-            {object="enemy", type="brain", x=-280, y=-215, size=0.45, color="Purple", spineDelay=500, alpha=0, targetName="startBrain2", behaviour={mode=stateSleeping},
+            {object="enemy", type="brain", x=-280, y=-215, size=0.45, color="Purple", spineDelay=500, alpha=0, targetName="startBrain2", behaviour={mode=stateSleeping}, storyModeOnly=true,
                 movement={pattern=movePatternVertical, distance=250, speed=1.2, moveStyle=moveStyleSwaySmall }
             },
-            {object="enemy", type="brain", x=150, y=250, size=0.4, color="Blue", spineDelay=750, alpha=0, targetName="startBrain3", behaviour={mode=stateSleeping},
+            {object="enemy", type="brain", x=150, y=250, size=0.4, color="Blue", spineDelay=750, alpha=0, targetName="startBrain3", behaviour={mode=stateSleeping}, storyModeOnly=true,
                 movement={pattern=movePatternVertical, distance=-350, speed=1.5, moveStyle=moveStyleSwayBig }
             },
 
@@ -151,7 +151,7 @@ local levelData = {
             {object="spike", x=400, y=-620, type="fg-spikes-float-2", size=0.75, rotation=180, physics={shapeOffset={left=30, right=-30, top=10}}, flip="x"  },
         
         {object="ledge", x=500, y=0, type="finish"},
-            {object="player", type="scripted", x=-200, y=0, model=characterSkyanna, direction=left, animation="Seated", targetName="skyanna"},
+            {object="player", type="scripted", x=-200, y=0, model=characterSkyanna, direction=left, animation="Seated", targetName="skyanna", storyModeOnly=true},
             {object="enemy",  type="brain",    x=-320, y=-200, size=0.35, color="Purple", spineDelay=300, targetName="henchman1"},
             {object="enemy",  type="brain",    x=-100, y=-200, size=0.35, color="Blue",   spineDelay=600, targetName="henchman2"},
     },
@@ -160,6 +160,7 @@ local levelData = {
         -- Whizzes to skyanna and back, then brainiak summons 3 brains
         ["intro"] = {
             conditions   = {
+                storyMode = true,
                 zoneStart = true,
             },
             delay        = 1000,
@@ -208,6 +209,9 @@ local levelData = {
         },
         -- Brainiak awakens the giant brain
         ["awakenGiant"] = {
+            conditions  = {
+                storyMode = true,
+            },
             freezePlayer = true,
             action       = function(camera, player, source)
                 local player   = hud.player -- do this as if AI jumps on the ledge, they become the player loaded in
@@ -228,6 +232,7 @@ local levelData = {
         -- Brainiak arrives on the ledge first and the henchmen eat skyanna
         ["brainiakWins"] = {
             conditions = {
+                storyMode  = true,
                 zoneFinish = true,
                 player     = characterBrainiak
             },
@@ -258,6 +263,7 @@ local levelData = {
         },
         ["playerWins"] = {
             conditions = {
+                storyMode  = true,
                 zoneFinish = true,
                 player     = "main"
             },

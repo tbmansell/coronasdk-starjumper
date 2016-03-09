@@ -34,7 +34,7 @@ local levelData = {
         {object="ledge", x=360, y=-175, size="medium2"},
 
         {object="ledge", x=-300, y=-300, size="medium"},
-            {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak"},
+            {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak", storyModeOnly=true},
 
             {object="scenery", x=-50, y=-97, type="fg-foilage-3-yellow", layer=2, onLedge=true},
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=180, yforce=75, arc=50, num=3}},
@@ -96,6 +96,7 @@ local levelData = {
     customEvents = {
         ["introduceBrainiak"] = {
             conditions   = {
+                storyMode = true,
                 zoneStart = true,
             },
             delay        = 1000,

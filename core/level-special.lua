@@ -569,20 +569,28 @@ function newObjectsLoader:load(level)
 
     function level:eventConditionsMet(event, player)
         if event.conditions then
-            for name,condition in pairs(event.conditions) do
-                if name == "keys" then
+            for name, condition in pairs(event.conditions) do
+                if name == "storyMode" then
+                    -- only played in story mode
+                    if state.data.gameSelected ~= gameTypeStory then 
+                        return false
+                    end
+                elseif name == "keys" then
+                    -- player must have key colors collected in condition
                     for _,color in pairs(condition) do
                         if not player:hasUnlocked(color) then
                             return false
                         end
                     end
                 elseif name == "zoneFinish" then
+                    -- game has not finished yet
                     local mode = state.data.game
 
                     if mode == levelOverFailed or mode == levelOverComplete then
                         return false
                     end
                 elseif name == "player" then
+                    -- player is main or not a listed model in condition
                     if condition == "main" then
                         if not player.main then
                             return false
