@@ -602,6 +602,7 @@ end
 function scene:exitToPlanetProgress()
     play(sounds.sceneEnter)
     storyboard:gotoScene("scenes.progress")
+    return true
 end
 
 

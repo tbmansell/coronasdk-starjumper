@@ -47,9 +47,7 @@ function scene:enterScene(event)
     self:displayHud()
     self:summary()
 
-    --after(250, function()
-        Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    --end)
+    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
 end
 
 
