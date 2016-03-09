@@ -452,16 +452,18 @@ function scene:createZoneCompletedInfo(zone, zoneData)
         local i = 1
 
         for key,data in pairs(zone.state.fuzzies) do
-            local item  = {object="friend", type="fuzzy", x=0, y=0, color=data.color, kinetic=data.kinetic, direction=data.direction}
-            local fuzzy = friendBuilder:newFriend(camera, item, 390+((i-1)*50), 325)
+            local item  = {object="friend", type="fuzzy", x=0, y=0, size=0.45, color=data.color, kinetic=data.kinetic, direction=data.direction}
+            local fuzzy = friendBuilder:newFriend(camera, item, 370+((i-1)*50), 310)
+            fuzzy.key   = key.."_collected"   -- needs to differ from keys in zone-select background sene
+
             group:insert(fuzzy.image)
             spineCollection:add(fuzzy)
             self.popupSpineObjects[i] = fuzzy
-            i=i+1
+            i = i + 1
         end
 
         for i=i, self:getNumberFuzzies(zoneData) do
-            new_image(group, "select-zone/fuzzy-shadow", 410+((i-1)*50), 310)
+            new_image(group, "select-zone/fuzzy-shadow", 370+((i-1)*50), 300)
         end
     end
 end

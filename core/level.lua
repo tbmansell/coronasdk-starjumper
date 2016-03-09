@@ -324,7 +324,7 @@ function level:createElementsFromData(source, jumpObject)
 
             if     objectType == "ledge"         then jumpObject = self:createLedge(item,       jumpObject, zoneState)
             elseif objectType == "obstacle"      then jumpObject = self:createObstacle(item,    jumpObject)
-            elseif objectType == "enemy"         then element    = self:createEnemy(item,       jumpObject)
+            elseif objectType == "enemy"         then element    = self:createEnemy(item,       jumpObject, zoneState)
             elseif objectType == "friend"        then element    = self:createFriend(item,      jumpObject, zoneState)
             elseif objectType == "emitter"       then element    = self:createEmitter(item,     jumpObject)
             elseif objectType == "player"        then element    = self:createPlayer(item,      jumpObject)
@@ -411,7 +411,7 @@ function level:createObstacle(item, jumpObject)
 end
 
 
-function level:createEnemy(item, jumpObject)
+function level:createEnemy(item, jumpObject, zoneState)
     item.theme = item.theme or self.data.defaultTheme
 
     local x, y = 0, 0
@@ -420,8 +420,11 @@ function level:createEnemy(item, jumpObject)
     local enemy = enemyBuilder:newEnemy(camera, item, x, y, jumpObject)
 
     if enemy then
-        enemyCollection:add(enemy)
-        hasEnemies = true
+        if enemyCollection:add(enemy, zoneState) then
+            hasEnemies = true
+        else 
+            return nil
+        end
     end
 
     return enemy

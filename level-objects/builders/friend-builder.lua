@@ -23,6 +23,8 @@ local friendBuilder = {
 function friendBuilder:newFriendCollection(spineCollection, movementCollection, particleEmitterCollection)
     local coll = builder:newMasterCollection("friends", spineCollection, movementCollection, particleEmitterCollection)
 
+    coll.baseAdd = coll.add
+    
     builder:deepCopy(friendCollection, coll)
 
     coll.fuzziesAvailable = {}

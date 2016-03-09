@@ -61,10 +61,10 @@ if mode == "play" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 13
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 3
 	state.data.gameSelected   = gameTypeStory
-	storyboard:gotoScene("scenes.play-zone")
+	storyboard:gotoScene("scenes.select-zone")
 
 elseif mode == "cut" then
 	state.cutsceneStory       = "cutscene-character-intro"

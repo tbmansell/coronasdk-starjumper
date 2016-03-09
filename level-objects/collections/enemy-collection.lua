@@ -2,6 +2,7 @@
 local enemyCollection = {
     -- Methods:
     -----------
+    -- +add()
     -- reset()
     -- stopAnimations()
     -- checkBehaviourChange()
@@ -13,6 +14,26 @@ local enemyCollection = {
 ----
 local function validObject(object)
     return object and object ~= -1 and object.image
+end
+
+
+-- Replaces masterCollection.add() to add a friend optionally based on if they have collected a friend before
+-- @param friend    - to add
+-- @param zoneState - optional state data for previous run on a zone (so we assign prev score)
+----
+function enemyCollection:add(enemy, zoneState)
+    -- increment fuzzy-napper ID before adding so we can check if its already been collected
+    if enemy.type == "greynapper" and enemy.skin == "fuzzy-napper" then
+        enemy:generateKey(#self.items + 1)
+
+        -- Check if this fuzzy-napper has already been collected on the current level and exit if so (but still allow incrementing self.amount for the next one)
+        if self:collectedItem(enemy, zoneState, "fuzzies") then
+            return false
+        end
+    end
+
+    self:baseAdd(enemy)
+    return true
 end
 
 

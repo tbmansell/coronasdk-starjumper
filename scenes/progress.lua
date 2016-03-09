@@ -47,7 +47,9 @@ function scene:enterScene(event)
     self:displayHud()
     self:summary()
 
-    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    --after(250, function()
+        Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    --end)
 end
 
 
@@ -305,9 +307,11 @@ function scene:exitScene(event)
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
     anim:destroy()
 
-    self.tip:removeInOutTransition()
-    self.tip:removeSelf()
-    self.tip = nil
+    if self.tip then
+        self.tip:removeInOutTransition()
+        self.tip:removeSelf()
+        self.tip = nil
+    end
 
     self.planetSpec = nil
 end

@@ -30,6 +30,8 @@ local enemyBuilder = {
 function enemyBuilder:newEnemyCollection(spineCollection, movementCollection, particleEmitterCollection)
     local coll = builder:newMasterCollection("enemies", spineCollection, movementCollection, particleEmitterCollection)
 
+    coll.baseAdd = coll.add
+
     builder:deepCopy(enemyCollection, coll)
     
     return coll
@@ -293,30 +295,34 @@ function enemyBuilder:newEnemyGreyNapper(camera, spec, x, y, jumpObject)
             self:loop("Fly-off")
             self:showFlame()
 
-            after(50, function()
-                physics.removeBody(self.image)
-                physics.addBody(self.image, "dynamic", {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true})
-                
-                local xvel = -200
-                if self.direction == right then xvel = 200 end
-
-                self:setGravity(0)
-                self:applyForce(xvel,-200)
-
-                if self.skin == "ring-stealer" then
-                    hud.level:generateRing(object:x(), object:y(), pink)
-                elseif self.skin == "fuzzy-napper" then
-                    hud.level:generateFuzzy(object:x(), object:y(), "White")
-                end
-
-                after(3000, function()
-                    if self.inGame then
-                        spineStore:hideGearFlame(self:getCamera(), self)
-                        self:destroy()
-                    end
-                end)
-            end)
+            after(50, function() self:dissapearAndGenerate(object) end)
         end
+    end
+
+    function enemy:dissapearAndGenerate(object)
+        physics.removeBody(self.image)
+        physics.addBody(self.image, "dynamic", {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true})
+        
+        local xvel = -200
+        if self.direction == right then xvel = 200 end
+
+        self:setGravity(0)
+        self:applyForce(xvel,-200)
+
+        if self.skin == "ring-stealer" then
+            hud.level:generateRing(object:x(), object:y(), pink)
+        elseif self.skin == "fuzzy-napper" then
+            -- Use same key as the napper - so that we can check if we should load the napper on a later revist to the zone it was collected in
+            local fuzzy = hud.level:generateFuzzy(object:x(), object:y(), "White")
+            fuzzy.key   = self.key
+        end
+
+        after(3000, function()
+            if self.inGame then
+                spineStore:hideGearFlame(self:getCamera(), self)
+                self:destroy()
+            end
+        end)
     end
 
     self:setupCommonEnemy(camera, spec, x, y, jumpObject, enemy)

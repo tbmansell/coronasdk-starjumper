@@ -16,6 +16,7 @@ local masterCollection = {
 	-- addToSpineCollection()
 	-- addToMovementCollection()
 	-- addToParticleEmitterCollection()
+	-- collectedItem()
 	-- *remove()
 	-- +clear()
 	-- +destroy()
@@ -83,6 +84,28 @@ function masterCollection:addToParticleEmitterCollection(object)
 	if object.boundEmitter then
 		self.particleEmitterCollection:add(object)
 	end
+end
+
+
+-- Checks if the items has been collected by a previous run of the zone, by seeing it it appears in the zoneState collection
+-- @param item
+-- @param zoneState
+-- @param collectedName
+-- @return true if item collected by matching its key
+----
+function masterCollection:collectedItem(item, zoneState, collectedName)
+    -- Check if this fuzzy has already been collected on the current level and exit if so (but still allow incrementing self.amount for the next one)
+    if zoneState and zoneState[collectedName] and state.demoActions == nil then
+        for key,data in pairs(zoneState[collectedName]) do
+            if key == item.key then
+                -- Add a dummy entry to the collection to keep the id the same for further fuzzies
+                item:destroy()
+                self.items[#self.items+1] = -1
+                return true
+            end
+        end
+    end
+    return false
 end
 
 

@@ -6,7 +6,7 @@ local friendCollection = {
 
     -- Methods:
     -----------
-    -- !add()
+    -- +add()
     -- tallyFuzzies()
     -- numberFuzzies()
     -- reset()
@@ -29,23 +29,14 @@ function friendCollection:add(friend, zoneState)
     -- increment fuzzy ID before adding so we can check if its already been collected
     if friend.isFuzzy then
         friend:generateKey(#self.items + 1)
-    end
 
-    -- Check if this fuzzy has already been collected on the current level and exit if so (but still allow incrementing self.amount for the next one)
-    if zoneState and zoneState.fuzzies and state.demoActions == nil then
-        for key,data in pairs(zoneState.fuzzies) do
-            if key == friend.key then
-                -- Add a dummy entry to the collection to keep the id the same for further fuzzies
-                friend:destroy()
-                self.items[#self.items+1] = -1
-                return false
-            end
+        -- Check if this fuzzy has already been collected on the current level and exit if so (but still allow incrementing self.amount for the next one)
+        if self:collectedItem(friend, zoneState, "fuzzies") then
+            return false
         end
     end
 
-    self:addToMaster(friend)
-    self:addToSpineCollection(friend)
-    self:addToMovementCollection(friend)
+    self:baseAdd(friend)
     self:tallyFuzzies(friend)
     return true
 end

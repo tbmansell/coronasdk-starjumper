@@ -143,6 +143,7 @@ end
 
 -- Displays the common menu hud
 function newMenuHud(group, spineStore, tapCubeCallback, tapScoreCallback)
+    print("newMenuHud playerModel="..tostring(state.data.playerModel))
     local game       = state.data.gameSelected    
     local playerName = characterData[state.data.playerModel].name
     local bgr        = newImage(group, "hud/menu-hud", centerX, 562)
