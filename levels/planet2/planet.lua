@@ -88,9 +88,8 @@ local planetData = {
 
     -- Background sounds
     backgroundSounds = {
-        {sound=sounds.backgroundSoundSpace7, quietTime=0, minVolume=5, maxVolume=10},
-        {sound=sounds.backgroundSoundSpace8, quietTime=0, minVolume=5, maxVolume=10},
-        {sound=sounds.backgroundSoundSpace9, quietTime=0, minVolume=5, maxVolume=10},
+        {name="space/space1", quietTime=0, minVolume=2, maxVolume=5},
+        {name="space/space2", quietTime=0, minVolume=2, maxVolume=5},
     },
 
     -- Scenery element definitions
@@ -121,99 +120,6 @@ local planetData = {
     -- Characters active in this planets space race game
     spaceRace = {
         playerModel = characterNewton,
-
-        ai = {
-            [1] = {
-                skin          = "Green Space Man",
-                model         = characterNewton,
-                direction     = right,
-                startLedge    = 1,
-                lives         = 9999,
-                waitingTimer  = 17,           -- 4 seconds before AI starts
-                personality   = {
-                    waitFromLand      = 0,    -- seconds to wait from landing, before performing next action (jump)
-                    waitForJump       = 3,    -- seconds to wait in drag mode before they jump (simulating working out jump)
-                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
-                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
-                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
-                    traps = {                 -- traps AI has to throw (currently infinite)
-                        [50]=negTrajectory, [100]=negDizzy
-                    },
-                },
-            },
-            [2] = {
-                skin          = "Female  Alien",
-                model         = characterSkyanna,
-                direction     = right,
-                startLedge    = 1,
-                lives         = 9999,
-                waitingTimer  = 17,           -- 4 seconds before AI starts
-                personality   = {
-                    waitFromLand      = 0.5,  -- seconds to wait from landing, before performing next action (jump)
-                    waitForJump       = 2,    -- seconds to wait in drag mode before they jump (simulating working out jump)
-                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
-                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
-                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
-                    traps = {                 -- traps AI has to throw (currently infinite)
-                        [50]=negTrajectory, [100]=negDizzy
-                    },
-                },
-            },
-            [3] = {
-                skin          = "Muscle Alien",
-                model         = characterHammer,
-                direction     = right,
-                startLedge    = 1,
-                lives         = 9999,
-                waitingTimer  = 16,           -- 4 seconds before AI starts
-                personality   = {
-                    waitFromLand      = 1,    -- seconds to wait from landing, before performing next action (jump)
-                    waitForJump       = 2,    -- seconds to wait in drag mode before they jump (simulating working out jump)
-                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
-                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
-                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
-                    traps = {                 -- traps AI has to throw (currently infinite)
-                        [50]=negTrajectory, [100]=negDizzy
-                    },
-                },
-            },
-            [4] = {
-                skin          = "Brain Enemy",
-                model         = characterBrainiak,
-                direction     = right,
-                startLedge    = 1,
-                lives         = 9999,
-                waitingTimer  = 16,           -- 4 seconds before AI starts
-                personality   = {
-                    waitFromLand      = 2,    -- seconds to wait from landing, before performing next action (jump)
-                    waitForJump       = 1,    -- seconds to wait in drag mode before they jump (simulating working out jump)
-                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
-                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
-                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
-                    traps = {                 -- traps AI has to throw (currently infinite)
-                        [50]=negTrajectory, [100]=negDizzy
-                    },
-                },
-            },
-            [5] = {
-                skin          = "Grey Enemy",
-                model         = characterEarlGrey,
-                direction     = right,
-                startLedge    = 1,
-                lives         = 9999,
-                waitingTimer  = 16,           -- 4 seconds before AI starts
-                personality   = {
-                    waitFromLand      = 3,    -- seconds to wait from landing, before performing next action (jump)
-                    waitForJump       = 0,    -- seconds to wait in drag mode before they jump (simulating working out jump)
-                    reposition        = 30,   -- distance they will reposition themselves on a ledge by
-                    dropTrapOnCatchup = true, -- will throw a trap on current ledge when it wait for player to cathup, just before it runs off again
-                    tauntOnCatchup    = true, -- will perform taunt animation while waiting for player
-                    traps = {                 -- traps AI has to throw (currently infinite)
-                        [50]=negTrajectory, [100]=negDizzy
-                    },
-                },
-            },
-        },
     },
 }
 

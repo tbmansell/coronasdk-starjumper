@@ -241,6 +241,8 @@ function scene:loadGame()
     end
     
     soundEngine:setup()
+    soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
+    
     hud:create(camera, player, level, scene.pauseLevel, scene.resumeLevel)
 end
 
@@ -446,7 +448,7 @@ function scene:startPlaying(player)
     player.startLedge:bind(player)
     player:stand()
 
-    soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
+    --soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
     level:startConstantSounds()
     level:startCustomEvents()
 
@@ -693,7 +695,7 @@ function scene:unloadLevel()
     level:destroy()
     soundEngine:destroy()
     hud:destroy()
-    netHud:destroy()
+    --netHud:destroy()
     camera:destroy()
 
     if levelGenerator then levelGenerator:destroy() end

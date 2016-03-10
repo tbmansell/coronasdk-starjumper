@@ -38,7 +38,7 @@ sounds:loadRandomSounds()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
-local mode       = "game"
+local mode       = "play"
 
 
 -- game:   play the full game as normal from the title screen

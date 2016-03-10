@@ -44,8 +44,8 @@ local sounds = {
     greysTalking = {},
     playerFalls  = {},
 
-    -- In-game ambiant background sounds
-    ambient      = {},
+    -- In-game ambiant background sounds: sound handler indexed by sound name
+    ambient = {},
 }
 
 
@@ -282,19 +282,39 @@ function sounds:unloadEnemySounds(planet)
 end
 
 
-function sounds:loadMenuSounds()
+-- Special function that checks if each ambient sound is already loaded and if so doesnt reload it, or if not unloads it
+-- @param soundList - name of sounds to be loaded - gets edited with sound handler
+----
+function sounds:replaceAmbientSounds(soundList)
+    local names = {}
 
+    -- loop through existing sounds
+    for i=1,#soundList do
+        local spec   = soundList[i]
+        local name   = spec.name
+        local loaded = self.ambient[name]
+
+        if loaded == nil then
+            -- sound not currently loaded
+            spec.sound = loadSound("sounds/ambient/"..name..".mp3")
+            self.ambient[name] = spec.sound
+        else
+            spec.sound = loaded
+        end
+
+        -- create an easy list of sound names to check against to avoi a for loop
+        names[#names+1] = name
+    end
+
+    -- found existing loaded sounds no longer needed
+    for name,sound in pairs(self.ambient) do
+        if table.indexOf(names, name) == nil then
+            unloadSound(sound)
+            self.ambient[name] = nil
+        end
+    end
 end
 
-
-function sounds:loadMenuSounds()
-
-end
-
-
-function sounds:loadMenuSounds()
-
-end
 
 ------------------ RANDOM GROUP SOUNDS ----------------------
 

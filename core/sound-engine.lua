@@ -434,13 +434,14 @@ end
 
 
 -- Loads in the ambiant sounds for a zone and keep them playing
-function engine:loadBackgroundSounds(spec)
-	reservedChannels = #spec
+function engine:loadBackgroundSounds(soundList)
+	sounds:replaceAmbientSounds(soundList)
+
+	reservedChannels = #soundList
 	audio.reserveChannels(reservedChannels)
 
 	for i=1, reservedChannels do
-		local params = spec[i]
-
+		local params   = soundList[i]
 		params.channel = i
 		params.length  = audio.getDuration(params.sound)/2
 		params.fadein  = 2000

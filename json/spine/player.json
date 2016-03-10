@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "IUOa3LLO1DC34vwkdufvfWDs8QA", "spine": "2.1.27", "width": 264.85, "height": 550.85, "images": "" },
+"skeleton": { "hash": "V9KxH1hmq6mNbciZUM/UbR/3tvw", "spine": "2.1.27", "width": 297.93, "height": 673.01, "images": "" },
 "bones": [
 	{ "name": "root", "color": "080808ff" },
 	{ "name": "Pelvis", "parent": "root", "x": -10.43, "y": 302.74 },
@@ -40,7 +40,7 @@
 	{ "name": "Leg Top Front", "bone": "FRONT Leg Top", "attachment": "Alien Leg TOP" },
 	{ "name": "Head", "bone": "Head", "attachment": "Alien Head Default" },
 	{ "name": "Back Attachment", "bone": "Back - POWER UP", "attachment": "attachment-parachute" },
-	{ "name": "Head - Gear Skin", "bone": "Head - Gear" },
+	{ "name": "Head - Gear Skin", "bone": "Head - Gear", "attachment": "Head - Gear Skin" },
 	{ "name": "Arm Top Front", "bone": "FRONT Arm Top", "attachment": "Alien Arm Top FRONT" },
 	{ "name": "Arm bottom Front", "bone": "FRONT Arm Bottom", "attachment": "Alien Arm Bottom FRONT" },
 	{ "name": "Hand", "bone": "FRONT Arm Hand", "attachment": "Alien Hand FRONT" },
@@ -230,7 +230,16 @@
 			}
 		},
 		"Head - Gear Skin": {
-			"Head - Gear Skin": { "name": "Brain Alien - Alt/Helmet", "rotation": -91.79, "width": 156, "height": 219 }
+			"Head - Gear Skin": {
+				"name": "Brain Alien - Alt/Helmet",
+				"x": 90.09,
+				"y": -16.35,
+				"scaleX": 1.193,
+				"scaleY": 1.193,
+				"rotation": -82.79,
+				"width": 156,
+				"height": 219
+			}
 		},
 		"Leg Bottom Back": {
 			"Alien Leg Back BOTTOM": { "name": "Brain Alien - Alt/Leg Bottom Back", "x": 56.07, "y": -10.26, "rotation": 87.99, "width": 45, "height": 159 }
