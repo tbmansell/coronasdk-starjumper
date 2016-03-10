@@ -321,7 +321,6 @@ end
 
 
 function hud:collect(item)
-    print("hud.collect")
     if     item.isRing      then self:collectRing(item)
     elseif item.isFuzzy     then self:collectFuzzy(item)
     elseif item.isGear      then self:collectGear(item)

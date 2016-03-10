@@ -53,9 +53,9 @@ if mode == "play" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 8
+	state.data.zoneSelected   = 5
 	state.data.gameSelected   = gameTypeStory
-	storyboard:gotoScene("scenes.play-zone")
+	storyboard:gotoScene("scenes.select-zone")
 
 elseif mode == "cut" then
 	state.data.planetSelected = 2

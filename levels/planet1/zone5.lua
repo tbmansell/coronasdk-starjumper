@@ -104,8 +104,6 @@ local levelData = {
             action       = function(camera, player, source)
                 local brainiak = hud:getTarget("player", "brainiak")
 
-                sounds:loadPlayer(characterBrainiak)
-
                 camera:setFocus(brainiak.image)
                 brainiak:readyJump()
 

@@ -119,8 +119,6 @@ local levelData = {
                 local ledgeTemp  = hud:getTarget("ledge",  "tempLedge")
                 local bomb       = nil
 
-                sounds:loadPlayer(characterBrainiak)
-
                 camera:setFocus(ledgeFocus.image)
                 camera:setFocusOffsetX(50)
                 

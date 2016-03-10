@@ -71,36 +71,9 @@ function sounds:loadStaticSounds()
     self:loadPlayerActionSounds()
     self:loadGearSounds()
     self:loadLedgeAndObstacles()
+    -- TODO: add system to only load one planets sounds at a time
     self:loadEnemySounds(1)
     self:loadEnemySounds(2)
-    
-    -- Ambient level background sounds:
-    --[[
-    backgroundSoundWind1        = loadSound("sounds/ambient/nature/wind1_time40.mp3"),
-    backgroundSoundWind2        = loadSound("sounds/ambient/nature/wind2_time28.mp3"),
-    backgroundSoundWind3        = loadSound("sounds/ambient/nature/wind3_time24.mp3"),
-    backgroundSoundWind4        = loadSound("sounds/ambient/nature/wind4_time28.mp3"),
-    backgroundSoundWind5        = loadSound("sounds/ambient/nature/wind5_time40.mp3"),
-    backgroundSoundLava1        = loadSound("sounds/ambient/nature/lava1_time15.mp3"),
-
-    backgroundSoundBirds1       = loadSound("sounds/ambient/animals/birds1.mp3"),
-    backgroundSoundBirds2       = loadSound("sounds/ambient/animals/birds2.mp3"),
-    backgroundSoundBirds3       = loadSound("sounds/ambient/animals/birds3.mp3"),
-    backgroundSoundBirds4       = loadSound("sounds/ambient/animals/birds4.mp3"),
-    backgroundSoundCats1        = loadSound("sounds/ambient/animals/birds1.mp3"),
-    backgroundSoundCats2        = loadSound("sounds/ambient/animals/birds2.mp3"),
-    backgroundSoundCats3        = loadSound("sounds/ambient/animals/birds3.mp3"),
-
-    backgroundSoundSpace1       = loadSound("sounds/ambient/space/space1.mp3"),
-    backgroundSoundSpace2       = loadSound("sounds/ambient/space/space2.mp3"),
-    backgroundSoundSpace3       = loadSound("sounds/ambient/space/space3.mp3"),
-    backgroundSoundSpace4       = loadSound("sounds/ambient/space/space4.mp3"),
-    backgroundSoundSpace5       = loadSound("sounds/ambient/space/space5.mp3"),
-    backgroundSoundSpace6       = loadSound("sounds/ambient/space/space6.mp3"),
-    backgroundSoundSpace7       = loadSound("sounds/ambient/space/space7.mp3"),
-    backgroundSoundSpace8       = loadSound("sounds/ambient/space/space8.mp3"),
-    backgroundSoundSpace9       = loadSound("sounds/ambient/space/space9.mp3"),
-    ]]
 end
 
 
@@ -143,6 +116,18 @@ function sounds:unloadPlayer(type)
     self.playerCelebrate[type] = {}
 
     playerLoaded[type] = false
+end
+
+
+-- Clears out all loaded player sounds except the current player selected (main)
+function sounds:unloadPlayerExtras()
+    local main = characterData[state.data.playerModel].soundIndex
+
+    for type,loaded in pairs(playerLoaded) do
+        if loaded and type ~= main then
+            self:unloadPlayer(type)
+        end
+    end
 end
 
 

@@ -172,8 +172,6 @@ local levelData = {
                 local brain2   = hud:getTarget("enemy",  "startBrain2")
                 local brain3   = hud:getTarget("enemy",  "startBrain3")
 
-                sounds:loadPlayer(characterBrainiak)
-
                 skyanna.lives = 0
                 brainiak.completedCallback = function() hud:triggerEvent("brainiakWins", brainiak) end
                 brainiak:pauseAi(true)

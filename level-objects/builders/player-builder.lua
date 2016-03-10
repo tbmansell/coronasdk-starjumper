@@ -80,6 +80,8 @@ function playerBuilder:newPlayer(camera, spec, ledge)
     if player.xpos then
         player:moveBy(player.xpos, 0)
     end
+
+    sounds:loadPlayer(spec.model)
 	
 	return player
 end
