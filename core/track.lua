@@ -1,11 +1,12 @@
 local analytics = require("analytics")
+
 -- Flurry Analytics Key
 --analytics.init("BWXBG2NT992ZJ8TP43FW")
 analytics.init("Z2CDYMZVQ2Q3449JQ74Y")
 
 
 -- @class global event tracker
-track = {
+local track = {
     -- simple array of all current scene timer handles that need cleaning up when the scene aborts
     timerHandles = {},
     -- simple array of all current scene transition handles that need cleaning up when the scene aborts
@@ -84,8 +85,10 @@ function track:timer(delay, func, loops)
 end
 
 
+------------------ GLOBAL FUNCTIONS -------------------
 
--- improvement on using timer.performWithDelay() for single loops, when you just basically want a delayed action
+
+-- Improvement on using timer.performWithDelay() for single loops, when you just basically want a delayed action
 function after(delay, func)
 	if delay == nil or delay == 0 then
 		func()
@@ -95,7 +98,7 @@ function after(delay, func)
 end
 
 
--- improvement on using timer.performWithDelay() for infinite loops
+-- Improvement on using timer.performWithDelay() for infinite loops
 function loop(delay, func)
 	track:timer(delay, func, 0)
 end
@@ -109,3 +112,6 @@ function logAnalytics(scene, event)
 
 	analytics.logEvent(mesg)
 end
+
+
+return track

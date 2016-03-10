@@ -641,7 +641,7 @@ function moveItemPattern(camera, item, delta)
 end
 
 
----------- UTILITY FUNCTIONS -----------
+---------- GLOBAL UTILITY FUNCTIONS -----------
 
 
 function setMovementStyleSpeeds()

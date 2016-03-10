@@ -5,14 +5,8 @@ local tutorials    = require("core.tutorial")
 local messages     = require("core.messages")
 local particles    = require("core.particles")
 
--- GLOBAL class
-hud = {}
-
--- Load in these sections from separate files to avoid one massive file
-require("core.hud-gear")
-require("core.hud-sequences")
-require("core.hud-saving")
-require("core.hud-debug")
+-- CORE class
+local hud = {}
 
 -- Aliases
 local math_floor  = math.floor
@@ -929,3 +923,6 @@ function hud:sequence(type, name, target1, target2, target3)
 
     return seq
 end
+
+
+return hud

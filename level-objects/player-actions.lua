@@ -157,8 +157,11 @@ function player:runup(xVelocity, yVelocity)
     if self.main then
         hud:hideScoreMarkers()
     end
-    
-    if self:onStartLedge() and xVelocity < 1 then
+
+    if self.attachedLedge == nil then
+        -- Ledge is suddenly gone (eg. destroyed by warpfield chase)
+        return self:cancelJump()
+    elseif self:onStartLedge() and xVelocity < 1 then
         -- cant run backwards on start ledge
         return self:cancelJump()
     elseif yVelocity > -50 or (xVelocity >= 0 and xVelocity < 50) or (xVelocity < 0 and xVelocity > -50) then

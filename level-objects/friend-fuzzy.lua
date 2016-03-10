@@ -45,7 +45,7 @@ function fuzzy:setPhysics(scale)
     if self.kinetic == "bounce" then
         bounce = 1
     elseif self.kinetic == "hang" then
-        body  = "static"
+        body   = "static"
         sensor = true
 
         if self.direction == left then
@@ -54,7 +54,8 @@ function fuzzy:setPhysics(scale)
             l,t,r,b = -120*s, -170*s, 50*s, 100*s
         end
     elseif self.kinetic == "hangDouble" then
-        body  = "static"
+        body   = "static"
+        sensor = true
     end
 
     local stats = {density=0.3, friction=0.3, bounce=bounce, isSensor=sensor, shape={l,t, r,t, r,b, l,b}, filter={ groupIndex=-4 }}

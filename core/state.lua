@@ -1,9 +1,6 @@
 local json = require("json")
 
-
-
-
-state = {
+local state = {
     -- filename for autosaved game
     autosave_filename = "autosave.dat",
 
@@ -924,3 +921,6 @@ function state:validateSavedGame()
         print("Validate save data: "..self.data.buildVersion)
     end]]
 end
+
+
+return state

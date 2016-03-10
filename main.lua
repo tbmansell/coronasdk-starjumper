@@ -1,35 +1,25 @@
 -- Global label used for buld version
-globalBuildVersion 		   = "0.10.12"
--- Global group used to do stuff during scene transitions
-globalSceneTransitionGroup = display.newGroup()
--- Global timer for animating during loading scenes
-globalTransitionTimer      = nil
--- Global FPS counter
-globalFPS                  = 0
--- Global marker to say if physics functions should not be called when this is set
-globalIgnorePhysicsEngine  = false
--- Global marker to allow infinite level generator to mark all generated items, for easy deletion
-globalInfiniteStage        = nil
--- Global handler for tutorial object which controls the game
-globalTutorialScript       = nil
--- Global flag to determine if played games should be recorded and saved to file
-globalRecordGame           = false
+globalBuildVersion = "0.10.12"
 
--- shortcuts to centerX,Y
-centerX 	  = display.contentCenterX
-centerY 	  = display.contentCenterY
-contentWidth  = display.contentWidth
-contentHeight = display.contentHeight
-
+-- Define global constants
 require("constants.globals")
-require("core.state")
-require("core.track")
-require("core.sounds")
+
+-- Define global objects
+state  = require("core.state")
+track  = require("core.track")
+sounds = require("core.sounds")
+curve  = require("core.curve")
+hud    = require("core.hud")
+
+-- Define global functions
 require("core.draw")
 require("core.movement")
-require("core.curve")
-require("core.hud")
-require("networking.linkup")
+-- Expand massive hud object
+require("core.hud-gear")
+require("core.hud-sequences")
+require("core.hud-saving")
+require("core.hud-debug")
+
 
 -- Generate the random number seed
 math.randomseed(os.time())
@@ -42,8 +32,9 @@ if state:checkForSavedGame() then
     state:validateSavedGame()
 end
 
--- Load in all random sounds
-sounds:loadRandom()
+-- Load in key game sounds that always need to be in memory
+sounds:loadStaticSounds()
+sounds:loadRandomSounds()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
@@ -62,9 +53,9 @@ if mode == "play" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 21
+	state.data.zoneSelected   = 8
 	state.data.gameSelected   = gameTypeStory
-	storyboard:gotoScene("scenes.select-zone")
+	storyboard:gotoScene("scenes.play-zone")
 
 elseif mode == "cut" then
 	state.data.planetSelected = 2

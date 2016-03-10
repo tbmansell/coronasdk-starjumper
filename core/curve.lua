@@ -1,6 +1,4 @@
---local spineFactory = require("core.spine-factory")
-
-curve = {
+local curve = {
     Gravity        = 40,
     showTrajectory = false,
     showGrid       = true,
@@ -522,3 +520,6 @@ function curve:clearUp(camera)
     curve:removeLine(camera)
     curve:removeTrajectory(c)
 end
+
+
+return curve

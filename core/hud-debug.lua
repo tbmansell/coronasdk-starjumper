@@ -180,7 +180,10 @@ end
 
 function hud:debugPlayerMode(player)
     if self.debugMode then
+        local xvel, yvel = player:getForce()
+
         local text = playerStates[player.mode].."|"..round(player:x())..", "..round(player:y()).."|alive="..tostring(player.inGame).." key="..tostring(player.key)
+        text = text.."|vel="..round(xvel)..","..round(yvel)
 
         if player.debugStatusText == nil then
             player.debugStatusText = newText(player.image, text, 0, -140, 0.3, "white")

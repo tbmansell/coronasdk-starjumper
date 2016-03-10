@@ -12,13 +12,12 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-        {object="emitter", x=100, y=-350, timer={2000, 4000}, limit=3, layer=4,
+            {object="emitter", x=100, y=-350, timer={2000, 4000}, limit=3, layer=4,
                 item={
                     object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.5, 0, 0.3},
                     movement={rangeX={300, 2000}, rangeY={0, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },   
-
+            },
 
         {object="ledge", x=345, y=-120, size="medium3", pointsPos=left},
             {object="friend", type="fuzzy", x=-30, y=-50, color="Orange", onLedge=true},

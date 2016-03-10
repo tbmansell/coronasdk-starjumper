@@ -23,8 +23,13 @@ function scenery.eventCollideWall(self, event)
     local wall   = self.object
     local object = event.other.object
 
+    print("eventCollideWall")
+
     if object then
         if event.phase == "began" then
+
+            print("eventCollideWall BEGIN")
+
             if object.isPlayer then
                 wall:playerCollideWall(object)
 
@@ -33,12 +38,20 @@ function scenery.eventCollideWall(self, event)
             end
 
         elseif event.phase == "ended" and object.isPlayer then
+
+            print("eventCollideWall ENDED")
+
             -- only activate the fall after the collision ends: so if they sit on a wall it doesnt trigger
             after(500, function()
                 if object.mode == playerMissedDeath or object.mode == playerJump or object.mode == playerFall then
                     object:animate("Death JUMP HIGH")
                 end
             end)
+
+        elseif object.isPlayer then
+
+            print("eventCollideWall "..event.phase)
+
         end
     end
 end

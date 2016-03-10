@@ -30,6 +30,9 @@ TextCandy.AddCharsetFromBMF("gamefont_yellow", "text_candy/ingamefont_yellow.fnt
 TextCandy.AddCharsetFromBMF("gamefont_black",  "text_candy/ingamefont_black.fnt",  32)
 
 
+--------------- GLOBAL FUNCTIONS ------------------
+
+
 -- handles text generation using text candy
 function newText(group, text, x, y, scale, color, align, wrapWidth)
     local font = TextCandy.CreateText({
@@ -117,9 +120,6 @@ function newButton(group, x, y, image, callback, clickSound, size)
     local btn        = newImage(group, "buttons/button-"..image.."-up",   x, y)
     local btnOverlay = newImage(group, "buttons/button-"..image.."-down", x, y, nil, 0)
 
-    --[[if labelParams then
-        newText(group, labelParams.text, x+100, y+30, labelParams.size, labelParams.color, "CENTER")
-    end]]
     if size then
         btn:scale(size, size)
         btnOverlay:scale(size, size)
