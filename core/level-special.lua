@@ -612,6 +612,7 @@ function newObjectsLoader:load(level)
         elseif type == "ledge"       then return self.ledges:getTargetName(name)
         elseif type == "player"      then return self.players:getTargetName(name)
         elseif type == "enemy"       then return self.enemies:getTargetName(name)
+        elseif type == "emitter"     then return self.emitters:getTargetName(name)
         else   return {} end
     end
 

@@ -50,8 +50,8 @@ local levelData = {
             {object="spike", x=-150,  y=1433, type="fg-spikes-row-big", size=0.8, copy=2, gap=590},
             {object="rings", color=white, pattern={ {230,100} }},
             {object="rings", color=pink, pattern={ {230,800} }},
-            {object="key", x=-50, y=-60, color="Yellow", onLedge=true},
-            {object="key", x=50, y=-60, color="Red", onLedge=true},
+            --{object="key", x=-50, y=-60, color="Yellow", onLedge=true},
+            --{object="key", x=50, y=-60, color="Red", onLedge=true},
         
         {object="ledge", x=1200, y=-1500, size="medium2", canShake=false, positionFromLedge=1, movement={pattern={{0, 1500}}, reverse=true, speed=2.5, pause=0}},
             {object="spike", x=-440,  y=-310, type="fg-wall-divider-completeup", size=0.8},
@@ -70,7 +70,7 @@ local levelData = {
    
         --- Right Side
         {object="ledge", x=2100, y=-500, size="medium3", positionFromLedge=1},
-            --{object="key", x=0, y=-60, color="Yellow", onLedge=true},
+            {object="key", x=0, y=-60, color="Yellow", onLedge=true},
             {object="rings", color=pink, pattern={ {-230,40} }},
 
             {object="emitter", x=0, y=1000, timer={3000, 6000}, limit=nil, force={ {-300, 300}, {-100, -300}, {45, 95} }, 
@@ -91,7 +91,7 @@ local levelData = {
             },
 
         {object="ledge", x=2100, y=-1000, size="medium3", positionFromLedge=1},
-            --{object="key", x=0, y=-60, color="Red", onLedge=true},
+            {object="key", x=0, y=-60, color="Red", onLedge=true},
             {object="rings", color=pink, pattern={ {-230,40} }},
 
         {object="ledge", x=300, y=250, size="medium3"},     
@@ -137,10 +137,10 @@ local levelData = {
             delay        = 1000,  -- time before event starts from when it's triggered (eg. if player lands on ledge, good to give it time)
             freezePlayer = true,  -- means player cannot control the game while event is running
             action       = function(camera, player, source)
-                local wall1    = hud:getTarget("scenery", "moveableEndScenery1")
-                local wall2    = hud:getTarget("scenery", "moveableEndScenery2")
-                local wall3    = hud:getTarget("scenery", "moveableEndScenery3")
-                local wall4    = hud:getTarget("scenery", "moveableEndScenery4")
+                local wall1    = hud:getTarget("emitter", "moveableEndScenery1")
+                local wall2    = hud:getTarget("emitter", "moveableEndScenery2")
+                local wall3    = hud:getTarget("emitter", "moveableEndScenery3")
+                local wall4    = hud:getTarget("emitter", "moveableEndScenery4")
                 local endLedge = hud:getTarget("ledge",   "endLedge")
 
                 globalSoundPlayer(sounds.checkpoint)
