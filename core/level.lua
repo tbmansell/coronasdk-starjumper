@@ -346,7 +346,7 @@ function level:createElementsFromData(source, jumpObject)
                         element.image.anchorY = 1
                         element:y(jumpObject:topEdge() + 3)
                     else
-                        element:y(jumpObject:topEdge() - element.image.height/2)
+                        element:y(jumpObject:topEdge() - (element:height()/2))
                     end
                 end
 

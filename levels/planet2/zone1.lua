@@ -25,7 +25,7 @@ local levelData = {
         {object="obstacle", x=250, y=-100, timerOn=3000, timerOff=4000, type="electricgate"},
         
         {object="ledge", x=280, y=200, size="big3"},
-            {object="key", x=0, color="Red", onLedge=true},
+            {object="key", color="Red", onLedge=true},
             {object="rings", color=aqua, pattern={ {190,-250}, {50,-50}, }},
             {object="scenery", x=300, y=-400, type="fgflt-pole-3"},
 

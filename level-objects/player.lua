@@ -234,13 +234,13 @@ function player:setPhysicsFilter(action)
     elseif action == "addObstacle" then
         filter = -5  -- immune to other ledges
     else
-        self.physicsFilter = nil
+        filter = -2  -- normal mode
     end
 
-    self.physicsFilterPrev = self.physicsFilter
-    self.physicsFilter     = filter
+    if self.physicsFilterPrev ~= filter then
+        self.physicsFilterPrev = self.physicsFilter
+        self.physicsFilter     = filter
 
-    after(1, function()
         local xvel, yvel = self:getForce()
         physics.removeBody(self.image)
 
@@ -249,7 +249,7 @@ function player:setPhysicsFilter(action)
         if xvel ~= 0 or yvel ~= 0 then
             self:applyForce(xvel, yvel)
         end
-    end)
+    end
 end
 
 

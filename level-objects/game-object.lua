@@ -327,12 +327,12 @@ end
 
 
 function gameObject:width()
-    return self.image.width * self.scaled
+    return self.image.width * (self.originalScale or 1) * self.scaled
 end
 
 
 function gameObject:height()
-    return self.image.height * self.scaled
+    return self.image.height * (self.originalScale or 1) * self.scaled
 end
 
 

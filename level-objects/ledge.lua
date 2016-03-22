@@ -90,7 +90,7 @@ function ledge.eventCollide(self, event)
         not ledge.destroyed and
         object.isPlayer and
         object.attachedObstacle == nil and
-        --(object.attahedLedge == nil or object.attachedLedge.key ~= ledge.key) and
+        --(object.attachedLedge == nil or object.attachedLedge.key ~= ledge.key) and
         object.mode and
         table_indexof(playerNonLandModes, object.mode) == nil
     then

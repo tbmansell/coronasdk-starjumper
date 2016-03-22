@@ -13,10 +13,6 @@ local levelData = {
 
     elements = {
         {object="ledge", type="start"},
-
-
-{object="wall", x=400, type="fg-rock-1", onLedge=true, size=0.6, rotation=-45, physics={body="static", shape="circle", friction=0.3, bounce=0.4}},
-
         
         {object="ledge", x=170, y=-150, size="small"},
             {object="rings", color=aqua, trajectory={x=30, y=-200, xforce=120, yforce=60, arc=20, num=2}},

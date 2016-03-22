@@ -3,7 +3,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -3000,
     floor            = 1800,
-    startLedge       = 6,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},

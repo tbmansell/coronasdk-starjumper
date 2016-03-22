@@ -39,7 +39,7 @@ function obstacle.eventCollide(self, event)
        object.lastObstacleId ~= obstacle.id
     then
         -- delay to allow players physics to be remade to dodge any ledges in the way
-        after(50, function()
+        after(1, function()
             object.lastObstacleId = obstacle.id
             obstacle:bind(object)
             obstacle:grab(object)

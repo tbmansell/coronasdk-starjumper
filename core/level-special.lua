@@ -384,6 +384,7 @@ function newObjectsLoader:load(level)
                     if player.startLedge and player.startLedge:topEdge() > lavaTop then
                         specialRise  = false
                         player.lives = 0
+                        player.restartDontDie = false
                     end
 
                     player:explode(nil, {action="playerDeathLava"})
