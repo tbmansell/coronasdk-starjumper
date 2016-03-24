@@ -599,6 +599,9 @@ function newObjectsLoader:load(level)
                     elseif condition ~= player.model then
                         return false
                     end
+                elseif name == "playerNot" and condition == player.model then
+                    -- player not allowed has tried to trigger the event
+                    return false
                 end
             end
         end

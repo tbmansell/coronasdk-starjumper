@@ -105,8 +105,8 @@ local levelData = {
         {object="ledge", x=370, y=0, type="finish"}
     },
 
-        -- Brainiak: taunts player next to rock trap before it collapse then runs off
     customEvents = {
+        -- Brainiak: taunts player next to rock trap before it collapse then runs off
         ["brainiakTrap"] = {
             conditions   = {
                 storyMode = true,

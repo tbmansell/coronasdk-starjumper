@@ -471,7 +471,7 @@ end
 
 function level:createRings(item, jumpObject)
     -- Time Attack, Survival, Race - dont show rings
-    if not challengeGameType[gameType] then
+    if not challengeGameType[state.data.gameSelected] then
         local x, y  = jumpObject:pos()
         local rings = collectableBuilder:newRings(camera, item, x, y, jumpObject)
         local num   = #rings
