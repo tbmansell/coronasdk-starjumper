@@ -536,11 +536,14 @@ end
 ----
 function gameObject:move()
     if self.movement then
+        self.isMoving = true
+        
         if self.master then
             --TODO: check if already in the movemement collection?
-            self.master.movementCollection:add(self)
+            --self.master.movementCollection:add(self)
+            self.master:addToMovementCollection(self)
         end
-        self.isMoving = true
+        --self.isMoving = true
     end
 end
 

@@ -16,6 +16,8 @@ local playerBuilder = {
 	-- newMainPlayer()
 	-- newAiPlayer()
     -- newScriptedPlayer()
+    -- applyPlayerOptions()
+    -- applyCharacterAbilities()
 }
 
 
@@ -70,17 +72,8 @@ function playerBuilder:newPlayer(camera, spec, ledge)
     player:visible()
 	player:changeDirection(right)
 
-    -- apply animation after reset as that makes players stand:
-    if spec.animation then
-        player:loop(anim)
-    end
-
     self:applyCharacterAbilities(player)
-
-    if player.xpos then
-        player:moveBy(player.xpos, 0)
-    end
-
+    self:applyPlayerOptions(camera, spec, player)
     sounds:loadPlayer(spec.model)
 	
 	return player
@@ -185,6 +178,31 @@ function playerBuilder:newScriptedPlayer(camera, spec, ledge)
     camera:add(player.image, 3)
 
     return player
+end
+
+
+-- Core function to setup options for a player that are not always present
+-- @param camera
+-- @param spec
+-- @param player
+----
+function playerBuilder:applyPlayerOptions(camera, spec, player)
+    -- apply animation after reset as that makes players stand:
+    if spec.animation then
+        player:loop(spec.animation)
+    end
+
+    if spec.loadGear then
+        player:setIndividualGear(spec.loadGear)
+    end
+
+    if player.xpos then
+        player:moveBy(player.xpos, 0)
+    end
+
+    if player.movement and (player.mode ~= stateSleeping and player.mode ~= stateWaiting) then
+        player:moveNow()
+    end
 end
 
 

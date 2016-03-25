@@ -15,8 +15,16 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-            {object="enemy", type="greyshooter", x=750, y=-500, size=0.5, 
-                shooting={minWait=1, maxWait=3, velocity={x=700, y=200, varyX=100, varyY=100}, itemsMax=10, ammo={negTrajectory}},
+            {object="enemy", type="greyshooter", x=700, y=-500, size=0.5, 
+                shooting={minWait=1, maxWait=3, velocity={x=550, y=200, varyX=100, varyY=100}, itemsMax=8, ammo={negTrajectory}},
+                movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=300, speed=2, pause=1500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
+            },
+            {object="player", x=450, y=-300, type="scripted", model=characterEarlGrey, direction=left, targetName="earlGrey", storyModeOnly=true, 
+                physicsBody="static", loadGear=gearJetpack, animation="Powerup PARACHUTE",
+                movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=300, speed=2, pause=1500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
+            },
+            {object="enemy", type="greyshooter", x=850, y=-500, size=0.5, spineDelay=250, storyModeOnly=true,
+                shooting={minWait=1, maxWait=3, velocity={x=700, y=200, varyX=100, varyY=100}, itemsMax=8, ammo={negDizzy}},
                 movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=300, speed=2, pause=1500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
             },
 
@@ -107,6 +115,32 @@ local levelData = {
 
         {object="ledge", x=800, y=440, type="finish"}
     },
+
+    -- EarlGrey: introduces himself, then flies away
+    customEvents = {
+        ["introduceEarlGrey"] = {
+            conditions   = {
+                storyMode = true,
+                zoneStart = true,
+            },
+            delay        = 4000,
+            freezePlayer = true,
+            action       = function(camera, player, source)
+                local earlGrey = hud:getTarget("player", "earlGrey")
+
+                hud:showStory("intro-earlgrey-planet2-zone8", function()
+                    earlGrey:changeDirection()
+                    earlGrey:stop()
+                    earlGrey:moveNow({pattern={{2000,-3000}}, speed=10})
+
+                    after(2000, function()
+                        earlGrey:destroy()
+                        hud:exitScript()
+                    end)
+                end)
+            end,
+        },
+    }
 }
 
 return levelData

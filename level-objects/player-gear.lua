@@ -470,6 +470,7 @@ end
 
 
 function player:negableDizzyStarted()
+    print("negableDizzyStarted")
     if not self.main then return end
 
     local seq = anim:oustSeq("negableDizzy", self.image)

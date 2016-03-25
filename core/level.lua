@@ -75,12 +75,12 @@ local check_background_movement  = function()end
 local check_spine_animation      = function()end
 local check_moving_objects       = function()end
 local check_moving_players       = function()end
-local check_ledge_movement       = function()end
-local check_enemy_movement       = function()end
-local check_friend_movement      = function()end
-local check_obstacle_movement    = function()end
-local check_collectable_movement = function()end
-local check_scenery_movement     = function()end
+--local check_ledge_movement       = function()end
+--local check_enemy_movement       = function()end
+--local check_friend_movement      = function()end
+--local check_obstacle_movement    = function()end
+--local check_collectable_movement = function()end
+--local check_scenery_movement     = function()end
 local check_chase_movement       = function()end
 
 

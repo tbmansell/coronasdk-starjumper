@@ -97,6 +97,7 @@ local scripts = {
 
 -- IN-GAME STORY SCRIPTS --
 
+	-- PLANET 1
 	["intro-brainiak-planet1-zone5"] = {
 		forced    = true,
 		delay     = 0,
@@ -137,16 +138,27 @@ local scripts = {
 		},
 	},
 
+	-- PLANET 2
 	["intro-planet2-zone7"] = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
-			{delay=1000, speaker=characterGygax, dir=right, text="Danger {player}! You've entered a gravity storm zone, which I can't get near to help you. Escape quick before it destroys the whole zone!", size="-big"},
+			{delay=1000, speaker=characterGygax, dir=right, text="Danger {player}! You've entered a gravity storm zone, which I can't get near to help you. Escape quick before it destroys the whole zone!", size="-big"},			
+		},
+	},
+	["intro-earlgrey-planet2-zone8"] = {
+		forced    = true,
+		delay     = 0,
+		condition = { characterNotIn={characterReneGrey, characterHammer} },
+		sequence = {
+			{delay=1000, speaker=characterEarlGrey, dir=right, text="Ahh say there traveler, you must be a brave specimin, to come to this here collapsing planet. Sadly, this here area now belongs to Grey Empire Mining Inc.", size="-big"},
+			{delay=3000,                            dir=left,  text="You must be the infamous EarlGrey. I have come to rescue those trapped here and I dont care for your evil doings. Do you have my friend Hammer?", size="-big"},
+			{delay=3000, speaker=characterEarlGrey, dir=right, text="Well that is poorly manners ahh must say. It looks like my here guards will have to take care of you. So long varmint", size="-big"},
 		},
 	},
 	["intro-planet2-zone14"] = {
-		forced   = true,
-		delay    = 1500,
+		forced    = true,
+		delay     = 1500,
 		condition = { characterNotIn={characterReneGrey} },
 		sequence = {
 			{delay=1000, speaker=characterGygax,    dir=right, text="Warning {player}, you've entered an asteroid field. My ship has taken a hit and I can't get to you. Hold on there is a transmission coming through...", size="-big"},
