@@ -428,7 +428,10 @@ function player:resetLedge()
     end
 
     self.attachedLedge = self.startLedge
-    self:rotate(self.attachedLedge.rotation)
+    
+    if self.physicsBody == nil then
+        self:rotate(self.attachedLedge.rotation)
+    end
 
     if self.attachedLedge and self.attachedLedge.inGame then
         if self.key then

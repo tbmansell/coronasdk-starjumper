@@ -116,8 +116,8 @@ local levelData = {
         {object="ledge", x=800, y=440, type="finish"}
     },
 
-    -- EarlGrey: introduces himself, then flies away
     customEvents = {
+        -- EarlGrey: introduces himself, then flies away
         ["introduceEarlGrey"] = {
             conditions   = {
                 storyMode = true,

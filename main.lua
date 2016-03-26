@@ -53,7 +53,7 @@ if mode == "play" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 2
-	state.data.zoneSelected   = 8
+	state.data.zoneSelected   = 14
 	state.data.gameSelected   = gameTypeStory
 	storyboard:gotoScene("scenes.play-zone")
 

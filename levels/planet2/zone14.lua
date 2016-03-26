@@ -27,7 +27,7 @@ local levelData = {
 
         {object="obstacle", x=110, y=-130, timerOn=5000, timerOff=1500, type="electricgate"},    
 
-            {object="emitter", x=200, y=-1000, timer={3000, 5000}, layer=3, limit=nil, force={ {0, 0}, {100,300}, {90, 91} }, 
+            {object="emitter", x=150, y=-1000, timer={3000, 5000}, layer=3, limit=nil, force={ {0, 0}, {100,300}, {90, 91} }, 
                 item={object="spike", type="fg-rock-3", size={5, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
             {object="emitter", x=550, y=-1000, timer={3000, 6000}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 46} }, 
@@ -37,12 +37,18 @@ local levelData = {
                 item={object="spike", type="fg-rock-3", size={4, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
-        ----------- OUtside Ledges 1
-        {object="ledge", x=320, y=150, size="medbig2", rotation=-20}, 
-             {object="rings", color=red, pattern={ {230,-420}}},
+        ----------- Outside Ledges 1
+        {object="ledge", x=320, y=150, size="medbig2", rotation=-20, triggerEvent="dropGear1"}, 
+            {object="rings", color=red, pattern={ {230,-420}}},
             
-        {object="ledge", x=230, y=-200, size="big2", rotation=10}, ---- Rotating
+        {object="ledge", x=230, y=-200, size="big2", rotation=10, triggerEvent="dropGear1"},
             {object="scenery", x=300, y=-400, type="fgflt-pole-1"},
+
+            -- Friendly help location 1
+            {object="player", x=0, y=-200, type="scripted", model=characterReneGrey, direction=left, targetName="reneGrey", storyModeOnly=true, 
+                physicsBody="static", loadGear=gearJetpack, animation="Powerup PARACHUTE",
+                movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=100, speed=2, pause=1500, moveStyle=moveStyleSway, pauseStyle=moveStyleSway}
+            },
 
         ----------- inside ledges 2
         {object="obstacle", x=110, y=-130, timerOn=4000, timerOff=2500, type="electricgate"},  
@@ -63,7 +69,7 @@ local levelData = {
 
         {object="obstacle", x=90, y=-250, timerOn=5000, timerOff=1500, type="electricgate"},  
 
-        ----------- OUtside Ledges 2          
+        ----------- Outside Ledges 2          
 
             {object="emitter", x=200, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
                 item={object="spike", type="fg-rock-1", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
@@ -77,10 +83,11 @@ local levelData = {
                 item={object="spike", type="fg-rock-4", size={5, 7}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
-        {object="ledge", x=320, y=50, size="medbig2", rotation=-10}, 
+        {object="ledge", x=320, y=50, size="medbig2", rotation=-10, triggerEvent="dropGear2"}, 
             {object="rings", color=blue, pattern={ {230,-390}}},
             
-        {object="ledge", x=230, y=175, size="medsmall3", rotation=-20}, ---- Rotating
+        -- Friendly help location 2
+        {object="ledge", x=230, y=175, size="medsmall3", rotation=-20, targetName="targetLedge1", triggerEvent="dropGear2"},
             {object="scenery", x=300, y=-400, type="fgflt-pole-6"},
 
         {object="ledge", x=260, y=-255, size="medsmall", rotation=-24},
@@ -107,7 +114,7 @@ local levelData = {
 
         {object="ledge", x=340, y=90, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
 
-        {object="ledge", x=220, y=-50, size="medsmall2"}, ---- Rotating
+        {object="ledge", x=220, y=-50, size="medsmall2"},
             {object="scenery", x=500, y=-400, type="fgflt-pole-1"},
             {object="gear", type=gearShield, x=30, y=-150, onLedge=true, regenerate=false},
 
@@ -135,9 +142,10 @@ local levelData = {
                 item={object="spike", type="fg-rock-1", size={3, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter={groupindex=-2}} }
             },
 
-        {object="ledge", x=320, y=50, size="medsmall", rotation=-15}, 
+        {object="ledge", x=320, y=50, size="medsmall", rotation=-15, triggerEvent="dropGear3"}, 
             
-        {object="ledge", x=210, y=-175, size="medsmall2", rotation=25},
+        -- Friendly help location 3
+        {object="ledge", x=210, y=-175, size="medsmall2", rotation=25, targetName="targetLedge2", triggerEvent="dropGear3"},
              {object="rings", color=white, pattern={ {230,-350}}},
 
         {object="ledge", x=280, y=185, size="medsmall3", rotation=-21},
@@ -172,6 +180,83 @@ local levelData = {
         {object="ledge", x=740, y=350, type="finish"}
     },
   
+    customEvents = {
+        -- ReneGrey: drops gear, then flies away
+        ["dropGear1"] = {
+            conditions   = {
+                storyMode = true,
+            },
+            delay  = 100,  -- Cant create gear during same cycle as collision which triggers story
+            action = function(camera, player, source)
+                local reneGrey = hud:getTarget("player", "reneGrey")
+                local ledge    = hud:getTarget("ledge",  "targetLedge1")
+                local gear     = hud.level:generateGear(reneGrey:x(), reneGrey:y()+50, gearFreezeTime)
+
+                reneGrey:emit("usegear-blue", {xpos=reneGrey:x(), ypos=reneGrey:y()}, false)
+
+                local seq = hud:sequence("oust", "dropGear1", reneGrey.image)
+                seq:tran({time=1000, alpha=0, playSound=sounds.playerTeleport})
+                seq:callback(function()
+                    reneGrey:emit("usegear-blue", {xpos=reneGrey:x(), ypos=reneGrey:y()}, false)
+                    reneGrey:moveTo(ledge:x(), ledge:topEdge()-200)
+                    reneGrey:visible()
+                end)
+                seq:start()
+
+                hud:exitScript()
+            end,
+        },
+        -- ReneGrey: drops gear, then flies away
+        ["dropGear2"] = {
+            conditions   = {
+                storyMode = true,
+            },
+            delay  = 100,  -- Cant create gear during same cycle as collision which triggers story
+            action = function(camera, player, source)
+                local reneGrey = hud:getTarget("player", "reneGrey")
+                local ledge    = hud:getTarget("ledge",  "targetLedge2")
+                local gear     = hud.level:generateGear(reneGrey:x(), reneGrey:y()+50, gearReverseJump)
+
+                reneGrey:emit("usegear-blue", {xpos=reneGrey:x(), ypos=reneGrey:y()}, false)
+
+                local seq = hud:sequence("oust", "dropGear2", reneGrey.image)
+                seq:tran({time=1000, alpha=0, playSound=sounds.playerTeleport})
+                seq:callback(function()
+                    reneGrey:emit("usegear-blue", {xpos=reneGrey:x(), ypos=reneGrey:y()}, false)
+                    reneGrey:moveTo(ledge:x(), ledge:topEdge()-200)
+                    reneGrey:visible()
+                end)
+                seq:start()
+
+                hud:exitScript()
+            end,
+        },
+        -- ReneGrey: drops gear, then flies away
+        ["dropGear3"] = {
+            conditions   = {
+                storyMode = true,
+            },
+            delay  = 100,  -- Cant create gear during same cycle as collision which triggers story
+            action = function(camera, player, source)
+                local reneGrey = hud:getTarget("player", "reneGrey")
+                local gear     = hud.level:generateGear(reneGrey:x(), reneGrey:y()+50, gearGloves)
+
+                reneGrey:emit("usegear-blue", {xpos=reneGrey:x(), ypos=reneGrey:y()}, false)
+
+                local seq = hud:sequence("oust", "dropGear3", reneGrey.image)
+                seq:tran({time=1000, alpha=0, playSound=sounds.playerTeleport})
+                seq:callback(function()
+                    reneGrey:emit("usegear-blue", {xpos=reneGrey:x(), ypos=reneGrey:y()}, false)
+                    reneGrey:destroy()
+                end)
+                seq:start()
+
+                hud:exitScript()
+            end,
+        },
+    }
+
+
 }
 
 return levelData
