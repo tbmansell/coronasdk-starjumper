@@ -1,3 +1,5 @@
+local utils = require("core.utils")
+
 local levelData = {
     name             = "stay up forever",
     timeBonusSeconds = 28,
@@ -14,6 +16,11 @@ local levelData = {
 
     elements = {
         {object="ledge", type="start"},
+
+            {object="player", x=0, y=-300, type="scripted", model=characterEarlGrey, targetName="earlGrey", storyModeOnly=true, direction=right,
+                physicsBody="static", loadGear=gearJetpack, animation="Powerup PARACHUTE",
+                movement={pattern=movePatternFollow, offsetY=-200, speed=5, pause=500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig},
+            },
 
         {object="ledge", x=500, y=200, size="small"},
 
@@ -49,7 +56,7 @@ local levelData = {
                 behaviour={mode=stateSleeping, awaken=2, range=3},--, atRange=stateResetting},
                 movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
             },
-]]
+            ]]
         {object="ledge", x=500, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
 
@@ -144,6 +151,62 @@ local levelData = {
 
         {object="ledge", x=275, y=-300, type="finish"}
     },
+
+    customEvents = {
+        -- EarlGrey: creates the function which triggers has action each time he reaches the player
+        ["setupEarlGrey"] = {
+            conditions   = {
+                storyMode = true,
+                zoneStart = true,
+            },
+            delay        = 1000,
+            action       = function(camera, player, source)
+                local earlGrey = hud:getTarget("player", "earlGrey")
+
+                function earlGrey:reachedPatternPoint() 
+                    local player  = self.mainPlayerRef
+                    local playerX = player:x()
+                    local earlX   = self:x()
+                    local earlDir = self.direction
+                    
+                    -- check if should change direction:
+                    if earlX < playerX and earlDir == left then
+                        self:changeDirection(right)
+
+                    elseif earlX > playerX and earlDir == right then
+                        self:changeDirection(left)
+                    end
+
+                    -- show jetpack flame (only show on right as position incorrect on left):
+                    if earlDir == left then
+                        self:sound("gearJetpack")
+                        self:showJetpack()
+                    end
+
+                    -- check if should drop a negable:
+                    if not self.waitingForNextDrop then
+                        self.waitingForNextDrop = true
+
+                        self:sound("randomCelebrate")
+
+                        local negName = utils.percentFrom({ {20,negTrajectory}, {40,negDizzy}, {70,negBooster}, {100,negRocket} })
+                        local negable = hud.level:generateNegable(self:x(), self:y(), negName)
+
+                        -- Check if should drop it on player or throw it slightly in front
+                        if math.random(2) == 2 then
+                            local force = 100
+                            if self.direction == right then force = -force end
+                            negable:applyForce(-100,0)
+                        end
+
+                        after(3000, function() self.waitingForNextDrop=false end)
+                    end
+                end
+                
+                hud:exitScript()
+            end,
+        },
+    }
 }
 
 return levelData

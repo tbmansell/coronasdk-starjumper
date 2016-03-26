@@ -457,7 +457,7 @@ local function selectNextFollowPosition(item)
         item.isResetting = true
         selectPositionOf(item, item.startLedge, m.originalX, m.originalY, delta)
     else
-        selectPositionOf(item, item.player, nil, nil, delta)
+        selectPositionOf(item, item.player or item.mainPlayerRef, nil, nil, delta)
     end
     return true
 end

@@ -157,7 +157,6 @@ function player:jumpAction()
         if self.jetpackUses == 3 then
     		self.slotInUse[air] = true
         	if self.main then hud:markGearInUse(gear) end
-
 --            self:emit("usegear-blue", {xpos=20, ypos=-60}, true)
     	end
 

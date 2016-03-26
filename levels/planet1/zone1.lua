@@ -1,6 +1,6 @@
 local levelData = {
     name             = "one small step for alien kind",
-    --tutorial         = "intro-planet1-zone1",
+    tutorial         = "intro-planet1-zone1",
     timeBonusSeconds = 50,
     playerStart      = playerStartFall,
     ceiling          = -1000,

@@ -553,7 +553,7 @@ end
 -- assign ref to main player for other AI players and any UFOBosses
 function level:assignMainPlayerRef()
     self.players:forEach(function(player) 
-        if player.ai then
+        if player.ai or player.scripted then
             player.mainPlayerRef = mainPlayer
         end
     end)
