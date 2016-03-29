@@ -150,7 +150,7 @@ local scripts = {
 		forced    = true,
 		delay     = 0,
 		condition = { characterNotIn={characterReneGrey, characterHammer} },
-		sequence = {
+		sequence  = {
 			{delay=1000, speaker=characterEarlGrey, dir=right, text="Ahh say there traveler, you must be a brave specimin, to come to this here collapsing planet. Sadly, this here area now belongs to Grey Empire Mining Inc.", size="-big"},
 			{delay=3000,                            dir=left,  text="You must be the infamous EarlGrey. I have come to rescue those trapped here and I dont care for your evil doings. Do you have my friend Hammer?", size="-big"},
 			{delay=3000, speaker=characterEarlGrey, dir=right, text="Well that is poorly manners ahh must say. It looks like my here guards will have to take care of you. So long varmint", size="-big"},
@@ -160,12 +160,22 @@ local scripts = {
 		forced    = true,
 		delay     = 1500,
 		condition = { characterNotIn={characterReneGrey} },
-		sequence = {
+		sequence  = {
 			{delay=1000, speaker=characterGygax,    dir=right, text="Warning {player}, you've entered an asteroid field. My ship has taken a hit and I can't get to you. Hold on there is a transmission coming through...", size="-big"},
 			{delay=4000, speaker=characterReneGrey, dir=right, text="Space Jumper - this is ReneGrey. I'm in the zone and will try to guide you through. Zoom out your view to help dodge the falling asteroids. Watch out for me...", size="-big"},
 		},
 	},
-
+	["rescue-renegrey-planet2-zone17"] = {
+		forced    = true,
+		delay     = 0,
+		condition = { characterNotIn={characterReneGrey} },
+		sequence  = {
+			{delay=1000, speaker=characterReneGrey, dir=right, text="Fear not {player}, ReneGrey here - I've been tracking you EarlGrey - take this!", size="-big"},
+			{delay=3000, speaker=characterEarlGrey, dir=left,  text="What tha! *ouch*", size="-big"},
+			{delay=3000, speaker=characterReneGrey, dir=right, text="Get moving {player}, there are evil Greys chasing me!", size="-big"},
+			{delay=3000, speaker=characterEarlGrey, dir=left,  text="You will ahh pay for this you here traitor!", size="-big"},
+		},
+	},
 
 
 -- INGAME HELP --

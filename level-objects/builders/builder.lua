@@ -286,10 +286,12 @@ function builder:newSpineCollection()
 	        	local image = object.image
 	            local x, y  = image.x, image.y
 
-	            if not visibleOnly or object.alwaysAnimate or (x >= leftBoundary and x <= rightBoundary and y >= topBoundary and y <= bottomBoundary) then
-		            object.state:update(delta)
-		            object.state:apply(object.skeleton)
-		            object.skeleton:updateWorldTransform()
+	            if x and y then
+	            	if not visibleOnly or object.alwaysAnimate or (x >= leftBoundary and x <= rightBoundary and y >= topBoundary and y <= bottomBoundary) then
+		            	object.state:update(delta)
+		            	object.state:apply(object.skeleton)
+		            	object.skeleton:updateWorldTransform()
+		            end
 	            end
 	        end
 	    end

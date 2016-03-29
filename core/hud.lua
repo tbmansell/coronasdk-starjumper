@@ -341,8 +341,6 @@ end
 
 
 function hud:collectFuzzy(item)
-    print("collectFuzzy: key="..item.key)
-
     self.collectables.fuzzies[item.colorCode] = self.collectables.fuzzies[item.colorCode] + 1
     self.fuzziesCollected    = self.fuzziesCollected + 1
     self.fuzzyKeys[item.key] = {color=item.color, kinetic=item.kinetic, direction=item.direction}

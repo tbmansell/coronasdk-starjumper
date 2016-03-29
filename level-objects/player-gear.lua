@@ -49,13 +49,12 @@ function player:collected(item)
     if item.isRing then
         self:sound("randomRing")
     else
-        -- WANRING: dont think this will work
         self:sound("collect"..item.key, item.collectedSound)
     end
 
     if self.main then
         hud:collect(item, self)
-    elseif self.ai then
+    elseif self.ai or self.scripted then
         if item.isGear then
             local gear = self.gear
             gear[gearSlots[item.name]] = item.name
@@ -67,8 +66,6 @@ function player:collected(item)
         else
             item:collect(self:getCamera())
         end
-    elseif player.remote then
-        -- figure it out
     end
 end
 
@@ -469,7 +466,6 @@ end
 
 
 function player:negableDizzyStarted()
-    print("negableDizzyStarted")
     if not self.main then return end
 
     local seq = anim:oustSeq("negableDizzy", self.image)
@@ -488,7 +484,7 @@ end
 
 function player:negableBoosterStarted()
     self:sound("gearJetpack")
-    self:animate("Powerup BOOSTER")
+    self:loop("Powerup BOOSTER")
     self.slotInUse[air]    = true
     self.negableBoosterOn  = true
 end
@@ -496,7 +492,7 @@ end
 
 function player:negableRocketStarted()
     self:sound("gearJetpack")
-    self:animate("Powerup ROCKET")
+    self:loop("Powerup ROCKET")
     self.slotInUse[air]    = true
     self.negableRocketOn   = true
 end

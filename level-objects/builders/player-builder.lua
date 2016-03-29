@@ -70,7 +70,7 @@ function playerBuilder:newPlayer(camera, spec, ledge)
 	player:setPhysics(1)
 	player:reset()
     player:visible()
-	player:changeDirection(right)
+    player:changeDirection(right)
 
     self:applyCharacterAbilities(player)
     self:applyPlayerOptions(camera, spec, player)

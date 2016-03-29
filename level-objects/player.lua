@@ -7,78 +7,78 @@ local spineStore  = require("level-objects.collections.spine-store")
 -- @class Player main class
 local player = {
 
-        isPlayer       		= true,
-        class               = "player",
-        ingame         		= false,             -- true if player currently in the level
-        landingSpeed   		= 2,
-        landingLimit   		= 40,
-        correctBy      		= 0,
-        highestLedgeId 		= 1,
-        lastObstacleId 		= 0,     -- used to stop player being able to grab the same obstacle before touching something else
-        mode           		= playerReady,
-        direction      		= right,
-        jumpType       		= "STANDARD",
-        --lives          		= 2,
-        lives               = 20,
-        lostAllLives   		= false,  -- used as a guard to stop destroy() being called more times than player has lives
-        hasDied        		= false,
-        topJumpsInaRow 		= 0,      -- used for awards
-        maxJumpsInaRow 		= 0,
-        restartDontDie 		= false,  -- used for survival mode to simply restart the player at the start of the level instead of ending the level
-        lastSpineTime  		= 0,      -- used for spine animation staggering with AIs
-        scaled         		= 1,      -- if player is scaled or not
-        intHeight      		= 110,    -- used by physics engine for shape and other height calcs
-        intWidth       		= 20,     -- 30
-        constRunSpeed  		= 8,      -- 60fps = 10    30fps = 15
-        constWalkSpeed 		= 1.2,    -- 60fps = 2     30fps = 3
-        startLeftLimit 		= 150,    -- distance left from right edge of start ledge, which player cant go past
-        jumpXBoost     		= 0,
-        jetpackFuel       	= 0,      -- number of jetpack uses remaining in current selection
-        gliding           	= false,  -- used to indicate if player using glider
-        parachuting       	= false,  -- used to indicate if player using parachute
+    isPlayer       		= true,
+    class               = "player",
+    ingame         		= false,             -- true if player currently in the level
+    landingSpeed   		= 2,
+    landingLimit   		= 40,
+    correctBy      		= 0,
+    highestLedgeId 		= 1,
+    lastObstacleId 		= 0,     -- used to stop player being able to grab the same obstacle before touching something else
+    mode           		= playerReady,
+    direction      		= right,
+    jumpType       		= "STANDARD",
+    --lives          		= 2,
+    lives               = 20,
+    lostAllLives   		= false,  -- used as a guard to stop destroy() being called more times than player has lives
+    hasDied        		= false,
+    topJumpsInaRow 		= 0,      -- used for awards
+    maxJumpsInaRow 		= 0,
+    restartDontDie 		= false,  -- used for survival mode to simply restart the player at the start of the level instead of ending the level
+    lastSpineTime  		= 0,      -- used for spine animation staggering with AIs
+    scaled         		= 1,      -- if player is scaled or not
+    intHeight      		= 110,    -- used by physics engine for shape and other height calcs
+    intWidth       		= 20,     -- 30
+    constRunSpeed  		= 8,      -- 60fps = 10    30fps = 15
+    constWalkSpeed 		= 1.2,    -- 60fps = 2     30fps = 3
+    startLeftLimit 		= 150,    -- distance left from right edge of start ledge, which player cant go past
+    jumpXBoost     		= 0,
+    jetpackFuel       	= 0,      -- number of jetpack uses remaining in current selection
+    gliding           	= false,  -- used to indicate if player using glider
+    parachuting       	= false,  -- used to indicate if player using parachute
 
-        -- Methods:
-        -----------
-        -- !topEdge()
-        -- !bottomEdge()
-        -- !width()
-        -- !height()
-        -- midHeight()
-        -- runDistance()
-        -- ledgeLeftLimit()
-        -- ledgeRightLimit()
-        -- onLedge()
-        -- onStartLedge()
-        -- startPosition()
-        -- stopMomentum()
-        -- isDead()
-        -- setMode()
-        -- initForGameType()
-        -- setPhysics()
-        -- setPhysicsFilter()
-        -- murder()
-        -- explode()
-        -- kill()
-        -- loseLife()
-        -- *destroy()
-        -- destroyVehicle()
-        -- cantRestart()
-        -- reset()
-        -- resetClearUp()
-        -- resetLedge()
-        -- resetReload()
-        -- resetGear()
-        -- showFlash()
-        -- setGear()
-        -- setIndividualGear()
-        -- !pose()
-        -- loadGear()
-        -- !sound()
-        -- soundLand()
-        -- walkOntoLevel()
-        -- standingReady()
-        -- fallFromShip()
-        -- startClimbChase()
+    -- Methods:
+    -----------
+    -- !topEdge()
+    -- !bottomEdge()
+    -- !width()
+    -- !height()
+    -- midHeight()
+    -- runDistance()
+    -- ledgeLeftLimit()
+    -- ledgeRightLimit()
+    -- onLedge()
+    -- onStartLedge()
+    -- startPosition()
+    -- stopMomentum()
+    -- isDead()
+    -- setMode()
+    -- initForGameType()
+    -- setPhysics()
+    -- setPhysicsFilter()
+    -- murder()
+    -- explode()
+    -- kill()
+    -- loseLife()
+    -- *destroy()
+    -- destroyVehicle()
+    -- cantRestart()
+    -- reset()
+    -- resetClearUp()
+    -- resetLedge()
+    -- resetReload()
+    -- resetGear()
+    -- showFlash()
+    -- setGear()
+    -- setIndividualGear()
+    -- !pose()
+    -- loadGear()
+    -- !sound()
+    -- soundLand()
+    -- walkOntoLevel()
+    -- standingReady()
+    -- fallFromShip()
+    -- startClimbChase()
 }
 
 
