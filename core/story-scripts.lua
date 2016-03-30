@@ -176,6 +176,24 @@ local scripts = {
 			{delay=3000, speaker=characterEarlGrey, dir=left,  text="You will ahh pay for this you here traitor!", size="-big"},
 		},
 	},
+	["race-earlgrey-planet2-zone21"] = {
+		forced    = true,
+		delay     = 0,
+		condition = { characterNotIn={characterHammer, characterReneGrey} },
+		sequence  = {
+			{delay=1000,                            dir=left,  text="Oh no Hammer what have they done to you!"},
+			{delay=3000, speaker=characterEarlGrey, dir=right, text="You have surely impressed me surviving this here planetary disaster. But I think I will be stringing you up next to your friend now", size="-big"},
+			{delay=3000,                            dir=left,  text="I have survived this far, you cannot stop me with or without your Grey minions"},
+			{delay=3000, speaker=characterEarlGrey, dir=right, text="Ha ha ha. I have some surprises in store for you, for sure"},
+
+		--[[
+			{delay=1000, speaker=characterBrainiak, dir=right, text="Aaargh still you survive little alien. Enough toying with your friend. It's feeding time and my trap has done its work bringing more aliens here", size="-big"},
+			{delay=3000,                            dir=left,  text="I've not battled this far to give up now. Your evil ways will soon be at an end Brainiak. No-one eats my friends!", size="-big"},
+			{delay=3000, speaker=characterBrainiak, dir=right, text="Raaagh you can't stop me..."},
+			{delay=3000,                            dir=left,  text="Skyanna I'm coming for you!"},
+		]]
+		},
+	},
 
 
 -- INGAME HELP --

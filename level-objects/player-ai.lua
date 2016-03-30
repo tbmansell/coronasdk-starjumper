@@ -374,6 +374,25 @@ function player:analyseNextJump()
 				self:doNextJump(vel[1], -vel[2])
 				return
 			end
+
+			local special = jumpLogic.useSpecialAbility
+			if special then
+				after(special.after, function()
+					self:destroyPathFinder()
+					self.jumpPrepared = false
+					self:wait(5)
+
+					if special.targetType == "ledge" then
+						local ledge   = hud.level:getLedge(special.target)
+						self.jumpFrom = ledge
+						self:useSpecialAbility(ledge)
+					else
+						self:useSpecialAbility(special.target)
+					end
+
+					return
+				end)
+			end
 		end
 	end
 

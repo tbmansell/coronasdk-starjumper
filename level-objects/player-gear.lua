@@ -451,6 +451,11 @@ function player:climbLedgeMove(ledge)
         ledge:land(self)
 
         if self.main then self:getCamera():track() end
+
+        -- check here if a climb triggers a finish ledge event as well as when landing
+        if ledge.type == "finish" and self.completedCallback then
+            self:completedCallback()
+        end
     end})
 end
 

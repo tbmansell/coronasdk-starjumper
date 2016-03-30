@@ -189,7 +189,11 @@ end
 function playerBuilder:applyPlayerOptions(camera, spec, player)
     -- apply animation after reset as that makes players stand:
     if spec.animation then
-        player:loop(spec.animation)
+        if spec.dontLoop then
+            player:animate(spec.animation)
+        else
+            player:loop(spec.animation)
+        end
     end
 
     if spec.loadGear then
@@ -218,11 +222,11 @@ function playerBuilder:applyCharacterAbilities(player)
         -- Hammer: can take two hits from a deadly enemy before he is killed (once per zone)
         player.ironSkin = 2
 
-    elseif player.model == characterKranio then
+    elseif player.model == characterKranio or player.model == characterBrainiak then
         -- Brainiak: can convert one spine ledge into a normal ledge of the same size, per zone
         player.specialAbility = 1
 
-        function player:tapOtherLedge(ledge)
+        function player:useSpecialAbility(ledge)
             if self.specialAbility > 0 then
                 hud.level:transformLedge(self.attachedLedge, ledge, function(success, newLedge)
                     if success then
@@ -242,11 +246,11 @@ function playerBuilder:applyCharacterAbilities(player)
             end
         end
 
-    elseif player.model == characterReneGrey then
+    elseif player.model == characterReneGrey or player.model == characterEarlGrey then
         -- Grey: can teleport to the next / previous ledge once per zone
         player.specialAbility = 1
         
-        function player:tapOtherLedge(ledge)
+        function player:useSpecialAbility(ledge)
             local id = self.attachedLedge.id
             -- check if they have teleport power left and ledge is next or previous only
             if self.specialAbility > 0 and ledge.type ~= "start" and ledge.type ~= "finish" and (ledge.id == id-1 or ledge.id == id+1) then
@@ -277,7 +281,7 @@ function playerBuilder:applyCharacterAbilities(player)
                 seq.onComplete = function() warp:destroy() end
                 seq:start()
 
-                if self.specialAbility == 0 then hud:hideSpecialAbility() end
+                if self.main and self.specialAbility == 0 then hud:hideSpecialAbility() end
             else
                 self:sound("shopCantBuy")
             end

@@ -69,8 +69,8 @@ function globalTapLedge(target, event)
                 player:moveOnLedge(dest)
             end
         -- special use: tapping a ledge a character is not on
-        elseif player.tapOtherLedge then
-            player:tapOtherLedge(ledge)
+        elseif player.useSpecialAbility then
+            player:useSpecialAbility(ledge)
         end
     end
     return true
