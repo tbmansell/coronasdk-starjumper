@@ -7,6 +7,14 @@ local scene      = storyboard.newScene()
 local play = globalSoundPlayer
 
 
+-- Stop the phone back button from exiting the game
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        return true
+    end
+end
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
     sounds:loadPlayer(state.data.playerModel)
@@ -35,6 +43,8 @@ function scene:enterScene(event)
     self:newOption("story",     scene.initStoryGame)
     self:newOption("arcade",    scene.initArcadeGame)
     self:newOption("challenge", scene.initChallengeGame)
+
+    Runtime:addEventListener("key", sceneKeyEvent)
 
     self:startMusic()
     self:startAnimations()
@@ -362,6 +372,7 @@ end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
+    Runtime:removeEventListener("key", sceneKeyEvent)
     anim:destroy()
     track:cancelEventHandles()
 end

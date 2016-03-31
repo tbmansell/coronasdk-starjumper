@@ -19,6 +19,15 @@ local function sceneEnterFrameEvent(event)
 end
 
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        scene:exitProgress()
+        return true
+    end
+end
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
 end
@@ -48,6 +57,7 @@ function scene:enterScene(event)
     self:summary()
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:addEventListener("key", sceneKeyEvent)
 end
 
 
@@ -303,6 +313,8 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:removeEventListener("key", sceneKeyEvent)
+    track:cancelEventHandles()
     anim:destroy()
 
     if self.tip then

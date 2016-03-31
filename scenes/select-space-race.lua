@@ -6,6 +6,14 @@ local scene       = storyboard.newScene()
 local play = globalSoundPlayer
 
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        return true
+    end
+end
+
+
 local function moveZones(event)
     if event.phase == "began" then
         scene.startY = scene.moveable.y
@@ -56,6 +64,8 @@ function scene:enterScene(event)
     state:newScene("select-space-race")
     globalSceneTransitionGroup:removeSelf()
     globalSceneTransitionGroup = display.newGroup()
+
+    Runtime:addEventListener("key", sceneKeyEvent)
 end
 
 
@@ -288,6 +298,7 @@ end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
+    Runtime:removeEventListener("key", sceneKeyEvent)
     anim:destroy()
 end
 

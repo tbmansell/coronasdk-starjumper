@@ -10,7 +10,7 @@ settings = {
 	},
     android =
     {
-        usesExpansionFile = true,
+        -- usesExpansionFile = true,
         supportsTV = true,
         isGame = true,
 

@@ -133,6 +133,17 @@ local function sceneTouchEvent(event)
 end
 
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        if hud and hud.showPauseMenu then
+            hud:showPauseMenu()
+        end
+        return true
+    end
+end
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
     local game = state.data.gameSelected
@@ -277,6 +288,7 @@ function scene:createEventHandlers()
 
     Runtime:addEventListener("enterFrame", enterFrameFunction)
     Runtime:addEventListener("touch",      sceneTouchEvent)
+    Runtime:addEventListener("key",        sceneKeyEvent)
 
     self.gameLoopHandle = timer.performWithDelay(250, level.updateBehaviours, 0)
 end
@@ -683,11 +695,9 @@ end
 function scene:unloadLevel()
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
     Runtime:removeEventListener("touch",      sceneTouchEvent)
-    --Runtime:removeEventListener("tap",        sceneTapEvent)
+    Runtime:removeEventListener("key", sceneKeyEvent)
     timer.cancel(self.gameLoopHandle)
     track:cancelEventHandles()
-
-    -- TODO: unload sounds for AI players?
 
     physics.stop()
     anim:destroy()

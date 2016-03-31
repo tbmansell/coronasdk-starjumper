@@ -43,6 +43,15 @@ local function sceneEnterFrameEvent(event)
 end
 
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        scene:exitToPlanetSelect()
+        return true
+    end
+end
+
+
 local function moveBackground(event)
     if event.phase == "began" then
         scene.startX = scene.moveable.x
@@ -86,9 +95,10 @@ function scene:enterScene(event)
     self:createSceneMoveableContent(event)
     self:displayHud()
     self:startMusic()
-
     setMovementStyleSpeeds()
+
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:addEventListener("key", sceneKeyEvent)
 end
 
 
@@ -611,6 +621,7 @@ function scene:exitScene(event)
     audio.fadeOut({channel=self.musicChannel, time=1000})
 
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:removeEventListener("key", sceneKeyEvent)
     track:cancelEventHandles()
 
     anim:destroy()

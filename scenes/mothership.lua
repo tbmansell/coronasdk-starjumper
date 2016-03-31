@@ -57,6 +57,14 @@ local function sceneEnterFrameEvent(event)
 end
 
 
+-- Stop the phone back button from exiting the game
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        return true
+    end
+end
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
 end
@@ -84,6 +92,7 @@ function scene:enterScene(event)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:addEventListener("key", sceneKeyEvent)
 
     self:loadStory()
     self:loadBoss()
@@ -457,7 +466,7 @@ end
 
 function scene:exitToStore()
     loadSceneTransition(1)
-    --after(10, function() storyboard:gotoScene("scenes.inapp-purchases") end)
+    state.inappPurchaseType = "planet"
     storyboard:gotoScene("scenes.inapp-purchases", {effect="fade", time=750})
     return true
 end
@@ -473,14 +482,21 @@ end
 -- Called when scene is about to move offscreen:
 function scene:exitScene(event)
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:removeEventListener("key", sceneKeyEvent)
+    track:cancelEventHandles()
+
     anim:destroy()
+    spineStore:destroy()
+    particles:destroy()
+    spineCollection:destroy()
+
     self.planetSpec = nil
 end
 
 
 -- Called AFTER scene has finished moving offscreen:
 function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.title")
+    storyboard.purgeScene("scenes.mothership")
 end
 
 

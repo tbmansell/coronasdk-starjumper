@@ -40,6 +40,15 @@ local function sceneEnterFrameEvent(event)
 end
 
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        scene:exitPlayerSelect()
+        return true
+    end
+end
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
 end
@@ -62,6 +71,7 @@ function scene:enterScene(event)
 
     self.animateLoop = timer.performWithDelay(5000, scene.switchAnimation, 0)
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:addEventListener("key", sceneKeyEvent)
 end
 
 
@@ -286,10 +296,12 @@ function scene:exitScene(event)
     audio.fadeOut({channel=self.musicChannel, time=1000})
 
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:removeEventListener("key", sceneKeyEvent)
+    track:cancelEventHandles()
+    timer.cancel(self.animateLoop)
+
     anim:destroy()
     spineStore:destroy()
-
-    timer.cancel(self.animateLoop)
 
     self.stats:removeSelf()
     self.labelCubes:removeSelf()

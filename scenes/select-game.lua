@@ -36,6 +36,14 @@ local function sceneEnterFrameEvent(event)
     spineCollection:animateEach(event)
 end
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        scene:contextBack()
+        return true
+    end
+end
+
 
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
@@ -84,6 +92,7 @@ function scene:enterScene(event)
     self:startMusic()
     self:startSparkles()
     Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+    Runtime:addEventListener("key", sceneKeyEvent)
 end
 
 
@@ -1070,8 +1079,9 @@ function scene:exitScene(event)
     end
 
     Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-
+    Runtime:removeEventListener("key", sceneKeyEvent)
     anim:destroy()
+
     particles:destroy()
     stopSparkles()
 

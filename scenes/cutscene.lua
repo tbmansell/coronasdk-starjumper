@@ -15,6 +15,14 @@ local level              = nil
 local enterFrameFunction = nil
 
 
+-- Treat phone back button same as back game button
+local function sceneKeyEvent(event)
+    if event.keyName == "back" and event.phase == "up" then
+        return true
+    end
+end
+
+
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
 end
@@ -86,6 +94,7 @@ function scene:createEventHandlers()
     self.gameLoopHandle = timer.performWithDelay(250, level.updateBehaviours, 0)
 
     Runtime:addEventListener("enterFrame", enterFrameFunction)
+    Runtime:addEventListener("key", sceneKeyEvent)
 end
 
 
@@ -173,10 +182,9 @@ end
 
 function scene:unloadCutScene()
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
+    Runtime:removeEventListener("key", sceneKeyEvent)
     timer.cancel(self.gameLoopHandle)
     track:cancelEventHandles()
-
-    -- TODO: unload sounds for AI players?
 
     physics.stop()
     anim:destroy()
