@@ -8,6 +8,20 @@ settings = {
 		default = "landscapeRight",
 		supported = { "landscapeLeft", "landscapeRight" },
 	},
+    android =
+    {
+        usesExpansionFile = true,
+        supportsTV = true,
+        isGame = true,
+
+        usesPermissions =
+        {
+            "com.android.vending.BILLING",
+            "com.android.vending.CHECK_LICENSE",
+            "android.permission.INTERNET",
+            "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+    },
 	iphone =
 	{
 		plist=
@@ -36,6 +50,11 @@ settings = {
         ["plugin.google.play.services"] = 
         {
             publisherId = "com.coronalabs"
+        },
+        ["plugin.google.iap.v3"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { android=true }
         },
     },
 }

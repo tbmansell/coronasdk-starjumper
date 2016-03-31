@@ -22,8 +22,8 @@ local levelData = {
                 movement={pattern=movePatternFollow, offsetY=-200, speed=5, pause=500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig},
             },
 
-        --{object="ledge", x=500, y=200, size="small", triggerEvent="rescue"},
-        {object="ledge", x=500, y=200, size="big", triggerEvent="rescue"},
+        {object="ledge", x=500, y=200, size="small"},
+        {object="ledge", x=500, y=200, size="big"},
 
             {object="player", x=400, y=-300, type="scripted", model=characterReneGrey, targetName="reneGrey", storyModeOnly=true, direction=left,
                 physicsBody="static", loadGear=gearGlider, animation="Powerup GLIDER",
@@ -66,10 +66,9 @@ local levelData = {
             {object="gear", type=gearTrajectory},
 
         {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}},
-                 {object="scenery", x=400, y=-325, rotation=20, type="fgflt-pole-1"},
-       
+            {object="scenery", x=400, y=-325, rotation=20, type="fgflt-pole-1"},
 
-        {object="ledge", x=300, y=-150, surface="electric"},
+        {object="ledge", x=300, y=-150, surface="electric", triggerEvent="rescue"},
             {object="rings", color=aqua, trajectory={x=50, y=-175, xforce=150, yforce=30, arc=45, num=3}},
        
         {object="ledge", x=300, y=-150, surface="ramp"},

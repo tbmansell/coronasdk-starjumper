@@ -11,4 +11,11 @@ application =
         height = 960,
         scale  = "letterbox",	 --game built in this format so far
 	},
+	license =
+    {
+        google =
+        {
+            key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArHP/FlZXBa1ulf0qzYzaPQxtQ1AZK+2YdLhbe37M4f0PrI9/bF1UruZAjL3QIBvwcbSUrL0HKBCRMzls9Rl04bcWvr5x+5im+W4+CgYTsb8OKn6ODsj0ffAz19u/1Ofy2rO7XbARQMQEhZ5E4xsjOrK1LzwJQORxBVTjOBMuOo6POhF6d5M7W4g8Qw7005MmkLdTPjHT1NO+SlrEksXa4sRfF+YCgmIu17XdsHXL31oLEFAGJKncqjEz2antNG5nk4JdOJTGoyUcWSXvssf5OUVSRPsSox6dMlPeBbpBZ2LIiiJpSnDsCnPoH4cO4yldlEnTHaJZK3tA6WZiN+1QSwIDAQAB",
+        },
+    },
 }

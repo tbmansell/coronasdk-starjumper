@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.10.12"
+globalBuildVersion = "0.11.0"
 
 -- Define global constants
 require("constants.globals")
@@ -38,7 +38,7 @@ sounds:loadRandomSounds()
 
 -- Fire off the start scene
 local storyboard = require("storyboard")
-local mode       = "play"
+local mode       = "game"
 
 
 -- game:   play the full game as normal from the title screen

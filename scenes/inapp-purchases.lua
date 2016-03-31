@@ -4,21 +4,37 @@ local particles  = require("core.particles")
 local scene      = storyboard.newScene()
 
 -- Local vars:
+local store       = nil
+local storeName   = nil
+local googleIAP   = false
+local productList = nil
+
+local appleProductList = {
+}
+
+local googleProductList = {
+    -- these product IDs are for testing and are supported by all Android apps
+    "android.test.purchased",
+    "android.test.canceled",
+    "android.test.refunded",
+    "android.test.item_unavailable"
+}
+
 local IAPData = {
     planets = {
-        ["planet-pack-1"] = { cost = 0.99,  label = "99p" },
-        ["planet-pack-2"] = { cost = 0.99,  label = "99p" },
-        ["planet-pack-3"] = { cost = "n/a", label = "coming soon" },
+        ["planet-pack-1"]   = { id="planet-pack1",         cost = 0.99,  label = "99p" },
+        ["planet-pack-2"]   = { id="planet-pack2",         cost = 0.99,  label = "99p" },
+        ["planet-pack-3"]   = { id="planet-pack3",         cost = "n/a", label = "coming soon" },
     },
     gear = {
-        ["small-jump-gear"] = { cost = 0.49, label="49p",   quantity = 5 },
-        ["small-air-gear"]  = { cost = 0.49, label="49p",   quantity = 5 },
-        ["small-land-gear"] = { cost = 0.29, label="29p",   quantity = 5 },
-        ["large-jump-gear"] = { cost = 0.79, label="79p",   quantity = 10 },
-        ["large-air-gear"]  = { cost = 0.79, label="79p",   quantity = 10 },
-        ["large-land-gear"] = { cost = 0.49, label="49p",   quantity = 10 },
-        ["small-all-gear"]  = { cost = 1.00, label="99p",   quantity = 5  },
-        ["large-all-gear"]  = { cost = 1.79, label="£1.79", quantity = 10 },
+        ["small-jump-gear"] = { id="small-jump-gear-pack", cost = 0.49, label="49p",   quantity = 5 },
+        ["small-air-gear"]  = { id="small-air-gear-pack",  cost = 0.49, label="49p",   quantity = 5 },
+        ["small-land-gear"] = { id="small-land-gear-pack", cost = 0.29, label="29p",   quantity = 5 },
+        ["large-jump-gear"] = { id="large-jump-gear-pack", cost = 0.79, label="79p",   quantity = 10 },
+        ["large-air-gear"]  = { id="large-air-gear-pack",  cost = 0.79, label="79p",   quantity = 10 },
+        ["large-land-gear"] = { id="large-land-gear-pack", cost = 0.49, label="49p",   quantity = 10 },
+        ["small-all-gear"]  = { id="small-all-gear-pack",  cost = 1.00, label="99p",   quantity = 5  },
+        ["large-all-gear"]  = { id="large-all-gear-pack",  cost = 1.79, label="£1.79", quantity = 10 },
     },
     special = {
         -- NONE
@@ -40,6 +56,28 @@ local play = globalSoundPlayer
 
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
+    if self:initStore() then
+        store.init(storeName, scene.storeTransaction)
+    end
+end
+
+
+function scene:initStore()
+    if (system.getInfo("platformName") == "Android") then
+        store       = require("plugin.google.iap.v3")
+        stoireName  = "google"
+        productList = googleProductList
+        googleIAP   = true
+        return true
+    elseif (system.getInfo("platformName") == "iPhone OS") then
+        store       = require("store")
+        storeName   = "apple"
+        productList = appleProductList
+        return true
+    else
+        --native.showAlert("Notice", "In-app purchases are not supported in the Corona Simulator.", { "OK" })
+        return false
+    end
 end
 
 
@@ -201,6 +239,27 @@ end
 
 
 function scene:purchase(product)
+    print("purchase "..product.id)
+
+    if store == nil then
+        print("Inapp purchases not available as no store laoded")
+        return
+    end
+
+    if store.canMakePurchases then
+        if googleIAP then
+            store.purchase(product.id)
+        else
+            store.purchase({product.id})
+        end
+    else
+        print("Store purchases have been disabled in phone settings")
+    end
+end
+
+
+function scene:storeTransaction(event)
+    local self = scene
 end
 
 
