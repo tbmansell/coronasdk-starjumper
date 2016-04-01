@@ -42,6 +42,12 @@ local characterPosition = {
         ypos  = 580,
         hologram = {xpos=240, ypos=555}
     },
+    {
+        model = characterRobocop,
+        xpos  = 50,
+        ypos  = 550,
+        hologram = {xpos=300, ypos=500}
+    },
 }
 
 

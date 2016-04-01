@@ -128,7 +128,7 @@ local state = {
         unlocked = {
             -- list of characters unlocked
             --characters = { characterNewton },
-            characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey },
+            characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
             -- list of gear that is unlocked
             --gear = {},
             gear = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },

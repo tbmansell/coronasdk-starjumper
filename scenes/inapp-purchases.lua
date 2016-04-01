@@ -54,11 +54,21 @@ local googleProductList = {
     "com.weaksaucegames.StarJumper.gear_pack_land_large",
     "com.weaksaucegames.StarJumper.gear_pack_everything_small",
     "com.weaksaucegames.StarJumper.gear_pack_everything_large",
+    "com.coronalabs.planet_pack1",
+    "com.coronalabs.planet_pack2",
+    "com.coronalabs.gear_pack_jump_small",
+    "com.coronalabs.gear_pack_air_small",
+    "com.coronalabs.gear_pack_land_small",
+    "com.coronalabs.gear_pack_jump_large",
+    "com.coronalabs.gear_pack_air_large",
+    "com.coronalabs.gear_pack_land_large",
+    "com.coronalabs.gear_pack_everything_small",
+    "com.coronalabs.gear_pack_everything_large",
     -- these product IDs are for testing and are supported by all Android apps
-    "android.test.purchased",
+    --[["android.test.purchased",
     "android.test.canceled",
     "android.test.refunded",
-    "android.test.item_unavailable",
+    "android.test.item_unavailable",]]
 }
 
 local IAPData = {
@@ -141,15 +151,25 @@ function scene:createScene(event)
             self:showStatus("Reading product list from store: "..tostring(storeName))
 
             store.loadProducts(productList, function(event) 
-                self:showStatus("Product list loaded. #Products: "..#event.products)
+                self:showStatus("Product list loaded. #Products: "..#event.products.." #Invalid: "..#event.invalidProducts)
 
                 for i=1, #event.products do
                     after(i*5000, function() 
                         local p = event.products[i]
 
-                        self:showStatus(i..". "..tostring(p.productIdentifier)..", "..tostring(p.title)..", "..tostring(p.price))
+                        self:showStatus(i..". valid: "..tostring(p.productIdentifier)..", "..tostring(p.title)..", "..tostring(p.price))
                     end)
                 end
+
+                after(4000, function()
+                    self:showStatus("Product list invalid. #Products: "..#event.invalidProducts )
+
+                    for i=1, #event.invalidProducts  do
+                        after(i*5000, function() 
+                            self:showStatus(i..". invalid: "..event.invalidProducts[i])
+                        end)
+                    end
+                end)
             end)
         else
             self:showStatus("Store does not allow loading of products: "..storeName)
@@ -215,7 +235,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene(event)
     Runtime:addEventListener("key", sceneKeyEvent)
-    
+
     logAnalytics("inapp-purchases", "enterScene")
     state:newScene("inapp-purchases")
     clearSceneTransition()

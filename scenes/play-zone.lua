@@ -137,7 +137,11 @@ end
 local function sceneKeyEvent(event)
     if event.keyName == "back" and event.phase == "up" then
         if hud and hud.showPauseMenu then
-            hud:showPauseMenu()
+            if state.data.game == levelPaused then
+                hud:resumeGameFromPauseMenu()
+            else
+                hud:showPauseMenu()
+            end
         end
         return true
     end

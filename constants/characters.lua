@@ -9,6 +9,9 @@ characterKranio     = 5
 characterHammer     = 6
 characterEarlGrey   = 7
 characterReneGrey   = 8
+-- planet three:
+characterCykill     = 9
+characterRobocop    = 10
 
 
 -- Player behaviour modes
@@ -208,6 +211,34 @@ characterData = {
             ability   = "teleporter",
             throws    = "back-porter",
         }
+    },
+
+    [characterCykill] = {
+        name          = "cykill",
+        playable      = false,
+        enemy         = true,
+        title         = "cyborg destroyer",
+        skin          = "Urban Alien",
+        shipSkin      = "orange",
+        color         = "orange",
+        nativeNegable = negBackPorter,
+        planet        = 3,
+        soundIndex    = characterEarlGrey,  -- todo
+        soundFolder   = "earlgrey",         -- todo
+    },
+    [characterRobocop] = {
+        name          = "robocop",
+        playable      = true,
+        enemy         = false,
+        title         = "cyborg saviour",
+        skin          = "Urban Alien",
+        shipSkin      = "orange",
+        color         = "orange",
+        nativeNegable = negBackPorter,
+        planet        = 3,
+        soundIndex    = characterEarlGrey,  -- todo
+        soundFolder   = "earlgrey",         -- todo
+        bio = {}
     },
 
 }
