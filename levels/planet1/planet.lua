@@ -39,7 +39,6 @@ local planetData = {
         [23] = { x=4200, y=400, secret=true, hint={} },
         [24] = { x=4350, y=280, secret=true, hint={} },
         [25] = { x=4500, y=450, secret=true, hint={} },
-        [26] = { x=4620, y=300, secret=true, hint={} },
     },
 
     -- Story mode zone select scene - spine objects shown

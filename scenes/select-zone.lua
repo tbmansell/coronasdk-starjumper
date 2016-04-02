@@ -152,7 +152,9 @@ function scene:createSceneMoveableContent(event)
     elseif px < 9 then  scene.moveable.x = -750
     elseif px < 14 then scene.moveable.x = -1500
     elseif px < 18 then scene.moveable.x = -2200
-    elseif px < 22 then scene.moveable.x = -2900 end
+    elseif px < 22 then scene.moveable.x = -2900 
+    elseif px < 26 then scene.moveable.x = -3600 
+    end
 
     moveable:insert(camera)
 end
@@ -224,13 +226,15 @@ function scene:createZones(moveable)
     self.zones.stars.alpha  = 0
     self.zones.awards.alpha = 0
 
+    local planet   = state.data.planetSelected
     local nextZone = nil
 
     for number=1, #self.planetData.zones do
         local zone = {
-            id    = number,
-            data  = self.planetData.zones[number],
-            state = state:zoneState(number)
+            id       = number,
+            data     = self.planetData.zones[number],
+            state    = state:zoneState(number),
+            unlocked = state:zoneUnlocked(planet, number),
         }
 
         local tabType = "todo"
@@ -250,7 +254,7 @@ function scene:createZones(moveable)
         zone.image.tap  = scene.selectZone
         zone.image:addEventListener("tap", zone.image)
 
-        if zone.data.secret then
+        if zone.data.secret and not zone.unlocked then
             new_image(moveable, "locking/lock", x+40, y-100, 0.6, 0.9)
         end
 
@@ -263,7 +267,7 @@ function scene:createZones(moveable)
             self.player.image.y = zone.image.y - 10
         end
 
-        if nextZone == nil and not zone.state.completed and state:zoneUnlocked(state.data.planetSelected, number) then
+        if nextZone == nil and not zone.state.completed and zone.unlocked then
             self:animateNextZone(moveable, zone.tab, zone.textNumber)
             nextZone = number
         end

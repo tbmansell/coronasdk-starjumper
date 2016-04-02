@@ -30,7 +30,7 @@ function scene:enterScene(event)
     local planet  = math.random(1,2)
     
     newImage(group, "title/title-screen"..planet, centerX, centerY)
-    newText(group, "version: "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
+    newText(group, "version "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
 
     local options = newImage(group, "title/settings2", 25, 610)
     options:addEventListener("tap", scene.showSettings)

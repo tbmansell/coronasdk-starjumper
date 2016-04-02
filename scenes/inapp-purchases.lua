@@ -257,7 +257,7 @@ function scene:newPlanetBuyer(planetGroup, planet, available, xpos)
             local b1, b2 = newButton(planetGroup, xpos-40, 400, "buy", function() scene:purchase(product) end)
             self:animate(b1, b2)
 
-            product.labelPrice     = display.newText(planetGroup, " £££", xpos+65, 400, "arial", 22)
+            product.labelPrice     = display.newText(planetGroup, " ", xpos+65, 400, "arial", 22)
             product.labelPurchased = purchasedText
             product.buyButton1     = b1
             product.buyButton2     = b2

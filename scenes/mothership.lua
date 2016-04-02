@@ -139,19 +139,21 @@ end
 
 
 function scene:moveBoss()
-    local seq = anim:oustSeq("bossHover", self.boss.image)
-    seq.target2 = self.boss.particles
+    if self.boss.image then
+        local seq = anim:oustSeq("bossHover", self.boss.image)
+        seq.target2 = self.boss.particles
 
-    if self.hoverBossUp then
-        self.hoverBossUp = false
-        seq:tran({y=self.boss.image.y - 30, time=1333})
-    else
-        self.hoverBossUp = true
-        seq:tran({y=self.boss.image.y + 30, time=1333})
+        if self.hoverBossUp then
+            self.hoverBossUp = false
+            seq:tran({y=self.boss.image.y - 30, time=1333})
+        else
+            self.hoverBossUp = true
+            seq:tran({y=self.boss.image.y + 30, time=1333})
+        end
+
+        seq.onComplete = function() self:moveBoss() end
+        seq:start()
     end
-
-    seq.onComplete = function() self:moveBoss() end
-    seq:start()
 end
 
 

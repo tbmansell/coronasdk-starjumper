@@ -17,8 +17,7 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
             {object="scenery", x=250, type="fg-foilage-2-yellow", layer=2, onLedge=true},         
-            fgflt-tree-1-yellow    
-           
+            
 
 -- Down
         {object="ledge", size="small3", x=375, y=150},

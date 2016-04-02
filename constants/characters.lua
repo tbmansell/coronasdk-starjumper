@@ -228,7 +228,7 @@ characterData = {
     },
     [characterRobocop] = {
         name          = "robocop",
-        playable      = true,
+        playable      = false,
         enemy         = false,
         title         = "cyborg saviour",
         skin          = "Urban Alien",

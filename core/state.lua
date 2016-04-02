@@ -61,7 +61,8 @@ local state = {
         },
 
         -- complete level progress for game,  in this format:
-        --[[]
+        levelProgress = {},
+        --[[
         levelProgress  = {
             [1] = {  -- planet 
                 [gameTypeStory] = {  -- game type
@@ -88,8 +89,7 @@ local state = {
                     },
                 }
             }
-        },]]
-        levelProgress = {},
+        }, ]]
 
         -- Gear players currently owns:
         --[[
@@ -103,7 +103,7 @@ local state = {
             [land] = {
                 ["item"] = quantity,
             }
-        }]]
+        }  ]]
         playerGear = {
             [jump]     = {},
             [air]      = {},
@@ -122,40 +122,41 @@ local state = {
         storiesAcknowledged   = {},
         -- Simple list of tutorialIds that the player has seen and tapped OK to ensure they dont play again
         tutorialsAcknowledged = {},
+        -- A simple list of permanent purchases (planet packs, special features) the player has made: a simple list of each product id.
+        permanentPurchases    = {},
 
-        -- Structure which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
+        -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
         -- This is the starting structure when nothing is unlocked.
         unlocked = {
             -- list of characters unlocked
-            --characters = { characterNewton },
-            characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
+            characters = { characterNewton },
             -- list of gear that is unlocked
-            --gear = {},
-            gear = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
+            gear = {},
             -- list of planets that are unlocked
             planets = {
                 [1] = {
                     -- list of zones in planet that are unlocked
-                    --zones = { 1 },
-                    zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21},
+                    zones = { 1 },
                     -- list of game modes for planet that are unlocked
-                    --games = { gameTypeStory }
+                    games = { gameTypeStory },
+                },
+            },
+        },
+        --[[ TEST UNLOCK STRUCTURE
+        unlocked = {
+            characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
+            gear       = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
+            planets = {
+                [1] = {
+                    zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21},
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
-
                 [2] = {
-                    -- list of zones in planet that are unlocked
-                    --zones = { 1 },
                     zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21},
-                    -- list of game modes for planet that are unlocked
-                    --games = { gameTypeStory }
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
             }
-        },
-
-        -- A simple list of permanent purchases (planet packs, special features) the player has made: a simple list of each product id.
-        permanentPurchases = {},
+        }, ]]
     }
 
     -- Methods:
@@ -267,14 +268,14 @@ end
 
 -- Updates the saved data to mark this story has been viewed
 function state:saveStoryViewed(storyId)
-    if string.sub(storyId, 1, 9) ~= "cutscene-" then
-        if self.data.storiesAcknowledged == nil then 
-            self.data.storiesAcknowledged = {}
-        end
-
-        self.data.storiesAcknowledged[storyId] = true
-        self:saveGame()
+    --if string.sub(storyId, 1, 9) ~= "cutscene-" then
+    if self.data.storiesAcknowledged == nil then 
+        self.data.storiesAcknowledged = {}
     end
+
+    self.data.storiesAcknowledged[storyId] = true
+    self:saveGame()
+    --end
 end
 
 
@@ -386,11 +387,7 @@ function state:zoneState(zoneNumber, planetNumber, gameType)
     local planet = planetNumber or self.data.planetSelected
     local game   = gameType     or self.data.gameSelected
 
-    if self.data.levelProgress[planet][game][zoneNumber] == nil then
-        return nil
-    else
-        return self.data.levelProgress[planet][game][zoneNumber]
-    end
+    return self.data.levelProgress[planet][game][zoneNumber]
 end
 
 
