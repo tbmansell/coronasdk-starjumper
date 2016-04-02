@@ -7,113 +7,30 @@ local scene      = storyboard.newScene()
 local store       = nil
 local storeName   = nil
 local googleIAP   = false
-local productList = nil
 local transactionProduct = nil
 
-local appleProductList = {
-    "planet_pack1",
-    "planet_pack2",
-    "gear_pack_jump_small",
-    "gear_pack_air_small",
-    "gear_pack_land_small",
-    "gear_pack_jump_large",
-    "gear_pack_air_large",
-    "gear_pack_land_large",
-    "gear_pack_everything_small",
-    "gear_pack_everything_large",
-    "com.weaksaucegames.StarJumper.planet_pack1",
-    "com.weaksaucegames.StarJumper.planet_pack2",
-    "com.weaksaucegames.StarJumper.gear_pack_jump_small",
-    "com.weaksaucegames.StarJumper.gear_pack_air_small",
-    "com.weaksaucegames.StarJumper.gear_pack_land_small",
-    "com.weaksaucegames.StarJumper.gear_pack_jump_large",
-    "com.weaksaucegames.StarJumper.gear_pack_air_large",
-    "com.weaksaucegames.StarJumper.gear_pack_land_large",
-    "com.weaksaucegames.StarJumper.gear_pack_everything_small",
-    "com.weaksaucegames.StarJumper.gear_pack_everything_large",
-}
-
-local googleProductList = {
-    "planet_pack1",
-    "planet_pack2",
-    "gear_pack_jump_small",
-    "gear_pack_air_small",
-    "gear_pack_land_small",
-    "gear_pack_jump_large",
-    "gear_pack_air_large",
-    "gear_pack_land_large",
-    "gear_pack_everything_small",
-    "gear_pack_everything_large",
-    "com.weaksaucegames.StarJumper.planet_pack1",
-    "com.weaksaucegames.StarJumper.planet_pack2",
-    "com.weaksaucegames.StarJumper.gear_pack_jump_small",
-    "com.weaksaucegames.StarJumper.gear_pack_air_small",
-    "com.weaksaucegames.StarJumper.gear_pack_land_small",
-    "com.weaksaucegames.StarJumper.gear_pack_jump_large",
-    "com.weaksaucegames.StarJumper.gear_pack_air_large",
-    "com.weaksaucegames.StarJumper.gear_pack_land_large",
-    "com.weaksaucegames.StarJumper.gear_pack_everything_small",
-    "com.weaksaucegames.StarJumper.gear_pack_everything_large",
-    "com.coronalabs.planet_pack1",
-    "com.coronalabs.planet_pack2",
-    "com.coronalabs.gear_pack_jump_small",
-    "com.coronalabs.gear_pack_air_small",
-    "com.coronalabs.gear_pack_land_small",
-    "com.coronalabs.gear_pack_jump_large",
-    "com.coronalabs.gear_pack_air_large",
-    "com.coronalabs.gear_pack_land_large",
-    "com.coronalabs.gear_pack_everything_small",
-    "com.coronalabs.gear_pack_everything_large",
-    -- these product IDs are for testing and are supported by all Android apps
-    --[["android.test.purchased",
-    "android.test.canceled",
-    "android.test.refunded",
-    "android.test.item_unavailable",]]
-}
-
-local IAPData = {
+local productData = {
     -- how many of each gear is purchased for pack sizes
     quantitySmall = 5,
     quantityLarge = 10,
 
+    -- costs listed here are static costs for when we cannot connect to the store - but they may not reflect the real prices
     planets = {
-        ["planet_pack1"]                = { id="planet_pack1",                  cost=0.99 },
-        ["planet_pack2"]                = { id="planet_pack2",                  cost=0.99 },
-        ["planet_pack3"]                = { id="planet_pack3",                  cost="n/a" },
+        ["planet_pack1"]                = { cost=0.99, planet=1 },
+        ["planet_pack2"]                = { cost=0.99, planet=2 },
     },
     gear = {
-        ["gear_pack_jump_small"]        = { id="gear_pack_jump_small",          cost=0.50, },
-        ["gear_pack_air_small"]         = { id="gear_pack_air_small",           cost=0.50, },
-        ["gear_pack_land_small"]        = { id="gear_pack_land_small",          cost=0.50, },
-        ["gear_pack_jump_large"]        = { id="gear_pack_jump_large",          cost=0.85, },
-        ["gear_pack_air_large"]         = { id="gear_pack_air_large",           cost=0.85, },
-        ["gear_pack_land_large"]        = { id="gear_pack_land_large",          cost=0.85, },
-        ["gear_pack_everything_small"]  = { id="gear_pack_everything_small",    cost=1.00, },
-        ["gear_pack_everything_large"]  = { id="gear_pack_everything_large",    cost=1.79, },
+        ["gear_pack_jump_small"]        = { cost=0.50, gear=jump,  size="small" },
+        ["gear_pack_air_small"]         = { cost=0.50, gear=air,   size="small" },
+        ["gear_pack_land_small"]        = { cost=0.50, gear=land,  size="small" },
+        ["gear_pack_jump_large"]        = { cost=0.85, gear=jump,  size="large" },
+        ["gear_pack_air_large"]         = { cost=0.85, gear=air,   size="large" },
+        ["gear_pack_land_large"]        = { cost=0.85, gear=land,  size="large" },
+        ["gear_pack_everything_small"]  = { cost=1.00, gear="all", size="small" },
+        ["gear_pack_everything_large"]  = { cost=1.79, gear="all", size="large" },
     },
     special = {
-        -- NONE
     }
---[[
-    planets = {
-        ["planet_pack1"]                = { id="planet_pack1",                  cost=0.99,  label="99p" },
-        ["planet_pack2"]                = { id="planet_pack2",                  cost=0.99,  label="99p" },
-        ["planet_pack3"]                = { id="planet_pack3",                  cost="n/a", label="coming soon" },
-    },
-    gear = {
-        ["gear_pack_jump_small"]        = { id="gear_pack_jump_small",          cost=0.50,  label="50p",   quantity = 5 },
-        ["gear_pack_air_small"]         = { id="gear_pack_air_small",           cost=0.50,  label="50p",   quantity = 5 },
-        ["gear_pack_land_small"]        = { id="gear_pack_land_small",          cost=0.50,  label="50p",   quantity = 5 },
-        ["gear_pack_jump_large"]        = { id="gear_pack_jump_large",          cost=0.85,  label="85p",   quantity = 10 },
-        ["gear_pack_air_large"]         = { id="gear_pack_air_large",           cost=0.85,  label="85p",   quantity = 10 },
-        ["gear_pack_land_large"]        = { id="gear_pack_land_large",          cost=0.85,  label="85p",   quantity = 10 },
-        ["gear_pack_everything_small"]  = { id="gear_pack_everything_small",    cost=1.00,  label="£1.00", quantity = 5  },
-        ["gear_pack_everything_large"]  = { id="gear_pack_everything_large",    cost=1.79,  label="£1.79", quantity = 10 },
-    },
-    special = {
-        -- NONE
-    }
-]]
 }
 
 
@@ -141,61 +58,35 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:createScene(event)
-    Runtime:addEventListener("key", sceneKeyEvent)
-
-    if self:initStore() then
-        store.init(storeName, scene.storeTransaction)
-
-        if store.canLoadProducts then
-            -- attempt to read product lists from the inapp store
-            self:showStatus("Reading product list from store: "..tostring(storeName))
-
-            store.loadProducts(productList, function(event) 
-                self:showStatus("Product list loaded. #Products: "..#event.products.." #Invalid: "..#event.invalidProducts)
-
-                for i=1, #event.products do
-                    after(i*5000, function() 
-                        local p = event.products[i]
-
-                        self:showStatus(i..". valid: "..tostring(p.productIdentifier)..", "..tostring(p.title)..", "..tostring(p.price))
-                    end)
-                end
-
-                after(4000, function()
-                    self:showStatus("Product list invalid. #Products: "..#event.invalidProducts )
-
-                    for i=1, #event.invalidProducts  do
-                        after(i*5000, function() 
-                            self:showStatus(i..". invalid: "..event.invalidProducts[i])
-                        end)
-                    end
-                end)
-            end)
-        else
-            self:showStatus("Store does not allow loading of products: "..storeName)
-        end
-    end
-
-    self:setupProducts()
 end
 
 
-function scene:initStore()
-    if (system.getInfo("platformName") == "Android") then
-        store       = require("plugin.google.iap.v3")
-        storeName   = "google"
-        productList = googleProductList
-        googleIAP   = true
-        return true
-    elseif (system.getInfo("platformName") == "iPhone OS") then
-        store       = require("store")
-        storeName   = "apple"
-        productList = appleProductList
-        return true
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene(event)
+    Runtime:addEventListener("key", sceneKeyEvent)
+
+    logAnalytics("inapp-purchases", "enterScene")
+    state:newScene("inapp-purchases")
+    clearSceneTransition()
+
+    self.dontPlaySound = true
+    self.page = state.inappPurchaseType
+
+    self:setupProducts()
+    self:loadProductFromStore()
+    self:buildPages()
+    self:buildMenu()
+
+    if state.inappPurchaseType == "planet" then
+        self:showPage("planet")
+    elseif state.inappPurchaseType == "special" then
+        self:showPage("special")
     else
-        storeName   = "unknown"
-        self:showStatus("In-app purchases are not supported in the Corona Simulator")
-        return false
+        self:showPage("gear")
+    end
+
+    if self.statusGroup then
+        self.statusGroup:toFront()
     end
 end
 
@@ -210,9 +101,12 @@ end
 
 
 function scene:setupProductCategory(category)
-    for id, product in pairs(IAPData[category]) do
-        product.id    = id
-        product.label = self:createCostLabel(product.cost)
+    for id, product in pairs(productData[category]) do
+        product.id = id
+
+        if product.labelPrice then
+            product.labelPrice.text = self:createCostLabel(product.cost)
+        end
     end
 end
 
@@ -232,31 +126,70 @@ function scene:createCostLabel(cost)
 end
 
 
--- Called immediately after scene has moved onscreen:
-function scene:enterScene(event)
-    Runtime:addEventListener("key", sceneKeyEvent)
+function scene:loadProductFromStore()
+    if self:initStore() then
+        store.init(storeName, function(event) scene:storeTransaction(event) end)
 
-    logAnalytics("inapp-purchases", "enterScene")
-    state:newScene("inapp-purchases")
-    clearSceneTransition()
+        if store.canLoadProducts then
+            -- attempt to read product lists from the inapp store
+            --self:showStatus("Reading product list from store: "..tostring(storeName))
 
-    self.dontPlaySound = true
-    self.page = state.inappPurchaseType
+            -- build product list to load
+            local list = {}
+            for key,_ in pairs(productData.planets) do list[#list+1] = key end
+            for key,_ in pairs(productData.gear)    do list[#list+1] = key end
+            for key,_ in pairs(productData.special) do list[#list+1] = key end
 
-    self:buildPages()
-    self:buildMenu()
+            store.consumePurchase(list, function(event) self:showStatus("consumed products") end)
+            store.loadProducts(list, function(event) self:storeProductsLoaded(event) end)
+        else
+            --self:showStatus("Store does not allow loading of products: "..tostring(storeName))
+        end
+    end
+end
 
-    if state.inappPurchaseType == "planet" then
-        self:showPage("planet")
-    elseif state.inappPurchaseType == "special" then
-        self:showPage("special")
+
+function scene:initStore()
+    if system.getInfo("platformName") == "Android" then
+        store       = require("plugin.google.iap.v3")
+        storeName   = "google"
+        googleIAP   = true
+        return true
+    elseif (system.getInfo("platformName") == "iPhone OS") then
+        store       = require("store")
+        storeName   = "apple"
+        return true
     else
-        self:showPage("gear")
+        storeName   = "unknown"
+        --self:showStatus("In-app purchases are not supported in the Corona Simulator")
+        return false
+    end
+end
+
+
+-- Called when store.loadProducts completes
+function scene:storeProductsLoaded(event)
+    --self:showStatus("Product list loaded. products: "..#event.products.." invalidProducts: "..#event.invalidProducts)
+
+    for i=1, #event.products do
+        local product = event.products[i]
+        local pid     = product.productIdentifier
+        local price   = product.localizedPrice
+        
+        --[[local s = tostring(i)..". valid: "
+        for k,v in pairs(product) do
+            s = s..tostring(k).."="..tostring(v)..", "
+        end
+        self:showStatus(s)]]
+
+        if price then
+            if productData.planets[pid] then productData.planets[pid].cost = price end
+            if productData.gear[pid]    then productData.gear[pid].cost    = price end
+            if productData.special[pid] then productData.special[pid].cost = price end
+        end
     end
 
-    if self.statusGroup then
-        self.statusGroup:toFront()
-    end
+    self:setupProducts()
 end
 
 
@@ -286,25 +219,11 @@ end
 
 
 function scene:buildPlanetPage(planetGroup)
-    newImage(planetGroup, "inapp-purchases/iap-planet1", 190,     280)
-    newImage(planetGroup, "inapp-purchases/iap-planet2", centerX, 280)
-    newImage(planetGroup, "inapp-purchases/iap-planet3", 800,     280)
     newImage(planetGroup, "inapp-purchases/planet-text", centerX, 560)
 
-    self:newBand(planetGroup, 190,     400, 230, 70)
-    self:newBand(planetGroup, centerX, 400, 230, 70)
-
-    local b1, b1o = newButton(planetGroup, 160, 400, "buy", function() scene:purchase(IAPData.planets["planet_pack1"]) end)
-    local b2, b2o = newButton(planetGroup, 450, 400, "buy", function() scene:purchase(IAPData.planets["planet_pack2"]) end)
-
-    self:animate(b1, b1o)
-    self:animate(b2, b2o)
-    
-    newText(planetGroup, IAPData.planets["planet_pack1"].label, 255, 400, 0.6, "white")
-    newText(planetGroup, IAPData.planets["planet_pack2"].label, 545, 400, 0.6, "white")
-
-    local soon = newText(planetGroup, "coming soon", 780, 400, 0.8, "red", "CENTER")
-    soon:rotate(15)
+    self:newPlanetBuyer(planetGroup, 1, true,  190)
+    self:newPlanetBuyer(planetGroup, 2, true,  centerX)
+    self:newPlanetBuyer(planetGroup, 3, false, 800)
 end
 
 
@@ -321,9 +240,38 @@ function scene:buildGearPage(gearGroup)
 end
 
 
+function scene:newPlanetBuyer(planetGroup, planet, available, xpos)
+    local productId = "planet_pack"..planet
+    local product   = productData.planets[productId]
+
+    newImage(planetGroup, "inapp-purchases/iap-planet"..planet, xpos, 280)
+
+    if available then
+        self:newBand(planetGroup, xpos, 400, 230, 70)
+
+        local purchasedText = newText(planetGroup, "purchased!", xpos, 400, 0.8, "green", "CENTER")
+
+        if not state:hasPurchased(productId) then
+            purchasedText.alpha = 0
+
+            local b1, b2 = newButton(planetGroup, xpos-40, 400, "buy", function() scene:purchase(product) end)
+            self:animate(b1, b2)
+
+            product.labelPrice     = display.newText(planetGroup, " £££", xpos+65, 400, "arial", 22)
+            product.labelPurchased = purchasedText
+            product.buyButton1     = b1
+            product.buyButton2     = b2
+        end
+    else
+        local soon = newText(planetGroup, "coming soon", xpos-20, 400, 0.8, "red", "CENTER")
+        soon:rotate(15)
+    end
+end
+
+
 function scene:newGearBuyers(group, x, y, nameSmall, nameLarge)
-    local iapSmall = IAPData.gear[nameSmall]
-    local iapLarge = IAPData.gear[nameLarge]
+    local iapSmall = productData.gear[nameSmall]
+    local iapLarge = productData.gear[nameLarge]
 
     local b1, b1o = newButton(group, x, y,    "buy", function() scene:purchase(iapSmall) end, nil, 0.7)
     local b2, b2o = newButton(group, x, y+60, "buy", function() scene:purchase(iapLarge) end, nil, 0.7)
@@ -331,11 +279,11 @@ function scene:newGearBuyers(group, x, y, nameSmall, nameLarge)
     self:animate(b1, b1o, {baseScale=0.7})
     self:animate(b2, b2o, {baseScale=0.7})
 
-    newText(group, iapSmall.label, x+50, y+5,  0.4, "white", "LEFT")
-    newText(group, iapLarge.label, x+50, y+65, 0.4, "white", "LEFT")
+    iapSmall.labelPrice = display.newText(group, " ", x+100, y+5,  "arial", 22)
+    iapLarge.labelPrice = display.newText(group, " ", x+100, y+65, "arial", 22)
 
-    local l1 = display.newText(group, IAPData.quantitySmall.." of each", x+90, y-15, "arial", 18)
-    local l2 = display.newText(group, IAPData.quantityLarge.." of each", x+90, y+45, "arial", 18)
+    local l1 = display.newText(group, productData.quantitySmall.." of each", x+100, y-15, "arial", 20)
+    local l2 = display.newText(group, productData.quantityLarge.." of each", x+100, y+45, "arial", 20)
     l1:setTextColor(0,0,0)
     l2:setTextColor(0,0,0)
 end
@@ -398,34 +346,23 @@ function scene:showPage(page, hideStatus)
 end
 
 
-function scene:showStatus(text)
+-------------- PURCHASE A PRODUCT -----------------
+
+
+-- Use for TESTING on simulator
+function scene:purchase(product)
+    transactionProduct = product
     self:hideStatus()
-    print(text)
-
-    self.statusGroup = display.newGroup()
-    self.view:insert(self.statusGroup)
-
-    local bgr = display.newRoundedRect(self.statusGroup, centerX, 150, 880, 100, 15)
-    bgr:setFillColor(0.3,    0.3,  0.3,  0.85)
-    bgr:setStrokeColor(0.75, 0.75, 0.75, 0.75)
-    bgr.strokeWidth = 2
-
-    --display.newText(self.statusGroup, text, centerX, 180, 900, 100, "arial", 22)
-    display.newText({parent=self.statusGroup, text=text, x=centerX, y=180, width=900, height=100, fontSize=22, align="center"})
+    self:storeTransaction({transaction={state="purchased"}})
 end
 
-
-function scene:hideStatus()
-    if self.statusGroup then
-        self.statusGroup:removeSelf()
-        self.statusGroup = nil
-    end
-end
-
-
+--[[
+-- Use for Real Transactions
 function scene:purchase(product)
     self:hideStatus()
 
+    self:storeTransaction({transaction={state="purchased"}})
+    
     if store == nil then
         self:showStatus("Purchase "..product.id.." failed: purchases not available as no store loaded")
         return
@@ -445,25 +382,46 @@ function scene:purchase(product)
         self:showStatus("Store purchases have been disabled in phone settings")
     end
 end
-
+]]
 
 function scene:storeTransaction(event)
     local self        = scene
     local transaction = event.transaction
 
     if transaction.state == "purchased" then
-        self:showStatus("Purchase successful: "..tostring(transaction.productIdentifier))
-        transactionProduct.purchaseSuccess()
+        play(sounds.shopPurchase)
+        
+        local planet = transactionProduct.planet
+        local gear   = transactionProduct.gear
+        local size   = transactionProduct.size
+
+        if planet then
+            if     planet == 1 then self:purchasedPlanetPack1()
+            elseif planet == 2 then self:purchasedPlanetPack2() end
+        elseif gear then
+            if     gear == jump  and size == "small" then self:purchasedSmallJumpGearPack()
+            elseif gear == jump  and size == "large" then self:purchasedLargeJumpGearPack()
+            elseif gear == air   and size == "small" then self:purchasedSmallAirGearPack()
+            elseif gear == air   and size == "large" then self:purchasedLargeAirGearPack()
+            elseif gear == land  and size == "small" then self:purchasedSmallLandGearPack()
+            elseif gear == land  and size == "large" then self:purchasedLargeLandGearPack()
+            elseif gear == "all" and size == "small" then self:purchasedSmallAllGearPack()
+            elseif gear == "all" and size == "large" then self:purchasedLargeAllGearPack() end
+        end
+
+        state:saveGame()
 
     elseif transaction.state == "cancelled" then
+        play(sounds.shopCantBuy)
         self:showStatus("Purchase cancelled: "..tostring(transaction.productIdentifier))
-
     else
+        play(sounds.shopCantBuy)
         self:showStatus("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
-
     end
 
-    store.finishTransaction(transaction)
+    if store then
+        store.finishTransaction(transaction)
+    end
 end
 
 
@@ -471,16 +429,180 @@ end
 
 
 function scene:purchasedPlanetPack1()
-    local self = scene
+    self:unlockPlanetPack(1, characterKranio)
+    self:displayPlanetUnlocked(1)
 end
 
 
 function scene:purchasedPlanetPack2()
-    local self = scene
+    self:unlockPlanetPack(2, characterReneGrey)
+    self:displayPlanetUnlocked(2)
 end
 
 
+function scene:purchasedSmallJumpGearPack()
+    self:addJumpGear(productData.quantitySmall)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
 
+
+function scene:purchasedLargeJumpGearPack()
+    self:addJumpGear(productData.quantityLarge)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:purchasedSmallAirGearPack()
+    self:addAirGear(productData.quantitySmall)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:purchasedLargeAirGearPack()
+    self:addAirGear(productData.quantityLarge)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:purchasedSmallLandGearPack()
+    self:addLandGear(productData.quantitySmall)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:purchasedLargeLandGearPack()
+    self:addLandGear(productData.quantityLarge)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:purchasedSmallAllGearPack()
+    local num = productData.quantitySmall
+
+    self:addJumpGear(num)
+    self:addAirGear(num)
+    self:addLandGear(num)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:purchasedLargeAllGearPack()
+    local num = productData.quantityLarge
+
+    self:addJumpGear(num)
+    self:addAirGear(num)
+    self:addLandGear(num)
+    self:consumeProduct()
+    self:displayGearPurchased()
+end
+
+
+function scene:unlockPlanetPack(planet, specialCharacter)
+    state:unlockPlanet(planet)
+    state:unlockZone(planet, 22)
+    state:unlockZone(planet, 23)
+    state:unlockZone(planet, 24)
+    state:unlockZone(planet, 25)
+    state:unlockGame(planet, gameTypeTimeAttack)
+    state:unlockGame(planet, gameTypeSurvival)
+    state:unlockGame(planet, gameTypeRace)
+    state:unlockGame(planet, gameTypeTimeRunner)
+    state:unlockGame(planet, gameTypeClimbChase)
+    state:unlockGame(planet, gameTypeArcadeRacer)
+    state:unlockCharacter(specialCharacter)
+    state:addPurchase(transactionProduct.id)
+end
+
+
+function scene:addJumpGear(quantity)
+    for i=1, quantity do
+        state:addGear(jump, gearSpringShoes)
+        state:addGear(jump, gearShield)
+        state:addGear(jump, gearFreezeTime)
+        state:addGear(jump, gearTrajectory)
+    end
+end
+
+
+function scene:addAirGear(quantity)
+    for i=1, quantity do
+        state:addGear(air, gearGlider)
+        state:addGear(air, gearParachute)
+        state:addGear(air, gearJetpack)
+        state:addGear(air, gearReverseJump)
+    end
+end
+
+
+function scene:addLandGear(quantity)
+    for i=1, quantity do
+        state:addGear(land, gearGrappleHook)
+        state:addGear(land, gearGloves)
+    end
+end
+
+
+-- Googles requires some items to be consumed to buy again
+function scene:consumeProduct()
+    if googleIAP then
+        store.consumePurchase({transactionProduct.id}, function(event) 
+            show:setStatus("consumed product: "..transactionProduct.id)
+        end)
+    end
+end
+
+
+function scene:displayPlanetUnlocked(planet)
+    local productId = transactionProduct.id
+    local product   = productData.planets[productId]
+
+    product.labelPurchased.alpha = 1
+    product.labelPrice.alpha     = 0
+
+    product.buyButton1:removeSelf()
+    product.buyButton2:removeSelf()
+    product.buyButton1 = nil
+    product.buyButton2 = nil
+end
+
+
+function scene:displayGearPurchased()
+    --self:displayMessage(message, color)
+end
+
+
+----- GENERAL -----
+
+
+function scene:showStatus(text)
+    self:hideStatus()
+    print(text)
+
+    self.statusGroup = display.newGroup()
+    self.view:insert(self.statusGroup)
+
+    local bgr = display.newRoundedRect(self.statusGroup, centerX, 150, 880, 100, 15)
+    bgr:setFillColor(0.3,    0.3,  0.3,  0.85)
+    bgr:setStrokeColor(0.75, 0.75, 0.75, 0.75)
+    bgr.strokeWidth = 2
+
+    display.newText({parent=self.statusGroup, text=text, x=centerX, y=330, width=900, height=400, fontSize=22, align="center"})
+end
+
+
+function scene:hideStatus()
+    if self.statusGroup then
+        self.statusGroup:removeSelf()
+        self.statusGroup = nil
+    end
+end
 
 
 function scene:animate(item, item2, params)
@@ -490,6 +612,15 @@ function scene:animate(item, item2, params)
     local seq   = anim:oustSeq("pulse-"..self.pulseId, item)
     seq.target2 = item2
     seq:add("pulse", {time=1500, scale=0.035, baseScale=params.baseScale})
+    seq:start()
+end
+
+
+function scene:displayMessage(message, color)
+    local text = newText(self.group, message, 480, 310, 0.8, color, "CENTER")
+    local seq  = anim:oustSeq("purchase", text, true)
+    seq:add("pulse", {time=1000, scale=0.025, expires=3000})
+    seq:tran({time=750, scale=0, alpha=0})
     seq:start()
 end
 
@@ -506,6 +637,24 @@ function scene:exitScene(event)
     Runtime:removeEventListener("key", sceneKeyEvent)
     track:cancelEventHandles()
     anim:destroy()
+
+    for _,planet in pairs(productData.planets) do
+        if planet.labelPrice then
+            planet.labelPrice:removeSelf();  planet.labelPrice = nil
+        end
+
+        if planet.labelPurchased then
+            planet.labelPurchased:removeSelf();  planet.labelPurchased = nil
+        end
+
+        if planet.buyButton1 then
+            planet.buyButton1:removeSelf();  planet.buyButton1 = nil
+        end
+
+        if planet.buyButton2 then
+            planet.buyButton2:removeSelf();  planet.buyButton2 = nil
+        end
+    end
 
     self.pages = nil
     self.menu  = nil

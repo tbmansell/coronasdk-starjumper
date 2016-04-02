@@ -152,8 +152,63 @@ local state = {
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
             }
-        }
+        },
+
+        -- A simple list of permanent purchases (planet packs, special features) the player has made: a simple list of each product id.
+        permanentPurchases = {},
     }
+
+    -- Methods:
+    -----------
+    -- newScene()
+    -- backScene()
+    -- currentScene()
+    -- showStory()
+    -- showTutorial()
+    -- saveStoryViewed()
+    -- addHolocubes()
+    -- addGear()
+    -- useGear()
+    -- gear()
+    -- addNegable()
+    -- useNegable()
+    -- negable()
+    -- getZones()
+    -- zoneState()
+    -- currentZone()
+    -- numberZones()
+    -- numberZonesPlayable()
+    -- numberZonesCompleted()
+    -- numberZonesCompletedAs
+    -- totalStoryZonesCompleted()
+    -- highestZonesCompleted()
+    -- numberFuzziesCollected()
+    -- numberAwardsCollected()
+    -- planetStarRanking()
+    -- completeZone()
+    -- completeZoneUnlockCheck()
+    -- saveZoneFailedRace()
+    -- updateZoneRacePositions()
+    -- characterUnlocked()
+    -- gearUnlocked()
+    -- planetUnlocked()
+    -- zoneUnlocked()
+    -- gameUnlocked()
+    -- unlockCharacter()
+    -- unlockGear()
+    -- unlockPlanet()
+    -- unlockZone()
+    -- unlockGame()
+    -- addPurchase()
+    -- hasPurchased()
+    -- initialiseData()
+    -- setupNewPlanet()
+    -- autoSaveFile()
+    -- checkForSavedGame()
+    -- saveGame()
+    -- loadSavedGame()    
+    -- resetSavedGame()
+    -- validateSavedGame()
 }
 
 
@@ -400,20 +455,6 @@ function state:numberZonesCompleted(planetNumber, gameType)
 end
 
 
--- returns the total zones completed accross planets for story mode - used for gear unlocks
-function state:totalStoryZonesCompleted()
-    local completed = 0
-
-    for i=1, #planetData do
-        if self:planetUnlocked(i) then
-            completed = completed + self:numberZonesCompleted(i, gameTypeStory)
-        end
-    end
-
-    return completed
-end
-
-
 -- returns number zones player has completed (= # playable -1)
 function state:numberZonesCompletedAs(planetNumber, gameType, player)
     local planet    = planetNumber or self.data.planetSelected
@@ -429,6 +470,20 @@ function state:numberZonesCompletedAs(planetNumber, gameType, player)
             if zone and zone.completedAs and table.indexOf(zone.completedAs, player) ~= nil then
                 completed = completed + 1
             end
+        end
+    end
+
+    return completed
+end
+
+
+-- returns the total zones completed accross planets for story mode - used for gear unlocks
+function state:totalStoryZonesCompleted()
+    local completed = 0
+
+    for i=1, #planetData do
+        if self:planetUnlocked(i) then
+            completed = completed + self:numberZonesCompleted(i, gameTypeStory)
         end
     end
 
@@ -771,6 +826,24 @@ function state:unlockGame(planetNumber, gameType)
     if gameTypeData[gameType] and not self:gameUnlocked(planetNumber, gameType) then
         table.insert(self.data.unlocked.planets[planetNumber].games, gameType)
     end
+end
+
+
+-- Adds an In-app purchase to the list for easy detection on what has been bought
+function state:addPurchase(productId)
+    local purchases = self.data.permanentPurchases
+
+    if table.indexOf(purchases, productId) == nil then
+        purchases[#purchases+1] = productId
+        return true
+    end
+    return false
+end
+
+
+-- Determines if user has purchased an item
+function state:hasPurchased(productId)
+    return (table.indexOf(self.data.permanentPurchases, productId) ~= nil)
 end
 
 
