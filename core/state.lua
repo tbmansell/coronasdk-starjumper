@@ -94,15 +94,9 @@ local state = {
         -- Gear players currently owns:
         --[[
         playerGear = {
-            [jump] = {
+            [category] = {
                 ["item"] = quantity,
             },
-            [air] = {
-                ["item"] = quantity,
-            },
-            [land] = {
-                ["item"] = quantity,
-            }
         }  ]]
         playerGear = {
             [jump]     = {},
@@ -127,7 +121,7 @@ local state = {
 
         -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
         -- This is the starting structure when nothing is unlocked.
-        unlocked = {
+        --[[unlocked = {
             -- list of characters unlocked
             characters = { characterNewton },
             -- list of gear that is unlocked
@@ -141,8 +135,8 @@ local state = {
                     games = { gameTypeStory },
                 },
             },
-        },
-        --[[ TEST UNLOCK STRUCTURE
+        },]]
+        -- TEST UNLOCK STRUCTURE
         unlocked = {
             characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
             gear       = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
@@ -156,7 +150,7 @@ local state = {
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
             }
-        }, ]]
+        }, 
     }
 
     -- Methods:
@@ -928,13 +922,16 @@ end
 
 
 -- Saves the current self.data table into the autosave file replacing its current contents
+-- NOTE: doesnt save while a demo is running: otherwise it allows you to bypass our unlock system to be characters recorded
 function state:saveGame()
-    local data = json.encode(self.data)
-    local file = io.open(self:autoSaveFile(), "w")
+    if self.demoActions == nil then
+        local data = json.encode(self.data)
+        local file = io.open(self:autoSaveFile(), "w")
 
-    file:write(data)
-    io.close(file)
-    file = nil
+        file:write(data)
+        io.close(file)
+        file = nil
+    end
 end
 
 

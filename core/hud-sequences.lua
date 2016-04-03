@@ -154,6 +154,8 @@ end
 
 -- Called when end of level FAILED as run out of lives
 function hud:levelFailedSequence(skipProgressBar, passGuard)
+    if state.demoActions then return end
+    
     if not passGuard and (state.data.game == levelOverFailed or state.data.game == levelOverComplete) then
         print("WARNING: double fail sequence attmpted")
         return
@@ -202,6 +204,8 @@ end
 
 -- Called when end of level COMPLETED as reached finish ledge
 function hud:levelCompleteSequence(passGuard)
+    if state.demoActions then return end
+
     if not passGuard and (state.data.game == levelOverFailed or state.data.game == levelOverComplete) then
         print("WARNING: double success sequence attmpted")
         return

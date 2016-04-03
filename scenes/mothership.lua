@@ -140,7 +140,7 @@ end
 
 
 function scene:moveBoss()
-    if self.boss.image then
+    if self.boss and self.boss.image then
         local seq = anim:oustSeq("bossHover", self.boss.image)
         seq.target2 = self.boss.particles
 
@@ -499,7 +499,15 @@ function scene:exitScene(event)
     particles:destroy()
     spineCollection:destroy()
 
-    self.planetSpec = nil
+    self.planetSpec     = nil
+    self.tvimage        = nil
+    self.boss           = nil
+    self.hologramBase   = nil
+    self.hologramEffect = nil
+    self.focusHologram  = nil
+    self.focusCharacter = nil
+    self.characters     = nil
+    self.holograms      = nil
 end
 
 

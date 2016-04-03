@@ -49,7 +49,8 @@ function sceneryBuilder:newSceneryGroup(camera, spec, x, y)
         local scenery   = self:newScenery(camera, spec, x, y)
 		items[#items+1] = scenery
 		
-		x = x + scenery:width() + (spec.gap or 0)
+        -- use original image width (ignoring sizing) as levels were written before sizing was added to gameObject:width()
+        x = x + scenery.image.width + (spec.gap or 0)
 	end
 
 	return items

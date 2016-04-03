@@ -352,15 +352,15 @@ end
 
 -------------- PURCHASE A PRODUCT -----------------
 
-
+--[[
 -- Use for TESTING on simulator
 function scene:purchase(product)
     transactionProduct = product
     self:hideStatus()
     self:storeTransaction({transaction={state="purchased"}})
 end
+]]
 
---[[
 -- Use for Real Transactions
 function scene:purchase(product)
     self:hideStatus()
@@ -383,7 +383,7 @@ function scene:purchase(product)
     else
         self:showStatus("Store purchases have been disabled in phone settings")
     end
-end]]
+end
 
 
 function scene:storeTransaction(event)

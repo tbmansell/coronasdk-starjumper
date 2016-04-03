@@ -8,7 +8,7 @@ local recorder = {
     baseSaveDir = system.DocumentsDirectory,
     baseLoadDir = system.ResourceDirectory,
     demoDir     = "demos",
-    numberDemos = 8,
+    numberDemos = 1,
 	
 	-- The number of milliseconds since game started
 	time      = nil,
@@ -245,6 +245,9 @@ function recorder:runNextDemoAction()
 		local newTime = osTime() - recorder.pauseTime
 		local timeRun = newTime  - recorder.startTime
 		-- end debug
+		after(3000, function()
+			return hud:exitZone()
+		end)
 	end
 end
 

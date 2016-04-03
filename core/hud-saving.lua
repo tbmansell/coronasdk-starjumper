@@ -92,6 +92,8 @@ end
 
 
 function hud:saveLevelScore()
+    if state.demoActions then return end
+
     self.finalScore = self.jumpScore + self.timeScore + self.collectScore
     self.ranking    = self:rankPlayerStars()
     self.awards     = self:calculateAwards()
@@ -129,6 +131,8 @@ end
 
 
 function hud:saveLevelCubes()
+    if state.demoActions then return end
+    
     local cubesForRings = 0
     local ringGroup     = self.level.collectables.rings
     local game          = state.data.gameSelected
