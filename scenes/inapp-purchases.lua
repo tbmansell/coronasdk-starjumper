@@ -1,6 +1,7 @@
 local storyboard = require("storyboard")
 local anim       = require("core.animations")
 local particles  = require("core.particles")
+local messages   = require("core.messages")
 local scene      = storyboard.newScene()
 
 -- Local vars:
@@ -350,13 +351,14 @@ end
 
 
 -- Use for TESTING on simulator
+--[[
 function scene:purchase(product)
     transactionProduct = product
     self:hideStatus()
     self:storeTransaction({transaction={state="purchased"}})
 end
+]]
 
---[[
 -- Use for Real Transactions
 function scene:purchase(product)
     self:hideStatus()
@@ -382,7 +384,7 @@ function scene:purchase(product)
         self:showStatus("Store purchases have been disabled in phone settings")
     end
 end
-]]
+
 
 function scene:storeTransaction(event)
     local self        = scene
@@ -390,6 +392,7 @@ function scene:storeTransaction(event)
 
     if transaction.state == "purchased" then
         play(sounds.shopPurchase)
+        self.unlockedItems = {}
         
         local planet = transactionProduct.planet
         local gear   = transactionProduct.gear
@@ -518,34 +521,69 @@ function scene:unlockPlanetPack(planet, specialCharacter)
     state:unlockGame(planet, gameTypeArcadeRacer)
     state:unlockCharacter(specialCharacter)
     state:addPurchase(transactionProduct.id)
+
+    state.cutsceneCharacter = specialCharacter
+
+    table.insert(self.unlockedItems, {"planet",    planet})
+    table.insert(self.unlockedItems, {"game",      gameTypeTimeAttack})
+    table.insert(self.unlockedItems, {"game",      gameTypeSurvival})
+    table.insert(self.unlockedItems, {"game",      gameTypeTimeRunner})
+    table.insert(self.unlockedItems, {"game",      gameTypeClimbChase})
+    table.insert(self.unlockedItems, {"character", specialCharacter})
 end
 
 
 function scene:addJumpGear(quantity)
+    state:unlockGear(gearSpringShoes)
+    state:unlockGear(gearShield)
+    state:unlockGear(gearFreezeTime)
+    state:unlockGear(gearTrajectory)
+
     for i=1, quantity do
         state:addGear(jump, gearSpringShoes)
         state:addGear(jump, gearShield)
         state:addGear(jump, gearFreezeTime)
         state:addGear(jump, gearTrajectory)
     end
+
+    table.insert(self.unlockedItems, {"gear",gearFreezeTime})
+    table.insert(self.unlockedItems, {"gear",gearSpringShoes})
+    table.insert(self.unlockedItems, {"gear",gearShield})
+    table.insert(self.unlockedItems, {"gear",gearTrajectory})
 end
 
 
 function scene:addAirGear(quantity)
+    state:unlockGear(gearGlider)
+    state:unlockGear(gearParachute)
+    state:unlockGear(gearJetpack)
+    state:unlockGear(gearReverseJump)
+
     for i=1, quantity do
         state:addGear(air, gearGlider)
         state:addGear(air, gearParachute)
         state:addGear(air, gearJetpack)
         state:addGear(air, gearReverseJump)
     end
+
+    table.insert(self.unlockedItems, {"gear",gearJetpack})
+    table.insert(self.unlockedItems, {"gear",gearGlider})
+    table.insert(self.unlockedItems, {"gear",gearParachute})
+    table.insert(self.unlockedItems, {"gear",gearReverseJump})
 end
 
 
 function scene:addLandGear(quantity)
+    state:unlockGear(gearGrappleHook)
+    state:unlockGear(gearGloves)
+
     for i=1, quantity do
         state:addGear(land, gearGrappleHook)
         state:addGear(land, gearGloves)
     end
+
+    table.insert(self.unlockedItems, {"gear",gearGrappleHook})
+    table.insert(self.unlockedItems, {"gear",gearGloves})
 end
 
 
@@ -570,11 +608,66 @@ function scene:displayPlanetUnlocked(planet)
     product.buyButton2:removeSelf()
     product.buyButton1 = nil
     product.buyButton2 = nil
+
+    newBlocker(self.view)
+    self:animatePurchases(500, 1000, 500)
+
+    local seq = anim:chainSeq("showUnlocks", self.view)
+    seq:callback(function() 
+        state.data.planetSelected = planet
+        state.cutsceneStory       = "cutscene-character-intro"
+        state.sceneAfterCutScene  = "scenes.inapp-purchases"
+        storyboard:gotoScene("scenes.mothership", {effect="fade", time=500})
+    end)
+    anim:startQueue("showUnlocks")
 end
 
 
 function scene:displayGearPurchased()
-    --self:displayMessage(message, color)
+    self:animatePurchases()
+    anim:startQueue("showUnlocks")
+end
+
+
+function scene:animatePurchases(speedIn, delay, speedOut)
+    for _,unlock in pairs(self.unlockedItems) do
+        local type  = unlock[1]
+        local value = unlock[2]
+        local group = display.newGroup()
+
+        self.view:insert(group)
+        group.alpha, group.x, group.y = 0, centerX, centerY
+
+        if type == "gear" then
+            local category = gearSlots[value]
+            local name     = messages["gear"][category][value][1]
+            newImage(group, "collectables/gear-"..gearNames[category].."-"..value, 0, 0)
+            newText(group, "purchased equipment!", 0, -20, 0.5, "green",  "CENTER")
+            newText(group, name,                  0, 20,  0.5, "yellow", "CENTER")
+
+        elseif type == "game" then
+            newImage(group, "select-game/tab-"..gameTypeData[value].icon, 0, 0)
+            newText(group, "unlocked game mode!", 0, -80, 0.5, "green",  "CENTER")
+
+        elseif type == "planet" then
+            newImage(group, "select-game/tab-planet"..value, 0, 0)
+            newText(group, "unlocked planet!",     -45, -20, 0.5, "green",  "CENTER")
+            newText(group, planetData[value].name, -45, 20,  0.5, "yellow", "CENTER")
+
+        elseif type == "character" then
+            local name = characterData[value].name
+            newImage(group, "hud/player-head-"..name, 0, 0)
+            newText(group, "unlocked character!", 0, -80, 0.5, "green",  "CENTER")
+            newText(group, name,                  0, 80,  0.5, "yellow", "CENTER")
+        end
+
+        group:scale(0.1, 0.1)
+
+        local seq = anim:chainSeq("showUnlocks", group)
+        seq:add("flexout", {time=(speedIn or 250), scale=1.3, scaleBack=1, playSound=sounds.unlock})
+        seq:wait(delay or 500)
+        seq:tran({time=(speedOut or 250), scale=0.01, alpha=0})
+    end
 end
 
 

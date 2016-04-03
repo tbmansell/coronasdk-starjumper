@@ -67,7 +67,7 @@ end
 function storyTeller:avoidStory(story, storyName)
 	if story == nil or state.demoActions or (not story.alwaysShow and not state:showStory(storyName)) then
 		-- Story not found or already seen or in demo mode
-    	return true
+		return true
     end
 
     local condition = story.condition

@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.11.8"
+globalBuildVersion = "0.11.11"
 
 -- Define global constants
 require("constants.globals")

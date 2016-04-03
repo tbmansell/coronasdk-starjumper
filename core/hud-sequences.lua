@@ -790,7 +790,7 @@ function hud:endLevelShowUnlocks()
             end
 
             group:scale(0.1, 0.1)
-            hud.endLevelGroup:insert(group)
+            if hud.endLevelGroup then hud.endLevelGroup:insert(group) end
 
             local seq = anim:chainSeq("endLevel", group)
             seq:add("flexout", {time=1000, scale=1.3, scaleBack=1, playSound=sounds.unlock})

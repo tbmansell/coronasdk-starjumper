@@ -5,6 +5,7 @@ local scripts = {
 	["cutscene-planet-intro-organia"] = {
 		cutscene = true,
 		delayEnd = 4000,
+		alwaysShow = true,
 		sequence = {
 			{delay=2000, speaker=characterGygax,  dir=right, text="We have an emergency on our hands, young Newton! Contact has been lost with all Star Jumpers..."},
 			{delay=5000, speaker=characterNewton, dir=left,  text="Oh no! Without the energy rings they discover, our homeworld will soon run out of power", 
@@ -23,6 +24,7 @@ local scripts = {
 	["cutscene-character-intro-skyanna"] = {
 		cutscene = true,
 		delayEnd = 4000,
+		alwaysShow = true,
 		sequence = {
 			{delay=2000, speaker=characterGygax,   dir=right, text="Congratulations we have rescued a captured Star Jumper - welcome back Skyanna!",
 												              action=function(scene) scene:actionShowHolograms() end},
@@ -37,6 +39,7 @@ local scripts = {
 	["cutscene-character-intro-kranio"] = {
 		cutscene = true,
 		delayEnd = 4000,
+		alwaysShow = true,
 		sequence = {
 			{delay=2000, speaker=characterGygax,   dir=right, text="Good news everyone, a missing Star Jumper has returned from planet Organia - welcome back Kranio!",
 												              action=function(scene) scene:actionShowHolograms() end},
@@ -52,6 +55,7 @@ local scripts = {
 	["cutscene-planet-intro-apocalypsoid"] = {
 		cutscene = true,
 		delayEnd = 6000,
+		alwaysShow = true,
 		sequence = {
 			{delay=2000, speaker=characterGygax,  dir=right, text="We have a new location to explore Newton, more dangerous than the last. The dying planet known as Apocalypsoid!", size="-big",
 															 action=function(scene) scene:actionShowHolograms() end},
@@ -68,6 +72,7 @@ local scripts = {
 	["cutscene-character-intro-hammer"] = {
 		cutscene = true,
 		delayEnd = 6000,
+		alwaysShow = true,
 		sequence = {
 			{delay=2000, speaker=characterGygax,   dir=right, text="Excellent work team - we have rescued Hammer - our toughest Star Jumper!", 
 															  action=function(scene) scene:actionShowHolograms() end},
@@ -82,6 +87,7 @@ local scripts = {
 	["cutscene-character-intro-renegrey"] = {
 		cutscene = true,
 		delayEnd = 5000,
+		alwaysShow = true,
 		sequence = {
 			{delay=2000, speaker=characterGygax,    dir=right, text="A welcome addition to the Star Jumpers has escaped the dreaded Apocalypsoid - ReneGrey has returned!",
 															   action=function(scene) scene:actionShowHolograms() end},

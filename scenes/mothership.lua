@@ -83,6 +83,7 @@ function scene:enterScene(event)
     --state:newScene("mothership")
     clearSceneTransition()
     globalIgnorePhysicsEngine = true
+    state.demoActions = nil
 
     self.planet = state.data.planetSelected
     self.data   = planetData[self.planet]
