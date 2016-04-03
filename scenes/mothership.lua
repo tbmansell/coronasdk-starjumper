@@ -445,7 +445,7 @@ function scene:finishStory()
         self.view:insert(group)
 
         newBlocker(group)
-        newImage(group, "locking/popup-advert1", 140, 310)
+        newImage(group, "locking/popup-advert"..self.planet, 140, 310)
 
         local continueText   = newText(group,  "continue game", 900, 480, 0.5, "white", "RIGHT")
         local shop, shopOver = newButton(group, 130, 550, "shop", function() scene:exitToStore() end)
