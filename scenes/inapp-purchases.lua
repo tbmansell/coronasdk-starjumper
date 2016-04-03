@@ -141,7 +141,7 @@ function scene:loadProductFromStore()
             for key,_ in pairs(productData.gear)    do list[#list+1] = key end
             for key,_ in pairs(productData.special) do list[#list+1] = key end
 
-            store.consumePurchase(list, function(event) self:showStatus("consumed products") end)
+            --store.consumePurchase(list, function(event) self:showStatus("consumed products") end)
             store.loadProducts(list, function(event) self:storeProductsLoaded(event) end)
         else
             --self:showStatus("Store does not allow loading of products: "..tostring(storeName))
@@ -362,8 +362,6 @@ end
 -- Use for Real Transactions
 function scene:purchase(product)
     self:hideStatus()
-
-    self:storeTransaction({transaction={state="purchased"}})
     
     if store == nil then
         self:showStatus("Purchase "..product.id.." failed: purchases not available as no store loaded")
@@ -374,10 +372,10 @@ function scene:purchase(product)
         transactionProduct = product
 
         if googleIAP then
-            self:showStatus("Purchasing "..product.id.." from Google Play Store")
+            --self:showStatus("Purchasing "..product.id.." from Google Play Store")
             store.purchase(product.id)
         else
-            self:showStatus("Purchasing "..product.id.." from Apple App Store")
+            --self:showStatus("Purchasing "..product.id.." from Apple App Store")
             store.purchase({product.id})
         end
     else
@@ -591,7 +589,7 @@ end
 function scene:consumeProduct()
     if googleIAP then
         store.consumePurchase({transactionProduct.id}, function(event) 
-            show:setStatus("consumed product: "..transactionProduct.id)
+            --self:showStatus("consumed product: "..transactionProduct.id)
         end)
     end
 end
