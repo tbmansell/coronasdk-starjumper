@@ -268,7 +268,10 @@ function scene:loadGameModesFor(gameTypeList)
         gameGroup.origX = gameGroup.x
         gameGroup.origY = gameGroup.y
         gameGroup.tab   = gameTab
-        gameTab:addEventListener("tap", function() scene:selectGameMode(gameGroup) end)
+
+        if not gameData.comingSoon then
+            gameTab:addEventListener("tap", function() scene:selectGameMode(gameGroup) end)
+        end
 
         list[#list+1] = gameGroup
         self.view:insert(gameGroup)
@@ -558,9 +561,11 @@ function scene:contextBack()
     elseif scene.context == "selectGame" then
         scene.context = "selectPlanet"
 
-        local seq = anim:chainSeq("progressTab", scene.progressGroup)
-        seq:tran({time=1000, alpha=0})
-        seq:start()
+        if state.data.gameSelected ~= gameTypeStory then
+            local seq = anim:chainSeq("progressTab", scene.progressGroup)
+            seq:tran({time=1000, alpha=0})
+            seq:start()
+        end
 
         scene:slideGameModesOut("primaryAnims")
         scene:startAnimations("primaryAnims")
@@ -604,9 +609,11 @@ function scene:selectPlanet(group)
                 end)
             end
 
-            local seq = anim:chainSeq("progressTab", self.progressGroup)
-            seq:tran({time=1000, alpha=1})
-            seq:start()
+            if state.data.gameSelected ~= gameTypeStory then
+                local seq = anim:chainSeq("progressTab", self.progressGroup)
+                seq:tran({time=1000, alpha=1})
+                seq:start()
+            end
         else
             newLockedPopup(self.view, planet, "planet", planetData[planet].name, function() scene:startSparkles() end)
         end

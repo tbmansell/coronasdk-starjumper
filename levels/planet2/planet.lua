@@ -10,7 +10,7 @@ local planetData = {
         [gameTypeRace]        = {fuzzies=21},
     },
     unlockFriend = characterHammer,
-    unlockEnemy  = characterEarlGrey,
+    unlockEnemy  = characterReneGrey,
 
     -- Story mode zone select scene markers:
     zones = {

@@ -141,7 +141,10 @@ function scene:loadProductFromStore()
             for key,_ in pairs(productData.gear)    do list[#list+1] = key end
             for key,_ in pairs(productData.special) do list[#list+1] = key end
 
-            --store.consumePurchase(list, function(event) self:showStatus("consumed products") end)
+            if store.consumePurchase then
+                store.consumePurchase(list, function(event) --[[self:showStatus("consumed products")]] end)
+            end
+
             store.loadProducts(list, function(event) self:storeProductsLoaded(event) end)
         else
             --self:showStatus("Store does not allow loading of products: "..tostring(storeName))
@@ -351,14 +354,13 @@ end
 
 
 -- Use for TESTING on simulator
---[[
 function scene:purchase(product)
     transactionProduct = product
     self:hideStatus()
     self:storeTransaction({transaction={state="purchased"}})
 end
-]]
 
+--[[
 -- Use for Real Transactions
 function scene:purchase(product)
     self:hideStatus()
@@ -381,7 +383,7 @@ function scene:purchase(product)
     else
         self:showStatus("Store purchases have been disabled in phone settings")
     end
-end
+end]]
 
 
 function scene:storeTransaction(event)

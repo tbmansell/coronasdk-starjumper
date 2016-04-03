@@ -226,7 +226,8 @@ function scene:summarySecretZones(xpos, ypos)
     newText(group,  "?",                         xpos-65, ypos-10, 0.7, "red", "LEFT")
     newText(group,  "secret zones!",             xpos,    ypos-55, 0.5, "red", "CENTER")
 
-    if true then
+    -- just assume that if first two zones after 21 are unlocked, then secrets are unlocked
+    if not state:zoneUnlocked(self.planet, 22) or not state:zoneUnlocked(self.planet, 23) then
         newImage(group, "locking/lock",   xpos-55, ypos-10, 0.6, 0.9)
         newText(group, "buy planet pack", xpos,    ypos+50, 0.4, "white", "CENTER")
 
