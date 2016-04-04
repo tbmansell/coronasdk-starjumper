@@ -8,7 +8,7 @@ local recorder = {
     baseSaveDir = system.DocumentsDirectory,
     baseLoadDir = system.ResourceDirectory,
     demoDir     = "demos",
-    numberDemos = 1,
+    numberDemos = 8,
 	
 	-- The number of milliseconds since game started
 	time      = nil,
@@ -38,6 +38,7 @@ local actions
 local numActions
 local currentAction
 local lapse
+local skipChangeDirection
 
 
 --[[
@@ -65,11 +66,12 @@ function recorder:init()
 
 	if state.demoActions then
 		-- We are playing a recorded game
-		mainPlayer    = hud.player
-		actions       = state.demoActions
-		numActions    = #actions
-		currentAction = 0
-		lapse         = 0
+		mainPlayer    		= hud.player
+		actions       		= state.demoActions
+		numActions    		= #actions
+		currentAction 		= 0
+		lapse         		= 0
+		skipChangeDirection = false
 
 		self:runNextDemoAction()
 	end
@@ -79,7 +81,6 @@ end
 -- Record an action from the player
 function recorder:recordAction(eventName, eventTarget, eventParams)
 	if globalRecordGame then
-		print("recording action")
 		local newTime  = osTime() - self.pauseTime
 		local timeDiff = newTime  - self.time
 		local timeRun  = newTime  - self.startTime
@@ -260,15 +261,15 @@ function recorder:runAction(action)
 	local event  = action.event
 	local target = action.target
 
-	-- debug:
+	--[[ debug:
 	local newTime   = osTime() - self.pauseTime
 	local timeDiff  = newTime  - self.time
 	local timeRun   = newTime  - self.startTime
 	local lapseDiff = timeDiff - action.timeDiff
 	local lapseRun  = timeRun  - action.timeRun
-
 	print("Event: "..(string.format("%15s", event)).."\t timeDiff=[real="..timeDiff.." saved="..action.timeDiff.." lapse="..lapseDiff.."], timeRun=[real="..timeRun.." saved="..action.timeRun.." lapse="..lapseRun.."], target="..tostring(target))
-	-- end debug
+	-- end debug]]
+
 	self.time      = newTime
 	self.lapseTime = lapseDiff
 
@@ -283,13 +284,34 @@ function recorder:runAction(action)
 	-- Safe to run event
 	if     event == "select-gear"      then	mainPlayer:setIndividualGear(target)
 	elseif event == "prepare-jump"     then	mainPlayer:readyJump()
-	elseif event == "change-direction" then	mainPlayer:changeDirection()
+	elseif event == "change-direction" then	self:changeDirection(action)
 	elseif event == "tap-ledge"        then self:runActionTapLedge(action)
 	elseif event == "run-up"           then	mainPlayer:runup(action.xvelocity, action.yvelocity)
 	elseif event == "use-air-gear"     then	mainPlayer:jumpAction()
 	elseif event == "jump-off-swing"   then	mainPlayer:swingOffAction()
 	elseif event == "drop-obstacle"    then	mainPlayer:letGoAction()
 	elseif event == "escape-vehicle"   then	mainPlayer:escapeVehicleAction()
+	end
+end
+
+
+-- Handle problem with recordings generating double change direction events with tiny times - detect this and do nothing
+function recorder:changeDirection(action)
+	if skipChangeDirection then
+		skipChangeDirection = false
+	else
+		if action.timeDiff < 100 then
+			local nextAction = actions[currentAction + 1]
+
+			if nextAction.event == "change-direction" and nextAction.timeDiff < 100 then
+				-- mark this to skip the next event
+				skipChangeDirection = true
+			else
+				mainPlayer:changeDirection()
+			end
+		else
+			mainPlayer:changeDirection()
+		end
 	end
 end
 
