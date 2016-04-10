@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.11.11"
+globalBuildVersion = "0.11.12"
 
 -- Define global constants
 require("constants.globals")
@@ -23,6 +23,9 @@ require("core.hud-debug")
 
 -- Generate the random number seed
 math.randomseed(os.time())
+
+-- turn off phone display status
+display.setStatusBar(display.HiddenStatusBar)
 
 -- Create state data structures (empty)
 state:initialiseData()
@@ -52,8 +55,8 @@ if mode == "play" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
-	state.data.zoneSelected   = 18
+	state.data.planetSelected = 1	
+	state.data.zoneSelected   = 1
 	state.data.gameSelected   = gameTypeStory
 	storyboard:gotoScene("scenes.play-zone")
 

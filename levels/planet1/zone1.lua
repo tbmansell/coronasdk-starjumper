@@ -21,8 +21,9 @@ local levelData = {
 
             -- tutorial helper:
             {object="friend", x=-500, y=-950, type="ufoboss", size=0.7, animation="Standard", storyModeOnly=true, 
-                --gearDropper={gear={ {100,gearTrajectory} }, wait=2000, limit=1},
+                gearDropper={gear={ {100,gearTrajectory} }, wait=2000, limit=1},
                 movement={pattern=movePatternFollow, 
+                    delay=2000,
                     speed=10,
                     offsetY=-150, 
                     --moveStyle=moveStyleWave,

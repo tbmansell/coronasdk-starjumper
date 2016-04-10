@@ -238,8 +238,7 @@ function player:setPhysicsFilter(action)
     end
 
     if self.physicsFilterPrev ~= filter then
-        self.physicsFilterPrev = self.physicsFilter
-        self.physicsFilter     = filter
+        self.physicsFilterPrev = filter
 
         local xvel, yvel = self:getForce()
         physics.removeBody(self.image)

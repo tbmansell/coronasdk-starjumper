@@ -26,7 +26,16 @@ settings = {
 	{
 		plist=
 		{
-			UIStatusBarHidden=true,
+            
+			CFBundleDisplayName         = "Star Jumper",
+            CFBundleName                = "Star Jumper",
+            --CFBundleIconFiles           = {},  -- Required
+            --UILaunchImages              = {},  -- Required
+            UIApplicationExitsOnSuspend = false,
+            --UIPrerenderedIcon           = true,
+            UIStatusBarHidden           = true,
+            MinimumOSVersion            = "7.0",
+            
 		},
 	},
 	androidPermissions = 
@@ -45,7 +54,13 @@ settings = {
     {
         ["CoronaProvider.analytics.flurry"] = 
         {
-            publisherId = "com.coronalabs"
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { iphone=true, android=true }
+        },
+        ["CoronaProvider.gameNetwork.google"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { android=true }
         },
         ["plugin.google.play.services"] = 
         {

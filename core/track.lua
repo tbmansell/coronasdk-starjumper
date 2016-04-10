@@ -1,8 +1,8 @@
-local analytics = require("analytics")
+--local analytics = require("analytics")
 
 -- Flurry Analytics Key
 --analytics.init("BWXBG2NT992ZJ8TP43FW")
-analytics.init("Z2CDYMZVQ2Q3449JQ74Y")
+--analytics.init("Z2CDYMZVQ2Q3449JQ74Y")
 
 
 -- @class global event tracker
@@ -106,11 +106,11 @@ end
 
 -- Generates an analytics event for us to track
 function logAnalytics(scene, event)
-	local mesg = "scenes="..tostring(scene).." event="..tostring(event)
-	mesg = mesg.." game="..tostring(state.data.gameSelected).." planet="..tostring(state.data.planetSelected)
-	mesg = mesg.." zone="..tostring(state.data.zoneSelected).." player="..tostring(state.data.playerModel)
+	--local mesg = "scenes="..tostring(scene).." event="..tostring(event)
+	--mesg = mesg.." game="..tostring(state.data.gameSelected).." planet="..tostring(state.data.planetSelected)
+	--mesg = mesg.." zone="..tostring(state.data.zoneSelected).." player="..tostring(state.data.playerModel)
 
-	analytics.logEvent(mesg)
+	--analytics.logEvent(mesg)
 end
 
 
