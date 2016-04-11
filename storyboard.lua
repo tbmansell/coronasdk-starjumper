@@ -28,10 +28,10 @@
 
 -----------------------------------------------------------------------------------------
 --
--- storyboard.lua
+-- composer.lua
 --
 -----------------------------------------------------------------------------------------
-local storyboard = {}
+local composer = {}
 
 -----------------------------------------------------------------------------------------
 
@@ -42,12 +42,12 @@ local previousScene		-- string that keeps track of the previously loaded scene
 local currentOverlay    -- reference to currently shown overlay/popup scene
 local touchOverlay		-- forward declaration for touch-disabling overlay (created once)
 local modalRect  -- forward declaration for touch-disabling rect that goes behind overlay scenes
-storyboard.loadedSceneMods = {}	-- this will hold a history of most recently used scenes
-storyboard.scenes = {}		-- table to replace use of package.loaded
-storyboard.stage = stage 	-- allows external access to storyboard's display group
-storyboard.disableAutoPurge = false -- if true, no scenes will auto-purge on low memory
-storyboard.purgeOnSceneChange = false -- if true, will automatically purge non-active scenes on scene change
-storyboard.isDebug = false	-- if true, will print useful info to the terminal in some situations
+composer.loadedSceneMods = {}	-- this will hold a history of most recently used scenes
+composer.scenes = {}		-- table to replace use of package.loaded
+composer.stage = stage 	-- allows external access to composer's display group
+composer.disableAutoPurge = false -- if true, no scenes will auto-purge on low memory
+composer.purgeOnSceneChange = false -- if true, will automatically purge non-active scenes on scene change
+composer.isDebug = false	-- if true, will print useful info to the terminal in some situations
 
 --Localize variables to prevent table lookups
 local _tonumber = tonumber
@@ -562,7 +562,7 @@ local effectList = {
 		concurrent = true
 	}
 }
-storyboard.effectList = effectList
+composer.effectList = effectList
 
 -----------------------------------------------------------------------------------------
 
@@ -575,8 +575,8 @@ end
 -----------------------------------------------------------------------------------------
 
 local function findSceneIndex( sceneName )
-	for i=1,#storyboard.loadedSceneMods do
-		if storyboard.loadedSceneMods[i] == sceneName then
+	for i=1,#composer.loadedSceneMods do
+		if composer.loadedSceneMods[i] == sceneName then
 			return i
 		end
 	end
@@ -587,7 +587,7 @@ end
 local function removeFromSceneHistory( sceneName )
 	local index = findSceneIndex( sceneName )
 	if index then
-		table.remove( storyboard.loadedSceneMods, index )
+		table.remove( composer.loadedSceneMods, index )
 	end
 end
 
@@ -595,7 +595,7 @@ end
 
 local function addToSceneHistory( sceneName )
 	removeFromSceneHistory( sceneName )
-	storyboard.loadedSceneMods[#storyboard.loadedSceneMods+1] = sceneName
+	composer.loadedSceneMods[#composer.loadedSceneMods+1] = sceneName
 end
 
 -----------------------------------------------------------------------------------------
@@ -644,10 +644,10 @@ local function saveSceneAndHide( currentScene, newModule, noEffect )
 	end
 	
 	-- dispatch current scene's exitScene event
-	if currentModule and storyboard.scenes[currentModule] then
+	if currentModule and composer.scenes[currentModule] then
 		local event = {}
 		event.name = "exitScene"
-		storyboard.scenes[currentModule]:dispatchEvent( event )
+		composer.scenes[currentModule]:dispatchEvent( event )
 	end
 	
 	-- set new currentModule
@@ -682,36 +682,36 @@ end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.removeScene( sceneName )
-	-- remove scene, its display group, and global reference in storyboard.scenes table
-	storyboard.purgeScene( sceneName )
+function composer.removeScene( sceneName )
+	-- remove scene, its display group, and global reference in composer.scenes table
+	composer.purgeScene( sceneName )
 	
 	-- remove global reference
-	storyboard.scenes[sceneName] = nil
+	composer.scenes[sceneName] = nil
 	package.loaded[sceneName] = nil
 end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.removeAll()
-	storyboard.hideOverlay()
+function composer.removeAll()
+	composer.hideOverlay()
 
 	-- removes all scenes (except for the one that is currently showing)
-	for i=#storyboard.loadedSceneMods,1,-1 do
-		local sceneToUnload = storyboard.loadedSceneMods[i]
+	for i=#composer.loadedSceneMods,1,-1 do
+		local sceneToUnload = composer.loadedSceneMods[i]
 		
 		if sceneToUnload ~= currentModule then
-			storyboard.removeScene( sceneToUnload )
+			composer.removeScene( sceneToUnload )
 		end
 	end
 end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.purgeScene( sceneName )
+function composer.purgeScene( sceneName )
 	-- Unload a scene and remove its display group
-	-- NOTE: global reference in storyboard.scenes is kept
-	local scene = storyboard.scenes[sceneName]
+	-- NOTE: global reference in composer.scenes is kept
+	local scene = composer.scenes[sceneName]
 	if scene and scene.view then
 		local event = {}
 		event.name = "destroyScene"
@@ -725,9 +725,9 @@ function storyboard.purgeScene( sceneName )
 			scene.view = nil
 			_collectGarbage( "collect" )
 		end
-	elseif storyboard.isDebug then
+	elseif composer.isDebug then
 		if not scene then
-			debug_print( sceneName .. " was not purged because it does not exist. Use storyboard.loadScene() or storyboard.gotoScene()." )
+			debug_print( sceneName .. " was not purged because it does not exist. Use composer.loadScene() or composer.gotoScene()." )
 		elseif scene and not scene.view then
 			debug_print( sceneName .. " was not purged because it's view (display group) does not exist. This means it has already been purged or the view was never created." )
 		end
@@ -736,20 +736,20 @@ end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.purgeAll()
+function composer.purgeAll()
 	local purge_count = 0
 
 	-- Purges all scenes (except for the one that is currently showing)
-	for i=#storyboard.loadedSceneMods,1,-1 do
-		local sceneToUnload = storyboard.loadedSceneMods[i]
+	for i=#composer.loadedSceneMods,1,-1 do
+		local sceneToUnload = composer.loadedSceneMods[i]
 		
 		if sceneToUnload ~= currentModule then
 			purge_count = purge_count + 1
-			storyboard.purgeScene( sceneToUnload )
+			composer.purgeScene( sceneToUnload )
 		end
 	end
 
-	if storyboard.isDebug then
+	if composer.isDebug then
 		local msg = "A total of [" .. purge_count .. "] scene(s) have been purged."
 		if purge_count == 0 then
 			msg = "No scenes were purged."
@@ -760,18 +760,18 @@ end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.getPrevious()
+function composer.getPrevious()
 	-- Returns the name (string) of the previous scene (or nil if active scene is first)
 	return previousScene
 end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.getScene( sceneName )
+function composer.getScene( sceneName )
 	-- Returns a reference (scene object) to the specified sceneName
-	local scene = storyboard.scenes[sceneName]
+	local scene = composer.scenes[sceneName]
 
-	if storyboard.isDebug and not scene then
+	if composer.isDebug and not scene then
 		debug_print( "The specified scene, " .. sceneName .. ", does not exist." )
 	end
 
@@ -780,7 +780,7 @@ end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.getCurrentSceneName()
+function composer.getCurrentSceneName()
 	return currentModule
 end
 
@@ -823,9 +823,9 @@ local function loadObjects( self, options )  -- scene method
 		assetDirectory = _stringSub( assetDirectory, 1, #assetDirectory-1 )
 	end
 
-	-- load scene data from file; or from storyboard.loadedSceneDataFiles table (if file was previously loaded)
-	if (not storyboard.loadedSceneDataFiles) or (not storyboard.loadedSceneDataFiles[sceneDataFile]) then
-		storyboard.loadedSceneDataFiles = {}
+	-- load scene data from file; or from composer.loadedSceneDataFiles table (if file was previously loaded)
+	if (not composer.loadedSceneDataFiles) or (not composer.loadedSceneDataFiles[sceneDataFile]) then
+		composer.loadedSceneDataFiles = {}
 
 		-- load external scene data file
 		local path = system.pathForFile( sceneDataFile, baseDirectory )
@@ -834,10 +834,10 @@ local function loadObjects( self, options )  -- scene method
 		if fh then
 			sceneData = _jsonDecode( fh:read("*a") )
 			_ioClose( fh ); fh = nil
-			storyboard.loadedSceneDataFiles[sceneDataFile] = sceneData 	-- storing loaded table into storyboard.loadedSceneDataFiles (to prevent unnecessary filesystem access for future loads)
+			composer.loadedSceneDataFiles[sceneDataFile] = sceneData 	-- storing loaded table into composer.loadedSceneDataFiles (to prevent unnecessary filesystem access for future loads)
 		end
 	else
-		sceneData = storyboard.loadedSceneDataFiles[sceneDataFile]
+		sceneData = composer.loadedSceneDataFiles[sceneDataFile]
 	end
 
 	if sceneData and sceneData.objects then
@@ -1102,12 +1102,12 @@ end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.newScene( sceneName )
+function composer.newScene( sceneName )
 	-- sceneName is optional if they don't want to use external module
 	local s = Runtime._super:new()	-- TODO: Get real event listener class (we're cheating by using this)
 	
-	if sceneName and not storyboard.scenes[sceneName] then
-		storyboard.scenes[sceneName] = s
+	if sceneName and not composer.scenes[sceneName] then
+		composer.scenes[sceneName] = s
 	end
 
 	-- method to load scene object from data file (generated via Corona Levels app)
@@ -1127,33 +1127,33 @@ local function nextTransition( sceneGroup, fx, effectTime, touchOverlay, oldScre
 		if oldScreenshot then oldScreenshot.isVisible = false; end
 
 		-- dispatch scene's enterScene event
-		if currentModule and storyboard.scenes[currentModule] then
+		if currentModule and composer.scenes[currentModule] then
 			addToSceneHistory( currentModule )
 			local event = {}
 			event.name = "enterScene"
 			event.params = customParams
-			storyboard.scenes[currentModule]:dispatchEvent( event )
+			composer.scenes[currentModule]:dispatchEvent( event )
 
-			if storyboard.purgeOnSceneChange then
-				storyboard.purgeAll()
+			if composer.purgeOnSceneChange then
+				composer.purgeAll()
 			end
 		end
 	end
 	
 	-- dispatch previous scene's didExitScene event
-	local previous = storyboard.getPrevious()
-	if previous and storyboard.scenes[previous] then
+	local previous = composer.getPrevious()
+	if previous and composer.scenes[previous] then
 		local event = {}
 		event.name = "didExitScene"
-		storyboard.scenes[previous]:dispatchEvent( event )
+		composer.scenes[previous]:dispatchEvent( event )
 	end
 
 	-- dispatch "willEnterScene" event
-	if storyboard.scenes[currentModule] then
+	if composer.scenes[currentModule] then
 		local event = {}
 		event.name = "willEnterScene"
 		event.params = customParams
-		storyboard.scenes[currentModule]:dispatchEvent( event )
+		composer.scenes[currentModule]:dispatchEvent( event )
 	end
 	
 	local options = {}
@@ -1178,12 +1178,12 @@ end
 
 --
 --
--- storyboard.hideOverlay()
+-- composer.hideOverlay()
 -- This function will hide the currently displayed overlay (e.g. "pop up") scene.
--- Will also dispatch an "overlayEnded" event to currently active storyboard scene.
+-- Will also dispatch an "overlayEnded" event to currently active composer scene.
 --
 
-function storyboard.hideOverlay( purgeOnly, effect, effectTime, argOffset )
+function composer.hideOverlay( purgeOnly, effect, effectTime, argOffset )
 	display.remove( modalRect ); modalRect = nil
 
 	local overlay = currentOverlay
@@ -1191,13 +1191,13 @@ function storyboard.hideOverlay( purgeOnly, effect, effectTime, argOffset )
 	
 	if overlay then
 		-- auto-correct if colon syntax was used instead of dot syntax
-		if purgeOnly and purgeOnly == storyboard then
+		if purgeOnly and purgeOnly == composer then
 			purgeOnly = effect
 			effect = effectTime
 			effectTime = argOffset
 
-			if storyboard.isDebug then
-				debug_print( "WARNING: You should use dot-syntax when calling storyboard functions. For example, storyboard.hideOverlay() instead of storyboard:hideOverlay()." )
+			if composer.isDebug then
+				debug_print( "WARNING: You should use dot-syntax when calling composer functions. For example, composer.hideOverlay() instead of composer:hideOverlay()." )
 			end
 		end
 
@@ -1221,14 +1221,14 @@ function storyboard.hideOverlay( purgeOnly, effect, effectTime, argOffset )
 			if sceneExistsAsNormal then purgeOnly = true; end
 
 			if purgeOnly then
-				storyboard.purgeScene( overlay.name )
+				composer.purgeScene( overlay.name )
 			else
-				storyboard.removeScene( overlay.name )
+				composer.removeScene( overlay.name )
 			end
 
 			-- on current scene (not overlay), dispatch "overlayEnded" event
 			if currentModule then
-				local current = storyboard.scenes[currentModule]
+				local current = composer.scenes[currentModule]
 				local event = {}
 				event.name = "overlayEnded"
 				event.sceneName = overlay.name
@@ -1280,18 +1280,18 @@ end
 
 --
 --
--- storyboard.showOverlay()
+-- composer.showOverlay()
 -- This function will "pop up" a scene and overlay it above current scene and
--- also disptach a "overlayBegan" event to currently active storyboard scene.
+-- also disptach a "overlayBegan" event to currently active composer scene.
 --
 --
 
-function storyboard.showOverlay( sceneName, options, argOffset )
+function composer.showOverlay( sceneName, options, argOffset )
 	-- first, hide any overlay that may currently be showing
-	storyboard.hideOverlay()
+	composer.hideOverlay()
 
 	-- auto-correct if colon syntax is used instead of dot
-	if sceneName == storyboard then
+	if sceneName == composer then
 		if options and _type(options) == "string" then
 			sceneName = options
 			if argOffset then options = argOffset; end
@@ -1306,7 +1306,7 @@ function storyboard.showOverlay( sceneName, options, argOffset )
 	local isModal = options.isModal -- disables touches to calling scene (non-overlay, active scene)
 
 	-- check to see if scene has already been loaded
-	local scene = storyboard.scenes[sceneName]
+	local scene = composer.scenes[sceneName]
 	
 	if scene then
 		-- scene exists
@@ -1317,11 +1317,11 @@ function storyboard.showOverlay( sceneName, options, argOffset )
 			local event = {}
 			event.name = "createScene"
 			event.params = params
-			storyboard.scenes[sceneName]:dispatchEvent( event )
+			composer.scenes[sceneName]:dispatchEvent( event )
 		end
 	else
-		storyboard.scenes[sceneName] = require( sceneName )
-		scene = storyboard.scenes[sceneName]
+		composer.scenes[sceneName] = require( sceneName )
+		scene = composer.scenes[sceneName]
 
 		if _type(scene) == 'boolean' then
 			error( "Attempting to load scene from invalid scene module (" .. sceneName .. ".lua). Did you forget to return the scene object at the end of the scene module? (e.g. 'return scene')" )
@@ -1332,7 +1332,7 @@ function storyboard.showOverlay( sceneName, options, argOffset )
 		local event = {}
 		event.name = "createScene"
 		event.params = params
-		storyboard.scenes[sceneName]:dispatchEvent( event )
+		composer.scenes[sceneName]:dispatchEvent( event )
 	end
 
 	-- dispatch "willEnterScene" event
@@ -1350,7 +1350,7 @@ function storyboard.showOverlay( sceneName, options, argOffset )
 
 		-- dispatch "overlayBegan" event to current scene
 		if currentModule then
-			local current = storyboard.scenes[currentModule]
+			local current = composer.scenes[currentModule]
 			local event = {}
 			event.name = "overlayBegan"
 			event.sceneName = sceneName  -- name of overlay scene
@@ -1433,16 +1433,16 @@ end
 
 --
 --
--- storyboard.reloadScene()
--- Same as calling storyboard.gotoScene() on current scene (effects are not available)
+-- composer.reloadScene()
+-- Same as calling composer.gotoScene() on current scene (effects are not available)
 --
 --
 
-function storyboard.reloadScene()
+function composer.reloadScene()
 	if not currentModule then return; end
-	storyboard.hideOverlay()	-- hide any overlay/popup scenes that may be showing
+	composer.hideOverlay()	-- hide any overlay/popup scenes that may be showing
 
-	local scene = storyboard.getScene( currentModule )
+	local scene = composer.getScene( currentModule )
 	if not scene then return; end
 
 	local function next_render( callback )
@@ -1484,21 +1484,21 @@ end
 
 --
 --
--- storyboard.loadScene()
--- Same as storyboard.gotoScene(), but no transition is initiated.
+-- composer.loadScene()
+-- Same as composer.gotoScene(), but no transition is initiated.
 --
 --
 
-function storyboard.loadScene( sceneName, doNotLoadView, params )
-	-- SYNTAX: storyboard.loadScene( sceneName [, doNotLoadView, params ] )	-- params is optional table w/ custom data
+function composer.loadScene( sceneName, doNotLoadView, params )
+	-- SYNTAX: composer.loadScene( sceneName [, doNotLoadView, params ] )	-- params is optional table w/ custom data
 
 	-- check for dot syntax (to prevent errors)
-	if sceneName == storyboard then
-		error( "You must use a dot (instead of a colon) when calling storyboard.loadScene()" )
+	if sceneName == composer then
+		error( "You must use a dot (instead of a colon) when calling composer.loadScene()" )
 	end
 
 	-- check to see if scene has already been loaded
-	local scene = storyboard.scenes[sceneName]
+	local scene = composer.scenes[sceneName]
 
 	if doNotLoadView ~= nil and _type(doNotLoadView) ~= "boolean" then
 		params = doNotLoadView
@@ -1513,12 +1513,12 @@ function storyboard.loadScene( sceneName, doNotLoadView, params )
 			local event = {}
 			event.name = "createScene"
 			event.params = params
-			storyboard.scenes[sceneName]:dispatchEvent( event )
+			composer.scenes[sceneName]:dispatchEvent( event )
 			addToSceneHistory( sceneName )
 		end
 	else
-		storyboard.scenes[sceneName] = require( sceneName )
-		scene = storyboard.scenes[sceneName]
+		composer.scenes[sceneName] = require( sceneName )
+		scene = composer.scenes[sceneName]
 		
 		-- scene's view will be created (default), unless user explicity
 		-- tells it not to by setting doNotLoadView to true
@@ -1527,7 +1527,7 @@ function storyboard.loadScene( sceneName, doNotLoadView, params )
 			local event = {}
 			event.name = "createScene"
 			event.params = params
-			storyboard.scenes[sceneName]:dispatchEvent( event )
+			composer.scenes[sceneName]:dispatchEvent( event )
 			addToSceneHistory( sceneName )
 		end
 	end
@@ -1542,8 +1542,8 @@ end
 
 -----------------------------------------------------------------------------------------
 
-function storyboard.gotoScene( ... )
-	-- OLD SYNTAX: storyboard.gotoScene( sceneName [, effect, effectTime] )
+function composer.gotoScene( ... )
+	-- OLD SYNTAX: composer.gotoScene( sceneName [, effect, effectTime] )
 	--
 	-- NEW SYNTAX:
 	--
@@ -1552,23 +1552,23 @@ function storyboard.gotoScene( ... )
 	--     time = 800,
 	--     params = { any="vars", can="go", here=true }	-- optional params table to pass to scene event
 	-- }
-	-- storyboard.gotoScene( sceneName, options )
+	-- composer.gotoScene( sceneName, options )
 	--
 	-- NOTE: params table will only be visible in the following events: "createScene", "willEnterScene" and "enterScene"
     --
 
-   	storyboard.hideOverlay()	-- hide any overlay that may be currently showing
+   	composer.hideOverlay()	-- hide any overlay that may be currently showing
 	
 	-- parse arguments
 	local arg = {...}
 	local argOffset = 0
 
-	-- if user uses colon syntax (storyboard:gotoScene()), autocorrect to prevent errors
-	if arg[1] and arg[1] == storyboard then
+	-- if user uses colon syntax (composer.gotoScene()), autocorrect to prevent errors
+	if arg[1] and arg[1] == composer then
 		argOffset = 1
 
-		if storyboard.isDebug then
-			debug_print( "WARNING: You should use dot-syntax when calling storyboard functions. For example, storyboard.gotoScene() instead of storyboard:gotoScene()." )
+		if composer.isDebug then
+			debug_print( "WARNING: You should use dot-syntax when calling composer functions. For example, composer.gotoScene() instead of composer.gotoScene()." )
 		end
 	end
 	
@@ -1601,7 +1601,7 @@ function storyboard.gotoScene( ... )
 	if not currentModule then
 		currentModule = newScene
 	elseif currentModule == newScene then
-		storyboard.reloadScene()
+		composer.reloadScene()
 		return
 	elseif currentModule then
 		previousScene = currentModule
@@ -1617,7 +1617,7 @@ function storyboard.gotoScene( ... )
 	end
 	
 	-- load the scene (first check if scene has already been loaded)
-	local scene = storyboard.scenes[newScene]
+	local scene = composer.scenes[newScene]
 	
 	-- Create the specified scene and view group if necessary. Then set the
 	-- currentScene variable to specified scene (to be transitioned to)
@@ -1629,18 +1629,18 @@ function storyboard.gotoScene( ... )
 			local event = {}
 			event.name = "createScene"
 			event.params = params
-			storyboard.scenes[newScene]:dispatchEvent( event )
+			composer.scenes[newScene]:dispatchEvent( event )
 		end
 		currentScene = scene.view
 	else
-		local success, msg = pcall( function() storyboard.scenes[newScene] = require( newScene ) end )
+		local success, msg = pcall( function() composer.scenes[newScene] = require( newScene ) end )
 		if not success and msg then
-			if storyboard.isDebug then
-				debug_print( "Cannot transition to scene: " .. _toString(newScene) .. ". There is either an error in the scene module, or you are attempting to go to a scene that does not exist. If you called storyboard.removeScene() on a scene that is NOT represented by a module, the scene must be re-created before transitioning back to it." )
+			if composer.isDebug then
+				debug_print( "Cannot transition to scene: " .. _toString(newScene) .. ". There is either an error in the scene module, or you are attempting to go to a scene that does not exist. If you called composer.removeScene() on a scene that is NOT represented by a module, the scene must be re-created before transitioning back to it." )
 			end
 			error( msg )
 		end
-		scene = storyboard.scenes[newScene]
+		scene = composer.scenes[newScene]
 		if _type(scene) == 'boolean' then
 			error( "Attempting to load scene from invalid scene module (" .. sceneName .. ".lua). Did you forget to return the scene object at the end of the scene module? (e.g. 'return scene')" )
 		end
@@ -1650,14 +1650,14 @@ function storyboard.gotoScene( ... )
 		local event = {}
 		event.name = "createScene"
 		event.params = params
-		storyboard.scenes[newScene]:dispatchEvent( event )
+		composer.scenes[newScene]:dispatchEvent( event )
 	end
 	
 	-- Set initial values for scene that will be transitioned into (and other relevant elements, such as touchOverlay)
 	if fx.sceneAbove then
 		stage:insert( currentScene )
 	else
-		stage:insert( 1, currentScene )	-- ensure new scene is in storyboard's 'stage' display group
+		stage:insert( 1, currentScene )	-- ensure new scene is in composer's 'stage' display group
 	end
 	touchOverlay:toFront()	-- make sure touch overlay is in front of newly loaded scene
 
@@ -1717,29 +1717,29 @@ function storyboard.gotoScene( ... )
 		currentScene.x, currentScene.y = 0, 0
 		
 		-- dispatch previous scene's didExitScene event
-		local previous = storyboard.getPrevious()
-		if previous and storyboard.scenes[previous] then
+		local previous = composer.getPrevious()
+		if previous and composer.scenes[previous] then
 			local event = {}
 			event.name = "didExitScene"
-			storyboard.scenes[previous]:dispatchEvent( event )
+			composer.scenes[previous]:dispatchEvent( event )
 		end
 
 		-- dispatch current scene's willEnterScene and enterScene events
-		if storyboard.scenes[currentModule] then
+		if composer.scenes[currentModule] then
 			local event = {}
 			event.name = "willEnterScene"
 			event.params = params
-			storyboard.scenes[currentModule]:dispatchEvent( event )
+			composer.scenes[currentModule]:dispatchEvent( event )
 
 			addToSceneHistory( currentModule )
 			local event = {}
 			event.name = "enterScene"
 			event.params = params
-			storyboard.scenes[currentModule]:dispatchEvent( event )
+			composer.scenes[currentModule]:dispatchEvent( event )
 			
 
-			if storyboard.purgeOnSceneChange then
-				storyboard.purgeAll()
+			if composer.purgeOnSceneChange then
+				composer.purgeAll()
 			end
 		end
 	end
@@ -1748,8 +1748,8 @@ end
 -----------------------------------------------------------------------------------------
 
 -- debug function
-function storyboard.printMemUsage()   
-	if storyboard.isDebug then
+function composer.printMemUsage()   
+	if composer.isDebug then
 		_collectGarbage();
 		
 	   	local memUsed = _stringFormat ("%.03f", _collectGarbage( "count" ) / 1000 );
@@ -1768,22 +1768,22 @@ end
 
 -- on low memory warning, automatically purge least recently used scene
 local function purgeLruScene( event )	-- Lru = "least recently used"
-	if not storyboard.disableAutoPurge then
-		local lruScene = storyboard.loadedSceneMods[1]
+	if not composer.disableAutoPurge then
+		local lruScene = composer.loadedSceneMods[1]
 		
 		-- ensure the "lruScene" is not the currently loaded scene
 		-- also ensure that there are at least 2 scenes left (to prevent
 		-- currently transitioning-out scene from being purged)
-		if lruScene and lruScene ~= currentModule and #storyboard.loadedSceneMods > 2 then
-			if storyboard.isDebug then
-				debug_print( "Auto-purging scene: " .. lruScene " due to low memory. If you want to disable auto-purging on low memory, set storyboard.disableAutoPurge to true." )
+		if lruScene and lruScene ~= currentModule and #composer.loadedSceneMods > 2 then
+			if composer.isDebug then
+				debug_print( "Auto-purging scene: " .. lruScene " due to low memory. If you want to disable auto-purging on low memory, set composer.disableAutoPurge to true." )
 			end
-			storyboard.purgeScene( lruScene )
+			composer.purgeScene( lruScene )
 		end
-	elseif storyboard.isDebug and not storyboard.purgeOnSceneChange then
+	elseif composer.isDebug and not composer.purgeOnSceneChange then
 		debug_print( "Low memory warning recieved (auto-purging is disabled). You should manually purge un-needed scenes at this time." )
 	end
 end
 Runtime:addEventListener( "memoryWarning", purgeLruScene )
 
-return storyboard
+return composer

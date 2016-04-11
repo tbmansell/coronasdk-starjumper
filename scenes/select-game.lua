@@ -1,11 +1,11 @@
-local storyboard  = require("storyboard")
+local composer  = require("composer")
 local anim        = require("core.animations")
 local particles   = require("core.particles")
 local builder     = require("level-objects.builders.builder")
 local spineStore  = require("level-objects.collections.spine-store")
 
 -- Locals:
-local scene           = storyboard.newScene()
+local scene           = composer.newScene()
 local spineCollection = nil
 local lastTime        = 0
 
@@ -36,6 +36,7 @@ local function sceneEnterFrameEvent(event)
     spineCollection:animateEach(event)
 end
 
+
 -- Treat phone back button same as back game button
 local function sceneKeyEvent(event)
     if event.keyName == "back" and event.phase == "up" then
@@ -46,13 +47,13 @@ end
 
 
 -- Called when the scene's view does not exist:
-function scene:createScene(event)
+function scene:create(event)
     self.creating = true
     self.context  = "selectPlanet"
     
-    -- Allow the code from enterScene to run before this
+    -- Allow the code from show() to run before this
     after(1000, function()
-        self:initScene()
+        self:init()
         self:displayBackground()
         self:displayHud()
         self:loadPlanetTabs()
@@ -70,34 +71,37 @@ end
 
 
 -- Called immediately after scene has moved onscreen:
-function scene:enterScene(event)
-    logAnalytics("select-game", "enterScene")
-
-    clearTransitionTimer()
-
-    if scene.context == "exitScene" then
-        scene.context = "selectPlanet"
-    end
-
-    if self.creating then
-        self.creating = false
-    else
-        self:updateScene()
-
-        if self.progressText then
-            animateText(self.progressText)
+function scene:show(event)
+    if event.phase == "will" then
+        self:init()
+    elseif event.phase == "did" then
+        if scene.context == "exitScene" then
+            scene.context = "selectPlanet"
         end
-    end
 
-    self:startMusic()
-    self:startSparkles()
-    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:addEventListener("key", sceneKeyEvent)
+        if self.creating then
+            self.creating = false
+        else
+            self:updateScene()
+
+            if self.progressText then
+                animateText(self.progressText)
+            end
+        end
+
+        self:startMusic()
+        self:startSparkles()
+        Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:addEventListener("key", sceneKeyEvent)
+    end
 end
 
 
-function scene:initScene()
+function scene:init()
+    logAnalyticsStart()
     state:newScene("select-game")
+
+    clearTransitionTimer()
     globalSceneTransitionGroup:removeSelf()
     globalSceneTransitionGroup = display.newGroup()
 
@@ -110,7 +114,7 @@ end
 
 
 function scene:updateScene()
-    self:initScene()
+    --self:init()
     self:displayBackground(true)
     self:setGameTypeState()
     self:updateGameProgress()
@@ -1040,7 +1044,7 @@ function scene:changeScene()
     after(500, function()
         loadSceneTransition()
         after(1000, function()
-            storyboard:gotoScene(scene.nextScene, {effect="fade", time=500})
+            composer.gotoScene(scene.nextScene, {effect="fade", time=500})
         end)
     end)
 end
@@ -1049,7 +1053,7 @@ end
 function scene:exitToTitle()
     state.musicSceneContinue = true
     loadSceneTransition()
-    after(1000, function() storyboard:gotoScene(state:backScene(), {effect="fade", time=750}) end)
+    after(1000, function() composer.gotoScene(state:backScene(), {effect="fade", time=750}) end)
     return true
 end
 
@@ -1057,7 +1061,7 @@ end
 function scene:exitToShop()
     state.musicSceneContinue = false
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.shop")
+    composer.gotoScene("scenes.shop")
     return true
 end
 
@@ -1065,7 +1069,7 @@ end
 function scene:exitToPlayerStore()
     state.musicSceneContinue = false
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.select-player")
+    composer.gotoScene("scenes.select-player")
     return true
 end
 
@@ -1073,51 +1077,38 @@ end
 function scene:exitToPlanetProgress()
     state.musicSceneContinue = false
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.progress")
+    composer.gotoScene("scenes.progress")
     return true
 end
 
 
 -- Called when scene is about to move offscreen:
-function scene:exitScene(event)
-    if not state.musicSceneContinue then
-        audio.fadeOut({channel=self.musicChannel, time=1000})
+function scene:hide(event)
+    if event.phase == "will" then
+        if not state.musicSceneContinue then
+            audio.fadeOut({channel=self.musicChannel, time=1000})
+        end
+
+        Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:removeEventListener("key", sceneKeyEvent)
+
+        anim:destroy()
+        particles:destroy()
+        stopSparkles()
+
+        if self.progressText then
+            self.progressText:removeInOutTransition()
+        end
+
+        logAnalyticsEnd()
+
+    elseif event.phase == "did" then
+        --composer.removeScene("scenes.select-game")
     end
-
-    Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:removeEventListener("key", sceneKeyEvent)
-    anim:destroy()
-
-    particles:destroy()
-    stopSparkles()
-
-    if self.progressText then
-        self.progressText:removeInOutTransition()
-    end
 end
 
 
--- Called AFTER scene has finished moving offscreen:
-function scene:didExitScene( event )
-    --storyboard.purgeScene("scenes.select-game")
-end
-
-
--- Called prior to the removal of scene's "view" (display group)
-function scene:destroyScene( event )
-    local group = self.view
-end
-
-
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
-function scene:overlayBegan( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
-end
-
-
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
-function scene:overlayEnded( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
+function scene:destroy(event)
 end
 
 
@@ -1125,13 +1116,9 @@ end
 -- END OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
-scene:addEventListener( "createScene", scene )
-scene:addEventListener( "willEnterScene", scene )
-scene:addEventListener( "enterScene", scene )
-scene:addEventListener( "exitScene", scene )
-scene:addEventListener( "didExitScene", scene )
-scene:addEventListener( "destroyScene", scene )
-scene:addEventListener( "overlayBegan", scene )
-scene:addEventListener( "overlayEnded", scene )
+scene:addEventListener("create",  scene)
+scene:addEventListener("show",    scene)
+scene:addEventListener("hide",    scene)
+scene:addEventListener("destroy", scene)
 
 return scene

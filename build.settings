@@ -19,6 +19,9 @@ settings = {
             "com.android.vending.BILLING",
             "com.android.vending.CHECK_LICENSE",
             "android.permission.INTERNET",
+            "android.permission.ACCESS_NETWORK_STATE",
+            "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
+            "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
             "android.permission.WRITE_EXTERNAL_STORAGE"
         },
     },
@@ -52,19 +55,15 @@ settings = {
     },
     plugins = 
     {
-        ["CoronaProvider.analytics.flurry"] = 
+        ["plugin.flurry-analytics"] =
         {
             publisherId = "com.coronalabs",
             supportedPlatforms = { iphone=true, android=true }
         },
-        ["CoronaProvider.gameNetwork.google"] =
+        ["plugin.google.play.services"] =
         {
             publisherId = "com.coronalabs",
             supportedPlatforms = { android=true }
-        },
-        ["plugin.google.play.services"] = 
-        {
-            publisherId = "com.coronalabs"
         },
         ["plugin.google.iap.v3"] =
         {

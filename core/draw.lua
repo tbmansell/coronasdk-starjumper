@@ -1,4 +1,4 @@
-local storyboard = require("storyboard")
+local composer = require("composer")
 local TextCandy  = require("text_candy.lib_text_candy")
 local anim       = require("core.animations")
 local particles  = require("core.particles")
@@ -413,7 +413,7 @@ function newLockedPopup(sceneGroup, id, type, title, callback, description)
         seq:destroy()
         stopSparkles()
         group:removeSelf()
-        storyboard:gotoScene("scenes.inapp-purchases")
+        composer.gotoScene("scenes.inapp-purchases")
         return true
     end
 

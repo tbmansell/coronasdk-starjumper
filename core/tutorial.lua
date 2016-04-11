@@ -160,7 +160,7 @@ function tutorials:showSpeech(event)
 		local name    = characterData[speaker].title..": "..characterData[speaker].name
 		local balloon = newImage(self.speechGroup, "message-tabs/messagetab-"..characterData[speaker].name.."-big", 0, event.y)
 		local title   = newText(self.speechGroup, name, 0, event.y+15, 0.35, "white", "LEFT")
-		local message = display.newText(self.speechGroup, event.text, 0, event.y+30, 440, 95, "arial", 18)
+		local message = display.newText(self.speechGroup, self:parseText(event.text), 0, event.y+30, 440, 95, "arial", 18)
 
 		balloon.anchorY = 0
 		balloon:scale(1, 0.7)
@@ -178,6 +178,14 @@ function tutorials:showSpeech(event)
 			message.x = 510
 		end
 	end)
+end
+
+
+function tutorials:parseText(text)
+	local player = characterData[state.data.playerModel].name
+	local name   = string.upper(player:sub(1,1)) .. player:sub(2)
+
+	return text:gsub("{player}", name)
 end
 
 

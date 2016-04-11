@@ -1,11 +1,11 @@
-local storyboard   = require("storyboard")
+local composer   = require("composer")
 local anim         = require("core.animations")
 local messages     = require("core.messages")
 local builder      = require("level-objects.builders.builder")
 local spineStore   = require("level-objects.collections.spine-store")
 
 -- Local vars for performance:
-local scene           = storyboard.newScene()
+local scene           = composer.newScene()
 local spineCollection = nil
 local lastTime        = 0
 
@@ -32,20 +32,7 @@ end
 
 
 -- Called when the scene's view does not exist:
-function scene:createScene(event)
-end
-
-
--- Called immediately after scene has moved onscreen:
-function scene:enterScene(event)
-    logAnalytics("shop", "enterScene")
-    clearSceneTransition()
-
-    -- Dont append this scene in back history if coming from shop - as it should replace it instead
-    if state:currentScene() ~= "scenes.select-player" then
-        state:newScene("shop")
-    end
-
+function scene:create(event)
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
    
@@ -54,10 +41,30 @@ function scene:enterScene(event)
     self:displayHud()
     self:createInAppPurchase()
     self:createNegables()
-    self:startMusic()
+end
 
-    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:addEventListener("key", sceneKeyEvent)
+
+-- Called immediately after scene has moved onscreen:
+function scene:show(event)
+    if event.phase == "will" then
+        self:init()
+    elseif event.phase == "did" then
+        self:startMusic()
+
+        Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:addEventListener("key", sceneKeyEvent)
+    end
+end
+
+
+function scene:init()
+    logAnalyticsStart()
+    clearSceneTransition()
+
+    -- Dont append this scene in back history if coming from shop - as it should replace it instead
+    if state:currentScene() ~= "scenes.select-player" then
+        state:newScene("shop")
+    end
 end
 
 
@@ -313,16 +320,6 @@ function scene:buyGear()
 end
 
 
---[[
-function scene:displayMessage(message, color)
-    local text = newText(self.group, message, 480, 310, 0.8, color, "CENTER")
-    local seq  = anim:oustSeq("purchase", text, true)
-    seq:add("pulse", {time=1000, scale=0.025, expires=3000})
-    seq:tran({time=750, scale=0, alpha=0})
-    seq:start()
-end
-]]
-
 function scene:displayMessage(message)
     local image = new_image(self.view, "shop/notice-"..message, 615, 330)
     local seq   = anim:oustSeq("purchase", image, true)
@@ -336,7 +333,7 @@ function scene:gotoInAppPurchase()
     play(sounds.generalClick)
 
     state.inappPurchaseType = "gear"
-    storyboard:gotoScene("scenes.inapp-purchases")
+    composer.gotoScene("scenes.inapp-purchases")
     return true
 end
 
@@ -344,7 +341,7 @@ end
 function scene:exitToShop()
     state.musicSceneContinue = false
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.shop")
+    composer.gotoScene("scenes.shop")
     return true
 end
 
@@ -352,71 +349,58 @@ end
 function scene:exitToPlayerStore()
     state.musicSceneContinue = false
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.select-player")
+    composer.gotoScene("scenes.select-player")
     return true
 end
 
 
 function scene:exitShop()
     loadSceneTransition(1)
-    after(10, function() storyboard:gotoScene(state:backScene()) end)
+    after(10, function() composer.gotoScene(state:backScene()) end)
     return true
 end
 
 
 -- Called when scene is about to move offscreen:
-function scene:exitScene(event)
-    audio.fadeOut({channel=self.musicChannel, time=1000})
+function scene:hide(event)
+    if event.phase == "will" then
+        audio.fadeOut({channel=self.musicChannel, time=1000})
 
-    Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:removeEventListener("key", sceneKeyEvent)
-    track:cancelEventHandles()
+        Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:removeEventListener("key", sceneKeyEvent)
+        track:cancelEventHandles()
 
-    anim:destroy()
-    spineCollection:destroy()
-    spineStore:destroy()
+        anim:destroy()
+        spineCollection:destroy()
+        spineStore:destroy()
 
-    self.labelCubes:removeSelf()
-    self.labelScore:removeSelf()
-    self.playerIcon:removeSelf()
-    self.labelCubes = nil
-    self.labelScore = nil
-    self.playerIcon = nil
-    self.buy        = nil
+        self.labelCubes:removeSelf()
+        self.labelScore:removeSelf()
+        self.playerIcon:removeSelf()
+        self.labelCubes = nil
+        self.labelScore = nil
+        self.playerIcon = nil
+        self.buy        = nil
 
-    if self.infoGroup then
-        self.infoGroup:removeSelf()
-        self.infoGroup = nil
+        if self.infoGroup then
+            self.infoGroup:removeSelf()
+            self.infoGroup = nil
+        end
+
+        spineCollection = nil
+
+        -- Save game regardless of how we left the level
+        state:saveGame()
+        logAnalyticsEnd()
+
+    elseif event.phase == "did" then
+        composer.removeScene("scenes.shop")
     end
-
-    -- Save game regardless of how we left the level
-    state:saveGame()
-
-    spineCollection = nil
-end
-
-
--- Called AFTER scene has finished moving offscreen:
-function scene:didExitScene(event)
-    storyboard.purgeScene("scenes.shop")
 end
 
 
 -- Called prior to the removal of scene's "view" (display group)
-function scene:destroyScene(event)
-    local group = self.view
-end
-
-
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
-function scene:overlayBegan( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
-end
-
-
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
-function scene:overlayEnded(event)
-    local overlay_name = event.sceneName  -- name of the overlay scene
+function scene:destroy(event)
 end
 
 
@@ -424,13 +408,9 @@ end
 -- END OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
-scene:addEventListener( "createScene", scene )
-scene:addEventListener( "willEnterScene", scene )
-scene:addEventListener( "enterScene", scene )
-scene:addEventListener( "exitScene", scene )
-scene:addEventListener( "didExitScene", scene )
-scene:addEventListener( "destroyScene", scene )
-scene:addEventListener( "overlayBegan", scene )
-scene:addEventListener( "overlayEnded", scene )
+scene:addEventListener("create",  scene)
+scene:addEventListener("show",    scene)
+scene:addEventListener("hide",    scene)
+scene:addEventListener("destroy", scene)
 
 return scene

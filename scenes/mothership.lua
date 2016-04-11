@@ -1,4 +1,4 @@
-local storyboard    = require("storyboard")
+local composer    = require("composer")
 local anim          = require("core.animations")
 local stories       = require("core.story")
 local particles     = require("core.particles")
@@ -7,7 +7,7 @@ local spineStore    = require("level-objects.collections.spine-store")
 
 
 -- Local vars:
-local scene           = storyboard.newScene()
+local scene           = composer.newScene()
 local spineCollection = nil
 local lastTime        = 0
 
@@ -72,19 +72,7 @@ end
 
 
 -- Called when the scene's view does not exist:
-function scene:createScene(event)
-end
-
-
--- Called immediately after scene has moved onscreen:
-function scene:enterScene(event)
-    logAnalytics("mothership", "enterScene")
-
-    --state:newScene("mothership")
-    clearSceneTransition()
-    globalIgnorePhysicsEngine = true
-    state.demoActions = nil
-
+function scene:create(event)
     self.planet = state.data.planetSelected
     self.data   = planetData[self.planet]
 
@@ -98,16 +86,34 @@ function scene:enterScene(event)
     self.tvimage = newImage(self.view, "mothership/tv-logo", centerX, centerY-65)
     newImage(self.view, "mothership/bgr", centerX, centerY)
 
-    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:addEventListener("key", sceneKeyEvent)
-
     self:loadStory()
     self:loadBoss()
     self:loadHologramBase()
     self:loadCharacters()
     self:animateCharacters()
+end
 
-    stories:start(scene.story, function()end, function() scene:finishStory() end, nil, self)
+
+-- Called immediately after scene has moved onscreen:
+function scene:show(event)
+    if event.phase == "will" then
+        self:init()
+    elseif event.phase == "did" then
+        Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:addEventListener("key", sceneKeyEvent)
+
+        stories:start(scene.story, function()end, function() scene:finishStory() end, nil, self)
+    end
+end
+
+
+function scene:init()
+    logAnalyticsStart()
+    clearSceneTransition()
+    -- DONT include state:newScene("mothership")
+    
+    globalIgnorePhysicsEngine = true
+    state.demoActions = nil
 end
 
 
@@ -476,62 +482,50 @@ end
 function scene:exitToStore()
     loadSceneTransition(1)
     state.inappPurchaseType = "planet"
-    storyboard:gotoScene("scenes.inapp-purchases", {effect="fade", time=750})
+    composer.gotoScene("scenes.inapp-purchases", {effect="fade", time=750})
     return true
 end
 
 
 function scene:exitMothership()
     loadSceneTransition()
-    storyboard:gotoScene(state.sceneAfterCutScene, {effect="fade", time=750})
+    composer.gotoScene(state.sceneAfterCutScene, {effect="fade", time=750})
     return true
 end
 
 
 -- Called when scene is about to move offscreen:
-function scene:exitScene(event)
-    Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:removeEventListener("key", sceneKeyEvent)
-    track:cancelEventHandles()
+function scene:hide(event)
+    if event.phase == "will" then
+        Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:removeEventListener("key", sceneKeyEvent)
+        track:cancelEventHandles()
 
-    anim:destroy()
-    spineStore:destroy()
-    particles:destroy()
-    spineCollection:destroy()
+        anim:destroy()
+        spineStore:destroy()
+        particles:destroy()
+        spineCollection:destroy()
 
-    self.planetSpec     = nil
-    self.tvimage        = nil
-    self.boss           = nil
-    self.hologramBase   = nil
-    self.hologramEffect = nil
-    self.focusHologram  = nil
-    self.focusCharacter = nil
-    self.characters     = nil
-    self.holograms      = nil
-end
+        self.planetSpec     = nil
+        self.tvimage        = nil
+        self.boss           = nil
+        self.hologramBase   = nil
+        self.hologramEffect = nil
+        self.focusHologram  = nil
+        self.focusCharacter = nil
+        self.characters     = nil
+        self.holograms      = nil
 
+        logAnalyticsEnd()
 
--- Called AFTER scene has finished moving offscreen:
-function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.mothership")
+    elseif event.phase == "did" then
+        composer.removeScene("scenes.mothership")
+    end
 end
 
 
 -- Called prior to the removal of scene's "view" (display group)
-function scene:destroyScene( event )
-    local group = self.view
-end
-
-
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
-function scene:overlayBegan( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
-end
-
-
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
-function scene:overlayEnded( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
+function scene:destroy(event)
 end
 
 
@@ -539,13 +533,9 @@ end
 -- END OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
-scene:addEventListener( "createScene", scene )
-scene:addEventListener( "willEnterScene", scene )
-scene:addEventListener( "enterScene", scene )
-scene:addEventListener( "exitScene", scene )
-scene:addEventListener( "didExitScene", scene )
-scene:addEventListener( "destroyScene", scene )
-scene:addEventListener( "overlayBegan", scene )
-scene:addEventListener( "overlayEnded", scene )
+scene:addEventListener("create",  scene)
+scene:addEventListener("show",    scene)
+scene:addEventListener("hide",    scene)
+scene:addEventListener("destroy", scene)
 
 return scene

@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.11.12"
+globalBuildVersion = "0.11.13"
 
 -- Define global constants
 require("constants.globals")
@@ -40,8 +40,8 @@ sounds:loadStaticSounds()
 sounds:loadRandomSounds()
 
 -- Fire off the start scene
-local storyboard = require("storyboard")
-local mode       = "game"
+local composer = require("composer")
+local mode     = "game"
 
 
 -- game:   play the full game as normal from the title screen
@@ -58,13 +58,13 @@ if mode == "play" or mode == "record" then
 	state.data.planetSelected = 1	
 	state.data.zoneSelected   = 1
 	state.data.gameSelected   = gameTypeStory
-	storyboard:gotoScene("scenes.play-zone")
+	composer.gotoScene("scenes.play-zone")
 
 elseif mode == "cut" then
 	state.data.planetSelected = 2
 	state.cutsceneStory       = "cutscene-character-intro"
 	state.cutsceneCharacter   = characterReneGrey
-	storyboard:gotoScene("scenes.mothership")
+	composer.gotoScene("scenes.mothership")
 
 elseif mode == "gen" then
 	state.data.planetSelected = 1
@@ -72,7 +72,7 @@ elseif mode == "gen" then
 	require("core.level-algorithms"):run("reverse")
 
 elseif mode == "game" or mode == nil then
-	storyboard:gotoScene("scenes.title")
+	composer.gotoScene("scenes.title")
 end
 
 

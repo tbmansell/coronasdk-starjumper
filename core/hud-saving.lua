@@ -1,4 +1,4 @@
-local storyboard = require("storyboard")
+local composer = require("composer")
 local recorder   = require("core.recorder")
 
 
@@ -26,21 +26,21 @@ function hud:exitZone()
     end
 
     loadSceneTransition()
-    after(1000, function() storyboard:gotoScene(state:backScene(), {effect="fade", time=750}) end)
+    after(1000, function() composer.gotoScene(state:backScene(), {effect="fade", time=750}) end)
     return true
 end
 
 
 function hud:exitToShop()
     self:removeGearFoundInLevel()
-    storyboard:gotoScene("scenes.shop")
+    composer.gotoScene("scenes.shop")
     return true
 end
 
 
 function hud:exitToPlayerSelect()
     self:removeGearFoundInLevel()
-    storyboard:gotoScene("scenes.select-player")
+    composer.gotoScene("scenes.select-player")
     return true
 end
 
@@ -53,7 +53,7 @@ function hud:replayLevel()
         self:saveUpdatedRacePositions()
     end
     loadSceneTransition()
-    after(150, function() storyboard:gotoScene("scenes.play-zone", {effect="fade", time=500}) end)
+    after(150, function() composer.gotoScene("scenes.play-zone", {effect="fade", time=500}) end)
     return true
 end
 
@@ -71,10 +71,10 @@ function hud:nextLevel()
         -- check if completed last zone, if so go to the outro scene
         if state.data.zoneSelected == #hud.level.planetDetails.zones then
             state.data.zoneSelected = "-outro"
-            storyboard:gotoScene("scenes.cutscene", {effect="fade"})
+            composer.gotoScene("scenes.cutscene", {effect="fade"})
         else
             state.data.zoneSelected = state.data.zoneSelected + 1
-            storyboard:gotoScene("scenes.play-zone", {effect="fade"})
+            composer.gotoScene("scenes.play-zone", {effect="fade"})
         end
     end)
     return true

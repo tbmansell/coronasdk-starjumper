@@ -1,4 +1,4 @@
-local storyboard   = require("storyboard")
+local composer   = require("composer")
 local TextCandy    = require("text_candy.lib_text_candy")
 local anim         = require("core.animations")
 local soundEngine  = require("core.sound-engine")

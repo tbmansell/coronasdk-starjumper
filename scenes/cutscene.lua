@@ -1,4 +1,4 @@
-local storyboard   = require("storyboard")
+local composer   = require("composer")
 local physics      = require("physics")
 local cameraLoader = require("core.camera")
 local anim         = require("core.animations")
@@ -8,7 +8,7 @@ local particles    = require("core.particles")
 local builder      = require("level-objects.builders.builder")
 
 -- local variables for performance
-local scene              = storyboard.newScene()
+local scene              = composer.newScene()
 local player             = nil
 local camera             = nil
 local level              = nil
@@ -169,7 +169,7 @@ function scene:nextScene()
 
     after(3000, function()
         state.data.zoneSelected = 1
-        storyboard:gotoScene(state.sceneAfterCutScene)
+        composer.gotoScene(state.sceneAfterCutScene)
     end)
 end
 
@@ -200,7 +200,7 @@ end
 
 -- Called AFTER scene has finished moving offscreen:
 function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.cutscene")
+    composer.purgeScene("scenes.cutscene")
 end
 
 
@@ -210,13 +210,13 @@ function scene:destroyScene( event )
 end
 
 
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
+-- Called if/when overlay scene is displayed via composer.showOverlay()
 function scene:overlayBegan( event )
     local overlay_name = event.sceneName  -- name of the overlay scene
 end
 
 
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
+-- Called if/when overlay scene is hidden/removed via composer.hideOverlay()
 function scene:overlayEnded( event )
     local overlay_name = event.sceneName  -- name of the overlay scene
 end

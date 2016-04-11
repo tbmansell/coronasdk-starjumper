@@ -1,4 +1,4 @@
-local storyboard         = require("storyboard")
+local composer         = require("composer")
 local physics            = require("physics")
 local TextCandy          = require("text_candy.lib_text_candy")
 local cameraLoader       = require("core.camera")
@@ -14,7 +14,7 @@ local sceneryBuilder     = require("level-objects.builders.scenery-builder")
 local spineStore         = require("level-objects.collections.spine-store")
 
 -- Locals for performance
-local scene              = storyboard.newScene()
+local scene              = composer.newScene()
 local camera             = nil
 local spineCollection    = nil
 local movingCollection   = nil
@@ -66,19 +66,7 @@ end
 
 
 -- Called when the scene's view does not exist:
-function scene:createScene(event)
-end
-
-
--- Called immediately after scene has moved onscreen:
-function scene:enterScene(event)
-    logAnalytics("select-zone", "enterScene")
-
-    state:newScene("select-zone")
-    clearSceneTransition()
-    globalIgnorePhysicsEngine  = true
-
-    -- Setup collections and enter frame event
+function scene:create(event)
     movingCollection      = builder:newMovementCollection()
     spineCollection       = builder:newSpineCollection()
     particleCollection    = builder:newParticleEmitterCollection()
@@ -89,16 +77,34 @@ function scene:enterScene(event)
     collectableCollection = collectableBuilder:newCollectableCollection(spineCollection, movingCollection, particleCollection)
 
     spineStore:load(spineCollection)
-    -- we dont play element sounds on zone select as its not distance managed and they are well annoying
-    soundEngine:disable()
     
     self:createSceneMoveableContent(event)
     self:displayHud()
-    self:startMusic()
-    setMovementStyleSpeeds()
+end
 
-    Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:addEventListener("key", sceneKeyEvent)
+
+-- Called immediately after scene has moved onscreen:
+function scene:show(event)
+    if event.phase == "will" then
+        self:init()
+    elseif event.phase == "did" then
+        -- we dont play element sounds on zone select as its not distance managed and they are well annoying
+        soundEngine:disable()
+        self:startMusic()
+        
+        setMovementStyleSpeeds()
+
+        Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:addEventListener("key", sceneKeyEvent)
+    end
+end
+
+
+function scene:init()
+    logAnalyticsStart()
+    state:newScene("select-zone")
+    clearSceneTransition()
+    globalIgnorePhysicsEngine  = true
 end
 
 
@@ -511,7 +517,7 @@ function scene:playZone()
     play(sounds.gameStart)
     state.data.zoneSelected  = scene.zoneId
     loadSceneTransition()
-    after(1000, function() storyboard:gotoScene("scenes.play-zone", {effect="fade", time=750}) end)
+    after(1000, function() composer.gotoScene("scenes.play-zone", {effect="fade", time=750}) end)
 end
 
 
@@ -596,112 +602,100 @@ end
 function scene:exitToPlanetSelect()
     --play(sounds.sceneEnter)
     loadSceneTransition()
-    after(1000, function() storyboard:gotoScene(state:backScene(), {effect="fade", time=750}) end)
+    after(1000, function() composer.gotoScene(state:backScene(), {effect="fade", time=750}) end)
     return true
 end
 
 
 function scene:exitToShop()
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.shop")
+    composer.gotoScene("scenes.shop")
     return true
 end
 
 
 function scene:exitToPlayerStore()
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.select-player")
+    composer.gotoScene("scenes.select-player")
     return true
 end
 
 
 function scene:exitToPlanetProgress()
     play(sounds.sceneEnter)
-    storyboard:gotoScene("scenes.progress")
+    composer.gotoScene("scenes.progress")
     return true
 end
 
 
 -- Called when scene is about to move offscreen:
-function scene:exitScene(event)
-    audio.fadeOut({channel=self.musicChannel, time=1000})
+function scene:hide(event)
+    if event.phase == "will" then
+        audio.fadeOut({channel=self.musicChannel, time=1000})
 
-    Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
-    Runtime:removeEventListener("key", sceneKeyEvent)
-    track:cancelEventHandles()
+        Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
+        Runtime:removeEventListener("key", sceneKeyEvent)
+        track:cancelEventHandles()
 
-    anim:destroy()
-    particles:destroy()
-    friendCollection:destroy()
-    enemyCollection:destroy()
-    obstacleCollection:destroy()
-    sceneryCollection:destroy()
-    collectableCollection:destroy()
-    spineCollection:destroy()
-    particleCollection:destroy()
-    movingCollection:destroy()
-    spineStore:destroy()
-    camera.destroy()
-    soundEngine:destroy()
+        anim:destroy()
+        particles:destroy()
+        friendCollection:destroy()
+        enemyCollection:destroy()
+        obstacleCollection:destroy()
+        sceneryCollection:destroy()
+        collectableCollection:destroy()
+        spineCollection:destroy()
+        particleCollection:destroy()
+        movingCollection:destroy()
+        spineStore:destroy()
+        camera.destroy()
+        soundEngine:destroy()
 
-    self.progressText:removeInOutTransition()
-    self.progressText:removeSelf()
-    self.progressText = nil
+        self.progressText:removeInOutTransition()
+        self.progressText:removeSelf()
+        self.progressText = nil
 
-    self:closePopup()
-    self.player:destroy()
-    self.zones.stars:removeSelf()
-    self.zones.awards:removeSelf()
-    self.borderGroup:removeSelf()
-    self.moveable:removeSelf()
-    self.front:removeSelf()
-    self.labelCubes:removeSelf()
-    self.labelScore:removeSelf()
-    self.playerIcon:removeSelf()
+        self:closePopup()
+        self.player:destroy()
+        self.zones.stars:removeSelf()
+        self.zones.awards:removeSelf()
+        self.borderGroup:removeSelf()
+        self.moveable:removeSelf()
+        self.front:removeSelf()
+        self.labelCubes:removeSelf()
+        self.labelScore:removeSelf()
+        self.playerIcon:removeSelf()
 
-    cameraHolder      = nil
-    globalIgnorePhysicsEngine = false
-    self.progressText = nil
-    self.player       = nil
-    self.borderGroup  = nil
-    self.moveable     = nil
-    self.front        = nil
-    self.zones        = nil
-    camera            = nil
-    friendCollection  = nil
-    enemyCollection   = nil
-    obstacleCollection= nil
-    sceneryCollection = nil
-    collectableCollection = nil
-    movingCollection  = nil
-    spineCollection   = nil
-    self.labelCubes   = nil
-    self.labelScore   = nil
-    self.playerIcon   = nil
-end
+        cameraHolder      = nil
+        globalIgnorePhysicsEngine = false
+        self.progressText = nil
+        self.player       = nil
+        self.borderGroup  = nil
+        self.moveable     = nil
+        self.front        = nil
+        self.zones        = nil
+        camera            = nil
+        friendCollection  = nil
+        enemyCollection   = nil
+        obstacleCollection= nil
+        sceneryCollection = nil
+        collectableCollection = nil
+        movingCollection  = nil
+        spineCollection   = nil
+        self.labelCubes   = nil
+        self.labelScore   = nil
+        self.playerIcon   = nil
 
+        logAnalyticsEnd()
 
--- Called AFTER scene has finished moving offscreen:
-function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.select-zone")
+    elseif event.phase == "did" then
+        composer.removeScene("scenes.select-zone")
+    end
 end
 
 
 -- Called prior to the removal of scene's "view" (display group)
-function scene:destroyScene( event )
-    local group = self.view
-end
-
-
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
-function scene:overlayBegan( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
-end
-
-
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
-function scene:overlayEnded( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
+function scene:destroy(event)
 end
 
 
@@ -709,13 +703,9 @@ end
 -- END OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
-scene:addEventListener( "createScene", scene )
-scene:addEventListener( "willEnterScene", scene )
-scene:addEventListener( "enterScene", scene )
-scene:addEventListener( "exitScene", scene )
-scene:addEventListener( "didExitScene", scene )
-scene:addEventListener( "destroyScene", scene )
-scene:addEventListener( "overlayBegan", scene )
-scene:addEventListener( "overlayEnded", scene )
+scene:addEventListener("create",  scene)
+scene:addEventListener("show",    scene)
+scene:addEventListener("hide",    scene)
+scene:addEventListener("destroy", scene)
 
 return scene

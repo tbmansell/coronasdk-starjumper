@@ -1,4 +1,4 @@
-local storyboard    = require("storyboard")
+local composer    = require("composer")
 local physics       = require("physics")
 local cameraLoader  = require("core.camera")
 local anim          = require("core.animations")
@@ -9,7 +9,7 @@ local builder       = require("level-objects.builders.builder")
 local playerBuilder = require("level-objects.builders.player-builder")
 
 -- local variables for performance
-local scene              = storyboard.newScene()
+local scene              = composer.newScene()
 local player             = nil
 local remotePlayer       = nil
 local camera             = nil
@@ -24,7 +24,6 @@ local math_round = math.round
 
 
 -- Global function to allow other events to activate the game loop which stops level elements from moving
-----
 function globalSetLevelFreeze(freeze)
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
 
@@ -149,7 +148,7 @@ end
 
 
 -- Called when the scene's view does not exist:
-function scene:createScene(event)
+function scene:create(event)
     local game = state.data.gameSelected
     state.infiniteRunner = (game == gameTypeArcadeRacer or game == gameTypeTimeRunner or game == gameTypeClimbChase)
 
@@ -175,29 +174,36 @@ end
 
 
 -- Called immediately after scene has moved onscreen:
-function scene:enterScene(event)
-    logAnalytics("play-zone", "enterScene")
+function scene:show(event)
+    if event.phase == "will" then
+        self:init()
+    end
+end
+
+
+function scene:init()
+    logAnalyticsStart()
     clearSceneTransition()
     -- Save game state so when restored we can know which zone was selected
     state:newScene("play-zone")
     state:saveGame()
-    setMovementStyleSpeeds()  -- repeat this to reset movements if scene already created
 
+    setMovementStyleSpeeds()  -- repeat this to reset movements if scene already created
     scene.playerCancelledDemo = false
 end
 
 
 -- Called when scene is about to move offscreen:
-function scene:exitScene(event)
-    self:unloadLevel()
-    -- Save game regardless of how we left the level
-    state:saveGame()
-end
+function scene:hide(event)
+    if event.phase == "will" then
+        self:unloadLevel()
+        -- Save game regardless of how we left the level
+        state:saveGame()
+        logAnalyticsEnd()
 
-
--- Called AFTER scene has finished moving offscreen:
-function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.play-zone")
+    elseif event.phase == "did" then
+        composer.removeScene("scenes.play-zone")
+    end
 end
 
 
@@ -726,29 +732,13 @@ function scene:destroyScene( event )
 end
 
 
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
-function scene:overlayBegan( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
-end
-
-
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
-function scene:overlayEnded( event )
-    local overlay_name = event.sceneName  -- name of the overlay scene
-end
-
-
 ---------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
-scene:addEventListener( "createScene", scene )
-scene:addEventListener( "willEnterScene", scene )
-scene:addEventListener( "enterScene", scene )
-scene:addEventListener( "exitScene", scene )
-scene:addEventListener( "didExitScene", scene )
-scene:addEventListener( "destroyScene", scene )
-scene:addEventListener( "overlayBegan", scene )
-scene:addEventListener( "overlayEnded", scene )
 
+scene:addEventListener("create",  scene)
+scene:addEventListener("show",    scene)
+scene:addEventListener("hide",    scene)
+scene:addEventListener("destroy", scene)
 
 return scene

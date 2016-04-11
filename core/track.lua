@@ -1,8 +1,5 @@
---local analytics = require("analytics")
-
--- Flurry Analytics Key
---analytics.init("BWXBG2NT992ZJ8TP43FW")
---analytics.init("Z2CDYMZVQ2Q3449JQ74Y")
+local composer = require("composer")
+--local analytics  = require("plugin.flurry-analytics")
 
 
 -- @class global event tracker
@@ -14,6 +11,17 @@ local track = {
     -- tracks the current timer key
     timerKey = 0
 }
+
+
+local function getState()
+	return {
+		player = state.data.playerModel,
+        game   = state.data.gameSelected,
+        planet = state.data.planet,
+        zone   = state.data.zone,
+        cuves  = state.data.holocubes,
+	}
+end
 
 
 function track:pauseEventHandles()
@@ -104,14 +112,25 @@ function loop(delay, func)
 end
 
 
--- Generates an analytics event for us to track
-function logAnalytics(scene, event)
-	--local mesg = "scenes="..tostring(scene).." event="..tostring(event)
-	--mesg = mesg.." game="..tostring(state.data.gameSelected).." planet="..tostring(state.data.planetSelected)
-	--mesg = mesg.." zone="..tostring(state.data.zoneSelected).." player="..tostring(state.data.playerModel)
-
-	--analytics.logEvent(mesg)
+function logAnalytics(event)
 end
+
+
+-- Generates an analytics event for us to track
+function logAnalyticsStart()
+	print("[start] "..tostring(composer.getSceneName("current")))
+	--analytics.startTimedEvent(composer.getSceneName(), getState())
+end
+
+
+function logAnalyticsEnd()
+	print("[end] "..tostring(composer.getSceneName("current")))
+	--analytics.endTimedEvent(composer.getSceneName(), getState())
+end
+
+
+-- Init analytics:
+--analytics.init({apikey="BWXBG2NT992ZJ8TP43FW", listener=logAnalytics, crashReportingEnabled=true})
 
 
 return track

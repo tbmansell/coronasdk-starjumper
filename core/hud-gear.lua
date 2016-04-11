@@ -1,4 +1,4 @@
-local storyboard   = require("storyboard")
+local composer   = require("composer")
 local anim         = require("core.animations")
 
 -- Aliases:

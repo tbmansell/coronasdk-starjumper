@@ -1,6 +1,6 @@
-local storyboard  = require("storyboard")
+local composer  = require("composer")
 local anim        = require("core.animations")
-local scene       = storyboard.newScene()
+local scene       = composer.newScene()
 
 -- Aliases:
 local play = globalSoundPlayer
@@ -282,7 +282,7 @@ function scene:selectZone(zoneNumber, option)
     seq:tran({time=500, scale=1.3})
     seq:tran({time=500, scale=0.01})
     seq.onComplete = function()
-        storyboard:gotoScene("scenes.play-zone")
+        composer.gotoScene("scenes.play-zone")
     end
     seq:start()
     loadSceneTransition()
@@ -291,7 +291,7 @@ end
 
 function scene:exitToPlanetSelect()
     play(sounds.sceneEnter)
-    after(1000, function() storyboard:gotoScene(state:backScene()) end)
+    after(1000, function() composer.gotoScene(state:backScene()) end)
     return true
 end
 
@@ -305,7 +305,7 @@ end
 
 -- Called AFTER scene has finished moving offscreen:
 function scene:didExitScene( event )
-    storyboard.purgeScene("scenes.select-space-race")
+    composer.purgeScene("scenes.select-space-race")
 end
 
 
@@ -315,13 +315,13 @@ function scene:destroyScene( event )
 end
 
 
--- Called if/when overlay scene is displayed via storyboard.showOverlay()
+-- Called if/when overlay scene is displayed via composer.showOverlay()
 function scene:overlayBegan( event )
     local overlay_name = event.sceneName  -- name of the overlay scene
 end
 
 
--- Called if/when overlay scene is hidden/removed via storyboard.hideOverlay()
+-- Called if/when overlay scene is hidden/removed via composer.hideOverlay()
 function scene:overlayEnded( event )
     local overlay_name = event.sceneName  -- name of the overlay scene
 end
@@ -331,13 +331,9 @@ end
 -- END OF YOUR IMPLEMENTATION
 ---------------------------------------------------------------------------------
 
-scene:addEventListener( "createScene", scene )
-scene:addEventListener( "willEnterScene", scene )
-scene:addEventListener( "enterScene", scene )
-scene:addEventListener( "exitScene", scene )
-scene:addEventListener( "didExitScene", scene )
-scene:addEventListener( "destroyScene", scene )
-scene:addEventListener( "overlayBegan", scene )
-scene:addEventListener( "overlayEnded", scene )
+scene:addEventListener("create",  scene)
+scene:addEventListener("show",    scene)
+scene:addEventListener("hide",    scene)
+scene:addEventListener("destroy", scene)
 
 return scene
