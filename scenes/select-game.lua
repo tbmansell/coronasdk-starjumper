@@ -53,7 +53,7 @@ function scene:create(event)
     
     -- Allow the code from show() to run before this
     after(1000, function()
-        self:init()
+        --self:init()
         self:displayBackground()
         self:displayHud()
         self:loadPlanetTabs()

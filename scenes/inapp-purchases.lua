@@ -759,7 +759,7 @@ function scene:hide(event)
         logAnalyticsEnd()
 
     elseif event.phase == "did" then
-        composer.removeScene("scenes.inapp-puchases")
+        composer.removeScene("scenes.inapp-purchases")
     end
 end
 
