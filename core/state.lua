@@ -190,12 +190,15 @@ local state = {
     -- zoneUnlocked()
     -- gameUnlocked()
     -- unlockCharacter()
+    -- lockCharacter()
     -- unlockGear()
     -- unlockPlanet()
     -- unlockZone()
+    -- lockZone()
     -- unlockGame()
     -- addPurchase()
     -- hasPurchased()
+    -- removePurchase()
     -- initialiseData()
     -- setupNewPlanet()
     -- autoSaveFile()
@@ -785,6 +788,19 @@ function state:unlockCharacter(character)
 end
 
 
+-- locks a locked character
+function state:lockCharacter(character)
+    if characterData[character] and not self:characterUnlocked(character) then
+        local t   = self.data.unlocked.characters
+        local pos = table.indexOf(t, character)
+
+        if pos then
+            table.remove(t, pos)
+        end
+    end
+end
+
+
 -- unlocks a gear (if not unlocked already) by adding them to the unlock list
 function state:unlockGear(gear)
     if gearSlots[gear] and not self:gearUnlocked(gear) then
@@ -812,6 +828,19 @@ function state:unlockZone(planetNumber, zoneNumber)
 end
 
 
+-- Locks an unlocked zone
+function state:lockZone(planetNumber, zoneNumber)
+    if zoneNumber > 0 and self:zoneUnlocked(planetNumber, zoneNumber) then
+        local t   = self.data.unlocked.planets[planetNumber].zones
+        local pos = table.indexOf(t, zoneNumber)
+
+        if pos then
+            table.remove(t, pos)
+        end
+    end
+end
+
+
 -- Unlocks a game mode for a planet
 function state:unlockGame(planetNumber, gameType)
     if gameTypeData[gameType] and not self:gameUnlocked(planetNumber, gameType) then
@@ -835,6 +864,17 @@ end
 -- Determines if user has purchased an item
 function state:hasPurchased(productId)
     return (table.indexOf(self.data.permanentPurchases, productId) ~= nil)
+end
+
+
+-- Removes a purchase from the list
+function state:removePurchase(productId)
+    local purchases = self.data.permanentPurchases
+    local pos       = table.indexOf(purchases, productId)
+
+    if pos then
+        table.remove(purchases, pos)
+    end
 end
 
 

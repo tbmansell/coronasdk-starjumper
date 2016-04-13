@@ -5,10 +5,24 @@ local messages   = require("core.messages")
 local scene      = composer.newScene()
 
 -- Local vars:
-local store       = nil
-local storeName   = nil
-local googleIAP   = false
+local store              = nil
+local storeName          = nil
 local transactionProduct = nil
+local googleIAP          = false
+local restoreChecked     = false
+
+local productIds = {
+    planetPack1       = "planet_pack1",
+    planetPack2       = "planet_pack2",
+    gearPackJumpSmall = "gear_pack_jump_small",
+    gearPackJumpLarge = "gear_pack_jump_large",
+    gearPackAirSmall  = "gear_pack_air_small",
+    gearPackAirLarge  = "gear_pack_air_large",
+    gearPackLandSmall = "gear_pack_land_small",
+    gearPackLandLarge = "gear_pack_land_large",
+    gearPackAllSmall  = "gear_pack_all_small",
+    gearPackAllLarge  = "gear_pack_all_large",
+}
 
 local productData = {
     -- how many of each gear is purchased for pack sizes
@@ -16,21 +30,17 @@ local productData = {
     quantityLarge = 10,
 
     -- costs listed here are static costs for when we cannot connect to the store - but they may not reflect the real prices
-    planets = {
-        ["planet_pack1"]                = { cost=0.99, planet=1 },
-        ["planet_pack2"]                = { cost=0.99, planet=2 },
-    },
-    gear = {
-        ["gear_pack_jump_small"]        = { cost=0.50, gear=jump,  size="small" },
-        ["gear_pack_air_small"]         = { cost=0.50, gear=air,   size="small" },
-        ["gear_pack_land_small"]        = { cost=0.50, gear=land,  size="small" },
-        ["gear_pack_jump_large"]        = { cost=0.85, gear=jump,  size="large" },
-        ["gear_pack_air_large"]         = { cost=0.85, gear=air,   size="large" },
-        ["gear_pack_land_large"]        = { cost=0.85, gear=land,  size="large" },
-        ["gear_pack_everything_small"]  = { cost=1.00, gear="all", size="small" },
-        ["gear_pack_everything_large"]  = { cost=1.79, gear="all", size="large" },
-    },
-    special = {
+    iap = {
+        [productIds.planetPack1]       = { cost=0.99, planet=1 },
+        [productIds.planetPack2]       = { cost=0.99, planet=2 },
+        [productIds.gearPackJumpSmall] = { cost=0.50, gear=jump,  size="small" },
+        [productIds.gearPackAirSmall]  = { cost=0.50, gear=air,   size="small" },
+        [productIds.gearPackLandSmall] = { cost=0.50, gear=land,  size="small" },
+        [productIds.gearPackJumpLarge] = { cost=0.85, gear=jump,  size="large" },
+        [productIds.gearPackAirLarge]  = { cost=0.85, gear=air,   size="large" },
+        [productIds.gearPackLandLarge] = { cost=0.85, gear=land,  size="large" },
+        [productIds.gearPackAllSmall]  = { cost=1.00, gear="all", size="small" },
+        [productIds.gearPackAllLarge]  = { cost=1.79, gear="all", size="large" },
     }
 }
 
@@ -84,6 +94,9 @@ function scene:show(event)
         if self.statusGroup then
             self.statusGroup:toFront()
         end
+
+        -- check for restored purchases on very first scene load
+        self:restorePurchases()
     end
 end
 
@@ -99,14 +112,7 @@ end
 -- Setup base product data-set (to avoid repetition defining)
 -- As we (try) and get the raw prics from the remote store for dynamic pricing, we have to convert these into user-friendly labels
 function scene:setupProducts()
-    self:setupProductCategory("planets")
-    self:setupProductCategory("gear")
-    self:setupProductCategory("special")
-end
-
-
-function scene:setupProductCategory(category)
-    for id, product in pairs(productData[category]) do
+    for id, product in pairs(productData.iap) do
         product.id = id
 
         if product.labelPrice then
@@ -141,12 +147,13 @@ function scene:loadProductFromStore()
 
             -- build product list to load
             local list = {}
-            for key,_ in pairs(productData.planets) do list[#list+1] = key end
-            for key,_ in pairs(productData.gear)    do list[#list+1] = key end
-            for key,_ in pairs(productData.special) do list[#list+1] = key end
+            for key,_ in pairs(productData.iap) do list[#list+1] = key end
 
-            if store.consumePurchase then
-                store.consumePurchase(list, function(event) --[[self:showStatus("consumed products")]] end)
+            -- consume IAPs for testing purposes in debug mode
+            if globalDebugGame then
+                if store.consumePurchase then
+                    store.consumePurchase(list, function(event) --[[self:showStatus("consumed products")]] end)
+                end
             end
 
             store.loadProducts(list, function(event) self:storeProductsLoaded(event) end)
@@ -190,10 +197,8 @@ function scene:storeProductsLoaded(event)
         end
         self:showStatus(s)]]
 
-        if price then
-            if productData.planets[pid] then productData.planets[pid].cost = price end
-            if productData.gear[pid]    then productData.gear[pid].cost    = price end
-            if productData.special[pid] then productData.special[pid].cost = price end
+        if price and pid and productData.iap[pid] then
+            productData.iap[pid].cost = price 
         end
     end
 
@@ -241,16 +246,16 @@ function scene:buildGearPage(gearGroup)
     newImage(gearGroup, "inapp-purchases/iap-gear-land", 800,     280)
     newImage(gearGroup, "inapp-purchases/iap-gear-all",  centerX, 540)
 
-    self:newGearBuyers(gearGroup, 130, 335, "gear_pack_jump_small",       "gear_pack_jump_large")
-    self:newGearBuyers(gearGroup, 425, 335, "gear_pack_air_small",        "gear_pack_air_large")
-    self:newGearBuyers(gearGroup, 740, 335, "gear_pack_land_small",       "gear_pack_land_large")
-    self:newGearBuyers(gearGroup, 750, 535, "gear_pack_everything_small", "gear_pack_everything_large")
+    self:newGearBuyers(gearGroup, 130, 335, productIds.gearPackJumpSmall, productIds.gearPackJumpLarge)
+    self:newGearBuyers(gearGroup, 425, 335, productIds.gearPackAirSmall,  productIds.gearPackAirLarge)
+    self:newGearBuyers(gearGroup, 740, 335, productIds.gearPackLandSmall, productIds.gearPackLandLarge)
+    self:newGearBuyers(gearGroup, 750, 535, productIds.gearPackAllSmall,  productIds.gearPackAllLarge)
 end
 
 
 function scene:newPlanetBuyer(planetGroup, planet, available, xpos)
     local productId = "planet_pack"..planet
-    local product   = productData.planets[productId]
+    local product   = productData.iap[productId]
 
     newImage(planetGroup, "inapp-purchases/iap-planet"..planet, xpos, 280)
 
@@ -278,8 +283,8 @@ end
 
 
 function scene:newGearBuyers(group, x, y, nameSmall, nameLarge)
-    local iapSmall = productData.gear[nameSmall]
-    local iapLarge = productData.gear[nameLarge]
+    local iapSmall = productData.iap[nameSmall]
+    local iapLarge = productData.iap[nameLarge]
 
     local b1, b1o = newButton(group, x, y,    "buy", function() scene:purchase(iapSmall) end, nil, 0.7)
     local b2, b2o = newButton(group, x, y+60, "buy", function() scene:purchase(iapLarge) end, nil, 0.7)
@@ -378,10 +383,10 @@ function scene:purchase(product)
         transactionProduct = product
 
         if googleIAP then
-            --self:showStatus("Purchasing "..product.id.." from Google Play Store")
+            -- calls storeTransaction() 
             store.purchase(product.id)
         else
-            --self:showStatus("Purchasing "..product.id.." from Apple App Store")
+            -- calls storeTransaction() 
             store.purchase({product.id})
         end
     else
@@ -390,37 +395,79 @@ function scene:purchase(product)
 end
 
 
+function scene:restorePurchases()
+    -- calls storeTransaction() for each previous purchase to restore
+    if store and not restoreChecked then
+        self:showStatus("checking store restore")
+        transactionProduct = nil
+        store.restore()
+        restoreChecked = true
+    end
+end
+
+
 function scene:storeTransaction(event)
     local self        = scene
     local transaction = event.transaction
 
-    if transaction.state == "purchased" then
+    if transaction.state == "purchased" or transaction.state == "restored" then
+        local restore = false
+
         play(sounds.shopPurchase)
         self.unlockedItems = {}
-        
-        local planet = transactionProduct.planet
-        local gear   = transactionProduct.gear
-        local size   = transactionProduct.size
 
-        if planet then
-            if     planet == 1 then self:purchasedPlanetPack1()
-            elseif planet == 2 then self:purchasedPlanetPack2() end
-        elseif gear then
-            if     gear == jump  and size == "small" then self:purchasedSmallJumpGearPack()
-            elseif gear == jump  and size == "large" then self:purchasedLargeJumpGearPack()
-            elseif gear == air   and size == "small" then self:purchasedSmallAirGearPack()
-            elseif gear == air   and size == "large" then self:purchasedLargeAirGearPack()
-            elseif gear == land  and size == "small" then self:purchasedSmallLandGearPack()
-            elseif gear == land  and size == "large" then self:purchasedLargeLandGearPack()
-            elseif gear == "all" and size == "small" then self:purchasedSmallAllGearPack()
-            elseif gear == "all" and size == "large" then self:purchasedLargeAllGearPack() end
+        -- handle restorePurchases: as this will not be nil if a purchase event occured
+        if transactionProduct == nil then
+            transactionProduct = productData.iap[transaction.productIdentifier]
+            restore = true
+        end
+        
+        if transactionProduct and not state:hasPurchased(transactionProduct.id) then
+            local planet = transactionProduct.planet
+            local gear   = transactionProduct.gear
+            local size   = transactionProduct.size
+
+            if planet then
+                if     planet == 1 then self:purchasedPlanetPack1(restore)
+                elseif planet == 2 then self:purchasedPlanetPack2(restore) end
+            elseif gear then
+                if     gear == jump  and size == "small" then self:purchasedSmallJumpGearPack()
+                elseif gear == jump  and size == "large" then self:purchasedLargeJumpGearPack()
+                elseif gear == air   and size == "small" then self:purchasedSmallAirGearPack()
+                elseif gear == air   and size == "large" then self:purchasedLargeAirGearPack()
+                elseif gear == land  and size == "small" then self:purchasedSmallLandGearPack()
+                elseif gear == land  and size == "large" then self:purchasedLargeLandGearPack()
+                elseif gear == "all" and size == "small" then self:purchasedSmallAllGearPack()
+                elseif gear == "all" and size == "large" then self:purchasedLargeAllGearPack() end
+            end
+
+            state:saveGame()
+            transactionProduct = nil
         end
 
-        state:saveGame()
+    elseif transaction.state == "refunded" then
+        -- Google Play allows for IAP refunds - so disable the functionality ... pretty tough to work out though
+        transactionProduct = productData.iap[transaction.productIdentifier]
+
+        if transactionProduct then
+            local planet = transactionProduct.planet
+
+            -- Currently: can only refund planet packs not consumables such as gear
+            if planet then
+                if     planet == 1 then self:refundPlanetPack1()
+                elseif planet == 2 then self:refundPlanetPack2() end
+            end
+
+            state:saveGame()
+        end
 
     elseif transaction.state == "cancelled" then
         play(sounds.shopCantBuy)
         self:showStatus("Purchase cancelled: "..tostring(transaction.productIdentifier))
+
+    elseif transaction.state == "failed" then
+        play(sounds.shopCantBuy)
+        self:showStatus("Purchase failed: "..tostring(transaction.productIdentifier).." => "..tostring(event.errorType).." "..tostring(event.errorString))
     else
         play(sounds.shopCantBuy)
         self:showStatus("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
@@ -435,15 +482,15 @@ end
 --------------------- SUCCESSFULL PURCHASE HANDLERS - ACTIVATE PURCHASES ---------------------
 
 
-function scene:purchasedPlanetPack1()
+function scene:purchasedPlanetPack1(restore)
     self:unlockPlanetPack(1, characterKranio)
-    self:displayPlanetUnlocked(1)
+    self:displayPlanetUnlocked(1, restore)
 end
 
 
-function scene:purchasedPlanetPack2()
+function scene:purchasedPlanetPack2(restore)
     self:unlockPlanetPack(2, characterReneGrey)
-    self:displayPlanetUnlocked(2)
+    self:displayPlanetUnlocked(2, restore)
 end
 
 
@@ -601,9 +648,9 @@ function scene:consumeProduct()
 end
 
 
-function scene:displayPlanetUnlocked(planet)
+function scene:displayPlanetUnlocked(planet, restore)
     local productId = transactionProduct.id
-    local product   = productData.planets[productId]
+    local product   = productData.iap[productId]
 
     product.labelPurchased.alpha = 1
     product.labelPrice.alpha     = 0
@@ -616,14 +663,17 @@ function scene:displayPlanetUnlocked(planet)
     newBlocker(self.view)
     self:animatePurchases(500, 1000, 500)
 
-    local seq = anim:chainSeq("showUnlocks", self.view)
-    seq:callback(function() 
-        state.data.planetSelected = planet
-        state.cutsceneStory       = "cutscene-character-intro"
-        state.sceneAfterCutScene  = "scenes.inapp-purchases"
-        composer.gotoScene("scenes.mothership", {effect="fade", time=500})
-    end)
-    anim:startQueue("showUnlocks")
+    -- dont change scenes if restoring
+    if not restore then
+        local seq = anim:chainSeq("showUnlocks", self.view)
+        seq:callback(function() 
+            state.data.planetSelected = planet
+            state.cutsceneStory       = "cutscene-character-intro"
+            state.sceneAfterCutScene  = "scenes.inapp-purchases"
+            composer.gotoScene("scenes.mothership", {effect="fade", time=500})
+        end)
+        anim:startQueue("showUnlocks")
+    end
 end
 
 
@@ -672,6 +722,31 @@ function scene:animatePurchases(speedIn, delay, speedOut)
         seq:wait(delay or 500)
         seq:tran({time=(speedOut or 250), scale=0.01, alpha=0})
     end
+end
+
+
+----- REFUNDS -----
+
+
+function scene:refundPlanetPack1()
+    self:refundPlanetPack(1, characterKranio)
+    self:showStatus("Purchase refunded: Organia Planet Pack")
+end
+
+
+function scene:refundPlanetPack2()
+    self:refundPlanetPack(2, characterReneGrey)
+    self:showStatus("Purchase refunded: Apocalypsoid Planet Pack")
+end
+
+
+function scene:refundPlanetPack(planet, specialCharacter)
+    state:lockZone(planet, 22)
+    state:lockZone(planet, 23)
+    state:lockZone(planet, 24)
+    state:lockZone(planet, 25)
+    state:lockCharacter(specialCharacter)
+    state:removePurchase(transactionProduct.id)
 end
 
 
@@ -736,21 +811,25 @@ function scene:hide(event)
         track:cancelEventHandles()
         anim:destroy()
 
-        for _,planet in pairs(productData.planets) do
-            if planet.labelPrice then
-                planet.labelPrice:removeSelf();  planet.labelPrice = nil
+        for _,product in pairs(productData.iap) do
+            if product.labelPrice then
+                product.labelPrice:removeSelf()
+                product.labelPrice = nil
             end
 
-            if planet.labelPurchased then
-                planet.labelPurchased:removeSelf();  planet.labelPurchased = nil
+            if product.labelPurchased then
+                product.labelPurchased:removeSelf()
+                product.labelPurchased = nil
             end
 
-            if planet.buyButton1 then
-                planet.buyButton1:removeSelf();  planet.buyButton1 = nil
+            if product.buyButton1 then
+                product.buyButton1:removeSelf()
+                product.buyButton1 = nil
             end
 
-            if planet.buyButton2 then
-                planet.buyButton2:removeSelf();  planet.buyButton2 = nil
+            if product.buyButton2 then
+                product.buyButton2:removeSelf()
+                product.buyButton2 = nil
             end
         end
 
