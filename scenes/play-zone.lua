@@ -152,11 +152,12 @@ function scene:create(event)
     local game = state.data.gameSelected
     state.infiniteRunner = (game == gameTypeArcadeRacer or game == gameTypeTimeRunner or game == gameTypeClimbChase)
 
-    setMovementStyleSpeeds()
     scene:initPhysics()
+    scene:initLocals()
+    setMovementStyleSpeeds()
     scene:loadGame()
     scene:createEventHandlers()
-    scene:initLocals()
+    
     particles:preLoadEmitters()
 
     -- these top and bottom borders ensure that devices where the length is greater than 960 (ipad retina) the game doesnt show under or above the background size limits
@@ -175,7 +176,7 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
     end
 end
@@ -202,7 +203,7 @@ function scene:hide(event)
         logAnalyticsEnd()
 
     elseif event.phase == "did" then
-        composer.removeScene("scenes.play-zone")
+        composer.removeScene("scenes.play-zone", true)
     end
 end
 
@@ -300,7 +301,7 @@ function scene:createEventHandlers()
     Runtime:addEventListener("touch",      sceneTouchEvent)
     Runtime:addEventListener("key",        sceneKeyEvent)
 
-    self.gameLoopHandle = timer.performWithDelay(250, level.updateBehaviours, 0)
+    scene.gameLoopHandle = timer.performWithDelay(250, level.updateBehaviours, 0)
 end
 
 
@@ -510,7 +511,7 @@ function scene:pauseLevel()
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
 
     track:pauseEventHandles()
-    timer.pause(scene.gameLoopHandle)
+--    timer.pause(scene.gameLoopHandle)
     physics:pause()
     anim:pause()
     particles:pause()
@@ -528,7 +529,7 @@ function scene:resumeLevel(resumeGameState)
     particles:resume()
     anim:resume()
     physics:start()
-    timer.resume(scene.gameLoopHandle)
+--    timer.resume(scene.gameLoopHandle)
     track:resumeEventHandles()
 end
 
@@ -705,8 +706,9 @@ end
 function scene:unloadLevel()
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
     Runtime:removeEventListener("touch",      sceneTouchEvent)
-    Runtime:removeEventListener("key", sceneKeyEvent)
-    timer.cancel(self.gameLoopHandle)
+    Runtime:removeEventListener("key",        sceneKeyEvent)
+
+    timer.cancel(scene.gameLoopHandle)
     track:cancelEventHandles()
 
     physics.stop()
@@ -727,8 +729,7 @@ end
 
 
 -- Called prior to the removal of scene's "view" (display group)
-function scene:destroyScene( event )
-    local group = self.view
+function scene:destroy(event)
 end
 
 

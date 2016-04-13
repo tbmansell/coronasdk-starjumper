@@ -60,9 +60,9 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
+
         self.animateLoop = timer.performWithDelay(5000, scene.switchAnimation, 0)
         Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
         Runtime:addEventListener("key", sceneKeyEvent)
@@ -78,6 +78,8 @@ function scene:init()
     if state:currentScene() ~= "scenes.shop" then
         state:newScene("select-player")
     end
+
+    self:displayHud()
 end
 
 
@@ -85,7 +87,6 @@ function scene:createItems()
     newImage(self.view, "select-player/bgr", centerX, centerY)
     newButton(self.view, 55,  50,  "back",   scene.exitPlayerSelect)
     newButton(self.view, 700, 410, "select", scene.changeToPlayer, "no")
-    self:displayHud()
 
     -- Delays for a moment to give the scene a chance to display before the heavy player loading is done
     self.characters = {}

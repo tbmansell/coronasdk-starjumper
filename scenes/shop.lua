@@ -38,7 +38,6 @@ function scene:create(event)
    
     self:createEssentials()
     self:createGearIcons()
-    self:displayHud()
     self:createInAppPurchase()
     self:createNegables()
 end
@@ -46,9 +45,8 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
         self:startMusic()
 
         Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
@@ -65,6 +63,8 @@ function scene:init()
     if state:currentScene() ~= "scenes.select-player" then
         state:newScene("shop")
     end
+
+    self:displayHud()
 end
 
 

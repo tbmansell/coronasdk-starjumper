@@ -1,7 +1,7 @@
 local composer = require("composer")
-local anim       = require("core.animations")
-local recorder   = require("core.recorder")
-local scene      = composer.newScene()
+local anim     = require("core.animations")
+local recorder = require("core.recorder")
+local scene    = composer.newScene()
 
 -- Aliases:
 local play = globalSoundPlayer
@@ -21,7 +21,12 @@ function scene:create(event)
     local planet  = math.random(1,2)
     
     newImage(group, "title/title-screen"..planet, centerX, centerY)
-    newText(group, "version "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
+
+    if globalDebugGame then
+        newText(group, "debug version "..globalBuildVersion, 50, 600, 0.6, "red", "LEFT")
+    else
+        newText(group, "version "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
+    end
 
     local options = newImage(group, "title/settings2", 25, 610)
     options:addEventListener("tap", scene.showSettings)
@@ -39,9 +44,8 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
         self:startMusic()
         self:startAnimations()
         self:startDemoTimer()
@@ -63,6 +67,8 @@ function scene:init()
         globalSplashScreen:removeSelf()
         globalSplashScreen = nil
     end
+
+    state.demoActions = nil
 end
 
 

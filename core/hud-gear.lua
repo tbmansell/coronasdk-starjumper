@@ -612,8 +612,6 @@ end
 function hud:hideGameHud()
     if state.demoActions == nil then
         self:hideGear()
-        self.textDebugMode.alpha    = 0
-        self.textPhysicsMode.alpha  = 0
         self.textScore.alpha        = 0
         self.textTime.alpha         = 0
         self.magnifyIcon.alpha      = 0

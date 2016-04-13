@@ -533,7 +533,6 @@ function newObjectsLoader:load(level)
 
     -- Called when the level starts to run through any timed custom events and trigger them
     function level:finishCustomEvents()
-        print("finishCustomEvents")
         if self.data.customEvents then
             for name,event in pairs(self.data.customEvents) do
                 if event.conditions and event.conditions.zoneFinish then

@@ -1,5 +1,6 @@
 -- Global label used for buld version
 globalBuildVersion = "0.11.13"
+globalDebugGame    = true
 
 -- Define global constants
 require("constants.globals")
@@ -39,24 +40,23 @@ end
 sounds:loadStaticSounds()
 sounds:loadRandomSounds()
 
+
 -- Fire off the start scene
 local composer = require("composer")
 local mode     = "game"
 
-
--- game:   play the full game as normal from the title screen
--- cut     load the cutscene with cusotm params
--- play:   play a particular level
+-- game    play the full game as normal from the title screen
+-- cut     load the cutscene with custom params
+-- zone    play a particular level
 -- record  play a particular level and record it to file
 -- gen     generate a new level from an algorithm
 
-
-if mode == "play" or mode == "record" then
+if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1	
-	state.data.zoneSelected   = 1
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 3
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 
@@ -70,14 +70,18 @@ elseif mode == "gen" then
 	state.data.planetSelected = 1
 	state.data.zoneSelected   = 18
 	require("core.level-algorithms"):run("reverse")
-
+	
 elseif mode == "game" or mode == nil then
 	composer.gotoScene("scenes.title")
 end
 
 
--- Testing: add 100 holocubes
-state.data.holocubes = 100
-
--- Testing: Show performance info
---timer.performWithDelay(1000, displayPerformance, 0)
+-- Determine if we put the game in debug mode or not
+if globalDebugGame then
+	-- Testing: provide 20 lives instead of 2
+	globalPlayerLives = 20
+	-- Testing: add 100 holocubes
+	state.data.holocubes = 100
+	-- Testing: Show performance info
+	timer.performWithDelay(1000, displayPerformance, 0)
+end

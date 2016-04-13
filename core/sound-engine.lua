@@ -480,8 +480,7 @@ end
 function engine:destroy()
 	engine:stopBackgroundSounds()
 
-	soundQueue     = nil
-	channelsActive = nil
+	soundQueue = {}
 	stop()
 end
 

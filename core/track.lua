@@ -118,13 +118,13 @@ end
 
 -- Generates an analytics event for us to track
 function logAnalyticsStart()
-	print("[start] "..tostring(composer.getSceneName("current")))
+	--print("[start] "..tostring(composer.getSceneName("current")))
 	--analytics.startTimedEvent(composer.getSceneName(), getState())
 end
 
 
 function logAnalyticsEnd()
-	print("[end] "..tostring(composer.getSceneName("current")))
+	--print("[end] "..tostring(composer.getSceneName("current")))
 	--analytics.endTimedEvent(composer.getSceneName(), getState())
 end
 

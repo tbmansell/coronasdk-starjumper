@@ -68,9 +68,9 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
+
         Runtime:addEventListener("key", sceneKeyEvent)
 
         if state.inappPurchaseType == "planet" then

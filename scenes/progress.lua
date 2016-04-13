@@ -42,16 +42,15 @@ function scene:create(event)
     spineStore:load(spineCollection)
 
     newImage(self.view, "select-zone/progress-bgr", centerX, centerY)
-    self:displayHud()
     self:summary()
 end
 
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
+
         play(sounds.zoneSummary)
         Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
         Runtime:addEventListener("key", sceneKeyEvent)
@@ -63,6 +62,8 @@ function scene:init()
     logAnalyticsStart()
     clearSceneTransition()
     state:newScene("progress")
+
+    self:displayHud()
 end
 
 

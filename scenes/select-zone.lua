@@ -79,15 +79,14 @@ function scene:create(event)
     spineStore:load(spineCollection)
     
     self:createSceneMoveableContent(event)
-    self:displayHud()
 end
 
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
+
         -- we dont play element sounds on zone select as its not distance managed and they are well annoying
         soundEngine:disable()
         self:startMusic()
@@ -105,6 +104,8 @@ function scene:init()
     state:newScene("select-zone")
     clearSceneTransition()
     globalIgnorePhysicsEngine  = true
+
+    self:displayHud()
 end
 
 

@@ -72,9 +72,9 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:show(event)
-    if event.phase == "will" then
+    if event.phase == "did" then
         self:init()
-    elseif event.phase == "did" then
+
         if scene.context == "exitScene" then
             scene.context = "selectPlanet"
         end

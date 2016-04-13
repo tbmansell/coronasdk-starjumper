@@ -12,6 +12,8 @@ globalInfiniteStage        = nil
 globalTutorialScript       = nil
 -- Global flag to determine if played games should be recorded and saved to file
 globalRecordGame           = false
+-- Global value indicaqting number of lives player has
+globalPlayerLives          = 2
 
 
 require("constants.game")
