@@ -792,7 +792,7 @@ function scene:displayMessage(message, color)
     local text = newText(self.group, message, 480, 310, 0.8, color, "CENTER")
     local seq  = anim:oustSeq("purchase", text, true)
     seq:add("pulse", {time=1000, scale=0.025, expires=3000})
-    seq:tran({time=750, scale=0, alpha=0})
+    seq:tran({time=750, scale=0.1, alpha=0})
     seq:start()
 end
 

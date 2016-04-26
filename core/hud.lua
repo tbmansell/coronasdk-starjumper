@@ -733,7 +733,7 @@ function hud:displayMessage(message, type)
     local text = newText(self.group, message, 480, ypos, 0.8, color, "CENTER")
     local seq  = anim:oustSeq("levelMessage", text, true)
     seq:add("pulse", {time=1000, scale=0.025, expires=3000})
-    seq:tran({time=750, scale=0, alpha=0})
+    seq:tran({time=750, scale=0.1, alpha=0})
     seq:start()
 end
 

@@ -146,8 +146,6 @@ function spineStore:fetchObject(creator, type, params)
 	self.inUse[type] = index
 
 	if created[index] == nil then
-		if type == typeGearFlame then print("Creating new flame at index "..index) end
-
 		local newObject = creator(self, params)
 		
 		newObject:pose()
@@ -157,8 +155,6 @@ function spineStore:fetchObject(creator, type, params)
     	newObject:generateKey(#created + 1)
     	
     	created[index] = newObject
-    else
-    	if type == typeGearFlame then print("Returning existing flame at index "..index) end
 	end
 
 	return created[index]
