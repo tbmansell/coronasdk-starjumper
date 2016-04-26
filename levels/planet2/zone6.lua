@@ -2,7 +2,7 @@ local levelData = {
     name             = "express elevator to hell...",
     timeBonusSeconds = 28,
     ceiling          = -1500,
-    startLedge       = 6,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},

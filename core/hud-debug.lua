@@ -1,15 +1,3 @@
--- Global debug game logic
-if globalDebugGame then
-    -- Testing: provide 20 lives instead of 2
-    globalPlayerLives = 20
-    -- Testing: add 100 holocubes
-    state.data.holocubes = 100
-    -- Testing: Show performance info
-    --timer.performWithDelay(1000, displayPerformance, 0)
-end
-
-
-
 local playerStates = {
     [playerReady]         = "ready",
     [playerWalk]          = "walk",

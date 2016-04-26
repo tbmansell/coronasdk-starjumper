@@ -26,7 +26,7 @@ function obstacle.eventCollide(self, event)
     local object   = event.other.object
 
     if obstacle.isElectricGate then
-        if object and obstacle.deadly then
+        if object and obstacle.deadly and event.phase == "began" then
             obstacle:killWithElectricity(object)
         end
         return false
