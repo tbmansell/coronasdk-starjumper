@@ -185,9 +185,11 @@ end
 
 function player:shieldStarted()
     if self.shielded ~= true then
-        self.shielded = true
-        spineStore:showGearShield(self:getCamera(), self, {x=0, y=-60})
-        self:setPhysicsFilter("addShield")
+        after(50, function()
+            self.shielded = true
+            spineStore:showGearShield(self:getCamera(), self, {x=0, y=-60})
+            self:setPhysicsFilter("addShield")
+        end)
     end
 end
 

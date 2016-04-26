@@ -107,15 +107,12 @@ function ledge.eventCollide(self, event)
         if playerX < left or playerX > right or playerY > top then
             local direction = right
             
-            if playerX < left then --[[print("TOO FAR LEFT");]] direction = left end
+            if playerX < left  then direction = left end
 
-            --[[if playerX > right then print("TOO FAR RIGHT") end
-            if playerY > top   then print("TOO FAR DOWN") end
-
-            print("Missed ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())]]
+            --print("Missed ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width().." ledge width/x="..math_round(ledge:width())..","..math_round(ledge:x()))
             object:missLedge(ledge, direction)
         else
-            --print("Landed on ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width())
+            --print("Landed on ledge playerX/Y="..math_round(playerX)..","..math_round(playerY).." left/right/top="..math_round(left)..","..math_round(right)..","..math_round(top).." object.width="..object:width().." ledge width/x="..math_round(ledge:width())..","..math_round(ledge:x()))
             if object.mode ~= playerKilled then
                 object:land(ledge)
                 ledge:land(object)
@@ -517,30 +514,19 @@ end
 
 function ledge:getPhysics(s)
     local stats = surfacePhysics[self.surface]
-    local w, h  = 150, 15
+    local w, h  = self:getCustomSize(1)
+
+    -- getCustomSize() specifies the full width and height, but we want half for each shape side
+    if w > 0 then w = w/2 end
+    if h > 0 then h = h/2 end
 
     if self.surface == lava then
-        h = 31
         stats.shape = {-w+12,-h, w+8,-h, w+8,0, -w+12,0}
         
     elseif self.surface == spring then
-        w, h = 105, 32
         stats.shape = {-w+5,-h, w-5,-h, w,0, -w,0}
 
-    elseif self.surface == electric then
-        h = 40
-        stats.shape = {-w,-h, w,-h, w,-h+10, -w,-h+10}
-
-    elseif self.surface == spiked then
-        w, h = 100, 30
-        stats.shape = {-w,-h, w,-h, w,-h+10, -w,-h+10}
-
-    elseif self.surface == exploding then
-        w, h = 120, 20
-        stats.shape = {-w,0, w,0, w,h, -w,h}
-
     elseif self.surface == collapsing then
-        w, h = 120, 30
         -- the collapsing ledge is off center, so modify it based on if its flipped on X:
         if self.flip == "x" then
             stats.shape = {-w+10,-h, w+10,-h, w+10,-h+10, -w+10,-h+10}
@@ -548,20 +534,10 @@ function ledge:getPhysics(s)
             stats.shape = {-w-10,-h, w-10,-h, w-10,-h+10, -w-10,-h+10}
         end
 
-    elseif self.surface == pulley then
-        w, h = 100, 40
-        stats.shape = {-w,-h, w,-h, w,-h+15, -w,-h+15}
-
     elseif self.surface == ramp then
-        h = 0
         stats.shape = {-w-10,-h, w-10,-h, w-10,-h+10, -w-10,-h+10}
-
-    elseif self.surface == oneshot then
-        if     self.size == "medium"    then w, h = 100, 0
-        elseif self.size == "med-small" then w, h = 75,  0 end
-
-        stats.shape = {-w,-h, w,-h, w,-h+10, -w,-h+10}
     else
+        -- default:
         stats.shape = {-w,-h, w,-h, w,-h+10, -w,-h+10}
     end
 
@@ -575,21 +551,23 @@ function ledge:getPhysics(s)
 end
 
 
+-- Specifies the custom size for spine ledges
+-- The sizes are typically used to position the ledge and set the physics shape
 function ledge:getCustomSize(s)
     local w, h = 300, 30
 
-    if     self.surface == lava       then 	 h    = 65
-    elseif self.surface == spring     then   w, h = 105, 32
-    elseif self.surface == electric   then   h    = 40
-    elseif self.surface == spiked     then   w    = 100
-    elseif self.surface == exploding  then   w, h = 240, 0
-    elseif self.surface == collapsing then   w, h = 240, 60
-    elseif self.surface == pulley     then   w, h = 200, 65
-    elseif self.surface == ramp       then 	 h    = 0
-    elseif self.surface == oneshot    then
+    if     self.surface == lava         then h    = 62       -- was 40
+    elseif self.surface == electric     then h    = 80
+    elseif self.surface == spiked       then w, h = 200, 60  -- was 100, 30
+    elseif self.surface == collapsing   then w, h = 240, 60
+    elseif self.surface == pulley       then w, h = 200, 80  -- was 200, 65
+    elseif self.surface == exploding    then w, h = 240, 0
+    elseif self.surface == ramp         then h    = 0
+    elseif self.surface == oneshot      then
         if     self.size == "medium"    then w, h = 200, 0
-        elseif self.size == "med-small" then w, h = 150, 0 
+        elseif self.size == "med-small" then w, h = 150, 0
         end
+    elseif self.surface == spring       then w, h = 210, 32
     end
 
     return w*s, h*s
@@ -647,7 +625,7 @@ end
 function ledge:activateExplodingLedge(target)
     self:animate("Activated")
 
-    after(2000, function()
+    after(2500, function()
         self:intangible()
         self.destroyed = true
 

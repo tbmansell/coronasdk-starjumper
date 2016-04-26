@@ -358,6 +358,9 @@ function player:analyseNextJump()
 	-- if level has ai={} override rules, use them here
 	local from = self.attachedLedge or self.attachedObstacle
 	local jumpLogic = from.ai
+
+self:setIndividualGear(gearShield)
+
 	
 	if jumpLogic then
 		if self:applyJumpLogic(jumpLogic) then

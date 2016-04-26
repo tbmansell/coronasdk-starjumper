@@ -376,7 +376,7 @@ function spineStore:showGearShield(camera, player, params)
 		self.spineCollection:add(shield)
 		player.shieldImage = shield
 
-        local seq = anim:oustSeq("playerShield", shield.image)
+        local seq = anim:oustSeq("playerShield"..player.model, shield.image)
         seq:tran({time=500, scale=1, playSound=sounds.gearShieldUp})
         seq:callbackAfter(8000, function() shield:loop("Pulse") end)
         seq:tran({time=1000, delay=2000, scale=0.1, playSound=sounds.gearShieldDown, playDelay=2000})

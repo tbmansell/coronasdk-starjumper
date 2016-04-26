@@ -322,7 +322,7 @@ end
 
 
 function curve:removeLine(camera)
-    if pullLine ~= nil then
+    if pullLine and pullLine.removeSelf then
         camera:remove(pullLine)
         pullLine:removeSelf()
         pullLine = nil
