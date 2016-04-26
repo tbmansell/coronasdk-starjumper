@@ -1,0 +1,79 @@
+-- build.settings for project: JumpR
+-- Managed with http://CoronaProjectManager.com
+-- Copyright 2012 . All Rights Reserved.
+
+settings = {
+	orientation =
+	{
+		default = "landscapeRight",
+		supported = { "landscapeLeft", "landscapeRight" },
+	},
+    android =
+    {
+        -- usesExpansionFile = true,
+        supportsTV = true,
+        isGame = true,
+
+        usesPermissions =
+        {
+            "com.android.vending.BILLING",
+            "com.android.vending.CHECK_LICENSE",
+            "android.permission.INTERNET",
+            "android.permission.ACCESS_NETWORK_STATE",
+            "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
+            "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
+            "android.permission.WRITE_EXTERNAL_STORAGE"
+        },
+    },
+	iphone =
+	{
+		plist=
+		{
+            
+			CFBundleDisplayName         = "Star Jumper",
+            CFBundleName                = "Star Jumper",
+            --CFBundleIconFiles           = {},  -- Required
+            --UILaunchImages              = {},  -- Required
+            UIApplicationExitsOnSuspend = false,
+            --UIPrerenderedIcon           = true,
+            UIStatusBarHidden           = true,
+            MinimumOSVersion            = "7.0",
+            NSAppTransportSecurity      = { NSAllowsArbitraryLoads=true },
+		},
+	},
+	androidPermissions = 
+	{
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
+        "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
+    },
+    usesFeatures = 
+    {
+        { name="android.hardware.location",         required=false },
+        { name="android.hardware.location.gps",     required=false },
+        { name="android.hardware.location.network", required=false },
+    },
+    plugins = 
+    {
+        --[[["plugin.flurry-analytics"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { iphone=true, android=true }
+        },]]
+        ["plugin.google.play.services"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { android=true }
+        },
+        ["plugin.google.iap.v3"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { android=true }
+        },
+        --[[["plugin.revmob"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { iphone=true, android=true }
+        },]]
+    },
+}

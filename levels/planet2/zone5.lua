@@ -2,7 +2,7 @@ local levelData = {
     name             = "think backwards",
     timeBonusSeconds = 28,
     ceiling          = -1000,
-    startLedge       = 9,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},
