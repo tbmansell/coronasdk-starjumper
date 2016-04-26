@@ -33,6 +33,8 @@ local spineStore = {
 	created         = {},
 	-- stores a list of landing dust spine objects, per color, pre-loaded rath than load on land
 	landingDust 	= {},
+	-- used for a displayGroup when removing items from game elements, as in order to remove them from a DG, you have to insert them into another
+	removeGroup     = nil,
 
 	-- Methods:
 	-----------
@@ -82,6 +84,7 @@ local math_random = math.random
 -- Loads up the spine store with spine objects pro-loaded, so they can be fetched quickly in-level
 ----
 function spineStore:load(spineCollection)
+	self.removeGroup     = display.newGroup()
 	self.spineCollection = spineCollection
 
 	-- creating a landing dust spineObject for each color possible:
@@ -113,6 +116,8 @@ function spineStore:destroy()
 		self:destroyList(self.created[type], type)
 	end
 
+	self.removeGroup:removeSelf()
+	self.removeGroup     = nil
 	self.spineCollection = nil
 end
 
@@ -395,18 +400,16 @@ end
 -- @param object - to attach flame to
 -- @param
 ----
-function spineStore:showGearFlame(camera, object, params)
+function spineStore:showGearFlame(camera, player, params)
 	local xpos     = params.x        or 0
 	local ypos     = params.y        or 0
 	local rotation = params.rotation or 0
 	local flame    = self:fetchObject(self.newGearFlame, typeGearFlame, params)
 
 	if flame and flame.image then
-		print("showGearFlame:     player="..tostring(object.key).." flame="..tostring(flame.key).." flame.image="..tostring(flame.image).." tally="..tostring(self.inUse[typeGearFlame]).." playerFlame="..tostring(object.jetPackFlame))
-
 		flame:moveTo(xpos, ypos)
 
-		if object.direction == left then
+		if player.direction == left then
 			flame.image:scale(-1,1)
 			flame.flipped = true
 		end
@@ -416,23 +419,10 @@ function spineStore:showGearFlame(camera, object, params)
 		flame:visible()
 
 		self.spineCollection:add(flame)
-		object.jetPackFlame = flame
+		player.jetPackFlame = flame
 
 		-- Insert into image so corona moves the flames with the object for us
-		print("showGearFlame: ADD player="..tostring(object.key).." flame="..tostring(flame.key).." flame.image="..tostring(flame.image).." tally="..tostring(self.inUse[typeGearFlame]).." playerFlame="..tostring(object.jetPackFlame))
-
-		for i=1,5 do
-			local object = self.created[typeGearFlame][i]
-			local image  = nil
-			local rem    = nil
-
-			if object then image = object.image end
-			if image  then rem   = object.image.removeSelf end
-
-			print(i.." object="..tostring(object).." object.image="..tostring(image).." object.image.removeSelf="..tostring(rem))
-		end
-
-		object.image:insert(flame.image)
+		player.image:insert(flame.image)
 	end
 end
 
@@ -684,6 +674,10 @@ function spineStore:hideGearShield(camera, player)
 
 		self.inUse[typeGearShield] = self.inUse[typeGearShield] - 1
 		player.shieldImage = nil
+
+		-- You cant remove() an item from a displayGroup as it deletes it, so to simply remove it but keep it intact, we move it to another group
+		-- If we dont remove it from its parent elements displayGroup, when that element is destroyed, it corrupts this one
+		self.removeGroup:insert(shield.image)
 	end
 end
 
@@ -695,7 +689,7 @@ end
 function spineStore:hideGearFlame(camera, player)
 	local flame = player.jetPackFlame
 
-	if flame then
+	if flame and flame.image then
 		camera:remove(flame.image)
 		self.spineCollection:remove(flame)
 		flame:hide()
@@ -709,7 +703,9 @@ function spineStore:hideGearFlame(camera, player)
 		self.inUse[typeGearFlame] = self.inUse[typeGearFlame] - 1
 		player.jetPackFlame = nil
 
-		print("hideGearFlame: player="..tostring(player.key).." flame="..tostring(flame.key).." flame.image="..tostring(flame.image).." tally="..tostring(self.inUse[typeGearFlame]).." playerFlame="..tostring(player.jetPackFlame))
+		-- You cant remove() an item from a displayGroup as it deletes it, so to simply remove it but keep it intact, we move it to another group
+		-- If we dont remove it from its parent elements displayGroup, when that element is destroyed, it corrupts this one
+		self.removeGroup:insert(flame.image)
 	end
 end
 

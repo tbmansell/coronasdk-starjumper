@@ -385,20 +385,22 @@ function enemyBuilder:addJetpackMovement(camera, enemy, params)
 
     -- Creates a new flame and attaches to the enemy, so next time it can just be made visisble
     function enemy:showFlame()
-        if self.jetPackFlame then
-            if self.jetPackFlame.image then
-                self.jetPackFlame:animate("Standard")
-                self.jetPackFlame:visible()
+        if self.inGame then
+            if self.jetPackFlame then
+                if self.jetPackFlame.image then
+                    self.jetPackFlame:animate("Standard")
+                    self.jetPackFlame:visible()
+                end
+            else
+                spineStore:showGearFlame(camera, self, params)
             end
-        else
-            spineStore:showGearFlame(camera, self, params)
-        end
 
-        after(1000, function() 
-            if self.jetPackFlame and self.jetPackFlame.image then
-                self.jetPackFlame:hide()
-            end
-        end)
+            after(1000, function() 
+                if self.jetPackFlame and self.jetPackFlame.image then
+                    self.jetPackFlame:hide()
+                end
+            end)
+        end
     end
 
     function enemy:reachedPatternPoint()
