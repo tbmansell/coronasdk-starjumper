@@ -392,24 +392,10 @@ function ledgeBuilder:setupRotatedLedge(ledge)
         return (math_cos(self.image.rotation*PI) * (self:width()/2))
     end
 
-
     -- Override for top
     function ledge:topEdge(fromEdge, x)
         if self.image == nil then return 0 end
 
-        --[[
-        local s = self.scaled
-
-        if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-        
-        local top = self.image.y + fromEdge
-
-        if self.customHeight then
-            top = top - (self.customHeight/2)
-        else
-            top = top - (self.image.height/2)
-        end
-        ]]
         local top = self:baseTopEdge(fromEdge)
 
         -- Currently deal with the lower ends (so dont fall through) but leave upper ends
@@ -430,45 +416,11 @@ function ledgeBuilder:setupRotatedLedge(ledge)
 
     -- Override for rotated ledges
     function ledge:leftEdge(fromEdge)
-        --[[
-        local s = self.scaled
-
-        if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-
-        local left = self.image.x + fromEdge
-        local dist = 0
-
-        if self.customWidth then 
-            dist = (self.customWidth/2) 
-        else 
-            dist = (self.image.width/2) 
-        end
-
-        left = left - math_cos(self.image.rotation*PI) * dist
-        return left
-        ]]
         return self.image.x - self:rotatedWidth() + self:scaleNumber(fromEdge)
     end
 
     -- Override for rotated ledges
     function ledge:rightEdge(fromEdge)
-        --[[
-        local s = self.scaled
-
-        if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-
-        local right = self.image.x - fromEdge
-        local dist  = 0
-
-        if self.customWidth then
-            dist = (self.customWidth/2)
-        else 
-            dist = (self.image.width/2)
-        end
-
-        right = right + math_cos(self.image.rotation*PI) * dist
-        return right
-        ]]
         return self.image.x + self:rotatedWidth() - self:scaleNumber(fromEdge)
     end
 end

@@ -52,6 +52,7 @@ local gameObject = {
     -- numBoundItems()
     -- detachFromLedge()
     -- detachFromOther()
+    -- scaleNumber()
     -- x()
     -- y()
     -- pos()
@@ -363,40 +364,6 @@ end
 function gameObject:bottomEdge(fromEdge)
     return self.image.y + (self:height()/2) - self:scaleNumber(fromEdge)
 end
-
-
---[[
-function gameObject:leftEdge(fromEdge)
-    local s = self.scaled
-    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-
-    return self.image.x - ((self.image.width/2) * s) + fromEdge
-end
-
-
-function gameObject:rightEdge(fromEdge)
-    local s = self.scaled
-    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-
-    return self.image.x + ((self.image.width/2) * s) - fromEdge
-end
-
-
-function gameObject:topEdge(fromEdge)
-    local s = self.scaled
-    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-
-    return self.image.y - ((self.image.height/2) * s) + fromEdge
-end
-
-
-function gameObject:bottomEdge(fromEdge)
-    local s = self.scaled
-    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
-
-    return self.image.y + ((self.image.height/2) * s) - fromEdge
-end
-]]
 
 
 function gameObject:flipX()
