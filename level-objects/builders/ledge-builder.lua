@@ -223,6 +223,10 @@ function ledgeBuilder:makeSpineLedge(camera, spec)
 
 	function ledge:setPhysics(s)
         physics.addBody(self.image, "static", self:getPhysics(s))
+
+        if self.destroyed then
+            self:intangible()
+        end
     end
 
     if ledge.surface == electric or ledge.surface == spiked then
@@ -232,7 +236,7 @@ function ledgeBuilder:makeSpineLedge(camera, spec)
         ledge.deadlyTimer = true  -- used by AI so they know to time the jump
         ledge:toggleDeadlyState()
 
-    elseif ledge.surface == ramp then
+    elseif ledge.surface == ramp then        
         if ledge.flip == "x" then
         	ledge.rotation = 10
         else 
@@ -379,12 +383,25 @@ end
 -- @param ledge
 ----
 function ledgeBuilder:setupRotatedLedge(ledge)
+    -- keep originals to avoid repeating logic:
+    ledge.baseTopEdge = ledge.topEdge
+
+
+    -- Determines width from center to edge for rotated ledge
+    function ledge:rotatedWidth()
+        return (math_cos(self.image.rotation*PI) * (self:width()/2))
+    end
+
+
     -- Override for top
     function ledge:topEdge(fromEdge, x)
         if self.image == nil then return 0 end
-        
-        if fromEdge == nil then fromEdge = 0 end
 
+        --[[
+        local s = self.scaled
+
+        if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+        
         local top = self.image.y + fromEdge
 
         if self.customHeight then
@@ -392,6 +409,8 @@ function ledgeBuilder:setupRotatedLedge(ledge)
         else
             top = top - (self.image.height/2)
         end
+        ]]
+        local top = self:baseTopEdge(fromEdge)
 
         -- Currently deal with the lower ends (so dont fall through) but leave upper ends
         -- This means you can hit upper ends anywhere and it counts as a hit, but better than falling through
@@ -411,7 +430,11 @@ function ledgeBuilder:setupRotatedLedge(ledge)
 
     -- Override for rotated ledges
     function ledge:leftEdge(fromEdge)
-        if fromEdge == nil then fromEdge = 0 end
+        --[[
+        local s = self.scaled
+
+        if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+
         local left = self.image.x + fromEdge
         local dist = 0
 
@@ -423,22 +446,30 @@ function ledgeBuilder:setupRotatedLedge(ledge)
 
         left = left - math_cos(self.image.rotation*PI) * dist
         return left
+        ]]
+        return self.image.x - self:rotatedWidth() + self:scaleNumber(fromEdge)
     end
 
     -- Override for rotated ledges
     function ledge:rightEdge(fromEdge)
-        if fromEdge == nil then fromEdge = 0 end
+        --[[
+        local s = self.scaled
+
+        if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+
         local right = self.image.x - fromEdge
         local dist  = 0
 
-        if self.customWidth then 
-            dist = (self.customWidth/2) 
+        if self.customWidth then
+            dist = (self.customWidth/2)
         else 
-            dist = (self.image.width/2) 
+            dist = (self.image.width/2)
         end
 
         right = right + math_cos(self.image.rotation*PI) * dist
         return right
+        ]]
+        return self.image.x + self:rotatedWidth() - self:scaleNumber(fromEdge)
     end
 end
 

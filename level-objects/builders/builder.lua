@@ -225,26 +225,6 @@ function builder:setupCustomShape(object, width, height)
     function object:height()
         return self.customHeight * self.scaled
     end
-
-    function object:leftEdge(fromEdge)
-        if fromEdge == nil then fromEdge = 0 end
-        return self.image.x - ((self.customWidth/2) * self.scaled) + fromEdge
-    end
-
-    function object:rightEdge(fromEdge)
-        if fromEdge == nil then fromEdge = 0 end
-        return self.image.x + ((self.customWidth/2) * self.scaled) - fromEdge
-    end
-
-    function object:topEdge(fromEdge)
-        if fromEdge == nil then fromEdge = 0 end
-        return self.image.y - ((self.customHeight/2) * self.scaled) + fromEdge
-    end
-
-    function object:bottomEdge(fromEdge)
-        if fromEdge == nil then fromEdge = 0 end
-        return self.image.y + ((self.customHeight/2) * self.scaled) + fromEdge
-    end
 end
 
 

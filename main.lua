@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.11.14"
+globalBuildVersion = "0.12.0"
 globalDebugGame    = true
 
 -- Define global constants
@@ -55,8 +55,8 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
-	state.data.zoneSelected   = 3
+	state.data.planetSelected = 2
+	state.data.zoneSelected   = 5
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 
@@ -73,15 +73,4 @@ elseif mode == "gen" then
 	
 elseif mode == "game" or mode == nil then
 	composer.gotoScene("scenes.title")
-end
-
-
--- Determine if we put the game in debug mode or not
-if globalDebugGame then
-	-- Testing: provide 20 lives instead of 2
-	globalPlayerLives = 20
-	-- Testing: add 100 holocubes
-	state.data.holocubes = 100
-	-- Testing: Show performance info
-	timer.performWithDelay(1000, displayPerformance, 0)
 end

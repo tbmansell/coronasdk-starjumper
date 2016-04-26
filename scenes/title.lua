@@ -48,11 +48,101 @@ function scene:show(event)
         self:init()
         self:startMusic()
         self:startAnimations()
-        self:startDemoTimer()
+--        self:startDemoTimer()
+
+--        after(3000, function() self:loadAdverts() end)
 
         Runtime:addEventListener("key", sceneKeyEvent)
     end
 end
+
+
+--------------------------------------------
+
+
+function scene:setupStatus()
+    local bgr = display.newRoundedRect(self.view, centerX, centerY, 1000, 700, 15)
+    bgr:setFillColor(0.3,    0.3,  0.3,  0.85)
+    bgr:setStrokeColor(0.75, 0.75, 0.75, 0.75)
+    bgr.strokeWidth = 2
+
+    self.statusText = display.newText({parent=self.view, text="", x=centerX, y=centerY, width=900, height=600, fontSize=22, align="center"})
+end
+
+
+function scene:showStatus(text)
+    print(text)
+    self.statusText.text = self.statusText.text.."\n"..text
+end
+
+
+-- RevMob
+--[[
+function scene:loadAdverts()
+    scene:setupStatus()
+
+    local appId       = "5715395cee3708361bcdbfba"  -- App User ID
+    local placementId = "571539f7b52620eb62377fb2"
+    local revmob      = require("plugin.revmob")
+
+    local function adListener(event)
+        scene:showStatus("phase: ["..tostring(event.phase).."]")
+
+        local s=""
+        for k, v in pairs(event) do
+            s=s..tostring(k)..": "..tostring(v)
+        end
+
+        --scene:showStatus(s)
+
+        if event.phase == "init" then  -- Successful initialization
+            --scene:showStatus("init: "..tostring(event.isError))
+            revmob.load("video", placementId)
+
+        elseif event.phase == "loaded" then  -- The ad was successfully loaded
+            --scene:showStatus("loaded: "..tostring(event.type))
+            revmob.show(placementId, { yAlign="top" })
+
+        elseif event.phase == "failed" then  -- The ad failed to load
+            --scene:showStatus("failed: "..tostring(event.type).." "..tostring(event.isError).." "..tostring(event.response))
+        end
+    end
+
+    revmob.init(adListener, { appId=appId })
+    --local loaded = revmob.isLoaded(placementId)
+    --scene:showStatus("Loaded: "..tostring(loaded))
+end]]
+
+
+-- AdMob
+function scene:loadAdverts()
+    scene:setupStatus()
+
+    local ads = require("ads")
+
+    local function adListener(event)
+        scene:showStatus("phase: ["..tostring(event.phase).."]")
+
+        local s=""
+        for k, v in pairs(event) do
+            s=s..tostring(k)..": "..tostring(v)..", "
+        end
+        scene:showStatus(s)
+    end
+
+    ads.init("admob", "ca-app-pub-1657862030086732/2588765600", adListener)
+
+    -- Optional table containing targeting parameters
+    local targetingParams = { tagForChildDirectedTreatment = true }
+
+    --ads.show("interstitial", { x=0, y=0, targetingOptions=targetingParams, appId="otherAppId" })
+    ads.show("interstitial", { x=0, y=0, targetingOptions=targetingParams })
+end
+
+
+
+---------------------------------------------
+
 
 
 function scene:init()

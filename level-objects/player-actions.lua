@@ -392,11 +392,13 @@ end
 
 
 function player:landCorrection(ledge)
+    local correction = 28 * self.scaled
+
     -- if really near an edge start correcting the position, so charater doesnt float
     if self:x() < self:ledgeLeftLimit(1) then
-        self.correctBy = 28
+        self.correctBy = correction
     elseif self:x() > self:ledgeRightLimit(30) then
-        self.correctBy = -28
+        self.correctBy = -correction
     end
 
     if ledge.type == "finish" then

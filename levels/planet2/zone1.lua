@@ -2,7 +2,7 @@ local levelData = {
     name             = "no on can hear you scream",
     timeBonusSeconds = 28,
     ceiling          = -1000,
-    startLedge       = 1,
+    startLedge       = 6,
 
     backgroundOrder = {
         [bgrFront] = {},

@@ -218,7 +218,8 @@ end
 
 function player:setPhysics(s, filter)
     local w, h  = self:width(), self:height()
-    local shape = {-10*s,-h*s, w*s,-h*s, w*s,-2*s, -10*s,-2*s}
+    --local shape = {-10*s,-h*s, w*s,-h*s, w*s,-2*s, -10*s,-2*s}
+    local shape = {-10*s,-h, w,-h, w,-2*s, -10*s,-2*s}
     physics.addBody(self.image, (self.physicsBody or "dynamic"), {shape=shape, density=1, friction=1, bounce=0, filter={ groupIndex=(filter or -2) }})
     self.image.isFixedRotation   = true
     self.image.isSleepingAllowed = false

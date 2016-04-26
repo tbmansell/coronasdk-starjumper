@@ -291,6 +291,15 @@ function gameObject:isBound(object)
 end
 
 
+function gameObject:scaleNumber(number)
+    if number then 
+        return number * self.scaled 
+    else 
+        return 0 
+    end
+end
+
+
 function gameObject:x(x)
     if x then 
     	self.image.x = x
@@ -337,23 +346,57 @@ end
 
 
 function gameObject:leftEdge(fromEdge)
-    return self.image.x - ((self.image.width/2) * self.scaled) + (fromEdge or 0)
+    return self.image.x - (self:width()/2) + self:scaleNumber(fromEdge)
 end
 
 
 function gameObject:rightEdge(fromEdge)
-    return self.image.x + ((self.image.width/2) * self.scaled) - (fromEdge or 0)
+    return self.image.x + (self:width()/2) - self:scaleNumber(fromEdge)
 end
 
 
 function gameObject:topEdge(fromEdge)
-    return self.image.y - ((self.image.height/2) * self.scaled) + (fromEdge or 0)
+    return self.image.y - (self:height()/2) + self:scaleNumber(fromEdge)
 end
 
 
 function gameObject:bottomEdge(fromEdge)
-    return self.image.y + ((self.image.height/2) * self.scaled) + (fromEdge or 0)
+    return self.image.y + (self:height()/2) - self:scaleNumber(fromEdge)
 end
+
+
+--[[
+function gameObject:leftEdge(fromEdge)
+    local s = self.scaled
+    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+
+    return self.image.x - ((self.image.width/2) * s) + fromEdge
+end
+
+
+function gameObject:rightEdge(fromEdge)
+    local s = self.scaled
+    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+
+    return self.image.x + ((self.image.width/2) * s) - fromEdge
+end
+
+
+function gameObject:topEdge(fromEdge)
+    local s = self.scaled
+    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+
+    return self.image.y - ((self.image.height/2) * s) + fromEdge
+end
+
+
+function gameObject:bottomEdge(fromEdge)
+    local s = self.scaled
+    if fromEdge then fromEdge = fromEdge * s else fromEdge = 0 end
+
+    return self.image.y + ((self.image.height/2) * s) - fromEdge
+end
+]]
 
 
 function gameObject:flipX()
@@ -459,8 +502,6 @@ function gameObject:scale(camera)
         if self.customWidth then
             self.preScaleWidth  = self.customWidth
             self.preScaleHeight = self.customHeight
-            self.customWidth    = self.customWidth  * scale
-            self.customHeight   = self.customHeight * scale
         else
             self.preScaleWidth  = self.image.width
             self.preScaleHeight = self.image.height

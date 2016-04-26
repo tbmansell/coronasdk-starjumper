@@ -62,6 +62,7 @@ end
 
 -- Init the internal data the HUD keeps about the current game
 function hud:initVars(level)
+    self.allowMagnify       = true
     self.debugMode          = false
     self.physicsMode        = false
     self.time               = os.date('*t')
@@ -289,7 +290,17 @@ end
 
 
 function hud:triggerMagnifyZone()
-    hud.camera:scale(hud.magnifyZone)
+    if hud.allowMagnify then
+        hud.allowMagnify = false
+        hud.magnifyIcon.alpha = 0.5
+
+        hud.camera:scale(hud.magnifyZone)
+
+        after(500, function() 
+            hud.magnifyIcon.alpha = 1
+            hud.allowMagnify = true 
+        end)
+    end
 end
 
 
