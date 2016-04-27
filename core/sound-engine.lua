@@ -13,7 +13,6 @@ local enabled          = true
 -- lists regions of different sound volumes
 -- 1=left, 2=right, 3=top, 4=bottom, 5=volume
 local soundRanges = {
-	
 	[1]  = {-1200, 2100,  -1200, 1800,	0},
 	[2]  = {-800,  1700,  -800,  1400,	0.1},
 	[3]  = {-700,  1600,  -700,  1300,	0.2},
@@ -25,20 +24,6 @@ local soundRanges = {
 	[9]  = {-100,  1000,  -100,  700,	0.8},
 	[10] = {0,     900,   0,     600,	0.9},
 	[11] = {100,   800,   100,   500, 	1},
-	
-	--[[
-	[1]  = {-400, 1300, -400, 1100,	0},
-	[2]  = {-350, 1250, -350, 1050,	0.1},
-	[3]  = {-300, 1200, -300, 1000,	0.2},
-	[4]  = {-250, 1150, -250, 950,	0.3},
-	[5]  = {-200, 1100, -200, 800,	0.4},
-	[6]  = {-150, 1050, -150, 750,	0.5},
-	[7]  = {-100, 1000, -100, 700,	0.6},
-	[8]  = {-50,  950,  -50,  650,	0.7},
-	[9]  = { 0,   900,   0,   600,	0.8},
-	[10] = { 50,  850,   50,  550,	0.9},
-	[11] = { 100, 800,   100, 500, 	1},
-	]]
 }
 
 -- Aliases:
@@ -131,6 +116,7 @@ local function soundInQueue(key)
 	local num = #soundQueue
 	for i=1, num do
 		local params = soundQueue[i]
+
 		if params and params.key == key then
 			return true
 		end
@@ -204,7 +190,7 @@ end
 
 
 -- Plays a sound if its in range and there is a free channel
--- returns: -1     if source object out of range to add to queue,
+-- returns: -1     if source object should not be added to (or removed if already in) the queue (out of range, in quiet zone and short sound)
 --           false if should add to queue but didnt actually play the sound (no free channel / in quiet zone)
 -- 			 true  if played and should add to queue
 local function checkShouldPlay(params)
@@ -219,8 +205,13 @@ local function checkShouldPlay(params)
 	local volume = getSoundRange(source)
 
 	if volume == 0 and params.action ~= "constant" then
-		-- Allow sounds within a certain range that re not played yet but ont the boundary
-		return true
+		-- Allow sounds within a certain range that are not played yet but on the boundary:
+		if params.duration == nil or params.duration <= 1000 then
+			-- Only do this with sounds longer than a second to save lots of little sounds being added to the sound engine that will mostly likely not be heard
+			return -1
+		else
+			return false
+		end
 	else
 		local channel = freeChannel()
 
@@ -251,8 +242,8 @@ local function removeManagedSound(index, params)
 			soundQueue[index] = nil
 			shouldTidy = true
 		end)
-	elseif params.channel then
-		stop(params.channel)
+	else
+		if params.channel then stop(params.channel) end
 		soundQueue[index] = nil
 		shouldTidy = true
 	end
@@ -270,29 +261,32 @@ end
 function engine:playManagedAction(sourceObject, actionName, params)
 	-- safety check so we can safely pass in nils without always having to check in the source object (more compact calling code)
 	if sourceObject and actionName and params and enabled then
-		local key     = sourceObject.key..":"..actionName
-		local queueId = #soundQueue + 1
+		local key = sourceObject.key..":"..actionName
 
 		if soundInQueue(key) then
 			-- signal that sound is already in the queue
 			return 0
 		end
 
-		self:stopSound(key)
+		-- if sound not in the queue, not sure why we are stopping it before we play it
+		--self:stopSound(key)
 
-		params.started 		  = false
-		params.durationPassed = 0
-		params.key            = key
-		params.source 		  = sourceObject
-		params.action         = actionName
-		params.onComplete 	  = function() removeManagedSound(queueId, params) end
+		params.started = false
+		params.key     = key
+		params.source  = sourceObject
+		params.action  = actionName
 
-		if checkShouldPlay(params) == true then
-			--print("ADDED sound "..key.." channel="..params.channel.." duration="..params.duration)
+		if checkShouldPlay(params) ~= -1 then
+			local queueId = #soundQueue + 1
+			
+			params.durationPassed = 0
+			params.onComplete = function() removeManagedSound(queueId, params) end
+
 			soundQueue[queueId] = params
 			-- signal that the sound has just been added
 			return 1
 		else
+			-- a constant sound should trying trying to add itself again
 			resetConstantSound(params)
 		end
 	end

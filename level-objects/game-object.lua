@@ -781,7 +781,7 @@ function gameObject:stopSound(action)
 end
 
 
--- Called when an object sconstant sound has stopped, this adds it agina to the sound engine after a delay
+-- Called when an objects constant sound has stopped, this adds it again to the sound engine after a delay
 -- @param bool force - optional bool that skips conditional check (used for level start to avoid repeating same if statements)
 ----
 function gameObject:constantSoundHandler(force, delay)
