@@ -32,6 +32,10 @@ TextCandy.AddCharsetFromBMF("gamefont_black",  "text_candy/ingamefont_black.fnt"
 
 --------------- GLOBAL FUNCTIONS ------------------
 
+function printDate(text)
+    print(os.date("%H:%M:%S ")..text)
+end
+
 
 -- handles text generation using text candy
 function newText(group, text, x, y, scale, color, align, wrapWidth)

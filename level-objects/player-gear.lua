@@ -612,8 +612,10 @@ end
 
 function player:grappleHookComplete(camera)
     if self.mode == playerGrappling then
-        self.grappleJoint:removeSelf()
-        self.grappleJoint = nil
+        if self.grappleJoint then
+            self.grappleJoint:removeSelf()
+            self.grappleJoint = nil
+        end
 
         camera:remove(self.grappleHook)
         self.grappleHook:removeSelf()

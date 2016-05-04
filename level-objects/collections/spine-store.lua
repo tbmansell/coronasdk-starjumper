@@ -28,7 +28,7 @@ local spineStore = {
 	-- list of dust colors
 	dustColors  	= {"grey", "red", "yellow", "green"},
 	-- tracks how many of each type of spine object is currently in use
-	inUse           = {},
+	--inUse           = {},
 	-- stores how many of each type of object have been created
 	created         = {},
 	-- stores a list of landing dust spine objects, per color, pre-loaded rath than load on land
@@ -93,7 +93,6 @@ function spineStore:load(spineCollection)
 	end
 
 	for type=1, maxType do
-		self.inUse[type]   = 0
 		self.created[type] = {}
 	end
 end
@@ -126,38 +125,72 @@ end
 -- @param list to destroy
 ----
 function spineStore:destroyList(list, type)
-	for _,item in pairs(list) do
-		item:destroy()
-		item = nil
+	local num = #list
+
+	for i=1,num do
+		local entry = list[i]
+		entry.used = false
+		entry.item:destroy()
+		entry.item = nil
 	end
 
-	self.inUse[type]   = 0
 	self.created[type] = {}
 end
 
 
--- Looks to fetch an existing item from a list, or creates one if they are all currently used up
--- @return spineObject
-----
 function spineStore:fetchObject(creator, type, params)
-	local index   = self.inUse[type] + 1
 	local created = self.created[type]
+	local num     = #created
 
-	self.inUse[type] = index
+	for i=1,num do
+		local entry = created[i]
 
-	if created[index] == nil then
-		local newObject = creator(self, params)
-		
-		newObject:pose()
-
-		newObject.inPhysics 		   = false
-		newObject.belongsToSpineStore  = true
-    	newObject:generateKey(#created + 1)
-    	
-    	created[index] = newObject
+		if entry.used == false and entry.item then
+			-- found one that is built but unused
+			entry.used = true
+			return entry.item
+		end
 	end
 
-	return created[index]
+	-- build a new one and add it to the end of the list
+	local newObject = creator(self, params)
+	newObject.inPhysics 		   = false
+	newObject.belongsToSpineStore  = true
+	newObject:pose()
+	newObject:generateKey(num + 1)
+	
+    created[num+1] = {
+    	used = true, 
+    	item = newObject
+    }
+
+    return newObject
+end
+
+
+function spineStore:releaseObject(type, objectToRelease)
+	local created = self.created[type]
+	local num     = #created
+
+	for i=1,num do
+		local entry  = created[i]
+		local object = entry.item
+
+		if object and object.key == objectToRelease.key then
+			entry.used = false
+			return
+		end
+	end
+end
+
+
+function spineStore:releaseAllObjects(type)
+	local created = self.created[type]
+	local num     = #created
+
+	for i=1,num do
+		created[i].used = false
+	end
 end
 
 
@@ -330,6 +363,33 @@ function spineStore:showJumpMarker(camera, ledge)
 end
 
 
+
+-- Hides all currently shown jump markers
+-- @param camera
+----
+function spineStore:hideJumpMarkers(camera)
+	local objects = self.created[typeJumpMarker]
+	local num 	  = #objects
+
+	for i=1,num do
+		local marker = objects[i].item
+
+		if marker then
+			local seq = anim:chainSeq("ledgeScoreDisappear", marker.image)
+	        seq:tran({time=500, alpha=0})
+	        seq.onComplete = function()
+	        	-- Detach the marker from the ledge, animator and camera
+	        	camera:remove(marker.image)
+	        	self.spineCollection:remove(marker)
+				marker:detachFromLedge()
+				self:releaseObject(typeJumpMarker, marker)
+			end
+			seq:start()
+		end
+    end
+end
+
+
 -- Shows the go start marker arrow
 -- @param camera
 -- @param x
@@ -355,6 +415,31 @@ function spineStore:showStartMarker(camera, x, y, flip)
 	    seq:tran({time=1000, alpha=1})
 	    seq:start()
 	end
+end
+
+
+-- Hide start marker
+-- @param camera
+----
+function spineStore:hideStartMarker(camera)
+	local objects = self.created[typeStartMarker]
+	local num 	  = #objects
+	
+	for i=1,num do
+		local marker = objects[i].item
+		
+		if marker then
+			local seq = anim:oustSeq("startMarker", marker.image)
+	        seq:tran({time=1000, alpha=0})
+	        seq.onComplete = function()
+	        	-- Detach the marker from the ledge, animator and camera
+	        	camera:remove(marker.image)
+	        	self.spineCollection:remove(marker)
+	        	self:releaseObject(typeStartMarker, marker)
+			end
+			seq:start()
+		end
+    end
 end
 
 
@@ -391,6 +476,31 @@ function spineStore:showGearShield(camera, player, params)
 end
 
 
+-- Hides a player gear shield
+-- @param camera
+-- @param player   - to release
+----
+function spineStore:hideGearShield(camera, player)
+	local shield = player.shieldImage
+
+	if shield and shield.seq then
+		anim:removeSeq(shield.seq)
+		shield.seq = nil
+
+		camera:remove(shield.image)
+		self.spineCollection:remove(shield)
+		shield:hide()
+
+		self:releaseObject(typeGearShield, shield)
+		player.shieldImage = nil
+
+		-- You cant remove() an item from a displayGroup as it deletes it, so to simply remove it but keep it intact, we move it to another group
+		-- If we dont remove it from its parent elements displayGroup, when that element is destroyed, it corrupts this one
+		self.removeGroup:insert(shield.image)
+	end
+end
+
+
 -- Requests that a flame be shown and attached to an object (to re-use just show the attachment)
 -- @param camera
 -- @param object - to attach flame to
@@ -423,6 +533,34 @@ function spineStore:showGearFlame(camera, player, params)
 end
 
 
+-- Hides a player gear flame
+-- @param camera
+-- @param player to release
+----
+function spineStore:hideGearFlame(camera, player)
+	local flame = player.jetPackFlame
+
+	if flame and flame.image then
+		camera:remove(flame.image)
+		self.spineCollection:remove(flame)
+		flame:hide()
+		flame.rotation = 0
+
+		if flame.flipped then
+			flame.flipped = false
+			flame.image:scale(-1,1)
+		end
+
+		self:releaseObject(typeGearFlame, flame)
+		player.jetPackFlame = nil
+
+		-- You cant remove() an item from a displayGroup as it deletes it, so to simply remove it but keep it intact, we move it to another group
+		-- If we dont remove it from its parent elements displayGroup, when that element is destroyed, it corrupts this one
+		self.removeGroup:insert(flame.image)
+	end
+end
+
+
 -- Requests to show a flash effect on the player
 -- @param camera
 -- @param target
@@ -442,7 +580,7 @@ function spineStore:showFlash(camera, target, size)
 			effect:hide()
 			camera:remove(effect.image)
 			self.spineCollection:remove(effect)
-			self.inUse[typeEffectsFlash] = self.inUse[typeEffectsFlash] - 1
+			self:releaseObject(typeEffectsFlash, effect)
 		end)
 	end
 end
@@ -467,7 +605,7 @@ function spineStore:showExplosion(camera, target, size)
 			effect:hide()
 			camera:remove(effect.image)
 			self.spineCollection:remove(effect)
-			self.inUse[typeEffectsExplosion] = self.inUse[typeEffectsExplosion] - 1
+			self:releaseObject(typeEffectsExplosion, effect)
 		end)
 	end
 end
@@ -597,112 +735,6 @@ function spineStore:showBossChair(spec)
 	end
 
 	return boss
-end
-
-
--- Hides all currently shown jump markers
--- @param camera
-----
-function spineStore:hideJumpMarkers(camera)
-	local objects = self.created[typeJumpMarker]
-	local num 	  = #objects
-
-	self.inUse[typeJumpMarker] = 0
-	
-	for i=1,num do
-		local marker = objects[i]
-		
-		if marker then
-			local seq = anim:chainSeq("ledgeScoreDisappear", marker.image)
-	        seq:tran({time=500, alpha=0})
-	        seq.onComplete = function()
-	        	-- Detach the marker from the ledge, animator and camera
-	        	camera:remove(marker.image)
-	        	self.spineCollection:remove(marker)
-				marker:detachFromLedge()
-			end
-			seq:start()
-		end
-    end
-end
-
-
--- Hide start marker
--- @param camera
-----
-function spineStore:hideStartMarker(camera)
-	local objects = self.created[typeStartMarker]
-	local num 	  = #objects
-
-	self.inUse[typeStartMarker] = 0
-	
-	for i=1,num do
-		local marker = objects[i]
-		
-		if marker then
-			local seq = anim:oustSeq("startMarker", marker.image)
-	        seq:tran({time=1000, alpha=0})
-	        seq.onComplete = function()
-	        	-- Detach the marker from the ledge, animator and camera
-	        	camera:remove(marker.image)
-	        	self.spineCollection:remove(marker)
-			end
-			seq:start()
-		end
-    end
-end
-
-
--- Hides a player gear shield
--- @param camera
--- @param player   - to release
-----
-function spineStore:hideGearShield(camera, player)
-	local shield = player.shieldImage
-
-	if shield and shield.seq then
-		anim:removeSeq(shield.seq)
-		shield.seq = nil
-
-		camera:remove(shield.image)
-		self.spineCollection:remove(shield)
-		shield:hide()
-
-		self.inUse[typeGearShield] = self.inUse[typeGearShield] - 1
-		player.shieldImage = nil
-
-		-- You cant remove() an item from a displayGroup as it deletes it, so to simply remove it but keep it intact, we move it to another group
-		-- If we dont remove it from its parent elements displayGroup, when that element is destroyed, it corrupts this one
-		self.removeGroup:insert(shield.image)
-	end
-end
-
-
--- Hides a player gear flame
--- @param camera
--- @param player to release
-----
-function spineStore:hideGearFlame(camera, player)
-	local flame = player.jetPackFlame
-
-	if flame and flame.image then
-		camera:remove(flame.image)
-		self.spineCollection:remove(flame)
-		flame:hide()
-		flame.rotation = 0
-
-		if flame.flipped then
-			flame.flipped = false
-			flame.image:scale(-1,1)
-		end
-
-		self.inUse[typeGearFlame] = self.inUse[typeGearFlame] - 1
-		player.jetPackFlame = nil
-
-		-- You cant remove() an item from a displayGroup as it deletes it, so to simply remove it but keep it intact, we move it to another group
-		-- If we dont remove it from its parent elements displayGroup, when that element is destroyed, it corrupts this one
-		self.removeGroup:insert(flame.image)
-	end
 end
 
 

@@ -205,8 +205,10 @@ local function checkShouldPlay(params)
 	local volume = getSoundRange(source)
 
 	if volume == 0 and params.action ~= "constant" then
+		local duration = params.duration or 0
+
 		-- Allow sounds within a certain range that are not played yet but on the boundary:
-		if params.duration == nil or params.duration <= 1000 then
+		if type(duration) == "string" or duration <= 1000 then
 			-- Only do this with sounds longer than a second to save lots of little sounds being added to the sound engine that will mostly likely not be heard
 			return -1
 		else
