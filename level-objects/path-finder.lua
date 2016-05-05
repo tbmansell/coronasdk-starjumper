@@ -422,7 +422,7 @@ function pathFinderLoader:build(pathFinder)
 		end
 
 		local sensor = display.newCircle(fx+halfWidth, fy-halfHeight, 5)
-        physics.addBody(sensor, "dynamic", {shape=shape, isSensor=true, filter={ groupIndex=-2 }})
+        physics.addBody(sensor, "dynamic", {shape=shape, isSensor=true, filter=pathFilter})
         self.obstructionSensor = sensor
 
         sensor.gravityScale = 0
@@ -527,7 +527,8 @@ function pathFinderLoader:build(pathFinder)
 
         -- NOTE: pathFinder shots wont collide with each other or any players
         -- bear this in mind if this code is used for predicting negables thrown at other players
-        physics.addBody(shot, "dynamic", {isSensor=true, density=1, friction=1, bounce=0, filter={ groupIndex=-2 }})
+        physics.addBody(shot, "dynamic", {isSensor=true, density=1, friction=1, bounce=0, filter=pathFilter})
+        
         --shot.gravityScale      = 0
         --shot.isBullet          = true
         shot.isPathFinder      = true

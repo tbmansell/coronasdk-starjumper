@@ -75,7 +75,7 @@ function enemyBuilder:newEnemyBrain(camera, spec, x, y, jumpObject)
     enemy.killSound   = {sound=sounds.enemyBrainKill,   duration=1000}
 
     function enemy:setPhysics(scale)
-        local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 } }
+        local stats = {density=1, friction=0.3, bounce=0, filter=enemyFilter }
         local s     = enemy.size * scale
         stats.shape = {-40*s,-170*s, 140*s,-100*s, 120*s,50*s, 0,100*s, -100*s,-100*s}
 
@@ -111,7 +111,7 @@ function enemyBuilder:newEnemyHeart(camera, spec, x, y, jumpObject)
     enemy.stealSound  = {sound=sounds.enemyHeartSteal,  duration=1000}
         
     function enemy:setPhysics(scale)
-        local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true }
+        local stats = {density=1, friction=0.3, bounce=0, filter=enemyFilter, isSensor=true }
         local s     = enemy.size * scale
         local w, h  = 100*s, 290*s
         stats.shape = {-w,-h, w,-h, w,0, -w,0}
@@ -188,7 +188,7 @@ function enemyBuilder:newEnemyGreyUfo(camera, spec, x, y, jumpObject)
     enemy:flipX()  -- Ian created these facing the opposite way from planet1 enemies
 
     function enemy:setPhysics(scale)
-        local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true }
+        local stats = {density=1, friction=0.3, bounce=0, filter=enemyFilter, isSensor=true }
         local s     = enemy.size * scale
         local w, h  = 85*s, 200*s
         stats.shape = {-w,-h, w,-h, w,0, -w,0}
@@ -275,7 +275,7 @@ function enemyBuilder:newEnemyGreyNapper(camera, spec, x, y, jumpObject)
     self:addJetpackMovement(camera, enemy, {x=-20, y=-6, rotation=20, size=0.3})
 
     function enemy:setPhysics(scale)
-        local stats = {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true }
+        local stats = {density=1, friction=0.3, bounce=0, filter=enemyFilter, isSensor=true }
         local s     = enemy.size * scale
         local w, h  = 50*s, 240*s
         stats.shape = {-w,-h/2, w,-h/2, w,h/2, -w,h/2}
@@ -301,7 +301,7 @@ function enemyBuilder:newEnemyGreyNapper(camera, spec, x, y, jumpObject)
 
     function enemy:dissapearAndGenerate(object)
         physics.removeBody(self.image)
-        physics.addBody(self.image, "dynamic", {density=1, friction=0.3, bounce=0, filter={ groupIndex=-3 }, isSensor=true})
+        physics.addBody(self.image, "dynamic", {density=1, friction=0.3, bounce=0, filter=enemyFilter, isSensor=true})
         
         local xvel = -200
         if self.direction == right then xvel = 200 end

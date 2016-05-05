@@ -218,9 +218,8 @@ end
 
 function player:setPhysics(s, filter)
     local w, h  = self:width(), self:height()
-    --local shape = {-10*s,-h*s, w*s,-h*s, w*s,-2*s, -10*s,-2*s}
     local shape = {-10*s,-h, w,-h, w,-2*s, -10*s,-2*s}
-    physics.addBody(self.image, (self.physicsBody or "dynamic"), {shape=shape, density=1, friction=1, bounce=0, filter={ groupIndex=(filter or -2) }})
+    physics.addBody(self.image, (self.physicsBody or "dynamic"), {shape=shape, density=1, friction=1, bounce=0, filter=(filter or playerFilter)})
     self.image.isFixedRotation   = true
     self.image.isSleepingAllowed = false
 end
@@ -230,11 +229,11 @@ function player:setPhysicsFilter(action)
     local filter = nil
 
     if action == "addShield" then
-        filter = -3  -- immune to enemies
+        filter = playerShieldedFilter    --filter = -3  -- immune to enemies
     elseif action == "addObstacle" then
-        filter = -5  -- immune to other ledges
+        filter = playerOnObstacleFilter  --filter = -5  -- immune to other ledges
     else
-        filter = -2  -- normal mode
+        filter = playerFilter            --filter = -2  -- normal mode
     end
 
     if self.physicsFilterPrev ~= filter then
@@ -456,13 +455,13 @@ function player:resetClearUp()
         self.attachedObstacle = nil
     end
 
-    if self.grappleJoint then
+    if self.grappleJoint and self.grappleJoint.removeSelf then
         self.grappleJoint:removeSelf()
         self.grappleJoint  = nil
         self.grappleTarget = nil
     end
 
-    if self.grappleLine then
+    if self.grappleLine and self.grappleLine.removeSelf then
         self.grappleLine:removeSelf()
         self.grappleLine = nil
     end

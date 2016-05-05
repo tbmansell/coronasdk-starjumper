@@ -155,7 +155,8 @@ function scenery:createPhysicsShape(scale)
 
         if p.shape == "circle" then
             local width  = self.preScaleWidth or self:width()
-            stats.radius = (width/2) * size * scale
+            --stats.radius = (width/2) * size * scale
+            stats.radius = (width/2) * scale
 
         elseif p.shape then
             stats.shape = {}
@@ -178,6 +179,8 @@ function scenery:createPhysicsShape(scale)
         local w, h  = (self:width()/2) * size, (self:height()/2) * size
         stats.shape = {-w,-h, w,-h, w,h, -w,h}
     end
+
+    stats.filter = sceneryFilter
 
     return stats
 end

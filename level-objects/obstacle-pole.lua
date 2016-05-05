@@ -22,7 +22,7 @@ function pole:setPhysics(s)
         -- divide default image size by length to get scale
         local w, h  = (28/2)*s, (self.length/2)*s
         local shape = {-w,-h, w,-h, w,h, -w,h}
-        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, shape=shape})
+        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, shape=shape, filter=obstacleFilter})
     end
 end
 

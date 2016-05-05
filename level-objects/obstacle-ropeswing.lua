@@ -28,7 +28,8 @@ end
 
 function ropeswing:setPhysics(s)
     if not globalIgnorePhysicsEngine then
-        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, radius=10*s, filter={groupIndex=-6}})
+        --physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, radius=10*s, filter={groupIndex=-6}})
+        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, radius=10*s, filter=obstacleFilter})
     end
 end
 

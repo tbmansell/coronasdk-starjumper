@@ -58,7 +58,7 @@ function fuzzy:setPhysics(scale)
         sensor = true
     end
 
-    local stats = {density=0.3, friction=0.3, bounce=bounce, isSensor=sensor, shape={l,t, r,t, r,b, l,b}, filter={ groupIndex=-4 }}
+    local stats = {density=0.3, friction=0.3, bounce=bounce, isSensor=sensor, shape={l,t, r,t, r,b, l,b}, filter=friendFilter}
     if not globalIgnorePhysicsEngine then
         physics.addBody(self.image, body, stats)
     end

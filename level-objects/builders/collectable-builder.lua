@@ -110,7 +110,7 @@ function collectableBuilder:newRing(camera, spec, x, y)
     ring.collected = false
 
     function ring:setPhysics(s)
-        physics.addBody(self.image, "static", {radius=25*s, density=0, friction=0, bounce=0, isSensor=true})
+        physics.addBody(self.image, "static", {radius=25*s, density=0, friction=0, bounce=0, isSensor=true, filter=collectableFilter})
     end
 
     function ring:collect(camera)
@@ -151,7 +151,7 @@ function collectableBuilder:newGear(camera, spec, x, y, ledge)
     
     function gear:setPhysics(scale)
         local s = 70 * self.originalScale * scale
-        physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}})
+        physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}, filter=collectableFilter})
     end
 
     self:setupCommon(camera, gear, spec, collectableDef.eventCollideGear, x, y, ledge)
@@ -191,7 +191,7 @@ function collectableBuilder:newNegable(camera, spec, x, y, ledge)
     
     function negable:setPhysics(scale)
         local s = 70 * self.originalScale * scale
-        physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}})
+        physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}, filter=collectableFilter})
     end
 
     self:setupCommon(camera, negable, spec, collectableDef.eventCollideGear, x, y, ledge)
@@ -221,7 +221,7 @@ function collectableBuilder:newKey(camera, spec, x, y, ledge)
 
     function key:setPhysics(scale)
         local s = 70 * self.originalScale * scale
-        physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}})
+        physics.addBody(self.image, "dynamic", {density=0.2, friction=0.5, bounce=0.3, shape={-s,-s, s,-s, s,s, -s,s}, filter=collectableFilter})
     end
 
     self:setupCommon(camera, key, spec, collectableDef.eventCollideKey, x, y, ledge)
@@ -250,7 +250,7 @@ function collectableBuilder:newTimeBonus(camera, spec, x, y, jumpObject)
 
     function bonus:setPhysics(scale)
         local r = 22 * scale
-        physics.addBody(self.image, "static", {isSensor=true, radius=r})
+        physics.addBody(self.image, "static", {isSensor=true, radius=r, filter=collectableFilter})
     end
 
     self:setupCommon(camera, bonus, spec, collectableDef.eventCollideTimeBonus, x, y, jumpObject)
@@ -280,7 +280,7 @@ function collectableBuilder:newWarpField(camera, spec, x, y, jumpObject)
 
     function warp:setPhysics(scale)
         local r = self.radius * scale
-        physics.addBody(self.image, "static", {isSensor=true, radius=r})
+        physics.addBody(self.image, "static", {isSensor=true, radius=r, filter=collectableFilter})
     end
 
     self:setupCommon(camera, warp, spec, collectableDef.eventCollideWarpField, x, y, jumpObject)
@@ -306,7 +306,7 @@ function collectableBuilder:newRandomizer(camera, spec, x, y, ledge)
     randomizer.collected    = false
 
     function randomizer:setPhysics(s)
-        physics.addBody(self.image, "static", {density=1, friction=0, bounce=0, isSensor=true, shape={-26*s,-52*s, 26*s,-52*s, 26*s,0, -26*s,0}})
+        physics.addBody(self.image, "static", {density=1, friction=0, bounce=0, isSensor=true, shape={-26*s,-52*s, 26*s,-52*s, 26*s,0, -26*s,0}, filter=collectableFilter})
     end
 
     -- Triggers the randomizer

@@ -98,7 +98,7 @@ function ledgeBuilder:newStartLedge(camera, spec)
     function ledge:setPhysics(s)
         local w,h   = (self.image.width*s)/2, (self.image.height*s)/2
         local shape = {-w,-h, w,-h, w,(35*s)-h, w-(170*s),-40*s, -w,-40*s}
-        physics.addBody(self.image, "static", {density=1, friction=4, bounce=0, shape=shape})
+        physics.addBody(self.image, "static", {density=1, friction=4, bounce=0, shape=shape, filter=ledgeFilter})
     end
 
     ledge:setPhysics(1)
@@ -131,7 +131,7 @@ function ledgeBuilder:newFinishLedge(camera, spec, prev)
 	function ledge:setPhysics(s)
         local w,h   = (self.image.width*s)/2, (self.image.height*s)/2
         local shape = {-w,-h, w,-h, w,-40*s, (170*s)-w,-40*s, -w,(35*s)-h}
-        physics.addBody(self.image, "static", {density=1, friction=4, bounce=0, shape=shape})
+        physics.addBody(self.image, "static", {density=1, friction=4, bounce=0, shape=shape, filter=ledgeFilter})
     end
 
     ledge:setPhysics(1)
@@ -193,7 +193,7 @@ function ledgeBuilder:makeImageLedge(camera, spec)
         local w, h  = ((self.image.width*s)/2), ((self.image.height*s)/2)
         
         stats.shape  = {-w,-h, w,-h, w,-h/1.5, -w,-h/1.5}
-        stats.filter = { groupIndex=-5 }
+        stats.filter = ledgeFilter
 
         physics.addBody(self.image, "static", stats)
     end

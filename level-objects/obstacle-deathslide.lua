@@ -25,7 +25,7 @@ end
 function deathslide:setPhysics(s)
     local shape = {-15*s,35*s, 15*s,35*s, 15*s,60*s, -15*s,60*s}
     if not globalIgnorePhysicsEngine then
-        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, shape=shape})
+        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, shape=shape, filter=obstacleFilter})
     end
 end
 

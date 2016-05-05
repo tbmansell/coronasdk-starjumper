@@ -44,7 +44,7 @@ local levelData = {
             {object="randomizer", x=-30, onLedge=true, items={{40,gearShield},{90,negtrajectory},{100,pink}}},
 
         {object="ledge", x=215, y=-215, surface="collapsing"},
-            {object="friend", type="fuzzy", x=70, size=0.4, color="Blue", onLedge=true},
+            {object="friend", type="fuzzy", x=70, color="Blue", onLedge=true},
             {object="rings", color=aqua, trajectory={x=-100, y=-150, xforce=-60, yforce=100, arc=50, num=3}},
 
         {object="ledge", x=-220, y=-115, surface="spiked", timerOff=4000},

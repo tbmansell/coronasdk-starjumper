@@ -22,6 +22,7 @@ require("constants.gear")
 require("constants.ledges")
 require("constants.collectables")
 require("constants.movement")
+require("constants.filters")
 
 
 -- shortcuts to centerX,Y

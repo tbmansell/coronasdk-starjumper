@@ -73,13 +73,13 @@ local levelData = {
 
         {object="ledge", x=150, y=200, size="medium3", triggerEvent="awakenGiant", ai={loadGear=gearShield}},
             {object="rings", color=aqua, trajectory={x=50, y=-250, xforce=50, yforce=0, arc=40, num=3}},
---[[
+
             -- Giant brain that follows player / brainiak
             {object="enemy", type="brain", x=100, y=-600, size=1.1, color="Blue", targetName="giantBrain",
                 behaviour={mode=stateSleeping, awaken=0, range=20, atRange=stateResetting},
                 movement={pattern=movePatternFollow, speed=0.3, pause=1000, moveStyle=moveStyleSwaySmall, pauseStyle=moveStyleSwayBig}
             },
-]]
+
         {object="ledge", x=300, y=-100, surface="spiked", timerOff=4500},
 
         {object="ledge", x=350, y=100, ai={loadGear=gearGrappleHook}},
@@ -158,7 +158,7 @@ local levelData = {
 
     customEvents = {
         -- Whizzes to skyanna and back, then brainiak summons 3 brains
---[[       ["intro"] = {
+       ["intro"] = {
             conditions   = {
                 storyMode = true,
                 zoneStart = true,
@@ -230,7 +230,7 @@ local levelData = {
                     hud:exitScript()
                 end)
             end,
-        },]]
+        },
         -- Brainiak arrives on the ledge first and the henchmen eat skyanna
         ["brainiakWins"] = {
             conditions = {

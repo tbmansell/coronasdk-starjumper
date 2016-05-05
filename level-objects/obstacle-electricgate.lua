@@ -18,7 +18,7 @@ function electricgate:setPhysics(s)
         -- divide default image size by length to get scale
         local w, h  = 40*s, 300*s
         local shape = {-w,-h, w,-h, w,h/1.5, -w,h/1.5}
-        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, shape=shape})
+        physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, shape=shape, filter=obstacleFilter})
     end
 end
 

@@ -48,7 +48,7 @@ if globalDebugGame then
     -- Testing: add 100 holocubes
     state.data.holocubes = 100
     -- Testing: Show performance info
-    timer.performWithDelay(1000, displayPerformance, 0)
+    --timer.performWithDelay(1000, displayPerformance, 0)
 end
 
 
@@ -66,8 +66,8 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
-	state.data.zoneSelected   = 21
+	state.data.planetSelected = 2
+	state.data.zoneSelected   = 15
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 

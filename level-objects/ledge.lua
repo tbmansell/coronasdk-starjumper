@@ -545,7 +545,7 @@ function ledge:getPhysics(s)
         stats.shape[i] = stats.shape[i] * s
     end
 
-    stats.filter = { groupIndex=-5 }
+    stats.filter = ledgeFilter
 
     return stats
 end

@@ -65,7 +65,7 @@ function rocket:setPhysics(s)
     if not globalIgnorePhysicsEngine then
         local w, h  = (self.ship.width/2)*s, (self.ship.height/2)*s
         local shape = {-w, -h, w, -h, w, h, -w, h}
-        physics.addBody(self.ship, "static", {shape=shape, density=0, friction=0, bounce=0, isSensor=true})
+        physics.addBody(self.ship, "static", {shape=shape, density=0, friction=0, bounce=0, isSensor=true, filter=obstacleFilter})
     end
 end
 
