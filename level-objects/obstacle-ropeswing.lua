@@ -22,7 +22,7 @@ end
 
 
 function ropeswing:changeDirection()
-    self:sound("ropeswing", {duration=1000})
+    self:sound("ropeswing")
 end
 
 

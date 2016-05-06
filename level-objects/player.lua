@@ -635,8 +635,7 @@ end
 -- @param table  param  - optional list of sound properties
 ----
 function player:sound(action, params)
-    local params    = params or {}
-    params.duration = params.duration or 2000
+    local params = params or {}
 
     -- The following are special actions that get a random sound to play
     if     action == "randomJump"        then params.sound = soundEngine:getPlayerJump(self.model)

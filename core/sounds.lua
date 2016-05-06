@@ -319,20 +319,20 @@ function sounds:loadRings()
 end
 
 function sounds:loadFuzzies()
-    self.fuzzies[1] = {sound=loadSound("sounds/elements/fuzzies/fuzzy1_time2.wav"), duration=2000}
-    self.fuzzies[2] = {sound=loadSound("sounds/elements/fuzzies/fuzzy2_time1.wav"), duration=1000}
-    self.fuzzies[3] = {sound=loadSound("sounds/elements/fuzzies/fuzzy3_time1.wav"), duration=1000}
+    self.fuzzies[1] = {sound=loadSound("sounds/elements/fuzzies/fuzzy1_time2.wav")}
+    self.fuzzies[2] = {sound=loadSound("sounds/elements/fuzzies/fuzzy2_time1.wav")}
+    self.fuzzies[3] = {sound=loadSound("sounds/elements/fuzzies/fuzzy3_time1.wav")}
 end
 
 
 function sounds:loadGreysTalking()
-    self.greysTalking[1] = {sound=loadSound("sounds/elements/greys/talk1_time3.wav"), duration=3000}
-    self.greysTalking[2] = {sound=loadSound("sounds/elements/greys/talk2_time5.wav"), duration=5000}
-    self.greysTalking[3] = {sound=loadSound("sounds/elements/greys/talk3_time5.wav"), duration=5000}
-    self.greysTalking[4] = {sound=loadSound("sounds/elements/greys/talk4_time4.wav"), duration=4000}
-    self.greysTalking[5] = {sound=loadSound("sounds/elements/greys/talk5_time1.wav"), duration=1000}
-    self.greysTalking[6] = {sound=loadSound("sounds/elements/greys/talk6_time4.wav"), duration=4000}
-    self.greysTalking[7] = {sound=loadSound("sounds/elements/greys/talk7_time1.wav"), duration=1000}
+    self.greysTalking[1] = {sound=loadSound("sounds/elements/greys/talk1_time3.wav")}
+    self.greysTalking[2] = {sound=loadSound("sounds/elements/greys/talk2_time5.wav")}
+    self.greysTalking[3] = {sound=loadSound("sounds/elements/greys/talk3_time5.wav")}
+    self.greysTalking[4] = {sound=loadSound("sounds/elements/greys/talk4_time4.wav")}
+    self.greysTalking[5] = {sound=loadSound("sounds/elements/greys/talk5_time1.wav")}
+    self.greysTalking[6] = {sound=loadSound("sounds/elements/greys/talk6_time4.wav")}
+    self.greysTalking[7] = {sound=loadSound("sounds/elements/greys/talk7_time1.wav")}
 end
 
 

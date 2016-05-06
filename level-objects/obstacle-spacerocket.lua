@@ -95,9 +95,9 @@ function rocket:grab(player)
     self:moveToGrabPoint(player, 0, -230*scale)
     self:animate("Activated-"..self.takeoff)
 
-    self:sound("countDown", {duration=1000})
-    after(self.delay*0.35, function() self:zoomOut(player); self:sound("countDown", {duration=1000}) end)
-    after(self.delay*0.7,  function() self:sound("countDown", {duration=1000}) end)
+    self:sound("countDown")
+    after(self.delay*0.35, function() self:zoomOut(player); self:sound("countDown") end)
+    after(self.delay*0.7,  function() self:sound("countDown") end)
     after(self.delay,      function() self:launch(player)  end)
 end
 
@@ -112,7 +112,7 @@ end
 
 
 function rocket:launch(player)
-    self:sound("rocketLaunch", {duration=2000})
+    self:sound("rocketLaunch")
     self:sound("rocketActive", {duration="forever"})
 
     local camera  = self:getCamera()
@@ -135,7 +135,7 @@ function rocket:launch(player)
 
     function capsule:destroy(player)
         self.alpha = 0
-        player:sound("ledgeExplodingActivated", {duration=4000})
+        player:sound("ledgeExplodingActivated")
         spineStore:showExplosion(player:getCamera(), player)
     end
     

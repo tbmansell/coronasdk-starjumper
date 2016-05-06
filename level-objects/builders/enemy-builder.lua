@@ -106,9 +106,9 @@ function enemyBuilder:newEnemyHeart(camera, spec, x, y, jumpObject)
 	enemy.thief       = true
 	enemy.stolen      = 0
     enemy.thefts      = enemy.behaviour.thefts or 10
-    enemy.awakenSound = {sound=sounds.enemyHeartAwaken, duration=9000}
+    enemy.awakenSound = {sound=sounds.enemyHeartAwaken}
     enemy.missSound   = enemy.awakenSound
-    enemy.stealSound  = {sound=sounds.enemyHeartSteal,  duration=1000}
+    enemy.stealSound  = {sound=sounds.enemyHeartSteal}
         
     function enemy:setPhysics(scale)
         local stats = {density=1, friction=0.3, bounce=0, filter=enemyFilter, isSensor=true }
@@ -147,9 +147,9 @@ function enemyBuilder:newEnemyStomach(camera, spec, x, y, jumpObject)
     enemy.ammo           = enemy.shooting.ammo         or {negDizzy}
     enemy.shotVelocity   = {x=enemy.shooting.velocity.x or 300, y=enemy.shooting.velocity.y or 600}
     enemy.shootAnimation = "Spit"
-    enemy.awakenSound    = {sound=sounds.enemyStomachAwaken, duration=4000}
+    enemy.awakenSound    = {sound=sounds.enemyStomachAwaken}
     enemy.missSound      = enemy.awakenSound
-    enemy.shootSound     = {sound=sounds.enemyStomachShoot, duration=1000}
+    enemy.shootSound     = {sound=sounds.enemyStomachShoot}
 
     function enemy:generateShot()
         return hud.level:generateNegable(self:x(), self:y()-120, utils.randomFrom(self.ammo))
@@ -183,7 +183,7 @@ function enemyBuilder:newEnemyGreyUfo(camera, spec, x, y, jumpObject)
 
     enemy.deadly        = true
     enemy.constantSound = {sound=sounds.enemyGreyUfoActive, duration="forever"}
-    enemy.killSound     = {sound=sounds.enemyGreyUfoKill,   duration=1000}
+    enemy.killSound     = {sound=sounds.enemyGreyUfoKill}
 
     enemy:flipX()  -- Ian created these facing the opposite way from planet1 enemies
 

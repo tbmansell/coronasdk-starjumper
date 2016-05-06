@@ -35,6 +35,7 @@ local seek 			 = audio.seek
 local fadeout    	 = audio.fadeOut
 local setVolume 	 = audio.setVolume
 local getVolume		 = audio.getVolume
+local getDuration    = audio.getDuration
 local setMaxVolume 	 = audio.setMaxVolume
 local freeChannel 	 = audio.findFreeChannel
 local channelPlaying = audio.isChannelPlaying
@@ -220,6 +221,8 @@ local function checkShouldPlay(params)
 		if channel == 0 then
 			return false
 		else
+			printDate("soundEngine channel asigned "..tostring(channel).." to "..tostring(params.key).." duration="..tostring(params.duration))
+
 			params.channel = channel
 			params.volume  = volume
 			params.started = true
@@ -245,10 +248,12 @@ local function removeManagedSound(index, params)
 			shouldTidy = true
 		end)
 	else
-		if params.channel then stop(params.channel) end
+		if channel then stop(channel) end
 		soundQueue[index] = nil
 		shouldTidy = true
 	end
+
+	printDate("removeManagedSound key="..params.key.." channel="..tostring(channel))
 
 	resetConstantSound(params)
 end
@@ -281,8 +286,11 @@ function engine:playManagedAction(sourceObject, actionName, params)
 		if checkShouldPlay(params) ~= -1 then
 			local queueId = #soundQueue + 1
 			
+			if params.duration == nil then
+				params.duration   = getDuration(params.sound)
+			end
 			params.durationPassed = 0
-			params.onComplete = function() removeManagedSound(queueId, params) end
+			params.onComplete     = function() removeManagedSound(queueId, params) end
 
 			soundQueue[queueId] = params
 			-- signal that the sound has just been added
@@ -314,7 +322,7 @@ function engine:updateSounds()
 			end
 
 			-- check if it needs removing due to time passing
-			if duration ~= "forever" and params.durationPassed >= (duration or 0) then
+			if duration ~= "forever" and params.durationPassed >= duration then
 				removeManagedSound(i, params)
 
 			elseif started then
@@ -439,7 +447,7 @@ function engine:loadBackgroundSounds(soundList)
 	for i=1, reservedChannels do
 		local params   = soundList[i]
 		params.channel = i
-		params.length  = audio.getDuration(params.sound)/2
+		params.length  = getDuration(params.sound)/2
 		params.fadein  = 2000
 		playBackground(params)
 	end

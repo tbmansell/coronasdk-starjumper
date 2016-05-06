@@ -72,7 +72,7 @@ local function collideWarp(self, event)
 
                 after(10000, function()
                     if object.inGame then
-                        warp.object:sound("ledgeExplodingActivated", {duration=4000})
+                        warp.object:sound("ledgeExplodingActivated")
                         
                         spineStore:showExplosion(hud.camera, object)
                         object:destroy(hud.camera, true)

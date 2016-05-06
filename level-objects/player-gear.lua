@@ -80,7 +80,7 @@ function player:dragGearUsage()
         self:sound("gearTrajectory")
         curve.showTrajectory = true
     elseif gear == gearFreezeTime then
-        self:sound("gearFreezeTime", {duration=3000})
+        self:sound("gearFreezeTime")
         self:freezeTimeStarted()
     end
 

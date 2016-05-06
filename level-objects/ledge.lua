@@ -630,7 +630,7 @@ function ledge:activateExplodingLedge(target)
         self.destroyed = true
 
         spineStore:showExplosion(self:getCamera(), self)
-        self:sound("ledgeExplodingActivated", {duration=4000})
+        self:sound("ledgeExplodingActivated")
 
         -- make any attached items dynamic so gravity takes them
         for key,object in pairs(self.boundItems) do
@@ -651,7 +651,7 @@ function ledge:activateCollapsingLedge(target, animation, duration)
     self:animate(animation or "Trigger")
 
     after(duration or 3500, function()
-        self:sound("ledgeCollapsingBreak", {duration=1000})
+        self:sound("ledgeCollapsingBreak")
         self:intangible()
         self.destroyed = true
 
@@ -684,7 +684,7 @@ function ledge:activatePulleyLedge(target)
             self:stop()
         end
 
-        self:sound("ledgePulleyActivated", {duration=9000})
+        self:sound("ledgePulleyActivated")
         
         self.triggeredPulley = true
         self:moveNow({pattern=movePatternVertical, speed=(self.speed or 5), distance=(self.distance or 1000), oneWay=true})

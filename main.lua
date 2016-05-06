@@ -66,8 +66,8 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 15
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 5
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 
