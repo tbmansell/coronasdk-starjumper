@@ -67,6 +67,8 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:create(event)
+    globalIgnorePhysicsEngine  = true
+
     movingCollection      = builder:newMovementCollection()
     spineCollection       = builder:newSpineCollection()
     particleCollection    = builder:newParticleEmitterCollection()
@@ -103,7 +105,6 @@ function scene:init()
     logAnalyticsStart()
     state:newScene("select-zone")
     clearSceneTransition()
-    globalIgnorePhysicsEngine  = true
 
     self:displayHud()
 end
