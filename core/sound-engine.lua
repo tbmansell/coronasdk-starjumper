@@ -221,8 +221,6 @@ local function checkShouldPlay(params)
 		if channel == 0 then
 			return false
 		else
-			printDate("soundEngine channel asigned "..tostring(channel).." to "..tostring(params.key).." duration="..tostring(params.duration))
-
 			params.channel = channel
 			params.volume  = volume
 			params.started = true
@@ -252,8 +250,6 @@ local function removeManagedSound(index, params)
 		soundQueue[index] = nil
 		shouldTidy = true
 	end
-
-	printDate("removeManagedSound key="..params.key.." channel="..tostring(channel))
 
 	resetConstantSound(params)
 end
@@ -289,6 +285,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 			if params.duration == nil then
 				params.duration   = getDuration(params.sound)
 			end
+			
 			params.durationPassed = 0
 			params.onComplete     = function() removeManagedSound(queueId, params) end
 

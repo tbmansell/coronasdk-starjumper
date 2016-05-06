@@ -139,6 +139,16 @@ function player:cancelJump()
     self:animate("Jump CANCEL")
     
     if self.main then
+        -- if cancelling a jump: we use up any trajectory or zreezeTime that was in use - to avoid user trickery
+        if self.slotInUse[jump] then
+            local gear = self.gear[jump]
+
+            if gear == gearTrajectory or gear == gearFreezeTime then
+                self:gearUsedUp(jump, {gear})
+                self:clearJumpAction()
+            end
+        end
+
         hud:hideScoreMarkers()
         hud:showGearFull()
 

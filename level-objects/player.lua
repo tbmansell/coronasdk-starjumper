@@ -646,7 +646,7 @@ function player:sound(action, params)
     elseif action == "randomImpact"      then params.sound = soundEngine:getRandomImpact()
     elseif action == "randomRing"        then params.sound = soundEngine:getRandomRing()
     else
-        params.sound = sounds[action]
+        params.sound = params.sound or sounds[action]
     end
 
     if self.main and not params.manage then
