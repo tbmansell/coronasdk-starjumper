@@ -182,10 +182,9 @@ function player:runup(xVelocity, yVelocity)
     -- scale velocity by players scaled amount: dont do for AI yet
     if self.main then
         recorder:recordAction("run-up", self.attachedLedge.key, {xvelocity=xVelocity, yvelocity=yVelocity})
-
-        local scale = self:getCamera().scaleVelocity
-        xVelocity = xVelocity * scale
-        yVelocity = yVelocity * scale
+        --local scale = self:getCamera().scaleVelocity
+        --xVelocity = xVelocity * scale
+        --yVelocity = yVelocity * scale
     end
 
     self.runSound = self.attachedLedge.runSound
@@ -202,8 +201,8 @@ function player:runup(xVelocity, yVelocity)
     end
 
     self.runSpeed = self.constRunSpeed * self.scaled
-    if xVelocity < 0 then 
-        self.runSpeed = -self.runSpeed 
+    if xVelocity < 0 then
+        self.runSpeed = -self.runSpeed
     end
 
     if self:runupGearUsage(xVelocity, yVelocity) then
@@ -788,9 +787,9 @@ function player:throwNegable(velocityX, velocityY)
     -- modify velocity based on jumping for throwing
     local category = self.negableShot.category
     local item     = self.gear[category]
-    local scale    = self.camera.scaleVelocity
-    velocityX      = (velocityX * 1.3) * scale
-    velocityY      = (velocityY * 1.2) * scale
+    --local scale    = self.camera.scaleVelocity
+    velocityX      = (velocityX * 1.3) --* scale
+    velocityY      = (velocityY * 1.2) --* scale
 
     print("throwing this sucka: "..velocityX..", "..velocityY.." -> "..category)
     print("throwing "..item)

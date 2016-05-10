@@ -99,7 +99,7 @@ function tutorials:paramsValid(actionParams, eventParams)
 			return (ato > (eto - acc) and ato < (eto + acc))
 
 		elseif actionParams.pullx then
-			return curve:playerAtLockPoint(eventParams.player, eventParams.event)
+			return curve:playerAtLockPoint(hud.camera, eventParams.player, eventParams.event)
 		end
 	end
 	return false

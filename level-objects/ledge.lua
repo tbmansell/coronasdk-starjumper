@@ -374,6 +374,7 @@ end
 function ledge:scoreJump(player)
     -- each time a player jumps on a lege we save their highest score only
     if not self.isSpine and self.points and self.trueScore < self.points then
+        local scaleDist     = 25 * self:getCamera().scaleImage
         local newScore      = self.trueScore 
         local possibleScore = self.points
         local pos           = self:scorePosition()
@@ -386,7 +387,7 @@ function ledge:scoreJump(player)
         -- 2. player lands in second area = 50%
         -- 3. player lands in third  area = 25%
         for i=1,3 do
-            local dist = i*25
+            local dist = i * scaleDist
             if x > (pos - dist) and x < (pos + dist) then
                 if     i == 1 then newScore = self.points
                 elseif i == 2 then newScore = math_floor(self.points/2)

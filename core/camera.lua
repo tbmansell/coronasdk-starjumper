@@ -330,13 +330,14 @@ function Perspective.createView(numLayers)
 		topBoundary    = y2
 
 		-- Setup the bounding objects
-		bound1 = display.newCircle(leftBoundary,  bottomBoundary, 55)
-		bound2 = display.newCircle(rightBoundary, topBoundary,    55)
-		--bound1.alpha, bound2.alpha = 0, 0
-		bound1.alpha, bound2.alpha = 0.5, 0.5
+		--bound1 = display.newCircle(leftBoundary,  bottomBoundary, 55)
+		--bound2 = display.newCircle(rightBoundary, topBoundary,    55)
+		bound1 = display.newRect(leftBoundary,  bottomBoundary, 2, 2)
+		bound2 = display.newRect(rightBoundary, topBoundary,    2, 2)
+		bound1.alpha, bound2.alpha = 0, 0
 
-		bound1:setFillColor(1,0,0)
-		bound2:setFillColor(1,0,0)
+		--bound1:setFillColor(1,0,0)
+		--bound2:setFillColor(1,0,0)
 		
 		layer[2]:insert(1, bound1)
 		layer[2]:insert(2, bound2)
@@ -601,7 +602,8 @@ function Perspective.createView(numLayers)
 	            self.scaleMode     = true
 	            self.scaleImage    = 0.6
 	            self.scalePosition = 0.6
-	            self.scaleVelocity = 0.75
+	            --self.scaleVelocity = 0.75
+	            self.scaleVelocity = 0.6
 	            -- scale movement pattern speeds
 	            scaleMovement(self.scalePosition)
 	            --record offsets (this used to avoid offsets screwing up player viewpoint when scaling in and out near a boundary)

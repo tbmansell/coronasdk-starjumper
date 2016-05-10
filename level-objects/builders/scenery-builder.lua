@@ -207,14 +207,15 @@ end
 -- @return new emitterObject
 ----
 function sceneryBuilder:newEmitter(camera, spec, x, y)
-    local image   = display.newCircle(0, 0, 10)
+    --local image   = display.newCircle(0, 0, 10)
+    local image   = display.newRect(0, 0, 2, 2)
     local emitter = builder:newGameObject(spec, image)
 
     builder:deepCopy(emitterDef, emitter)
 
     -- For debugging: show where the emitter is
-    emitter.image:setFillColor(1,0,0)
-    --emitter.image.alpha   = 0
+    --emitter.image:setFillColor(1,0,0)
+    emitter.image.alpha = 0
 
     emitter:moveTo(spec.x + x, spec.y + y)
     emitter:setNextEmit()
@@ -263,8 +264,8 @@ function sceneryBuilder:newLiveBackground(camera, spec)
     livebgr.image.xScale = 0.1
     livebgr.image.yScale = 0.1
 
-    if livebgr.direction == right then
-        livebgr:changeDirection()
+    if livebgr.movement.pattern[1][1] > 0 then
+        livebgr:changeDirection(right)
     end
 
     camera:add(livebgr.image, spec.layer)

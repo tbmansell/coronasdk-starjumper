@@ -52,22 +52,25 @@ function curve:debug(player, px, py, ex, ey)
 end
 
 
-function curve:calcPull(player, event)
-    local x, y   = math_round(event.x),  math_round(event.y)
+function curve:calcPull(camera, player, event)
+    local x, y   = math_round(event.x),    math_round(event.y)
     local px, py = math_round(player:x()), math_round(player:y())
 
-    if y < player:y() then y = py end
+    if y < py then y = py end
 
-    local diffx,  diffy  = x-px, y-py
-    local xlimit = XLimit +7  -- these offsets are just to make the visuals sit right
-    local ylimit = YLimit +11
+    local diffx, diffy = x-px, y-py
+    local scale  = camera.scaleVelocity
+    local xlimit = (XLimit +7)  * scale  -- these offsets are just to make the visuals sit right
+    local ylimit = (YLimit +11) * scale
 
     if diffx > xlimit  then x = px + xlimit end
     if diffx < -xlimit then x = px - xlimit end
     if diffy > ylimit  then y = py + ylimit end
 
     -- return player x,y, allowed pull x,y and flag is pull should be cancelled
-    return px, py, x, y, (event.y < (py-150))
+    local cancelPoint = py - (150 * scale)
+
+    return px, py, x, y, (event.y < cancelPoint)
 end
 
 
@@ -79,13 +82,10 @@ function curve:calcVelocity(diffX, diffY, ignoreLimits)
 
     -- x axis base needs to take into account the direction of the jump
     local basex, basey = 100, -400
-    if diffX < 0 then basex = -100 end
+    if diffX < 0 then basex = -basex end
 
-    -- reduce the multiplication factor of the opposing axis the further you increase on the other
-    local xscale = 2.5
-    local yscale = 2.5
-    local velx = basex + (diffX * xscale)
-    local vely = basey + (diffY * yscale)
+    local velx = basex + (diffX * 2.5)
+    local vely = basey + (diffY * 2.5)
     
     return math_round(velx), math_round(vely)
 end
@@ -105,17 +105,12 @@ end
 
 
 -- Primary function used to show player jump curve
-function curve:drawTrajectory(camera, jumpX, jumpY, pullX, pullY, scale)
+function curve:drawTrajectory(camera, jumpX, jumpY, pullX, pullY)
     self:removeTrajectory()
     trajectory = display.newGroup()
 
     local velx, vely = curve:calcVelocity(jumpX-pullX, jumpY-pullY)
     local startVelX, startVelY = velx, vely
-
-    if scale then
-        startVelX = startVelX * scale
-        startVelY = startVelY * scale
-    end
 
     for i=1,90 do
         local pointX, pointY = self:getTrajectoryPoint(jumpX, jumpY, startVelX, startVelY, i)
@@ -144,7 +139,7 @@ end
 
     trajectory2 = display.newGroup()
 
-    local velx, vely = curve:calcVelocity(jumpX-pullX, jumpY-pullY)
+    local velx, vely = curve:calcVelocity(camera, jumpX-pullX, jumpY-pullY)
     local startingVelocity = { x=velx, y=vely }
 
     startingVelocity.x = startingVelocity.x * scale
@@ -291,33 +286,39 @@ function curve:drawLine(camera, px, py, ex, ey)
 
     -- Only display X and Y axis bars if drawing grid
     if self.showGrid then
-        if xAxis == nil then
-            xAxis = new_image("images/hud/jump-grid-horiz.png", ex, py-45)
-            xAxis:scale(0.7,0.7)
-            camera:add(xAxis, 2)
-        end
-
-        if yAxis == nil then
-            yAxis = new_image("images/hud/jump-grid-vert.png", px-115, ey-10)
-            yAxis:scale(0.7,0.7)
-            if grid and grid.direction == left then yAxis:scale(-1,1) end
-            camera:add(yAxis, 2)
-        end
-
-        xAxis.x = ex
-        yAxis.y = ey
-
-        if ex >= px then
-            yAxis.x = px - 50
-        else
-            yAxis.x = px + 50
-        end
-
-        local xColor = math_abs(px-ex) / 200
-        local yColor = math_abs(py-ey) / 200
-        xAxis:setFillColor(xColor, 1-xColor, 0)
-        yAxis:setFillColor(yColor, 1-yColor, 0)
+        self:drawGridAxis(camera, px, py, ex, ey)
     end
+end
+
+
+function curve:drawGridAxis(camera, px, py, ex, ey)
+    if xAxis == nil then
+        xAxis = new_image("images/hud/jump-grid-horiz.png", ex, py-45)
+        xAxis:scale(0.7,0.7)
+        camera:add(xAxis, 2)
+    end
+
+    if yAxis == nil then
+        yAxis = new_image("images/hud/jump-grid-vert.png", px-115, ey-10)
+        yAxis:scale(0.7,0.7)
+        if grid and grid.direction == left then yAxis:scale(-1,1) end
+        camera:add(yAxis, 2)
+    end
+
+    xAxis.x = ex
+    yAxis.y = ey
+
+    if ex >= px then
+        yAxis.x = px - 50
+    else
+        yAxis.x = px + 50
+    end
+
+    local boundary = 200 * camera.scaleVelocity
+    local xColor   = math_abs(px-ex) / boundary
+    local yColor   = math_abs(py-ey) / boundary
+    xAxis:setFillColor(xColor, 1-xColor, 0)
+    yAxis:setFillColor(yColor, 1-yColor, 0)
 end
 
 
@@ -333,7 +334,7 @@ end
 function curve:drawJumpGrid(camera, player)
     if state.demoActions then return end
 
-    local scale   = 1 -- camera.scaleImage
+    local scale   = camera.scaleVelocity
     local xoffset = 192 * scale
     local yoffset = 61  * scale
     local adjust  = 135 * scale
@@ -341,9 +342,9 @@ function curve:drawJumpGrid(camera, player)
     grid = new_image("images/hud/jump-grid.png", player:x()+xoffset, player:y()+yoffset)
     grid.alpha = 0
 
-    --[[if camera.scaleMode then
-        grid:scale(camera.scaleImage, camera.scaleImage)
-    end]]
+    if camera.scaleMode then
+        grid:scale(scale, scale)
+    end
 
     if player.direction == right then
         grid.direction = right
@@ -388,15 +389,17 @@ end
 
 function curve:flipGrid(player)
     if self.showGrid and grid then
+        local scale = player:getCamera().scaleVelocity
+
         grid:scale(-1,1)
         yAxis:scale(-1,1)
 
         if grid.direction == left then
             grid.direction = right
-            grid.x = player:x() - 55
+            grid.x = player:x() - (55 * scale)
         else
             grid.direction = left
-            grid.x = player:x() + 55
+            grid.x = player:x() + (55 * scale)
         end
     end
 end
@@ -407,17 +410,14 @@ function curve:lockJump(x, y)
 end
 
 
-function curve:playerAtLockPoint(player, event)
-    local px, py, ex, ey, cancelJump = curve:calcPull(player, event)
+function curve:playerAtLockPoint(camera, player, event)
+    local px, py, ex, ey, cancelJump = curve:calcPull(camera, player, event)
     local loX, loY = self.lock[1], self.lock[2]
     local atX      = ex-px
     local atY      = ey-py
     local accuracy = 25
 
-    print(atX..","..atY.." => "..loX..","..loY)
-
     if atX > loX-accuracy and atX < loX+accuracy and atY > loY-accuracy and atY < loY+accuracy then
-        print("yay")
         return true
     end
     return false

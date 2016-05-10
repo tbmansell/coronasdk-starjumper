@@ -370,8 +370,10 @@ function player:analyseNextJump()
 			end
 
 			if jumpLogic.jumpVelocity then
-				local vel = jumpLogic.jumpVelocity
-				self:doNextJump(vel[1], -vel[2])
+				local vel   = jumpLogic.jumpVelocity
+				local scale = self:getCamera().scaleVelocity
+
+				self:doNextJump(vel[1]*scale, -vel[2]*scale)
 				return
 			end
 
@@ -469,8 +471,6 @@ end
 
 -- callback from pathFinder for succssful find: run and do the next jump
 function player:doNextJump(velx, vely)
-	--print("doing jump with vel: "..velx..", "..vely)
-	--self:runup(velx*vscale, vely*vscale)
 	self:destroyPathFinder()
 	self:runup(velx, vely)
 	self.jumpPrepared   = false

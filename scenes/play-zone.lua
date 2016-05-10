@@ -554,7 +554,7 @@ function redrawTrajectory() end
 
 
 function scene:jumpPreperationMoving(event)
-    local px, py, ex, ey, cancelJump = curve:calcPull(player, event)
+    local px, py, ex, ey, cancelJump = curve:calcPull(camera, player, event)
 
     -- check if we should cancel the pull if players moves high
     if cancelJump and curve.lock == nil then
@@ -608,7 +608,7 @@ end
 function scene:jumpPreperationGo(event)
     curve:clearUp(camera)
 
-    local px, py, ex, ey = curve:calcPull(player, event)
+    local px, py, ex, ey = curve:calcPull(camera, player, event)
     local diffx, diffy   = px-ex, py-ey
 
     if curve.lock then
