@@ -1,6 +1,6 @@
 -- Global label used for buld version
-globalBuildVersion = "0.12.1"
-globalDebugGame    = false
+globalBuildVersion = "0.12.2"
+globalDebugGame    = true
 
 -- Define global constants
 require("constants.globals")
@@ -15,6 +15,7 @@ hud    = require("core.hud")
 -- Define global functions
 require("core.draw")
 require("core.movement")
+require("core.analytics")
 -- Expand massive hud object
 require("core.hud-gear")
 require("core.hud-sequences")

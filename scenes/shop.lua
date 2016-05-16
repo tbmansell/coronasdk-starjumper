@@ -299,6 +299,7 @@ function scene:buyGear()
             -- they cant afford it
             play(sounds.shopCantBuy)
             self:displayMessage("need-cubes")
+            logAnalyticsEvent("CantBuyGear", {gear=item.gear, reason="not enough cubes"})
         else
             -- buy it
             play(sounds.shopPurchase)
@@ -315,6 +316,7 @@ function scene:buyGear()
             self.quantities[item.gear]:setColor(1,1,0)
 
             self:displayMessage("purchased")
+            logAnalyticsEvent("BoughtGear", {gear=item.gear})
         end
     end
 end

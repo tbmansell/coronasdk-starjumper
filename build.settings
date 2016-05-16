@@ -10,6 +10,7 @@ settings = {
 	},
     android =
     {
+        -- determines if the build is pslit into expansion packs for games > 1MB
         -- usesExpansionFile = true,
         supportsTV = true,
         isGame = true,
@@ -47,6 +48,12 @@ settings = {
         "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
         "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
     },
+    usesPermissions = 
+    {
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
+        "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
+    },
     usesFeatures = 
     {
         { name="android.hardware.location",         required=false },
@@ -55,11 +62,11 @@ settings = {
     },
     plugins = 
     {
-        --[[["plugin.flurry-analytics"] =
+        ["plugin.flurry.analytics"] =
         {
             publisherId = "com.coronalabs",
             supportedPlatforms = { iphone=true, android=true }
-        },]]
+        },
         ["plugin.google.play.services"] =
         {
             publisherId = "com.coronalabs",

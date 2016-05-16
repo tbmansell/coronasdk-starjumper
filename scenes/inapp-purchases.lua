@@ -1,8 +1,8 @@
-local composer = require("composer")
-local anim       = require("core.animations")
-local particles  = require("core.particles")
-local messages   = require("core.messages")
-local scene      = composer.newScene()
+local composer  = require("composer")
+local anim      = require("core.animations")
+local particles = require("core.particles")
+local messages  = require("core.messages")
+local scene     = composer.newScene()
 
 -- Local vars:
 local store              = nil

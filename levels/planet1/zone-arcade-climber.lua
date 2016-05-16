@@ -14,8 +14,7 @@ local levelData = {
     },
 
     backgroundSounds = {
-        {sound=sounds.backgroundSoundWind4, quietTime=1000, minVolume=2, maxVolume=6},
-        {sound=sounds.backgroundSoundWind5, quietTime=3000, minVolume=9, maxVolume=10},
+        {name="nature/lava1", quietTime=1000, minVolume=9, maxVolume=10},
     },
 
     -- Starting game elements

@@ -1,7 +1,3 @@
-local composer = require("composer")
---local analytics  = require("plugin.flurry-analytics")
-
-
 -- @class global event tracker
 local track = {
     -- simple array of all current scene timer handles that need cleaning up when the scene aborts
@@ -11,17 +7,6 @@ local track = {
     -- tracks the current timer key
     timerKey = 0
 }
-
-
-local function getState()
-	return {
-		player = state.data.playerModel,
-        game   = state.data.gameSelected,
-        planet = state.data.planet,
-        zone   = state.data.zone,
-        cuves  = state.data.holocubes,
-	}
-end
 
 
 function track:pauseEventHandles()
@@ -110,27 +95,6 @@ end
 function loop(delay, func)
 	track:timer(delay, func, 0)
 end
-
-
-function logAnalytics(event)
-end
-
-
--- Generates an analytics event for us to track
-function logAnalyticsStart()
-	--print("[start] "..tostring(composer.getSceneName("current")))
-	--analytics.startTimedEvent(composer.getSceneName(), getState())
-end
-
-
-function logAnalyticsEnd()
-	--print("[end] "..tostring(composer.getSceneName("current")))
-	--analytics.endTimedEvent(composer.getSceneName(), getState())
-end
-
-
--- Init analytics:
---analytics.init({apikey="BWXBG2NT992ZJ8TP43FW", listener=logAnalytics, crashReportingEnabled=true})
 
 
 return track

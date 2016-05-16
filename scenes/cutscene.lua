@@ -30,7 +30,6 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene(event)
-    logAnalytics("cutscene", "enterScene")
     setMovementStyleSpeeds()
     self:initPhysics()
     self:loadCutScene()
