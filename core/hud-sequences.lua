@@ -566,7 +566,7 @@ function hud:createScoreText(labelPoints, labelCubes, doScore, quantity, name, p
     if name == "jump bonus" then color = "green" end
 
     local holder       = display.newGroup()
-    local itemName     = newText(holder, name,     260, 0, 0.5, color, "RIGHT")
+    local itemName     = newText(holder, name,     240, 0, 0.5, color, "RIGHT")
     local itemQuantity = newText(holder, quantity, 0,   0, 0.5, "white", "RIGHT")
     
     itemQuantity.x = 315

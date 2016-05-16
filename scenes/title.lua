@@ -17,15 +17,15 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:create(event)
-    local group   = self.view
-    local planet  = math.random(1,2)
+    local group  = self.view
+    local planet = math.random(1,2)
     
     newImage(group, "title/title-screen"..planet, centerX, centerY)
 
     if globalDebugGame then
-        newText(group, "debug version "..globalBuildVersion.." flurry: "..anaylticsKey:lower().." ["..tostring(isSimulator).."]", 50, 600, 0.6, "red", "LEFT")
+        newText(group, "debug version "..globalBuildVersion, 50, 600, 0.5, "red", "LEFT")
     else
-        newText(group, "version "..globalBuildVersion.." flurry: "..anaylticsKey:lower().." ["..tostring(isSimulator).."]", 50, 600, 0.35, "white", "LEFT")
+        newText(group, "version "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
     end
 
     local options = newImage(group, "title/settings2", 25, 610)
@@ -209,10 +209,11 @@ function scene:showSettings()
 
     resetOption:addEventListener("tap", function()
         play(sounds.generalClick)
-        -- reset levelProgress but keep everything unlocked thats unlocked
-        state:resetSavedGame()
+        state.data.storiesAcknowledged = {}
+        state:saveGame()
+
         play(sounds.shopPurchase)
-        scene:displaySettingMessage("game progress has been reset", "green")
+        scene:displaySettingMessage("all game stories will show again", "green")
     end)
 
     advertOption:addEventListener("tap", function() 

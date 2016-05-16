@@ -15,7 +15,7 @@ local sharedRules = {
 local levelData = {
     name             = "event horizon",
     tip              = "buy items to improve your chances of survival",
-    timeBonusSeconds = 300,
+    timeBonusSeconds = 30,
     floor            = display.contentHeight*4,
     ceiling          = -display.contentHeight*4,
 
