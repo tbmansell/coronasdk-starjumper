@@ -49,13 +49,13 @@ if globalDebugGame then
     -- Testing: add 100 holocubes
     state.data.holocubes = 100
     -- Testing: Show performance info
-    --timer.performWithDelay(1000, displayPerformance, 0)
+    timer.performWithDelay(1000, displayPerformance, 0)
 end
 
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "game"
+local mode     = "zone"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -68,7 +68,7 @@ if mode == "zone" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 21
+	state.data.zoneSelected   = 24
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 

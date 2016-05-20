@@ -215,7 +215,7 @@ function sceneryBuilder:newEmitter(camera, spec, x, y)
 
     -- For debugging: show where the emitter is
     --emitter.image:setFillColor(1,0,0)
-    emitter.image.alpha = 0
+    --emitter.image.alpha = 0
 
     emitter:moveTo(spec.x + x, spec.y + y)
     emitter:setNextEmit()

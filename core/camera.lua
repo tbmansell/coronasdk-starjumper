@@ -602,8 +602,8 @@ function Perspective.createView(numLayers)
 	            self.scaleMode     = true
 	            self.scaleImage    = 0.6
 	            self.scalePosition = 0.6
-	            --self.scaleVelocity = 0.75
-	            self.scaleVelocity = 0.6
+	            self.scaleVelocity = 0.75
+	            --self.scaleVelocity = 0.6
 	            -- scale movement pattern speeds
 	            scaleMovement(self.scalePosition)
 	            --record offsets (this used to avoid offsets screwing up player viewpoint when scaling in and out near a boundary)

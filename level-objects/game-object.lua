@@ -100,6 +100,7 @@ local gameObject = {
 -- Aliases:
 local math_round = math.round
 local draw_point = drawMovingPathPoint
+local new_circle = display.newCircle
 
 
 -- @hook: override this if the object has a physics shape
@@ -170,6 +171,12 @@ function gameObject:destroy(camera, destroyBoundItems)
 
     if camera then
         camera:remove(self.image)
+    end
+
+    if self.movement and self.movement.center then
+        if camera then camera:remove(self.movement.center) end
+        self.movement.center:removeSelf()
+        self.movement.center = nil
     end
 
     if self.image and self.image.removeSelf then
@@ -526,6 +533,15 @@ function gameObject:jumpRight() return self:rightEdge() end
 function gameObject:setMovement(camera, movement, drawPath)
     camera        = camera   or self:getCamera()
     self.movement = movement or self.movement
+
+    -- for circular movement:
+    if self.movement.pattern == movePatternCircular and self.movement.center == nil then
+        local center = new_circle(self:x() - self.length, self:y() - self.length, 5)
+        center.alpha = 0
+        camera:add(center, 3)
+
+        self.movement.center = center
+    end
    
     setupMovingItem(self)
 
@@ -622,6 +638,10 @@ end
 
 -- the main scaling function to rescale a moving object
 function gameObject:scaleMovement(camera)
+    if self.movement.pattern == movePatternCircular then
+        return self:scaleCircularMovement(camera)
+    end
+
     self:removeMovementPath(camera)
 
     local moveScale    = camera.scalePosition
@@ -670,6 +690,23 @@ function gameObject:scaleMovement(camera)
     movement.currentX = movement.currentX * moveScale
     movement.currentY = movement.currentY * moveScale
     movement.speed    = movement.speed    * moveScale
+end
+
+
+function gameObject:scaleCircularMovement(camera)
+    local move   = camera.scalePosition
+    local center = self.movement.center
+    local centerX, centerY = center.x, center.y
+
+    camera:remove(center)
+    center:removeSelf()
+
+    center = new_circle(centerX*move, centerY*move, 5)
+    center.alpha = 0
+    camera:add(center, 3)
+
+    self.movement.center = center
+    self.length = self.length * move
 end
 
 

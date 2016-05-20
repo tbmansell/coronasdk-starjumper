@@ -420,12 +420,14 @@ local function moveItemCircular(camera, item)
     local centerX = m.center.x
     local centerY = m.center.y
 
-    if item.direction == left and m.degree <= m.arcEnd then
-        item.direction = right
-        item:changeDirection()
-    elseif item.direction == right and m.degree >= m.arcStart then
-        item.direction = left
-        item:changeDirection()
+    if not m.fullCircle then
+        if item.direction == left and m.degree <= m.arcEnd then
+            item.direction = right
+            item:changeDirection()
+        elseif item.direction == right and m.degree >= m.arcStart then
+            item.direction = left
+            item:changeDirection()
+        end
     end
 
     if item.direction == right then
@@ -443,7 +445,9 @@ local function moveItemCircular(camera, item)
     
     -- move item and tell it to redraw itself if needed (rope swings)
     item:moveBy(diffX, diffY)
-    item:redraw(camera)
+
+    if item.redraw then item:redraw(camera) end
+
     moveAttachedItems(item, diffX, diffY)
 end
 

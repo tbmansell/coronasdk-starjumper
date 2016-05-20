@@ -1,11 +1,9 @@
 local levelData = {
     name             = "conspiracy 23",
-    --tutorial         = "intro-planet1-zone1",
     timeBonusSeconds = 50,
-   -- playerStart      = playerStartFall,
     ceiling          = -1000,
     floor            = 2000,   
-    startLedge       = 7,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {1, 2, 3, 4},
