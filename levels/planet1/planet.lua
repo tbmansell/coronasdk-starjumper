@@ -37,7 +37,7 @@ local planetData = {
         -- secret zones:
         [22] = { x=3900, y=350, secret=true, hint={} },
         [23] = { x=4200, y=400, secret=true, hint={} },
-        [24] = { x=4350, y=280, secret=true, hint={} },
+        [24] = { x=4350, y=280, secret=true, hint={gearReverseJump, gearGrappleHook, gearJetpack} },
         [25] = { x=4500, y=450, secret=true, hint={} },
     },
 

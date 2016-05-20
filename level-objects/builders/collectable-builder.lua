@@ -314,6 +314,24 @@ function collectableBuilder:newRandomizer(camera, spec, x, y, ledge)
         self.collected = true
         self:sound("checkpoint")
 
+        local amount = self.spawn or 1
+
+        -- After activation, the randomizer destroys itself
+        local seq = anim:chainSeq("randomizer", self.image)
+
+        for i=1, amount do
+            if i > 1 then seq:wait(250) end
+            seq:callback(function() self:generateItem() end)
+        end
+
+        seq:tran({time=100, alpha=0, delay=1000})
+        seq.onComplete = function()
+            randomizer:destroy()
+        end
+        seq:start()
+    end
+
+    function randomizer:generateItem()
         local name = utils.percentFrom(self.items)
         if name then
             local x, y, object = self:x(), self:y()-50, nil
@@ -338,15 +356,8 @@ function collectableBuilder:newRandomizer(camera, spec, x, y, ledge)
             -- Put this here incase there is a typo in the level generation
             print("Warning: randomizer didnt generate anything")
         end
-
-        -- After activation, the randomizer destroys itself
-        local seq = anim:chainSeq("randomizer", self.image)
-        seq:tran({time=100, alpha=0, delay=1000})
-        seq.onComplete = function()
-            randomizer:destroy()
-        end
-        seq:start()
     end
+
 
     self:setupCommon(camera, randomizer, spec, collectableDef.eventCollideRandomizer, x, y, ledge)
 
