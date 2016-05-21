@@ -1,6 +1,6 @@
 local levelData = {
     name             = "negacano!",
-    timeBonusSeconds = 180,
+    timeBonusSeconds = 240,
     ceiling          = -3000,
     floor            = 1700,
     startLedge       = 1,
@@ -70,7 +70,6 @@ local levelData = {
 
         {object="ledge", x=100, y=250, size="small2"},
 
-        --{object="obstacle", x=-200, y=-75, type="pole", length=700},
         {object="obstacle", x=-200, y=-125, type="pole", length=750},
 
         {object="ledge", x=0, y=250, size="small"},
@@ -125,7 +124,7 @@ local levelData = {
         {object="ledge", x=450, y=-100, size="medium", length=150, 
             movement={pattern=movePatternCircular, speed=1.5, arcStart=360, arc=0, dontDraw=true, fullCircle=true}
         },
-            {object="randomizer", onLedge=true, items={ {50,blue},{50,white} }},
+            {object="randomizer", onLedge=true, items={ {50,blue},{100,white} }},
 
         {object="ledge", x=450, y=-100, size="medium", length=150, 
             movement={pattern=movePatternCircular, speed=1, arcStart=0, arc=360, dontDraw=true, fullCircle=true}
