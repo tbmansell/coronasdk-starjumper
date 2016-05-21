@@ -1,9 +1,9 @@
 local levelData = {
-    name             = "monster cave",
+    name             = "monster cavern",
     timeBonusSeconds = 180,
 --    playerStart      = playerStartWalk,
     ceiling          = -1000,
-    floor            = 3000,   
+    floor            = 2500,   
     startLedge       = 24,
 
     backgroundOrder = {
@@ -77,8 +77,12 @@ local levelData = {
 
         {object="ledge", x=-200, y=250, size="medium"},
             -- moving spikes
-            {object="spike", x=-550, y=-550, type="fg-spikes-float-1", size=0.8, flip="y", movement={pattern=movePatternVertical, distance=200, speed=1}},
-            {object="spike", x=-550, y=-85,  type="fg-spikes-float-1", size=0.8, movement={pattern=movePatternVertical, distance=200, speed=1}},
+            {object="spike", x=-550, y=-550, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}},
+                movement={pattern=movePatternVertical, distance=200, speed=1}
+            },
+            {object="spike", x=-550, y=-85,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, 
+                movement={pattern={{0,-200},{0,200}}, speed=1}
+            },
 
         {object="ledge", x=-500, y=100, size="medium"},
 

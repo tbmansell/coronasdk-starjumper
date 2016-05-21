@@ -76,34 +76,17 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     scenery.originalScale = size
     scenery.inPhysics     = false
 
-    local scale = (size or 1) * camera.scaleImage
-    if scale ~= 1 then
-        scenery.image:scale(scale, scale)
-        --scenery.image.width  = scenery.image.width  * scale
-        --scenery.image.height = scenery.image.height * scale
-    end
-
-    if scenery.flip == "x" then scenery:flipX() end
-    if scenery.flip == "y" then scenery:flipY() end
-
-    if scenery.darken then
-        scenery.image:setFillColor(scenery.darken)
-    elseif scenery.rgb then
-        scenery.image:setFillColor(scenery.rgb[1], scenery.rgb[2], scenery.rgb[3])
-    end
-
-    if scenery.rotation then
-        scenery:rotate(scenery.rotation)
-    end
-
     if scenery.object == "wall" then
     	self:setupBlockingScenery(camera, scenery)
+
     elseif scenery.object == "spike" then
     	self:setupDeadlyScenery(camera, scenery)
     else
         scenery.layer = scenery.layer or 1
     end
 
+    self:setupSceneryCommon(camera, scenery, spec, image)
+    
     -- Add width, height to center
     local xpos = (spec.x or 0) + (x or 0) + image.width/2
     local ypos = (spec.y or 0) + (y or 0) + image.height/2
@@ -112,6 +95,35 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     camera:add(scenery.image, scenery.layer, false, (scenery.fixFloor or false), (scenery.fixSky or false))
 
     return scenery
+end
+
+
+function sceneryBuilder:setupSceneryCommon(camera, scenery, spec, image)
+    local scale = (scenery.originalScale or 1) * camera.scaleImage
+
+    if scale ~= 1 then
+        scenery.image:scale(scale, scale)
+    end
+
+    if scenery.flip == "x" then scenery:flipX() end
+    if scenery.flip == "y" then scenery:flipY() end
+
+    if scenery.darken then
+        scenery.image:setFillColor(scenery.darken)
+
+    elseif scenery.rgb then
+        scenery.image:setFillColor(scenery.rgb[1], scenery.rgb[2], scenery.rgb[3])
+    end
+
+    if scenery.rotation then
+        scenery:rotate(scenery.rotation)
+    end
+
+    if scenery.movement then
+        scenery.movement.originalX = spec.x
+        scenery.movement.originalY = spec.y
+        scenery:moveNow()
+    end
 end
 
 
