@@ -92,6 +92,12 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     local ypos = (spec.y or 0) + (y or 0) + image.height/2
     scenery:moveTo(xpos, ypos)
 
+    if scenery.movement then
+        scenery.movement.originalX = spec.x
+        scenery.movement.originalY = spec.y
+        scenery:moveNow()
+    end
+
     camera:add(scenery.image, scenery.layer, false, (scenery.fixFloor or false), (scenery.fixSky or false))
 
     return scenery
@@ -117,12 +123,6 @@ function sceneryBuilder:setupSceneryCommon(camera, scenery, spec, image)
 
     if scenery.rotation then
         scenery:rotate(scenery.rotation)
-    end
-
-    if scenery.movement then
-        scenery.movement.originalX = spec.x
-        scenery.movement.originalY = spec.y
-        scenery:moveNow()
     end
 end
 

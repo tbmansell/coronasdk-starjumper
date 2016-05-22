@@ -415,7 +415,7 @@ end
 
 local function moveItemCircular(camera, item)
     local m       = item.movement
-    local radius  = item.length
+    local radius  = item.length or m.distance
     local speed   = m.speed
     local centerX = m.center.x
     local centerY = m.center.y

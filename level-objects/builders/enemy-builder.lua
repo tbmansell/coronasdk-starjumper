@@ -360,6 +360,8 @@ function enemyBuilder:setupCommonEnemy(camera, spec, x, y, jumpObject, enemy)
 		end
 	end
 
+	enemy:moveTo(spec.x + x, spec.y + y)
+
     if enemy.movement then
         enemy.movement.originalX = spec.x
         enemy.movement.originalY = spec.y
@@ -368,8 +370,6 @@ function enemyBuilder:setupCommonEnemy(camera, spec, x, y, jumpObject, enemy)
             enemy:moveNow()
         end
     end
-
-	enemy:moveTo(spec.x + x, spec.y + y)
 
     enemy.image.collision = enemy.eventCollide
     enemy.image:addEventListener("collision", enemy.image)
