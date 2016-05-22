@@ -31,6 +31,8 @@ local player = {
 	-- clearJumpAction()
 	-- clearAnimationOverride()
 	-- gearUsedUp()
+    -- useGrappleHook()
+    -- grappleHookComplete()
 }
 
 
@@ -574,13 +576,18 @@ end
 
 
 function player:useGrappleHook(ledge, side)
-    local camera = self:getCamera()
-    local hookX, offsetX, offsetY = 0, 0, -(ledge:height()/2)
+    local camera  = self:getCamera()
+    local scale   = camera.scaleImage
+    local hookX   = 0
+    local offsetX = 0 
+    local offsetY = -(ledge:height()/2)
 
     if side == right then 
-        offsetX, hookX = ledge:width()/2, ledge:rightEdge()
+        offsetX = ledge:width()/2
+        hookX   = ledge:rightEdge()
     else
-        offsetX, hookX = -(ledge:width()/2), ledge:leftEdge()
+        offsetX = -(ledge:width()/2)
+        hookX   = ledge:leftEdge()
     end
 
     self:sound("whoosh")

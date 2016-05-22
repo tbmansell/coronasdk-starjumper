@@ -38,6 +38,7 @@ function hud:create(camera, player, level, pauseGameHandler, resumeGameHandler)
     self.tip, self.tipShop = nil, nil
     self.textTime:scale(0.5, 0.5)
     self.textTime.alpha = 0
+    self.magnifyIcon.alpha = 0
 
     self.iconLives:addEventListener("tap",       hud.showPauseMenu)
     self.iconLives:addEventListener("touch",     function() return true end)

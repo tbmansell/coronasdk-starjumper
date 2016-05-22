@@ -1,10 +1,10 @@
 local levelData = {
     name             = "creepy cavern",
     timeBonusSeconds = 180,
---    playerStart      = playerStartWalk,
+    --playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,   
-    startLedge       = 33,
+    startLedge       = 37,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
@@ -13,6 +13,9 @@ local levelData = {
 
     elements = {
         {object="ledge", type="start"},
+            {object="scenery", x=0,   type="fg-rock-3", size=0.5, onLedge=true, layer=2},
+            {object="scenery", x=130, type="fg-rock-3", size=0.5, onLedge=true, flip="x", layer=2},
+            {object="scenery", x=-140, y=-900, type="fgflt-tree-3-yellow", layer=4},
 
     -- Level 1
         --#2
@@ -30,12 +33,22 @@ local levelData = {
             {object="wall",  x=200, y=500,     type="vertical-wall", rotation=90, copy=5, gap=1000},
             {object="spike", x=200, y=1300,    type="vertical-wall", rotation=90, copy=5, gap=1000, physics={shapeOffset={left=20}}},
 
+            {object="scenery", x=-200, y=-650, type="fg-foilage-1-yellow", size=1, layer=2, flip="y"},
+            {object="scenery", x=-50,  y=-650, type="fg-foilage-3-yellow", size=1, layer=2, flip="y"},
+            {object="scenery", x=250,  y=-650, type="fg-foilage-3-yellow", size=1, layer=2, flip="y"},
+            {object="scenery", x=-250, y=-80,  type="fg-foilage-1-green",  size=1, layer=2},
+            {object="scenery", x=100,   y=-20, type="fg-foilage-3-green",  size=1, layer=2},
+
         {object="ledge", x=-300, y=100, size="medium"},
 
         {object="ledge", x=700, y=-100, size="big2", positionFromLedge=2},
              {object="enemy", type="brain", x=300,  y=85, size=0.5, color="Purple", spineDelay=0,   behaviour={mode=stateSleeping}},
              {object="enemy", type="brain", x=650,  y=85, size=0.4, color="Purple", spineDelay=333, behaviour={mode=stateSleeping}, direction=right},
              {object="enemy", type="brain", x=1000, y=85, size=0.6, color="Blue", spineDelay=666, behaviour={mode=stateSleeping}},
+
+             {object="scenery", x=300,  y=-110, type="fg-spikes-5", size=0.8, layer=4},
+             {object="scenery", x=750,  y=-100, type="fg-spikes-4", size=1,   layer=4},
+             {object="scenery", x=1150, y=-130, type="fg-spikes-2", size=1,   layer=4},
 
         {object="ledge", x=200, y=-300, size="small"},
 
@@ -53,6 +66,8 @@ local levelData = {
             {object="enemy", type="brain", x=300,  y=200, size=0.3, color="Purple", spineDelay=0, behaviour={mode=stateSleeping, awaken=0},
                 movement={pattern={{0,-400}, {400,0}, {0,400}, {-400,0}}, speed=2, moveStyle=moveStyleSway, steering=steeringMild}
             },
+            {object="scenery", x=-150, y=50, type="fg-spikes-2", size=1, layer=4},
+            {object="scenery", x=100,  y=50, type="fg-spikes-2", size=1, layer=4},
 
         {object="ledge", x=300, y=-150, size="small3"},
         {object="ledge", x=300, y=50,   size="small3"},
@@ -62,7 +77,7 @@ local levelData = {
             {object="enemy", type="brain", x=400,  y=-180, size=0.5, color="Purple", spineDelay=0, behaviour={mode=stateSleeping, awaken=2},
                 movement={pattern={{150,100}, {-150,100}, {150,100}, {-150,100}}, reverse=true, speed=2, moveStyle=moveStyleSway, steering=steeringMild}
             },
-
+            {object="scenery", x=770, y=-540, type="fg-flowers-5-green", size=1, layer=4, flip="y"},
 
         {object="obstacle", x=550, y=-400, type="pole", length=1000},
             -- rear wall
@@ -72,6 +87,7 @@ local levelData = {
     -- Level 2:
         --#16
         {object="ledge", x=-50, y=300, size="medium3"},
+            {object="scenery", x=-250, y=-20, type="fg-flowers-4-green", size=1, layer=4},
 
         {object="ledge", x=350,  y=-200, size="small2"},
         {object="ledge", x=-250, y=-200, size="small2"},
@@ -81,6 +97,13 @@ local levelData = {
             {object="enemy", type="brain", x=-300, y=20, size=0.5, color="Purple", spineDelay=0, behaviour={mode=stateSleeping, awaken=4},
                 movement={pattern=movePatternCircular, distance=150, arcStart=360, arc=0, dontDraw=true, fullCircle=true, speed=1}
             },
+            {object="scenery", x=0,    y=60, type="fg-spikes-1", size=0.8, layer=4},
+            {object="scenery", x=-200, y=50, type="fg-spikes-2", size=0.8, layer=4},
+            {object="scenery", x=-400, y=50, type="fg-spikes-3", size=0.8, layer=4},
+
+            {object="scenery", x=-2000, y=60, type="fg-spikes-1", size=0.8, layer=4},
+            {object="scenery", x=-2200, y=50, type="fg-spikes-2", size=0.8, layer=4},
+            {object="scenery", x=-2400, y=50, type="fg-spikes-3", size=0.8, layer=4},
 
         {object="ledge", x=-650, y=150, size="medium"},
 
@@ -104,15 +127,19 @@ local levelData = {
 
         {object="obstacle", x=-200, y=-400, type="pole", length=1000},
             -- bottom floor
-            {object="spike", x=-350, y=180,  type="vertical-wall", rotation=-70, layer=4},
+            {object="scenery", x=-450, y=490,  type="fg-spikes-1", size=0.8, layer=4, rotation=25},
+            {object="scenery", x=-250, y=550,  type="fg-spikes-1", size=0.8, layer=4, rotation=25},
+            {object="scenery", x=100,  y=670,  type="fg-spikes-3", size=0.8, layer=4, rotation=25},
+            {object="spike",   x=-350, y=180,  type="vertical-wall", rotation=-70, layer=4},
+            {object="scenery", x=-200, y=-600, type="fg-flowers-2-green", size=1, layer=4, rotation=135},
 
     -- Level 3:
         --#26
         {object="ledge", x=0, y=150, size="small"},
 
-
         {object="ledge", x=400, y=-250, surface=collapsing},
             {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=50}, layer=4},
+            {object="scenery", x=-285, y=-240, type="fg-flowers-1-yellow", size=1, layer=4, flip="y"},
 
         {object="ledge", x=400, y=0,    surface=collapsing},
             {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=50}, layer=4},
@@ -128,6 +155,8 @@ local levelData = {
         {object="ledge", x=470, y=0, size="medium", triggerLedgeIds={29}, rotation=-25},
 
         {object="ledge", x=600, y=-100, size="big2"},
+            {object="scenery", x=-230, y=20, type="fg-spikes-2", size=1, layer=4},
+            {object="scenery", x=180,  y=20, type="fg-spikes-2", size=1, layer=4},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=1, distance=300, dontDraw=true}},
             {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}},
@@ -158,9 +187,12 @@ local levelData = {
             {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}},
             {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}},
             -- final floor
+            {object="scenery", x=400, y=420, type="fg-flowers-6-green", size=1, layer=4, rotation=25},
             {object="wall", x=530, y=100, type="vertical-wall", layer=4, rotation=-65},
 
-        {object="ledge", x=600, y=450, type="finish"}
+        {object="ledge", x=600, y=450, type="finish"},
+            {object="scenery", x=-140, y=-900, type="fgflt-tree-3-yellow", layer=4, flip="x"},
+            {object="scenery", x=-200, type="fg-flowers-6-yellow", onLedge=true, layer=2},
         
     },
 }

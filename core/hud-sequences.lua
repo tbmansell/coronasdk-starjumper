@@ -21,6 +21,7 @@ function hud:startLevelSequence(level, player)
     end
     
     self:showGoMarker(level, player)
+    self.magnifyIcon.alpha = 1
 end
 
 
