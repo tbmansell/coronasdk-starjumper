@@ -89,7 +89,10 @@ local gameObject = {
     -- pauseMovementFinished()
     -- movementCompleted()
     -- scaleMovement()
-    -- removeMovementPath()
+    -- scaleCircularMovement()
+    -- removeCircularPath()
+    -- scalePatternMovement()
+    -- removePatternPath()
     -- emit()
     -- bindEmitter()
     -- sound()
@@ -635,11 +638,61 @@ end
 -- the main scaling function to rescale a moving object
 function gameObject:scaleMovement(camera)
     if self.movement.pattern == movePatternCircular then
-        return self:scaleCircularMovement(camera)
+        self:removeCircularPath(camera)
+        self:scaleCircularMovement(camera)
+    else
+        self:removePatternPath(camera)
+        self:scalePatternMovement(camera)
     end
+end
 
-    --self:removeMovementPath(camera)
 
+function gameObject:scaleCircularMovement(camera)
+    local move     = camera.scalePosition
+    local movement = self.movement
+    local drawPath = movement.draw
+    local center   = movement.center
+    local length   = self.length or movement.distance
+    local centerX, centerY = center.x, center.y
+
+    camera:remove(center)
+    center:removeSelf()
+
+    center = new_circle(centerX*move, centerY*move, 5)
+    center.alpha = 0
+    camera:add(center, 3)
+
+    movement.center = center
+    self.length     = length * move
+
+    if drawPath then
+        local path = new_circle(centerX*move, centerY*move, self.length)
+        path.alpha = 0.5
+        path.strokeWidth = 5
+        path:setStrokeColor(0.2, 0.4, 0.6)
+        path:setFillColor(0, 0, 0, 0)
+        camera:add(path, 3)
+        path:toBack()
+
+        path.bongo = 12345
+        self.movementCircularPathway = path
+    end
+end
+
+
+function gameObject:removeCircularPath(camera)
+    -- Exclude attached items to a circular ledge which will have a movementPath but for a pattern
+    local path = self.movementCircularPathway
+
+    if path  then
+        camera:remove(path)
+        path:removeSelf()
+        path = nil
+    end
+end
+
+
+function gameObject:scalePatternMovement(camera)
     local moveScale    = camera.scalePosition
     local movement     = self.movement
     local pattern      = movement.pattern
@@ -647,8 +700,6 @@ function gameObject:scaleMovement(camera)
     local fromX, fromY = self.image.x, self.image.y
 
     if drawPath then
-        self:removeMovementPath(camera)
-
         local currX, currY = movement.currentX, movement.currentY
 
         if movement.inReverse then
@@ -691,27 +742,9 @@ function gameObject:scaleMovement(camera)
 end
 
 
-function gameObject:scaleCircularMovement(camera)
-    local move   = camera.scalePosition
-    local center = self.movement.center
-    local length = self.length or self.movement.distance
-    local centerX, centerY = center.x, center.y
-
-    camera:remove(center)
-    center:removeSelf()
-
-    center = new_circle(centerX*move, centerY*move, 5)
-    center.alpha = 0
-    camera:add(center, 3)
-
-    self.movement.center = center
-    self.length = length * move
-end
-
-
--- Clears movement path
-function gameObject:removeMovementPath(camera)
+function gameObject:removePatternPath(camera)
     local path = self.movementPathway
+
     if path then
         local num = #path
         

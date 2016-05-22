@@ -3,7 +3,7 @@ local levelData = {
     timeBonusSeconds = 240,
     ceiling          = -3000,
     floor            = 1700,
-    startLedge       = 1,
+    startLedge       = 16,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
@@ -46,7 +46,7 @@ local levelData = {
             {object="spike", type="fg-wall-double-l1", x=800,  y=350, size=1,   rgb={1,0,0}},
             {object="spike", type="fg-wall-l0",        x=1000, y=200, size=1.5, rgb={1,0,0}, physics={shape={-20,-75, 20,-75, 100,50, -100,50}}},
 
-            {object="emitter", x=1100, y=180, timer={500, 3000}, limit=nil, force={{-1000, 1000}, {-1000, -1600}, {0, 50}},
+            --[[{object="emitter", x=1100, y=180, timer={500, 3000}, limit=nil, force={{-1000, 1000}, {-1000, -1600}, {0, 50}},
             --{object="emitter", x=1100, y=180, timer={500, 3000}, limit=nil, force={-1000, -1000, 0},
                 items={
                     {25,  {object="negable", type=negTrajectory} },
@@ -54,7 +54,7 @@ local levelData = {
                     {75,  {object="negable", type=negBooster}    },
                     {100, {object="negable", type=negRocket}    },
                 },
-            },
+            },]]
 
         {object="ledge", x=400, y=100, size="medium"},
             {object="scenery", x=-95, type="fg-foilage-2-yellow", size=0.7, onLedge=true, layer=2},
