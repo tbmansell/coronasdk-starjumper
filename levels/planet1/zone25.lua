@@ -1,10 +1,10 @@
 local levelData = {
     name             = "creepy cavern",
     timeBonusSeconds = 180,
-    --playerStart      = playerStartWalk,
+    playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,   
-    startLedge       = 37,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
@@ -40,27 +40,36 @@ local levelData = {
             {object="scenery", x=100,   y=-20, type="fg-foilage-3-green",  size=1, layer=2},
 
         {object="ledge", x=-300, y=100, size="medium"},
+            {object="randomizer", onLedge=true, items={ {25,gearSpringShoes}, {50,gearShield}, {75,gearFreezeTime}, {100,gearTrajectory} }},
 
         {object="ledge", x=700, y=-100, size="big2", positionFromLedge=2},
-             {object="enemy", type="brain", x=300,  y=85, size=0.5, color="Purple", spineDelay=0,   behaviour={mode=stateSleeping}},
-             {object="enemy", type="brain", x=650,  y=85, size=0.4, color="Purple", spineDelay=333, behaviour={mode=stateSleeping}, direction=right},
-             {object="enemy", type="brain", x=1000, y=85, size=0.6, color="Blue", spineDelay=666, behaviour={mode=stateSleeping}},
+            {object="rings", color=aqua, pattern={{-130,-85}, {250,0}}},
+            {object="enemy", type="brain", x=300,  y=85, size=0.5, color="Purple", spineDelay=0,   behaviour={mode=stateSleeping}},
+            {object="enemy", type="brain", x=650,  y=85, size=0.4, color="Purple", spineDelay=333, behaviour={mode=stateSleeping}, direction=right},
+            {object="enemy", type="brain", x=1000, y=85, size=0.6, color="Blue", spineDelay=666, behaviour={mode=stateSleeping}},
 
-             {object="scenery", x=300,  y=-110, type="fg-spikes-5", size=0.8, layer=4},
-             {object="scenery", x=750,  y=-100, type="fg-spikes-4", size=1,   layer=4},
-             {object="scenery", x=1150, y=-130, type="fg-spikes-2", size=1,   layer=4},
+            {object="scenery", x=300,  y=-110, type="fg-spikes-5", size=0.8, layer=4},
+            {object="scenery", x=750,  y=-100, type="fg-spikes-4", size=1,   layer=4},
+            {object="scenery", x=1150, y=-130, type="fg-spikes-2", size=1,   layer=4},
 
         {object="ledge", x=200, y=-300, size="small"},
+            {object="rings", color=aqua, pattern={{0,-100}}},
 
         {object="ledge", x=200, y=50, size="small"},
+            {object="rings", color=aqua, pattern={{0,-100}}},
 
         {object="ledge", x=200, y=50, size="small"},
+            {object="rings", color=aqua, pattern={{0,-100}}},
 
         --#8
         {object="ledge", x=300, y=50, size="medium4"},
 
         {object="ledge", x=200, y=-150, size="medium4"},
+            {object="rings", color=aqua, pattern={{-100,-90}, {100,0,color=pink}, {100,0}}},
+
         {object="ledge", x=150, y=200,  size="medium4", positionFromLedge=8},
+            {object="rings", color=aqua, pattern={{-80,-90}, {80,0,color=pink}, {80,0}}},
+
         --#11
         {object="ledge", x=350, y=-200, size="medium4"},
             {object="enemy", type="brain", x=300,  y=200, size=0.3, color="Purple", spineDelay=0, behaviour={mode=stateSleeping, awaken=0},
@@ -70,10 +79,16 @@ local levelData = {
             {object="scenery", x=100,  y=50, type="fg-spikes-2", size=1, layer=4},
 
         {object="ledge", x=300, y=-150, size="small3"},
+            {object="rings", color=red, pattern={{0,-100}}},
+
         {object="ledge", x=300, y=50,   size="small3"},
+            {object="rings", color=blue, pattern={{0,-100}}},
 
         {object="ledge", x=250, y=200, size="small3", positionFromLedge=11},
+            {object="rings", color=white, pattern={{0,-100}}},
+
         {object="ledge", x=300, y=-50, size="small3"},
+            {object="randomizer", onLedge=true, items={ {25,gearGlider}, {50,gearParachute}, {75,gearJetpack}, {100,gearReverseJump} }},
             {object="enemy", type="brain", x=400,  y=-180, size=0.5, color="Purple", spineDelay=0, behaviour={mode=stateSleeping, awaken=2},
                 movement={pattern={{150,100}, {-150,100}, {150,100}, {-150,100}}, reverse=true, speed=2, moveStyle=moveStyleSway, steering=steeringMild}
             },
@@ -84,14 +99,23 @@ local levelData = {
             {object="wall", x=550, y=-120, type="vertical-wall", layer=4},
             {object="wall", x=550, y=-710, type="vertical-wall", layer=4},
 
+            {object="emitter", x=0, y=-300, timer={5000, 15000}, limit=5, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
+                    movement={rangeX={-10000, -20000}, rangeY={-200, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },
+
     -- Level 2:
         --#16
         {object="ledge", x=-50, y=300, size="medium3"},
+            {object="rings", color=aqua, trajectory={x=-100, y=-170, xforce=-120, yforce=160, arc=75, num=5}},
             {object="scenery", x=-250, y=-20, type="fg-flowers-4-green", size=1, layer=4},
 
         {object="ledge", x=350,  y=-200, size="small2"},
         {object="ledge", x=-250, y=-200, size="small2"},
         {object="ledge", x=250,  y=-200, size="small3"},
+            {object="randomizer", onLedge=true, items={ {50,gearGrappleHook}, {100,gearGloves} }},
 
         {object="ledge", x=-500, y=-150, size="medium", positionFromLedge=16},
             {object="enemy", type="brain", x=-300, y=20, size=0.5, color="Purple", spineDelay=0, behaviour={mode=stateSleeping, awaken=4},
@@ -108,11 +132,13 @@ local levelData = {
         {object="ledge", x=-650, y=150, size="medium"},
 
         {object="ledge", x=-650, y=-150, size="medium2", movement={pattern=movePatternHorizontal, speed=2, distance=600}},
+            {object="rings", color=pink, pattern={{-600,-100}, {600,0}}},
             {object="enemy", type="brain", x=400, y=150, size=1, color="Blue", spineDelay=333, behaviour={mode=stateSleeping, awaken=0},
                 movement={pattern=movePatternHorizontal, distance=3000, speed=0.5, moveStyle=moveStyleSway,}
             },
 
         {object="ledge", x=-1300, y=-150, size="small2", movement={pattern={{600,0},{-600,0}}, speed=2}},
+            {object="rings", color=pink, pattern={{0,-100}, {600,0}}},
 
         {object="ledge", x=-200, y=250, size="medium"},
             -- moving spikes
@@ -124,6 +150,7 @@ local levelData = {
             },
 
         {object="ledge", x=-500, y=100, surface="spiked", timerOff=5000},
+            {object="rings", color=red, pattern={{-150,-250}, {-50,-75,color=blue}, {-100,-50,color=white}}},
 
         {object="obstacle", x=-200, y=-400, type="pole", length=1000},
             -- bottom floor
@@ -132,6 +159,13 @@ local levelData = {
             {object="scenery", x=100,  y=670,  type="fg-spikes-3", size=0.8, layer=4, rotation=25},
             {object="spike",   x=-350, y=180,  type="vertical-wall", rotation=-70, layer=4},
             {object="scenery", x=-200, y=-600, type="fg-flowers-2-green", size=1, layer=4, rotation=135},
+
+            {object="emitter", x=0, y=-300, timer={5000, 15000}, limit=5, layer=4,
+                item={
+                    object="livebgr", type="brain", color="Purple", direction=right, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
+                    movement={rangeX={10000, 20000}, rangeY={-200, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },
 
     -- Level 3:
         --#26
@@ -149,12 +183,16 @@ local levelData = {
 
         --#30
         {object="ledge", x=430, y=50, size="medium", positionFromLedge=26, triggerLedgeIds={27}, rotation=-25},
+            {object="rings", color=red, pattern={{-85,-25}}},
 
         {object="ledge", x=460, y=0, size="medium", triggerLedgeIds={28}, rotation=20},
+            {object="rings", color=pink, pattern={{-70,-75}}},
 
         {object="ledge", x=470, y=0, size="medium", triggerLedgeIds={29}, rotation=-25},
+            {object="rings", color=red, pattern={{-80,-20}}},
 
         {object="ledge", x=600, y=-100, size="big2"},
+            {object="rings", color=green, pattern={{-0,-100}}},
             {object="scenery", x=-230, y=20, type="fg-spikes-2", size=1, layer=4},
             {object="scenery", x=180,  y=20, type="fg-spikes-2", size=1, layer=4},
 
@@ -175,6 +213,13 @@ local levelData = {
                 movement={pattern=movePatternFollow, speed=0.5, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
             },
 
+            {object="emitter", x=0, y=0, timer={5000, 15000}, limit=5, layer=3,
+                item={
+                    object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.2},
+                    movement={rangeX={-1500, 2000}, rangeY={-1000, -2500}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
+                }
+            },
+
         {object="ledge", x=400, y=150, size="medium3"},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=2, distance=300, dontDraw=true}},
@@ -184,6 +229,8 @@ local levelData = {
         {object="ledge", x=400, y=150, size="medium3"},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=3, distance=300, dontDraw=true}},
+            {object="rings", color=aqua, trajectory={x=100, y=100, xforce=120, yforce=160, arc=75, num=5}},
+
             {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}},
             {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}},
             -- final floor
@@ -193,7 +240,6 @@ local levelData = {
         {object="ledge", x=600, y=450, type="finish"},
             {object="scenery", x=-140, y=-900, type="fgflt-tree-3-yellow", layer=4, flip="x"},
             {object="scenery", x=-200, type="fg-flowers-6-yellow", onLedge=true, layer=2},
-        
     },
 }
 

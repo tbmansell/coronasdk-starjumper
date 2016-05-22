@@ -82,7 +82,8 @@ local levelData = {
             {object="rings", color=aqua, pattern={ {-0,-150,color=pink}, {-50,-50}, {100,0}, {-100,100}, {100,0} }},
             {object="enemy", type="heart", x=0, y=130, size=0.5, color="Red", spineDelay=400,
                 behaviour={mode=stateSleeping, awaken=0, range=6, atRange=stateResetting, thefts=20},
-                movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}},
+                movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
+            },
 
         {object="ledge", x=350, y=50, size="medium4"},
             {object="friend", type="fuzzy", x=0, y=-250, size=0.5, color="Orange", kinetic="bounce", onLedge=true},

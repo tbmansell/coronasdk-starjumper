@@ -43,7 +43,7 @@ local levelData = {
                     object="livebgr", type="heart", color="Red", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.4, 0, 0.2},
                     movement={rangeX={-1500, 2000}, rangeY={500, -500}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },    
+            },
 
         {object="obstacle", type="deathslide", x=385, y=-290, length={-650,750}, speed=2, animSpeed="FAST"},
 
@@ -54,7 +54,7 @@ local levelData = {
         {object="ledge", x=250, y=120, size="small", movement={pattern=movePatternHorizontal, distance=135, speed=1, dontDraw=true}, invisible={invisibleFor=3000, visibleFor=100, alpha=0.2}},
 
         {object="ledge", x=275, y=-150, size="small", movement={pattern=movePatternHorizontal, distance=165, speed=1, dontDraw=true}, invisible={invisibleFor=3000, visibleFor=100, alpha=0.2}},
-             {object="scenery", x=170, y=-100, type="fgflt-tree-2-yellow", layer=1},
+            {object="scenery", x=170, y=-100, type="fgflt-tree-2-yellow", layer=1},
 
         {object="ledge", x=185, y=-202, size="small", invisible={invisibleFor=3000, visibleFor=100, alpha=0.2}},
 
@@ -69,7 +69,7 @@ local levelData = {
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
                     movement={rangeX={-1000, 2000}, rangeY={-200, 450}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },            
+            },
 
         {object="ledge", x=-145, y=-202, size="small", invisible={invisibleFor=3000, visibleFor=100, alpha=0.2}},
 
