@@ -523,7 +523,13 @@ function setupMovingItem(item)
     m.overspillY  = 0
     m.patternPos  = m.patternStart or 1
     m.pause       = m.pause or 0
-    m.patternName = m.pattern
+
+    -- if move pattern was follow but has reset (reached range): check that if awakened again, we dont lose the fact that the movement should be follow (as replaced by pattern below)
+    if m.patternName == movePatternFollow and type(m.pattern) == "table" then
+        m.pattern = m.patternName
+    else
+        m.patternName = m.pattern
+    end
 
     if m.pattern == movePatternHorizontal then
         m.reverse = true
@@ -616,10 +622,18 @@ function moveItemPattern(camera, item, delta)
         return pauseItemPatternMovement(item)
     end
 
+    --[[if item.isEnemy and item.thief then
+        print("moveItemPattern check   ... reached point "..item.key)
+    end]]
+
     if reachedPatternPoint(item) then
         if item.reachedPatternPoint then
             item:reachedPatternPoint()
         end
+
+        --[[if item.isEnemy and item.thief then
+            print("moveItemPattern reached point "..item.key)
+        end]]
 
         -- look for the next position to move to (or reverse or loop if at end of pattern)
         if selectNextPatternPosition(item) then

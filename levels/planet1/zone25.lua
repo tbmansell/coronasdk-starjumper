@@ -4,7 +4,7 @@ local levelData = {
     playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,   
-    startLedge       = 1,
+    startLedge       = 33,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
@@ -197,8 +197,8 @@ local levelData = {
             {object="scenery", x=180,  y=20, type="fg-spikes-2", size=1, layer=4},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=1, distance=300, dontDraw=true}},
-            {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}},
-            {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}},
+            {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}, layer=4},
+            {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, layer=4},
 
             {object="enemy", type="heart", x=-770, y=330, size=0.4, color="Red", spineDelay=0,
                 behaviour={mode=stateSleeping, awaken=0, range=2, atRange=stateResetting, thefts=5},
@@ -223,16 +223,16 @@ local levelData = {
         {object="ledge", x=400, y=150, size="medium3"},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=2, distance=300, dontDraw=true}},
-            {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}},
-            {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}},
+            {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}, layer=4},
+            {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, layer=4},
 
         {object="ledge", x=400, y=150, size="medium3"},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=3, distance=300, dontDraw=true}},
             {object="rings", color=aqua, trajectory={x=100, y=100, xforce=120, yforce=160, arc=75, num=5}},
 
-            {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}},
-            {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}},
+            {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}, layer=4},
+            {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, layer=4},
             -- final floor
             {object="scenery", x=400, y=420, type="fg-flowers-6-green", size=1, layer=4, rotation=25},
             {object="wall", x=530, y=100, type="vertical-wall", layer=4, rotation=-65},

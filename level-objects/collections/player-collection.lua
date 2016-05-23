@@ -137,6 +137,10 @@ function playerCollection:checkBehaviours(camera, floor)
         local player = items[i]
 
         if player ~= -1 then
+            if hud.debugMode then
+                hud:debugPlayerMode(player)
+            end
+
     	   self:checkIfOutOfPlay(player, camera, floor)
     	   self:checkJumpBehaviour(player)
     	   self:checkDeadlyLedge(player)
@@ -151,9 +155,6 @@ end
 -- @param floor - an integer for the Y value
 ----
 function playerCollection:checkIfOutOfPlay(player, camera, floor)
-    -- NOTE: Check for debug status here:
-    hud:debugPlayerMode(player)
-
     if player ~= -1 and player.image.y > floor and player.markedOutOfPlay == nil then
         local main = player.main
         local mode = player.mode

@@ -112,13 +112,17 @@ function enemy:awaken(player)
 end
 
 
-function enemy:reachedRange(ledgeId)
-	local leftLimit  = self.startLedge.id - self.behaviour.range
-	local rightLimit = self.startLedge.id + self.behaviour.range
+function enemy:reachedRange()
+    local ledge = self.player.attachedLedge
 
-	if ledgeId < leftLimit or ledgeId > rightLimit then
-		self.mode = self.behaviour.atRange or stateWaiting
-	end
+    if ledge then
+       local leftLimit  = self.startLedge.id - self.behaviour.range
+       local rightLimit = self.startLedge.id + self.behaviour.range
+
+       if ledge.id < leftLimit or ledge.id > rightLimit then
+	       self.mode = self.behaviour.atRange or stateWaiting
+       end
+    end
 end
 
 
@@ -134,9 +138,12 @@ function enemy:hasReset()
 	self.mode = self.behaviour.mode or stateWaiting
 	self.isResetting = nil
 
-	if self.stolen ~= nil and self.stolen > 0 then self.stolen = 0 end
+	if self.stolen ~= nil and self.stolen > 0 then
+        self.stolen = 0 
+    end
 
 	if self.mode == stateSleeping then
+        self:stop()
         self:pose()
 		self:loop("Sleep")
 	end

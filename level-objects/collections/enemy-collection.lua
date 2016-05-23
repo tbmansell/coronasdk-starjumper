@@ -99,6 +99,10 @@ function enemyCollection:checkBehaviours(mainPlayer, playerCollection, floorY)
 
             enemy:checkShouldShoot()
             enemy:checkFiredItemsOutOfPlay(floorY)
+
+            if hud.debugMode then
+                hud:debugEnemyMode(enemy)
+            end
         end
     end
 end
@@ -114,7 +118,11 @@ function enemyCollection:checkBehaviourChange(enemy, players)
 
     if enemy.mode == stateActive then
         enemy:checkShouldTaunt()
-    elseif enemy.mode == stateWaiting or enemy.mode == stateSleeping or (enemy.mode ~= stateResetting and enemy.behaviour.range) then
+
+        if enemy.player and enemy.behaviour.range then
+            enemy:reachedRange()
+        end
+    elseif enemy.mode == stateWaiting or enemy.mode == stateSleeping then
         -- Loop through all players and see if a player has woken an enemy
         for p=1, numPlayers do
             local player = playerItems[p]
@@ -124,14 +132,9 @@ function enemyCollection:checkBehaviourChange(enemy, players)
 
                 if playerLedge then
                     -- NOTE: find a better way to do this such as when landing on a ledge get the ledge to see if it wakes someone up
-                    if enemy.mode == stateWaiting or enemy.mode == stateSleeping then
-                        --if enemy:shouldAwaken(playerLedge.id, player) then
-                        -- WARNING: cheated here for zone21 so chasing enemy follows the player and not the AI: nto sure of better way to do this yet
-                        if enemy:shouldAwaken(playerLedge.id, hud.player) then
-                            break
-                        end
-                    elseif enemy.mode ~= stateResetting and enemy.behaviour.range then
-                        enemy:reachedRange(playerLedge.id)
+                    --if enemy:shouldAwaken(playerLedge.id, player) then
+                    -- WARNING: cheated here for zone21 so chasing enemy follows the player and not the AI: not sure of better way to do this yet
+                    if enemy:shouldAwaken(playerLedge.id, hud.player) then
                         break
                     end
                 end

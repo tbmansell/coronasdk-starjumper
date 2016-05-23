@@ -743,9 +743,10 @@ end
 
 
 function gameObject:removePatternPath(camera)
-    local path = self.movementPathway
+    local drawPath = self.movement.draw
+    local path     = self.movementPathway
 
-    if path then
+    if drawPath and path then
         local num = #path
         
         for i=1, num do
