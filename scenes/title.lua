@@ -20,8 +20,6 @@ function scene:create(event)
     local group  = self.view
     local planet = math.random(1,2)
     
-    --newImage(group, "title/title-screen"..planet, centerX, centerY)
-    --newImageRect(group, "title/title-screen"..planet, centerX, centerY, 1300, 640)
     newBackground(group, "title/title-screen"..planet)
 
     if globalDebugGame then
@@ -172,7 +170,7 @@ function scene:showSettings()
 
     local settings      = state.data.gameSettings
     local group         = scene.settingsGroup
-    local background    = newImage(group, "title/options-background", centerX, centerY)
+    local background    = newBackground(group, "title/options-background")
     local bgrOption     = display.newRect(group, 220, 125, 360, 80)
     local resetOption   = display.newRect(group, 740, 125, 360, 80)
     local musicOption   = display.newRect(group, 220, 260, 360, 80)

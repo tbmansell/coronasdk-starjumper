@@ -84,7 +84,7 @@ end
 
 
 function scene:createItems()
-    newImage(self.view, "select-player/bgr", centerX, centerY)
+    newBackground(self.view, "select-player/bgr")
     newButton(self.view, 55,  50,  "back",   scene.exitPlayerSelect)
     newButton(self.view, 700, 410, "select", scene.changeToPlayer, "no")
 
