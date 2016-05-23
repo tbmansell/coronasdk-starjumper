@@ -330,7 +330,7 @@ function scene:actionShowPlanet()
     local seq = anim:chainSeq("tv", self.tvimage)
     seq:tran({alpha=0, time=1000})
     seq.onComplete = function() 
-        self.tvimage = newImage(self.view, "mothership/tv-planet"..self.planet, centerX+600, 260)
+        self.tvimage = newImageRect(self.view, "mothership/tv-planet"..self.planet, centerX+600, 260, 1714, 250)
         self.tvimage.alpha = 0
         self.tvimage:toBack()
 
