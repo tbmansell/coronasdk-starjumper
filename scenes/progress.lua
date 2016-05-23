@@ -318,12 +318,14 @@ end
 
 
 -- Called when scene is about to move offscreen:
-function scene:exitScene(event)
+function scene:hide(event)
     if event.phase == "will" then
         Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
         Runtime:removeEventListener("key", sceneKeyEvent)
+
         track:cancelEventHandles()
         anim:destroy()
+        spineStore:destroy()
 
         if self.tip then
             self.tip:removeInOutTransition()
