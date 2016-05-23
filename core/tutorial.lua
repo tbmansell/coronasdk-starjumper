@@ -109,7 +109,8 @@ end
 function tutorials:nextSequence()
 	if self.group then
 		hud.camera:remove(self.group)
-		self.group:removeSelf()
+
+		if self.group.removeSelf then self.group:removeSelf() end
 		self.group = nil
 	end
 

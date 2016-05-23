@@ -283,7 +283,7 @@ function engine:playManagedAction(sourceObject, actionName, params)
 			local queueId = #soundQueue + 1
 			
 			if params.duration == nil then
-				params.duration   = getDuration(params.sound)
+				params.duration = getDuration(params.sound)
 			end
 			
 			params.durationPassed = 0
