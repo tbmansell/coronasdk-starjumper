@@ -156,7 +156,8 @@ function scene:displayBackground(redraw)
         self.hudTitle:removeSelf()
     end
     
-    self.background = new_image(self.view, "select-game/bgr-"..bgrName, centerX, centerY)
+    --self.background = new_image(self.view, "select-game/bgr-"..bgrName, centerX, centerY)
+    self.background = newBackground(self.view, "select-game/bgr-"..bgrName)
     self.background:toBack()
 
     if game == gameTypeStory then

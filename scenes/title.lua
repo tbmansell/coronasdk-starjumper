@@ -20,7 +20,9 @@ function scene:create(event)
     local group  = self.view
     local planet = math.random(1,2)
     
-    newImage(group, "title/title-screen"..planet, centerX, centerY)
+    --newImage(group, "title/title-screen"..planet, centerX, centerY)
+    --newImageRect(group, "title/title-screen"..planet, centerX, centerY, 1300, 640)
+    newBackground(group, "title/title-screen"..planet)
 
     if globalDebugGame then
         newText(group, "debug version "..globalBuildVersion, 50, 600, 0.5, "red", "LEFT")

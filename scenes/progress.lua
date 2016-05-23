@@ -41,7 +41,7 @@ function scene:create(event)
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
 
-    newImage(self.view, "select-zone/progress-bgr", centerX, centerY)
+    newBackground(self.view, "select-zone/progress-bgr")
     self:summary()
 end
 

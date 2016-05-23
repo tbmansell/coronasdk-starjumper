@@ -136,7 +136,7 @@ function scene:createSceneMoveableContent(event)
     group:insert(moveable)
     moveable:insert(front)
 
-    local bgr = display.newImageRect(moveable, "levels/"..planet.."/images/zone-select.png", system.ResourceDirectory, 4900, 640)
+    local bgr = display.newImageRect(moveable, "levels/"..planet.."/images/zone-select.png", system.ResourceDirectory, 4900, backgroundHeight)
     bgr:addEventListener("touch", moveBackground)
     bgr:addEventListener("tap", scene.closePopup)
     bgr.x, bgr.y = 2350, centerY

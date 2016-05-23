@@ -26,10 +26,13 @@ require("constants.filters")
 
 
 -- shortcuts to centerX,Y
-centerX 	  = display.contentCenterX
-centerY 	  = display.contentCenterY
-contentWidth  = display.contentWidth
-contentHeight = display.contentHeight
+centerX 	     = display.contentCenterX
+centerY 	     = display.contentCenterY
+contentWidth     = display.contentWidth
+contentHeight    = display.contentHeight
+-- dimensions background images were created to, for devices with large dimensions
+backgroundWidth  = 1300  
+backgroundHeight = 640
 
 -- positions
 center = 1

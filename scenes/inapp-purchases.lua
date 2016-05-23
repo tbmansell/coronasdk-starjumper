@@ -222,9 +222,9 @@ function scene:buildPages()
         ["special"] = specialGroup
     }
 
-    newImage(planetGroup,  "inapp-purchases/bgr", centerX, centerY)
-    newImage(gearGroup,    "inapp-purchases/bgr", centerX, centerY)
-    newImage(specialGroup, "inapp-purchases/bgr", centerX, centerY)
+    newBackground(planetGroup,  "inapp-purchases/bgr")
+    newBackground(gearGroup,    "inapp-purchases/bgr")
+    newBackground(specialGroup, "inapp-purchases/bgr")
 
     self:buildPlanetPage(planetGroup)
     self:buildGearPage(gearGroup)

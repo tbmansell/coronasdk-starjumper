@@ -69,8 +69,10 @@ end
 
 
 function scene:createEssentials()
-    local group    = self.view
-    local bgr      = new_image(group, "shop/bgr", centerX, centerY)
+    local group = self.view
+
+    newBackground(group, "shop/bgr")
+
     self.bgrInfo   = new_image(group, "shop/info-bgr", 700, 245)
     self.introText = newText(group, "welcome to cubes n carry. select items on the right to view what they do. the number of cubes you have is shown in the bottom left display.", 500, 230, 0.35, "white", "LEFT", 1050)
     self.buy, _    = newButton(group, 810, 340, "buy", scene.buyGear, "no")

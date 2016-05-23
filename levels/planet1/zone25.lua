@@ -4,7 +4,7 @@ local levelData = {
     playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,   
-    startLedge       = 33,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},

@@ -12,10 +12,11 @@ local lockedSparkles = {
 }
 
 -- Aliases:
-local math_round  = math.round
-local math_random = math.random
-local play        = globalSoundPlayer
-local new_image   = display.newImage
+local math_round    = math.round
+local math_random   = math.random
+local play          = globalSoundPlayer
+local new_image     = display.newImage
+local new_image_rect = display.newImageRect
 
 
 TextCandy.AddCharsetFromBMF("gamefont_aqua",   "text_candy/ingamefont_aqua.fnt",   32)
@@ -97,6 +98,24 @@ function newImage(group, image, x, y, scale, alpha)
 end
 
 
+-- handles image generation, using base folder and optional scaling and alpha
+function newImageRect(group, image, x, y, width, height, scale, alpha)
+    local image = new_image_rect(group, "images/"..image..".png", width, height)
+    image.x = x
+    image.y = y
+
+    if scale then image:scale(scale, scale) end
+    if alpha then image.alpha = alpha end
+
+    return image
+end
+
+
+function newBackground(group, image)
+    return newImageRect(group, image, centerX, centerY, backgroundWidth, backgroundHeight)
+end
+
+
 -- Creates an area that size of the screen that captures touch/tap events
 function newBlocker(group, alpha, r,g,b, onclick, touchEvent)
     -- default to blocking all tap and touch events
@@ -149,7 +168,7 @@ end
 function newMenuHud(group, spineStore, tapCubeCallback, tapScoreCallback)
     local game       = state.data.gameSelected    
     local playerName = characterData[state.data.playerModel].name
-    local bgr        = newImage(group, "hud/menu-hud", centerX, 562)
+    local bgr        = newImageRect(group, "hud/menu-hud", centerX, 562, backgroundWidth, 157)
     local cube       = spineStore:showHoloCube(70, 615, 0.65)
     local playerIcon = newImage(group, "hud/player-head-"..playerName, 885, 580, 0.85, 0.30)
     local labelCubes = newText(group, state.data.holocubes, 70,  590, 0.7, "white",  "CENTER")
@@ -211,7 +230,7 @@ function loadSceneTransition(time)
     local bgr = display.newRect(globalSceneTransitionGroup, centerX, centerY, contentWidth+200, contentHeight+200)
     bgr:setFillColor(0,0,0)
 
-    newImage(globalSceneTransitionGroup, "scene-transition", centerX, centerY)
+    newBackground(globalSceneTransitionGroup, "scene-transition")
 
     local text = newText(globalSceneTransitionGroup, "loading...", centerX, 500, 0.5, "yellow")
     text.alpha = 0

@@ -55,7 +55,7 @@ end
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "zone"
+local mode     = "game"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params

@@ -84,7 +84,7 @@ function scene:create(event)
     spineStore:load(spineCollection)
 
     self.tvimage = newImage(self.view, "mothership/tv-logo", centerX, centerY-65)
-    newImage(self.view, "mothership/bgr", centerX, centerY)
+    newBackground(self.view, "mothership/bgr")
 
     self:loadStory()
     self:loadBoss()
