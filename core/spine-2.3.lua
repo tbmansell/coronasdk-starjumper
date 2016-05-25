@@ -64,11 +64,10 @@ spine.utils.readFile = function (fileName, base)
 	io.close(file)
 	return contents
 end
-
+ 
 
 local json = require "json"
 spine.utils.readJSON = function (text)
-	--return json.decode(text)
 	if startTime then print("Time diff spine.utils.readJSON: - start "..(system.getTimer() - startTime)) end
 	--return json.decode(text)
 	local j = json.decode(text)
@@ -96,7 +95,12 @@ function spine.Skeleton.new (skeletonData, group)
 		return false
 	end
 
-	 -- Tobias:
+    --Toby:
+    function self:setContext(context)
+        self.context = context
+    end
+
+    -- Toby:
     function self:cleanUp()
         for i=1,#self.images do
             display.remove(images[i])
@@ -105,14 +109,18 @@ function spine.Skeleton.new (skeletonData, group)
 
 	-- updateWorldTransform positions images.
 	local updateWorldTransform_super = self.updateWorldTransform
-	function self:updateWorldTransform ()
+
+	function self:updateWorldTransform()
 		updateWorldTransform_super(self)
 
-		local images = self.images
+		local images    = self.images
+		local customRgb = nil   -- Toby
 		local skeletonR, skeletonG, skeletonB, skeletonA = self.r, self.g, self.b, self.a
+
 		for i,slot in ipairs(self.drawOrder) do
 			local image = images[slot]
 			local attachment = slot.attachment
+
 			if not attachment then -- Attachment is gone, remove the image.
 				if image then
 					display.remove(image)
@@ -129,8 +137,10 @@ function spine.Skeleton.new (skeletonData, group)
 						image = nil
 					end
 				end
+
 				if not image then -- Create new image.
-					image = self:createImage(attachment)
+					image, customRgb = self:createImage(attachment)
+
 					if image then
 						image.attachment = attachment
 						image.anchorX = 0.5
@@ -179,9 +189,11 @@ function spine.Skeleton.new (skeletonData, group)
 						yScale = yScale * bone.worldScaleY
 						if rotation ~= 0 and xScale ~= yScale and not image.rotationWarning then
 							image.rotationWarning = true
+							--[[
 							print("WARNING: Non-uniform bone scaling with attachments not rotated to\n"
 								.."         cardinal angles will not work as expected with Corona.\n"
 								.."         Bone: "..bone.data.name..", slot: "..slot.data.name..", attachment: "..attachment.name)
+							]]
 						end
 					end
 					if not image.lastScaleX then
@@ -203,7 +215,11 @@ function spine.Skeleton.new (skeletonData, group)
 
 					local r, g, b = skeletonR * slot.r, skeletonG * slot.g, skeletonB * slot.b
 					if image.lastR ~= r or image.lastG ~= g or image.lastB ~= b or not image.lastR then
-						image:setFillColor(r, g, b)
+						-- Toby: optionally use this as this overrides any setFillColor we want to apply in game (livebgr)
+						if customRgb == nil then
+							image:setFillColor(r, g, b)
+						end
+
 						image.lastR, image.lastG, image.lastB = r, g, b
 					end
 					local a = skeletonA * slot.a

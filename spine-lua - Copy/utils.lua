@@ -29,58 +29,53 @@
 -- ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-local Slot = {}
-function Slot.new (slotData, bone)
-	if not slotData then error("slotData cannot be nil", 2) end
-	if not bone then error("bone cannot be nil", 2) end
+local utils = {}
 
-	local self = {
-		data = slotData,
-		bone = bone,
-		r = 1, g = 1, b = 1, a = 1,
-		attachment = nil,
-		attachmentTime = 0,
-		attachmentVertices = nil,
-		attachmentVerticesCount = 0
-	}
-
-	function self:setColor (r, g, b, a)
-		self.r = r
-		self.g = g
-		self.b = b
-		self.a = a
-	end
-
-	function self:setAttachment (attachment)
-		if self.attachment == attachment then return end
-		self.attachment = attachment
-		self.attachmentTime = self.bone.skeleton.time
-		self.attachmentVerticesCount = 0
-	end
-
-	function self:setAttachmentTime (time)
-		self.attachmentTime = self.bone.skeleton.time - time
-	end
-
-	function self:getAttachmentTime ()
-		return self.bone.skeleton.time - self.attachmentTime
-	end
-
-	function self:setToSetupPose ()
-		local data = self.data
-
-		self:setColor(data.r, data.g, data.b, data.a)
-
-		if not data.attachmentName then 
-			self:setAttachment(nil)
+function tablePrint (tt, indent, done)
+	done = done or {}
+	for key, value in pairs(tt) do
+		local spaces = string.rep (" ", indent)
+		if type(value) == "table" and not done [value] then
+			done [value] = true
+			print(spaces .. "{")
+			utils.print(value, indent + 2, done)
+			print(spaces .. "}")
 		else
-			self.attachment = nil
-			self:setAttachment(self.bone.skeleton:getAttachment(data.name, data.attachmentName))
+			io.write(spaces .. tostring(key) .. " = ")
+			utils.print(value, indent + 2, done)
 		end
 	end
-
-	self:setToSetupPose()
-
-	return self
 end
-return Slot
+
+function utils.print (value, indent, done)
+	indent = indent or 0
+	if "nil" == type(value) then
+		print(tostring(nil))
+	elseif "table" == type(value) then
+		local spaces = string.rep (" ", indent)
+		print(spaces .. "{")
+		tablePrint(value, indent + 2)
+		print(spaces .. "}")
+	elseif "string" == type(value) then
+		print("\"" .. value .. "\"")
+	else
+		print(tostring(value))
+	end
+end
+
+function utils.indexOf (haystack, needle)
+	for i,value in ipairs(haystack) do
+		if value == needle then return i end
+	end
+	return nil
+end
+
+function utils.copy (from, to)
+	if not to then to = {} end
+	for k,v in pairs(from) do
+		to[k] = v
+	end
+	return to
+end
+
+return utils

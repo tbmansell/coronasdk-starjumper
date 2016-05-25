@@ -90,6 +90,7 @@ function scene:show(event)
         end
 
         self:startMusic()
+        print("scene:show()")
         self:startSparkles()
         Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
         Runtime:addEventListener("key", sceneKeyEvent)
@@ -590,6 +591,7 @@ function scene:contextBack()
         anim:startQueue("tertiaryAnims")
     end
 
+    print("contextBack")
     scene:startSparkles()
 end
 
@@ -620,7 +622,7 @@ function scene:selectPlanet(group)
                 seq:start()
             end
         else
-            newLockedPopup(self.view, planet, "planet", planetData[planet].name, function() scene:startSparkles() end)
+            newLockedPopup(self.view, planet, "planet", planetData[planet].name, function() print("selectPlanet"); scene:startSparkles() end)
         end
     end
 end
@@ -673,6 +675,7 @@ function scene:selectOtherPlanet(planetIndex)
     anim:startQueue("planetSlideSelect")
     anim:startQueue("planetSlideSelect2")
 
+    print("selectOtherPlanet")
     scene:startSparkles()
 end
 
@@ -736,7 +739,7 @@ function scene:selectGameMode(gameGroup)
             description  = "earn "..amount.." stars"
         end
 
-        newLockedPopup(self.view, game, "game", gameTypeData[game].name, function() scene:startSparkles() end, description.." to unlock")
+        newLockedPopup(self.view, game, "game", gameTypeData[game].name, function() print("newLockedPopup"); scene:startSparkles() end, description.." to unlock")
         package.loaded[file] = nil
     end
 end
@@ -779,6 +782,7 @@ function scene:selectChallengeGame(gameGroup)
     anim:startQueue("zoneSlideSelect2")
     anim:startQueue("zoneSlideSelect3")
 
+    print("selectChallengeGame")
     scene:startSparkles()
 end
 
@@ -914,7 +918,7 @@ function scene:selectPlayer(playerGroup, playSound)
             scene.selectedPlayer = playerGroup
             scene.selectedPlayer:scale(1.3, 1.3)
         else
-            newLockedPopup(self.view, newPlayer, "character", characterData[newPlayer].name, function() scene:startSparkles() end)
+            newLockedPopup(self.view, newPlayer, "character", characterData[newPlayer].name, function() print("selectPlayer"); scene:startSparkles() end)
         end
     end
 end
@@ -930,7 +934,7 @@ function scene:selectZone(zoneGroup)
         scene.nextScene = "scenes.play-zone"
         scene:changeScene()
     elseif zoneGroup.zone > 21 then
-        newLockedPopup(self.view, planet, "zones", "secret zones", function() scene:startSparkles() end)
+        newLockedPopup(self.view, planet, "zones", "secret zones", function() print("selectZone"); scene:startSparkles() end)
     end
 end
 

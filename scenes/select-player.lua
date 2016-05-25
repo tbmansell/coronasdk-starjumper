@@ -66,6 +66,23 @@ function scene:show(event)
         self.animateLoop = timer.performWithDelay(5000, scene.switchAnimation, 0)
         Runtime:addEventListener("enterFrame", sceneEnterFrameEvent)
         Runtime:addEventListener("key", sceneKeyEvent)
+
+
+        ---------- TEST code
+        --[[startTime = system.getTimer()
+
+        local chars = {characterNewton, characterSkyanna, characterHammer, characterKranio, characterReneGrey}
+        for i, player in pairs(chars) do
+            print("Time diff before loading: "..characterData[player].name..": "..(system.getTimer() - startTime))
+
+            local character = spineStore:showCharacter({model=player, x=600, y=360, size=0.35})
+            self.characters[player] = character
+
+            print("Time diff after loading: "..characterData[player].name..": "..(system.getTimer() - startTime))
+        end
+
+        print("Time diff after loading everyone: "..(system.getTimer() - startTime))]]
+        --------------------
     end
 end
 
@@ -171,6 +188,8 @@ end
 
 
 function scene:selectPlayer(event, playSound)
+    local startTime = system.getTimer()
+
     local self   = scene
     local icon   = event.target
     local player = icon.playerModel
@@ -186,18 +205,25 @@ function scene:selectPlayer(event, playSound)
         if self.model then
             self.model:hide()
             self.stats:removeSelf()
+
+            print("Time diff before sound:unloadPlayer: "..(system.getTimer() - startTime))
             sounds:unloadPlayer(self.playerModel)
+            print("Time diff after sound:unloadPlayer: "..(system.getTimer() - startTime))
         end
 
         -- These sounds stay loaded (unless player exits) for this character to be used instantly when restarting the level
+        print("Time diff before sound:loadPlayer: "..(system.getTimer() - startTime))
         sounds:loadPlayer(player)
+        print("Time diff before sound:loadPlayer: "..(system.getTimer() - startTime))
 
         -- Check if the player model is already loaded and just show it, otherwise load it up
         if self.characters[player] then
             self.characters[player]:visible()
         else
+            print("Time diff before showPlayer: "..(system.getTimer() - startTime))
             local character = spineStore:showCharacter({model=player, x=600, y=360, size=0.35})
             self.characters[player] = character
+            print("Time diff before afterPlayer: "..(system.getTimer() - startTime))
         end
         
         self.playerModel = player
@@ -216,6 +242,8 @@ function scene:selectPlayer(event, playSound)
     else
         newLockedPopup(self.view, player, "character", char.name)
     end
+
+    print("Time diff end: "..os.difftime(system.getTimer() - startTime))
 end
 
 

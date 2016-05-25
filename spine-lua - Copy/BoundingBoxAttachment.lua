@@ -29,58 +29,35 @@
 -- ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-local Slot = {}
-function Slot.new (slotData, bone)
-	if not slotData then error("slotData cannot be nil", 2) end
-	if not bone then error("bone cannot be nil", 2) end
+local AttachmentType = require "spine-lua.AttachmentType"
+
+local BoundingBoxAttachment = {}
+function BoundingBoxAttachment.new (name)
+	if not name then error("name cannot be nil", 2) end
 
 	local self = {
-		data = slotData,
-		bone = bone,
-		r = 1, g = 1, b = 1, a = 1,
-		attachment = nil,
-		attachmentTime = 0,
-		attachmentVertices = nil,
-		attachmentVerticesCount = 0
+		name = name,
+		type = AttachmentType.boundingbox,
+		vertices = {}
 	}
 
-	function self:setColor (r, g, b, a)
-		self.r = r
-		self.g = g
-		self.b = b
-		self.a = a
-	end
-
-	function self:setAttachment (attachment)
-		if self.attachment == attachment then return end
-		self.attachment = attachment
-		self.attachmentTime = self.bone.skeleton.time
-		self.attachmentVerticesCount = 0
-	end
-
-	function self:setAttachmentTime (time)
-		self.attachmentTime = self.bone.skeleton.time - time
-	end
-
-	function self:getAttachmentTime ()
-		return self.bone.skeleton.time - self.attachmentTime
-	end
-
-	function self:setToSetupPose ()
-		local data = self.data
-
-		self:setColor(data.r, data.g, data.b, data.a)
-
-		if not data.attachmentName then 
-			self:setAttachment(nil)
-		else
-			self.attachment = nil
-			self:setAttachment(self.bone.skeleton:getAttachment(data.name, data.attachmentName))
+	function self:computeWorldVertices (x, y, bone, worldVertices)
+		x = x + bone.worldX
+		y = y + bone.worldY
+		local m00 = bone.m00
+		local m01 = bone.m01
+		local m10 = bone.m10
+		local m11 = bone.m11
+		local vertices = self.vertices
+		local count = #vertices
+		for i = 1, count, 2 do
+			local px = vertices[i]
+			local py = vertices[i + 1]
+			worldVertices[i] = px * m00 + py * m01 + x
+			worldVertices[i + 1] = px * m10 + py * m11 + y
 		end
 	end
 
-	self:setToSetupPose()
-
 	return self
 end
-return Slot
+return BoundingBoxAttachment

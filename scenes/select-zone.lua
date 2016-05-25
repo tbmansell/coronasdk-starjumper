@@ -161,8 +161,8 @@ function scene:createSceneMoveableContent(event)
     elseif px < 9 then  scene.moveable.x = -750
     elseif px < 14 then scene.moveable.x = -1500
     elseif px < 18 then scene.moveable.x = -2200
-    elseif px < 22 then scene.moveable.x = -2900 
-    elseif px < 26 then scene.moveable.x = -3600 
+    elseif px < 22 then scene.moveable.x = -2900
+    elseif px < 26 then scene.moveable.x = -3600
     end
 
     moveable:insert(camera)

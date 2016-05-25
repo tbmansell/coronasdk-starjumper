@@ -29,58 +29,32 @@
 -- ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-local Slot = {}
-function Slot.new (slotData, bone)
-	if not slotData then error("slotData cannot be nil", 2) end
-	if not bone then error("bone cannot be nil", 2) end
+local AnimationStateData = {}
+
+function AnimationStateData.new (skeletonData)
+	if not skeletonData then error("skeletonData cannot be nil", 2) end
 
 	local self = {
-		data = slotData,
-		bone = bone,
-		r = 1, g = 1, b = 1, a = 1,
-		attachment = nil,
-		attachmentTime = 0,
-		attachmentVertices = nil,
-		attachmentVerticesCount = 0
+		skeletonData = skeletonData,
+		animationToMixTime = {},
+		defaultMix = 0
 	}
 
-	function self:setColor (r, g, b, a)
-		self.r = r
-		self.g = g
-		self.b = b
-		self.a = a
-	end
-
-	function self:setAttachment (attachment)
-		if self.attachment == attachment then return end
-		self.attachment = attachment
-		self.attachmentTime = self.bone.skeleton.time
-		self.attachmentVerticesCount = 0
-	end
-
-	function self:setAttachmentTime (time)
-		self.attachmentTime = self.bone.skeleton.time - time
-	end
-
-	function self:getAttachmentTime ()
-		return self.bone.skeleton.time - self.attachmentTime
-	end
-
-	function self:setToSetupPose ()
-		local data = self.data
-
-		self:setColor(data.r, data.g, data.b, data.a)
-
-		if not data.attachmentName then 
-			self:setAttachment(nil)
-		else
-			self.attachment = nil
-			self:setAttachment(self.bone.skeleton:getAttachment(data.name, data.attachmentName))
+	function self:setMix (fromName, toName, duration)
+		if not self.animationToMixTime[fromName] then
+			self.animationToMixTime[fromName] = {}
 		end
+		self.animationToMixTime[fromName][toName] = duration
 	end
-
-	self:setToSetupPose()
+	
+	function self:getMix (fromName, toName)
+		local first = self.animationToMixTime[fromName]
+		if not first then return self.defaultMix end
+		local duration = first[toName]
+		if not duration then return self.defaultMix end
+		return duration
+	end
 
 	return self
 end
-return Slot
+return AnimationStateData
