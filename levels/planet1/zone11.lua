@@ -16,10 +16,11 @@ local levelData = {
         {object="ledge", type="start"},
 
         {object="ledge", x=350, y=-200, size="big"},
-            {object="spike", x=-280, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=200,  y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=700,  y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=-400, y=140,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
+            {object="spike", x=-325, y=-100, type="fg-spikes-float-1", physics={shape={-10,-135, 70,90, -80,90}}},
+            {object="spike", x=200,  y=-160, type="fg-spikes-float-1", physics={shape={-10,-135, 70,90, -80,90}}},
+            {object="spike", x=700,  y=-100, type="fg-spikes-float-1", physics={shape={-10,-135, 70,90, -80,90}}},
+           -- {object="spike", x=-400, y=140,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
+            --{object="spike",    x=230, y=-275,  type="fg-wall-divider",   physics={shapeOffset={bottom=-30}, bounce=1}, rotation=90},
 
              {object="emitter", x=600, y=-250, timer={1000, 3000}, limit=5, layer=4,
                 item={
@@ -33,11 +34,11 @@ local levelData = {
 
         {object="ledge", x=350, y=200, size="big"},
             {object="rings", color=aqua, pattern={ {x=-65, y=-300}, {x=0, y=-65}, {x=0, y=135} }},
-            {object="spike", x=400,  y=-100, type="fg-spikes-1",  physics={shape={-20,-90, 70,90, -80,90}}, flip="x"},
-            {object="spike", x=700,  y=-100, type="fg-spikes-1",  physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=1000, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}, flip="x"},
-            {object="spike", x=1300, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},            
-            {object="spike", x=200,  y=120,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
+            {object="spike", x=400,  y=-100, type="fg-spikes-float-3",  physics={shape={-20,-125, 70,90, -80,90}}, flip="x"},
+            {object="spike", x=700,  y=-100, type="fg-spikes-float-3",  physics={shape={-20,-125, 70,90, -80,90}}},
+            {object="spike", x=1000, y=-100, type="fg-spikes-float-3", physics={shape={-20,-125, 70,90, -80,90}}, flip="x"},
+            {object="spike", x=1300, y=-100, type="fg-spikes-float-3", physics={shape={-20,-125, 70,90, -80,90}}},            
+           -- {object="spike", x=200,  y=120,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
 
         {object="obstacle", type="deathslide", x=200, y=-270, length={1400,0}, speed=4, animSpeed="SLOW"},
             {object="rings", color=aqua, pattern={ {500,100}, {300,0}, {300,0} }},
@@ -48,11 +49,11 @@ local levelData = {
         {object="ledge", x=300, y=-150, size="small2", targetName="focusLedge", ai={loadGear=gearGlider, jumpVelocity={600,900}, useAirGearAfter={1000}}},
             --{object="gear", type=gearGlider, y=-50, regenerate=true},
             {object="rings", color=aqua, pattern={ {x=650, y=-400}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25}, {x=120, y=25} }},
-            {object="spike", x=400,  y=-100, type="fg-spikes-1",  physics={shape={-20,-90, 70,90, -80,90}}, flip="x"},
-            {object="spike", x=700,  y=-100, type="fg-spikes-1",  physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=1000, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}, flip="x"},
-            {object="spike", x=1300, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=200,  y=120,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
+            {object="spike", x=400,  y=-100, type="fg-spikes-float-5",  physics={shape={35,-140, 70,90, -80,90}}, flip="x"},
+            {object="spike", x=700,  y=-100, type="fg-spikes-float-5",  physics={shape={-35,-140, 70,90, -80,90}}},
+            {object="spike", x=1000, y=-100, type="fg-spikes-float-5", physics={shape={35,-140, 70,90, -80,90}}, flip="x"},
+            {object="spike", x=1300, y=-100, type="fg-spikes-float-5", physics={shape={-35,-140, 70,90, -80,90}}},
+          --  {object="spike", x=200,  y=120,   type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
 
         {object="ledge", x=300, y=-150, size="medium", targetName="tempLedge"},
             {object="player", type="scripted", model=characterBrainiak, x=0, y=0, direction=left, targetName="brainiak", storyModeOnly=true},
@@ -70,9 +71,9 @@ local levelData = {
             },        
 
         {object="ledge", x=300, y=-150, size="big"},
-            {object="spike", x=-280, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=200,  y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=-400, y=120,  type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
+            {object="spike", x=-280, y=-100, type="fg-spikes-float-2", physics={shape={0,-140, 30,120, -30,120}}},
+            {object="spike", x=200,  y=-100, type="fg-spikes-float-2", physics={shape={0,-140, 30,120, -30,120}}},
+           -- {object="spike", x=-400, y=120,  type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
 
         {object="ledge", x=300, y=-150, size="big"},
 
@@ -83,9 +84,9 @@ local levelData = {
               {object="randomizer", x=-65, onLedge=true, items={{30,negTrajectory}, {70,gearTrajectory}, {100,white}}},
 
         {object="ledge", x=500, y=-150, size="small"},
-            {object="spike", x=-280, y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=200,  y=-100, type="fg-spikes-1", physics={shape={-20,-90, 70,90, -80,90}}},
-            {object="spike", x=-400, y=120,  type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
+            {object="spike", x=-280, y=-100, type="fg-spikes-float-4", physics={shape={-15,-140, 40,120, -40,120}}},
+            {object="spike", x=200,  y=-250, type="fg-spikes-float-4", physics={shape={-15,-140, 40,120, -40,120}}},
+         --   {object="spike", x=-400, y=120,  type="fg-wall-double-l3", physics={shape={-600,-150, 670,-150, 670,150, -600,150, -670,0}}},
 
         {object="ledge", x=500, y=-150, size="medium3"},
 

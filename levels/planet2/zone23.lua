@@ -3,7 +3,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -4000,
     floor            = 2000,
-    startLedge       = 20,
+    startLedge       = 1,
    -- warpChase        = true,
 
     backgroundOrder = {

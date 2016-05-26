@@ -67,7 +67,7 @@ local levelData = {
             {object="scenery", x=950, y=300, type="fg-tree-5-yellow", size=1.2, flip="x"},  
             {object="wall",    x=-50, y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=-20}, bounce=1}},
 
-        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{500,150}}, reverse=true,  distance=200, speed=.5, pause=2000}},
+        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{500,150}}, reverse=true,  distance=200, speed=2, pause=900}},
         		  {object="randomizer", x=-60, onLedge=true, items={{30,negDizzy}, {70,gearSpringShoes}, {100,red}}},    
 
         {object="ledge", x=400, y=-100, size="medium"},
