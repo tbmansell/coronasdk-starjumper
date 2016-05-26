@@ -149,6 +149,8 @@ end
 -- @return new spineObject
 ----
 function builder:newSpineObject(spec, spineParams)
+	if startTime then print("Time diff newSpineObject: "..(system.getTimer() - startTime)) end
+
 	local imagePath = spineParams.imagePath
 	local json 		= spine.SkeletonJson.new()
 
@@ -156,8 +158,13 @@ function builder:newSpineObject(spec, spineParams)
     	json.scale = spineParams.scale
 	end
 
+	if startTime then print("Time diff newSpineObject - prepare: "..(system.getTimer() - startTime)) end
     local skeletonData = json:readSkeletonDataFile("json/spine/"..spineParams.jsonName..".json")
+
+    if startTime then print("Time diff newSpineObject - read json: "..(system.getTimer() - startTime)) end
+    
     local skeleton     = spine.Skeleton.new(skeletonData, nil)
+    if startTime then print("Time diff newSpineObject - created skeleton: "..(system.getTimer() - startTime)) end
 
     if spec.modifyImage then
     	-- Allow customisation of the spine images as they are created
@@ -180,6 +187,7 @@ function builder:newSpineObject(spec, spineParams)
     end
     
     skeleton:setToSetupPose()
+    if startTime then print("Time diff newSpineObject - setupPose: "..(system.getTimer() - startTime)) end
 
     -- Now build the gameObject:
     local object = self:newGameObject(spec, skeleton.group)
@@ -192,6 +200,7 @@ function builder:newSpineObject(spec, spineParams)
 
     -- we then apply the spineObject definition over it
 	self:deepCopy(spineObject, object)
+	if startTime then print("Time diff newSpineObject - deep copied: "..(system.getTimer() - startTime)) end
 
 	-- setup initial animation to LOOP
     if spineParams.animation then
@@ -202,6 +211,8 @@ function builder:newSpineObject(spec, spineParams)
     	object.state     = spine.AnimationState.new(object.stateData)
     	object.state:setAnimationByName(0, spineParams.animation, loop, 0)
 	end
+
+	if startTime then print("Time diff newSpineObject - end: "..(system.getTimer() - startTime)) end
 
 	return object
 end

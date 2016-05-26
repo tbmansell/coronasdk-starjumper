@@ -42,12 +42,6 @@ local Event = require "spine-lua.Event"
 local AttachmentType = require "spine-lua.AttachmentType"
 local BlendMode = require "spine-lua.BlendMode"
 
-
--- Manse cunning caching technique:
-masterSpineCache = {}
------------------------------------
-
-
 local SkeletonJson = {}
 function SkeletonJson.new (attachmentLoader)
 	if not attachmentLoader then attachmentLoader = AttachmentLoader.new() end
@@ -58,17 +52,7 @@ function SkeletonJson.new (attachmentLoader)
 	}
 
 	function self:readSkeletonDataFile (fileName, base)
-		--- cunning
-		if masterSpineCache[fileName] == nil then 
-			print("loading spine data from file: "..fileName)
-			masterSpineCache[fileName] = self:readSkeletonData(spine.utils.readFile(fileName, base))
-		else
-			print("loading spine data from MEMORY: "..fileName)
-		end
-
-		return masterSpineCache[fileName]
-		
-		--return self:readSkeletonData(spine.utils.readFile(fileName, base))
+		return self:readSkeletonData(spine.utils.readFile(fileName, base))
 	end
 
 	local readAttachment
@@ -81,12 +65,15 @@ function SkeletonJson.new (attachmentLoader)
 
 		local skeletonData = SkeletonData.new(self.attachmentLoader)
 
-		if startTime then print("Time diff readSkeletonData - 1: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData: - prepared skeleton data "..(system.getTimer() - startTime)) end
 
 		local root = spine.utils.readJSON(jsonText)
+
+		if startTime then print("Time diff readSkeletonData: - readJSON "..(system.getTimer() - startTime)) end
+
 		if not root then error("Invalid JSON: " .. jsonText, 2) end
 
-		if startTime then print("Time diff readSkeletonData - 2: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData: - prepared "..(system.getTimer() - startTime)) end
 
 		-- Skeleton.
 		if root["skeleton"] then
@@ -97,7 +84,7 @@ function SkeletonJson.new (attachmentLoader)
 			skeletonData.height = skeletonMap["height"] or 0
 		end
 
-		if startTime then print("Time diff readSkeletonData - 3 skeleton: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read skeletons: "..(system.getTimer() - startTime)) end
 
 		-- Bones.
 		for i,boneMap in ipairs(root["bones"]) do
@@ -138,7 +125,7 @@ function SkeletonJson.new (attachmentLoader)
 			table.insert(skeletonData.bones, boneData)
 		end
 
-		if startTime then print("Time diff readSkeletonData - 4 bones: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read bones: "..(system.getTimer() - startTime)) end
 
 		-- IK constraints.
 		if root["ik"] then
@@ -162,7 +149,7 @@ function SkeletonJson.new (attachmentLoader)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - 5 constraints: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read constraints: "..(system.getTimer() - startTime)) end
 
 		-- Slots.
 		if root["slots"] then
@@ -191,7 +178,7 @@ function SkeletonJson.new (attachmentLoader)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - 6 slots: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read slots: "..(system.getTimer() - startTime)) end
 
 		-- Skins.
 		if root["skins"] then
@@ -208,12 +195,13 @@ function SkeletonJson.new (attachmentLoader)
 				end
 				if skin.name == "default" then
 					skeletonData.defaultSkin = skin
+				else
+					table.insert(skeletonData.skins, skin)
 				end
-				table.insert(skeletonData.skins, skin)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - 7 skins: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read skins: "..(system.getTimer() - startTime)) end
 
 		-- Events.
 		if root["events"] then
@@ -226,7 +214,7 @@ function SkeletonJson.new (attachmentLoader)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - 8 animations: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read events: "..(system.getTimer() - startTime)) end
 
 		-- Animations.
 		if root["animations"] then
@@ -235,7 +223,7 @@ function SkeletonJson.new (attachmentLoader)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - end: "..(system.getTimer() - startTime)) end
+		if startTime then print("Time diff readSkeletonData - read end: "..(system.getTimer() - startTime)) end
 
 		return skeletonData
 	end
@@ -301,21 +289,19 @@ function SkeletonJson.new (attachmentLoader)
 			return mesh
 
 		elseif type == AttachmentType.skinnedmesh then
-			local mesh = self.attachmentLoader.newSkinningMeshAttachment(skin, name, path)
+			local mesh = self.attachmentLoader.newSkinnedMeshAttachment(skin, name, path)
 			if not mesh then return null end
 			mesh.path = path
 
 			local uvs = getArray(map, "uvs", 1)
-			local vertices = getArray(map, "vertices", 1)
+			vertices = getArray(map, "vertices", 1)
 			local weights = {}
 			local bones = {}
-			local i, n = 1, #vertices
-			while i < n do
+			for i = 1, vertices do
 				local boneCount = vertices[i]
 				i = i + 1
 				table.insert(bones, boneCount)
-				local nn = i + boneCount * 4
-				while i < nn do
+				for ii = 1, i + boneCount * 4 do
 					table.insert(bones, vertices[i])
 					table.insert(weights, vertices[i + 1] * scale)
 					table.insert(weights, vertices[i + 2] * scale)
@@ -505,21 +491,22 @@ function SkeletonJson.new (attachmentLoader)
 		local ffd = map["ffd"]
 		if ffd then
 			for skinName,slotMap in pairs(ffd) do
-				local skin = skeletonData:findSkin(skinName)
+				local skin = skeletonData.findSkin(skinName)
 				for slotName,meshMap in pairs(slotMap) do
-					local slotIndex = skeletonData:findSlotIndex(slotName)
+					local slotIndex = skeletonData.findSlotIndex(slotName)
 					for meshName,values in pairs(meshMap) do
 						local timeline = Animation.FfdTimeline.new()
 						local attachment = skin:getAttachment(slotIndex, meshName)
 						if not attachment then error("FFD attachment not found: " .. meshName) end
 						timeline.slotIndex = slotIndex
 						timeline.attachment = attachment
+
 						local isMesh = attachment.type == AttachmentType.mesh
 						local vertexCount
 						if isMesh then
-							vertexCount = #attachment.vertices
+							vertexCount = attachment.vertices.length
 						else
-							vertexCount = #attachment.weights / 3 * 2
+							vertexCount = attachment.weights.length / 3 * 2
 						end
 
 						local frameIndex = 0
@@ -530,18 +517,12 @@ function SkeletonJson.new (attachmentLoader)
 									vertices = attachment.vertices
 								else
 									vertices = {}
-									for i = 1, vertexCount do
-										vertices[i] = 0
-									end
+									vertices.length = vertexCount
 								end
 							else
 								local verticesValue = valueMap["vertices"]
-								local scale = self.scale
-								vertices = {}
+								local vertices = {}
 								local start = valueMap["offset"] or 0
-								for ii = 1, start do
-									vertices[ii] = 0
-								end
 								if scale == 1 then
 									for ii = 1, #verticesValue do
 										vertices[ii + start] = verticesValue[ii]
@@ -560,6 +541,7 @@ function SkeletonJson.new (attachmentLoader)
 									vertices[vertexCount] = 0
 								end
 							end
+
 							timeline:setFrame(frameIndex, valueMap["time"], vertices)
 							readCurve(timeline, frameIndex, valueMap)
 							frameIndex = frameIndex + 1

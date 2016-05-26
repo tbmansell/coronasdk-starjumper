@@ -604,7 +604,7 @@ function Animation.FfdTimeline.new ()
 
 	function self:apply (skeleton, lastTime, time, firedEvents, alpha)
 		local slot = skeleton.slots[self.slotIndex]
-		if slot.attachment ~= self.attachment then return end
+		if slot.attachment ~= attachment then return end
 
 		local frames = self.frames
 		if time < frames[0] then return end -- Time is before first frame.
@@ -612,23 +612,24 @@ function Animation.FfdTimeline.new ()
 		local frameVertices = self.frameVertices
 		local vertexCount = #frameVertices[0]
 		local vertices = slot.attachmentVertices
-		if not vertices or #vertices ~= vertexCount then
-			if #vertices < vertexCount then
-				vertices = {}
-				slot.attachmentVertices = vertices
-			end
+		if #vertices < vertexCount then
+			vertices = {}
+			slot.attachmentVertices = vertices
+		end
+		if #vertices ~= vertexCount then
 			alpha = 1 -- Don't mix from uninitialized slot vertices.
 		end
 		slot.attachmentVerticesCount = vertexCount
-		if time >= frames[#frames - 1] then -- Time is after last frame.
-			local lastVertices = frameVertices[#frames - 1]
+
+		if time >= frames[#frames] then -- Time is after last frame.
+			local lastVertices = frameVertices[#frames]
 			if alpha < 1 then
-				for i = 1, vertexCount do
+				for i = 0, vertexCount do
 					local vertex = vertices[i]
 					vertices[i] = vertex + (lastVertices[i] - vertex) * alpha
 				end
 			else
-				for i = 1, vertexCount do
+				for i = 0, vertexCount do
 					vertices[i] = lastVertices[i]
 				end
 			end
@@ -646,13 +647,13 @@ function Animation.FfdTimeline.new ()
 		local nextVertices = frameVertices[frameIndex]
 
 		if alpha < 1 then
-			for i = 1, vertexCount do
+			for i = 0, vertexCount do
 				local prev = prevVertices[i]
-				local vertex = vertices[i]
-				vertices[i] = vertex + (prev + (nextVertices[i] - prev) * percent - vertex) * alpha
+				local vertices = vertices[i]
+				vertices[i] = vertices + (prev + (nextVertices[i] - prev) * percent - vertices) * alpha
 			end
 		else
-			for i = 1, vertexCount do
+			for i = 0, vertexCount do
 				local prev = prevVertices[i]
 				vertices[i] = prev + (nextVertices[i] - prev) * percent
 			end
