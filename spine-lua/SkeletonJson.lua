@@ -57,18 +57,19 @@ function SkeletonJson.new (attachmentLoader)
 		scale = 1
 	}
 
-	function self:readSkeletonDataFile (fileName, base)
-		--- cunning
-		if masterSpineCache[fileName] == nil then 
-			print("loading spine data from file: "..fileName)
-			masterSpineCache[fileName] = self:readSkeletonData(spine.utils.readFile(fileName, base))
-		else
-			print("loading spine data from MEMORY: "..fileName)
+	function self:readSkeletonDataFile (fileName, base, scale)
+		--return self:readSkeletonData(spine.utils.readFile(fileName, base))
+		-- Toby: implemented global cache for spine objects of the same file and scale to reduce loading
+		local key = fileName.."=>"..tostring(scale)
+
+		if masterSpineCache[key] == nil then
+			print("loading spine data from file: "..key)
+			masterSpineCache[key] = self:readSkeletonData(spine.utils.readFile(fileName, base))
+		--else
+			--print("loading spine data from MEMORY: "..key)
 		end
 
-		return masterSpineCache[fileName]
-		
-		--return self:readSkeletonData(spine.utils.readFile(fileName, base))
+		return masterSpineCache[key]
 	end
 
 	local readAttachment
@@ -77,16 +78,9 @@ function SkeletonJson.new (attachmentLoader)
 	local getArray
 
 	function self:readSkeletonData (jsonText)
-		if startTime then print("Time diff readSkeletonData - start: "..(system.getTimer() - startTime)) end
-
 		local skeletonData = SkeletonData.new(self.attachmentLoader)
-
-		if startTime then print("Time diff readSkeletonData - 1: "..(system.getTimer() - startTime)) end
-
 		local root = spine.utils.readJSON(jsonText)
 		if not root then error("Invalid JSON: " .. jsonText, 2) end
-
-		if startTime then print("Time diff readSkeletonData - 2: "..(system.getTimer() - startTime)) end
 
 		-- Skeleton.
 		if root["skeleton"] then
@@ -96,8 +90,6 @@ function SkeletonJson.new (attachmentLoader)
 			skeletonData.width = skeletonMap["width"] or 0
 			skeletonData.height = skeletonMap["height"] or 0
 		end
-
-		if startTime then print("Time diff readSkeletonData - 3 skeleton: "..(system.getTimer() - startTime)) end
 
 		-- Bones.
 		for i,boneMap in ipairs(root["bones"]) do
@@ -138,8 +130,6 @@ function SkeletonJson.new (attachmentLoader)
 			table.insert(skeletonData.bones, boneData)
 		end
 
-		if startTime then print("Time diff readSkeletonData - 4 bones: "..(system.getTimer() - startTime)) end
-
 		-- IK constraints.
 		if root["ik"] then
 			for i,ikMap in ipairs(root["ik"]) do
@@ -161,8 +151,6 @@ function SkeletonJson.new (attachmentLoader)
 				table.insert(skeletonData.ikConstraints, ikConstraintData)
 			end
 		end
-
-		if startTime then print("Time diff readSkeletonData - 5 constraints: "..(system.getTimer() - startTime)) end
 
 		-- Slots.
 		if root["slots"] then
@@ -191,8 +179,6 @@ function SkeletonJson.new (attachmentLoader)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - 6 slots: "..(system.getTimer() - startTime)) end
-
 		-- Skins.
 		if root["skins"] then
 			for skinName,skinMap in pairs(root["skins"]) do
@@ -213,8 +199,6 @@ function SkeletonJson.new (attachmentLoader)
 			end
 		end
 
-		if startTime then print("Time diff readSkeletonData - 7 skins: "..(system.getTimer() - startTime)) end
-
 		-- Events.
 		if root["events"] then
 			for eventName,eventMap in pairs(root["events"]) do
@@ -225,8 +209,6 @@ function SkeletonJson.new (attachmentLoader)
 				table.insert(skeletonData.events, eventData)
 			end
 		end
-
-		if startTime then print("Time diff readSkeletonData - 8 animations: "..(system.getTimer() - startTime)) end
 
 		-- Animations.
 		if root["animations"] then
