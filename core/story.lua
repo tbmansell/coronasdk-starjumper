@@ -65,7 +65,7 @@ end
 -- Determines if story should not be shown:
 -- @return true to not show story, false to show story
 function storyTeller:avoidStory(story, storyName)
-	if story == nil or state.demoActions or (not story.alwaysShow and not state:showStory(storyName)) then
+	if story == nil or state.data.game == levelTutorial or state.demoActions or (not story.alwaysShow and not state:showStory(storyName)) then
 		-- Story not found or already seen or in demo mode
 		return true
     end

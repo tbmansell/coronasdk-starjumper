@@ -158,6 +158,10 @@ local levelData = {
                 hammer.lives = 0
                 earlGrey.completedCallback = function() hud:triggerEvent("earlGreyWins", earlGrey) end
                 earlGrey:pauseAi(true)
+
+                if player.model == characterHammer then
+                    hammer:hide()
+                end
                 
                 after(1500, function()
                     camera:setFocus(hammer.image)
