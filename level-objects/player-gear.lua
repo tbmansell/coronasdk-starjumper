@@ -493,17 +493,23 @@ end
 
 function player:negableBoosterStarted()
     self:sound("gearJetpack")
-    self:loop("Powerup BOOSTER")
-    self.slotInUse[air]    = true
-    self.negableBoosterOn  = true
+    self.slotInUse[air]   = true
+    self.negableBoosterOn = true
+
+    if table.indexOf(playerNegAnimBlockModes, self.mode) == nil then
+        self:loop("Powerup BOOSTER")
+    end
 end
 
 
 function player:negableRocketStarted()
     self:sound("gearJetpack")
-    self:loop("Powerup ROCKET")
-    self.slotInUse[air]    = true
-    self.negableRocketOn   = true
+    self.slotInUse[air]  = true
+    self.negableRocketOn = true
+
+    if table.indexOf(playerNegAnimBlockModes, self.mode) == nil then
+        self:loop("Powerup ROCKET")
+    end
 end
 
 
@@ -538,12 +544,16 @@ end
 
 function player:gearUsedUp(category, gearList)
     if self.slotInUse[category] == true then
-        local gear = self.gear[category]
+        local gear     = self.gear[category]
+        local duration = self.gearDuration[category]
 
-        if self.gearDuration[category] > 0 then
+        if duration > 0 then
             -- We can mark gear as having a duration over 1 jump, if so we reduce the duration and keep the gear active
-            self.gearDuration[category] = self.gearDuration[category] - 1
-            return
+            self.gearDuration[category] = duration - 1
+            -- If duration was > 1 then it should not be cancelled yet
+            if duration > 1 then
+                return
+            end
         end
 
         if negableSlots[gear] then

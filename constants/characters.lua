@@ -35,9 +35,10 @@ playerTeleporting   = 16
 playerOnVehicle     = 17
 playerGrappling     = 18
 
-playerNonLandModes    = {playerReady, playerWalk,      playerDrag, playerRun,       playerJumpStart}
-playerNegPersistModes = {playerRun,   playerJumpStart, playerJump, playerFallStart, playerFall, playerSwing, playerHang}
-playerAttackableModes = {playerReady, playerWalk,      playerDrag, playerRun}
+playerNonLandModes      = {playerReady, playerWalk,      playerDrag, playerRun,       playerJumpStart}
+playerNegPersistModes   = {playerRun,   playerJumpStart, playerJump, playerFallStart, playerFall, playerSwing, playerHang}
+playerNegAnimBlockModes = {playerSwing, playerOnVehicle, playerHang, playerGrappling, playerClimb, playerKilled, playerThrowing}
+playerAttackableModes   = {playerReady, playerWalk,      playerDrag, playerRun}
 
 -- AI behaviour modes
 stateActive    = 0

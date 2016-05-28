@@ -28,13 +28,16 @@ end
 
 function ropeswing:setPhysics(s)
     if not globalIgnorePhysicsEngine then
-        --physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, radius=10*s, filter={groupIndex=-6}})
         physics.addBody(self.image, "static", {density=0, friction=0, bounce=0, isSensor=true, radius=10*s, filter=obstacleFilter})
     end
 end
 
 
 function ropeswing:canGrab(player)
+    if player.mode == playerKilled then
+        return false 
+    end
+
     local playerTop = player:topEdge() + (player.intHeight/3)
     local slideTop  = self:y() - (30 * player:getCamera().scaleImage)
     return playerTop >= slideTop
@@ -52,7 +55,7 @@ end
 
 
 function ropeswing:redraw(camera)
-    if self.line ~= nil then
+    if self.line then
         camera:remove(self.line)
         self.line:removeSelf()
     end
