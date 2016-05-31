@@ -173,7 +173,7 @@ function ledge:bind(object)
     object.attachedLedge = self
 
     if self.image.rotation then
-        object:rotate(self.image.rotation)
+        after(1, function() object:rotate(self.image.rotation) end)
     end
 end
 

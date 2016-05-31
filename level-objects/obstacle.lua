@@ -40,9 +40,11 @@ function obstacle.eventCollide(self, event)
     then
         -- delay to allow players physics to be remade to dodge any ledges in the way
         after(1, function()
-            object.lastObstacleId = obstacle.id
-            obstacle:bind(object)
-            obstacle:grab(object)
+            if object.mode ~= playerKilled then
+                object.lastObstacleId = obstacle.id
+                obstacle:bind(object)
+                obstacle:grab(object)
+            end
         end)
     end
 end

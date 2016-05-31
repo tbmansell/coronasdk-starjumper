@@ -31,6 +31,10 @@ end
 
 
 function deathslide:canGrab(player)
+    if player.mode == playerKilled then
+        return false 
+    end
+
     local playerTop = player:topEdge() + (player.intHeight/3)
     local slideTop  = self:y() + (35 * self:getCamera().scaleImage)
     return playerTop >= slideTop

@@ -71,6 +71,9 @@ end
 
 
 function rocket:canGrab(player)
+    if player.mode == playerKilled then
+        return false 
+    end
     return (self.used ~= true)
 end
 

@@ -206,10 +206,8 @@ function player:initForGameType(game)
         self.lives = 9999
     elseif game == gameTypeTimeRunner then
         self.lives = 0
-        --self.lives = 9999
     elseif game == gameTypeClimbChase then
         self.lives = 0
-        --self.lives = 9999
     elseif game == gameTypeArcadeRacer then
         self.lives = 9999
     end
@@ -291,6 +289,7 @@ function player:kill(animation, sound, stopMoving, fall, message)
 
         self:destroyEmitter()
         self:destroyVehicle()
+        self:resetClearUp()
         self:emit("deathflash")
         self:emit("die")
 

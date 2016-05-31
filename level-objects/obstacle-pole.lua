@@ -28,6 +28,10 @@ end
 
 
 function pole:canGrab(player)
+    if player.mode == playerKilled then
+        return false 
+    end
+    
     local playerTop = player:topEdge() + (player.intHeight/3)
     local poleTop   = self:topEdge()
     return playerTop >= poleTop and player.mode ~= playerKilled

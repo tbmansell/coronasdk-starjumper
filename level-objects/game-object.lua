@@ -312,67 +312,103 @@ end
 
 
 function gameObject:x(x)
-    if x then 
-    	self.image.x = x
-    else
-    	return self.image.x
+    if self.image then
+        if x then 
+        	self.image.x = x
+        else
+        	return self.image.x
+        end
     end
 end
 
 
 function gameObject:y(y)
-    if y then 
-    	self.image.y = y
-    else
-    	return self.image.y
+    if self.image then
+        if y then 
+        	self.image.y = y
+        else
+        	return self.image.y
+        end
     end
 end
 
 
 function gameObject:pos()
-    return self.image.x, self.image.y
+    if self.image then
+        return self.image.x, self.image.y
+    else
+        return 0, 0
+    end
 end
 
 
 function gameObject:moveBy(x, y)
-    if x then self.image.x = self.image.x + x end
-    if y then self.image.y = self.image.y + y end
+    if self.image then
+        if x then self.image.x = self.image.x + x end
+        if y then self.image.y = self.image.y + y end
+    end
 end
 
 
 function gameObject:moveTo(x, y)
-    if x then self.image.x = x end
-    if y then self.image.y = y end
+    if self.image then
+        if x then self.image.x = x end
+        if y then self.image.y = y end
+    end
 end
 
 
 function gameObject:width()
-    return self.image.width * (self.originalScale or 1) * self.scaled
+    if self.image then
+        return self.image.width * (self.originalScale or 1) * self.scaled
+    else
+        return 0
+    end
 end
 
 
 function gameObject:height()
-    return self.image.height * (self.originalScale or 1) * self.scaled
+    if self.image then
+        return self.image.height * (self.originalScale or 1) * self.scaled
+    else
+        return 0
+    end
 end
 
 
 function gameObject:leftEdge(fromEdge)
-    return self.image.x - (self:width()/2) + self:scaleNumber(fromEdge)
+    if self.image then
+        return self.image.x - (self:width()/2) + self:scaleNumber(fromEdge)
+    else
+        return 0
+    end
 end
 
 
 function gameObject:rightEdge(fromEdge)
-    return self.image.x + (self:width()/2) - self:scaleNumber(fromEdge)
+    if self.image then
+        return self.image.x + (self:width()/2) - self:scaleNumber(fromEdge)
+    else
+        return 0
+    end
 end
 
 
 function gameObject:topEdge(fromEdge)
-    return self.image.y - (self:height()/2) + self:scaleNumber(fromEdge)
+    if self.image then
+        return self.image.y - (self:height()/2) + self:scaleNumber(fromEdge)
+    else
+        return 0
+    end
 end
 
 
 function gameObject:bottomEdge(fromEdge)
-    return self.image.y + (self:height()/2) - self:scaleNumber(fromEdge)
+    if self.image then
+        return self.image.y + (self:height()/2) - self:scaleNumber(fromEdge)
+    else
+        return 0
+    end
 end
 
 
