@@ -4,46 +4,23 @@ local scenery = {
 	-----------
 	-- eventCollideSpike()
 	-- eventCollideWall()
-    -- playrCollideWall()
+    -- shieldedPlayerCollideSpike()
+    -- playerCollideWall()
     -- createPhysicsShape()
 }
 
 
 function scenery.eventCollideSpike(self, event)
     local spike  = self.object
-    local key    = spike.key
     local object = event.other.object
     local spikes = object.spikeCollisions
 
-    if event.phase == "began" and object and object.isPlayer then  --and object.shielded ~= true then
+    if event.phase == "began" and object and object.isPlayer then
         -- If player shielded they dont die straight away, but in order to stop them sitting on a bed of spikes until it expires,
         -- detect if they are still on the same spike after a momentand then kill them
         if object.shielded then
-            if spikes then 
-                object.spikeCollisions[#spikes] = key
-            else
-                object.spikeCollisions = {key}
-            end
-
-            print("collided with "..key)
-
-            after(2000, function()
-                print("after called on spike "..key)
-                local spikes = object.spikeCollisions
-                local num    = #spikes
-
-                for i=1,num do
-                    print("touching spike "..spikes[i])
-                    if spikes[i] and spikes[i] == key then
-                        print("sitting on spike "..key)
-
-                        object:explode({animation="Death EXPLODE SMALL", message="spike"})
-                        object.spikeCollisions = nil
-                    end
-                end
-            end)
+            spike:shieldedPlayerCollideSpike(object, spikes)
         else
-            print("normal death")
             object:explode({animation="Death EXPLODE SMALL", message="spike"})
         end
     elseif event.phase == "ended" and spikes then
@@ -51,8 +28,6 @@ function scenery.eventCollideSpike(self, event)
         if num > 0 then
             spikes[num] = nil
         end
-
-        print("left "..key)
     end
 end
 
@@ -79,6 +54,33 @@ function scenery.eventCollideWall(self, event)
             end)
         end
     end
+end
+
+
+-- Handles the case where a player collides with spikes when they are shielded: we want to detect when they are stuck on a peice of scenery (spiked floor) and kill
+-- @param player
+-- @param spikes
+----
+function scenery:shieldedPlayerCollideSpike(player, spikes)
+    local key = self.key
+
+    if spikes then
+        object.spikeCollisions[#spikes+1] = key
+    else
+        object.spikeCollisions = {key}
+    end
+
+    after(500, function()
+        local spikes = object.spikeCollisions or {}
+        local num    = #spikes
+
+        for i=1,num do
+            if spikes[i] and spikes[i] == key then
+                player:explode({animation="Death EXPLODE SMALL", message="spike"})
+                player:spikeCollisions = nil
+            end
+        end
+    end)
 end
 
 
