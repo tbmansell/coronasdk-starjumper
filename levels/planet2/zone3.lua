@@ -63,7 +63,7 @@ local levelData = {
         {object="ledge", x=300, y=250, surface="collapsing"},
             {object="rings", color=aqua, pattern={ {-100,-80}}},
 
-        {object="obstacle", x=250, y=-200, timerOn=3000, timerOff=4000, type="electricgate"},
+        {object="obstacle", x=250, y=-200, timerOn=2000, timerOff=4000, type="electricgate"},
 
         {object="ledge", x=300, y=250, size="medium3"},
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=70, yforce=50, arc=70, num=3}},

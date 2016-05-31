@@ -4,7 +4,7 @@ local levelData = {
     playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,   
-    startLedge       = 1,
+    startLedge       = 11,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
@@ -21,17 +21,47 @@ local levelData = {
         --#2
         {object="ledge", x=440, y=100, size="medium2"},
             -- entrance walls
-            {object="wall",   x=-620, y=-1750, type="vertical-wall", rotation=-35},
-            {object="spike",  x=-780, y=-270,  type="vertical-wall", rotation=65},
+            {object="wall",   x=-580, y=-1550, type="fg-wall-divider", rotation=-35},
+            {object="spike",  x=-725, y=-150,  type="fg-wall-divider", rotation=65},
             -- first level ceiling & floor
-            {object="wall",  x=200, y=-1300,   type="vertical-wall", rotation=90, copy=5, gap=1000},
-            {object="spike", x=200, y=-500,    type="vertical-wall", rotation=90, copy=4, gap=1000},
+        -- {object="wall",  x=200, y=-1300,   type="fg-wall-divider", rotation=90, copy=5, gap=1000},
+          {object="wall",  x=150, y=-1200,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=1050, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=1950, y=-1200,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=2850, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=3750, y=-1200,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=4650, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
+
+         --{object="spike", x=200, y=-500,    type="fg-wall-divider", rotation=90, copy=4, gap=1000},
+            
             -- second floor ceiling & floor
-            {object="wall",  x=200, y=-400,    type="vertical-wall", rotation=90, copy=4, gap=1000},
-            {object="spike", x=200, y=400,     type="vertical-wall", rotation=90, copy=5, gap=1000},
+            {object="wall",  x=150, y=-350,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=1050, y=-350,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=1950, y=-350,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=2850, y=-350,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=3750, y=-350,    type="fg-wall-divider", rotation=90},
+
+           -- {object="spike", x=200, y=400,     type="fg-wall-divider", rotation=90, copy=5, gap=1000},
+           
+
             -- third level ceiling & floor
-            {object="wall",  x=200, y=500,     type="vertical-wall", rotation=90, copy=5, gap=1000},
-            {object="spike", x=200, y=1300,    type="vertical-wall", rotation=90, copy=5, gap=1000, physics={shapeOffset={left=20}}},
+          --  {object="wall",  x=200, y=500,     type="fg-wall-divider", rotation=90, copy=5, gap=1000},
+           
+            {object="wall",  x=300, y=540,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=1200, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=2100, y=540,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=3000, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=3900, y=540,    type="fg-wall-divider", rotation=90},
+             {object="wall",  x=4800, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
+
+            --{object="spike", x=200, y=1300,    type="fg-wall-divider", rotation=90, copy=5, gap=1000, physics={shapeOffset={left=20}}},
+
+            {object="wall",  x=200, y=1400,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=1100, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=2000, y=1400,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=2900, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="wall",  x=3800, y=1400,    type="fg-wall-divider", rotation=90},
+            {object="wall",  x=4700, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
 
             {object="scenery", x=-200, y=-650, type="fg-foilage-1-yellow", size=1, layer=2, flip="y"},
             {object="scenery", x=-50,  y=-650, type="fg-foilage-3-yellow", size=1, layer=2, flip="y"},
@@ -96,8 +126,8 @@ local levelData = {
 
         {object="obstacle", x=550, y=-400, type="pole", length=1000},
             -- rear wall
-            {object="wall", x=550, y=-120, type="vertical-wall", layer=4},
-            {object="wall", x=550, y=-710, type="vertical-wall", layer=4},
+            {object="wall", x=550, y=150, type="fg-wall-divider", layer=4},
+            {object="wall", x=550, y=-750, type="fg-wall-divider", layer=4},
 
             {object="emitter", x=0, y=-300, timer={5000, 15000}, limit=5, layer=4,
                 item={
@@ -235,7 +265,7 @@ local levelData = {
             {object="spike", x=-50, y=170,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, layer=4},
             -- final floor
             {object="scenery", x=400, y=420, type="fg-flowers-6-green", size=1, layer=4, rotation=25},
-            {object="wall", x=530, y=100, type="vertical-wall", layer=4, rotation=-65},
+            {object="wall", x=530, y=200, type="fg-wall-divider", layer=4, rotation=-65},
 
         {object="ledge", x=600, y=450, type="finish"},
             {object="scenery", x=-140, y=-900, type="fgflt-tree-3-yellow", layer=4, flip="x"},

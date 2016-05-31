@@ -3,6 +3,7 @@ local levelData = {
     floor            = display.contentHeight+500,
     timeBonusSeconds = 55,
     turnNight        = true,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {1, 2, 3, 4},
@@ -61,14 +62,14 @@ local levelData = {
         {object="ledge", x=450, y=50, rotation=15, size="medium"},
         	{object="friend", type="fuzzy", color="Orange"},
 
-		{object="ledge", x=500, y=-150, surface="lava"},
+		{object="ledge", x=550, y=-150, surface="lava"},
 			{object="rings", color=pink, trajectory={x=100, y=-150, xforce=160, yforce=120, arc=70, num=5}},
 
 		{object="ledge", x=600, y=0, size="medium2"},
             {object="scenery", x=500, y=-150, type="fg-tree-1-yellow", size=0.8},
             {object="scenery", x=600, y=405, type="fg-rock-4", size=0.8},
 
-		{object="ledge", x=300, y=-300, size="medium2", ai={nextJump={[100]=20}}, movement={pattern={{1000,500}}, reverse=true, speed=4}},
+		{object="ledge", x=300, y=-300, size="medium2", ai={nextJump={[100]=20}}, movement={pattern={{800,350}}, reverse=true, speed=3}},
 
 
         -- Path two lower than start ledge
@@ -92,7 +93,7 @@ local levelData = {
         {object="ledge", x=450, y=50, rotation=-15, size="medium"},
         	{object="scenery", x=300, y=-50, type="fg-spikes-float-2", layer=2},
 
-        {object="obstacle", type="deathslide", x=200, y=-300, length={650,-900}, speed=5, animSpeed="FAST", ai={ignore=50}},
+        {object="obstacle", type="deathslide", x=275, y=-300, length={650,-700}, speed=5, animSpeed="FAST", ai={ignore=50}},
 
 
         -- Paths joining
@@ -102,7 +103,7 @@ local levelData = {
         {object="ledge", x=450, y=300, size="medium3"},
         	{object="friend", type="fuzzy", color="Orange"},
 
-        {object="ledge", x=250, y=-200, size="medium3", movement={pattern={{1500,-450}}, reverse=true, speed=4}},
+        {object="ledge", x=250, y=-200, size="medium3", movement={pattern={{1500,-450}}, reverse=true, speed=3}},
 
         {object="ledge", x=1800, y=-550, size="medium4"},
         	{object="rings", color=aqua, pattern={ {500,-200,color=red}, {0,-50}, {50,50}, {-50,50}, {-50,-50} }},
