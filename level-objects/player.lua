@@ -55,6 +55,7 @@ local player = {
     -- initForGameType()
     -- setPhysics()
     -- setPhysicsFilter()
+    -- !detachFromObstacle()
     -- murder()
     -- explode()
     -- kill()
@@ -249,6 +250,20 @@ function player:setPhysicsFilter(action)
 end
 
 
+-- Overrides base to set physics filter back so can land on ledges again
+function player:detachFromObstacle()
+    local obstacle = self.attachedObstacle
+
+    if obstacle then
+        if obstacle.isDeathSlide or obstacle.isRopeSwing or obstacle.isSpaceRocketCapsule then
+            self:setPhysicsFilter("removeObstacle")
+        end
+        -- release will nil this objects reference
+        obstacle:release(self)
+    end
+end
+
+
 ----------------- FUNCTIONS TO HANDLE BEING KILLED -------------------
 
 
@@ -287,9 +302,10 @@ function player:kill(animation, sound, stopMoving, fall, message)
             self.runSound = nil
         end
 
+        self:detachFromObstacle()
+        self:detachFromOther()
         self:destroyEmitter()
         self:destroyVehicle()
-        self:resetClearUp()
         self:emit("deathflash")
         self:emit("die")
 
@@ -300,10 +316,6 @@ function player:kill(animation, sound, stopMoving, fall, message)
             else
                 self:sound(sound.action, sound)
             end
-        end
-
-        if self.attachedObstacle then
-            self.attachedObstacle:release(self)
         end
 
         self.animationOverride = nil
@@ -446,13 +458,8 @@ function player:resetClearUp()
     -- redraw invisble then show once work done (otherwise get screen garbage)
     self:hide()
     self:destroyEmitter()
-
-    if self.attachedObstacle then
-        if self.attachedObstacle.detach then
-            self.attachedObstacle:detach(self)
-        end
-        self.attachedObstacle = nil
-    end
+    self:detachFromObstacle()
+    self:detachFromOther()
 
     if self.grappleJoint and self.grappleJoint.removeSelf then
         self.grappleJoint:removeSelf()

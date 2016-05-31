@@ -63,7 +63,7 @@ function SkeletonJson.new (attachmentLoader)
 		local key = fileName.."=>"..tostring(scale)
 
 		if masterSpineCache[key] == nil then
-			print("loading spine data from file: "..key)
+			--print("loading spine data from file: "..key)
 			masterSpineCache[key] = self:readSkeletonData(spine.utils.readFile(fileName, base))
 		--else
 			--print("loading spine data from MEMORY: "..key)

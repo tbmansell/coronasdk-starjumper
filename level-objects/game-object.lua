@@ -218,6 +218,8 @@ function gameObject:bind(object)
 
     if self.isLedge then
         object.attachedLedge = self
+    elseif self.isObstacle then
+        object.attachedObstacle = self
     else
         object.attachedOther = self
     end
