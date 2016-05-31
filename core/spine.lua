@@ -68,12 +68,7 @@ end
 
 local json = require "json"
 spine.utils.readJSON = function (text)
-	--return json.decode(text)
-	if startTime then print("Time diff spine.utils.readJSON: - start "..(system.getTimer() - startTime)) end
-	--return json.decode(text)
-	local j = json.decode(text)
-	if startTime then print("Time diff spine.utils.readJSON: - done "..(system.getTimer() - startTime)) end
-	return j
+	return json.decode(text)
 end
 
  
