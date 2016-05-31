@@ -4,11 +4,16 @@ local levelData = {
     playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,   
-    startLedge       = 11,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {2, 3, 4, 1},
         [bgrMid]   = {1, 4, 3},
+    },
+
+      backgroundSounds = {
+        {name="animals/cats1", quietTime=8000, minVolume=2, maxVolume=3},
+        {name="nature/wind2", quietTime=4000, minVolume=2, maxVolume=4},
     },
 
     elements = {
@@ -25,21 +30,21 @@ local levelData = {
             {object="spike",  x=-725, y=-150,  type="fg-wall-divider", rotation=65},
             -- first level ceiling & floor
         -- {object="wall",  x=200, y=-1300,   type="fg-wall-divider", rotation=90, copy=5, gap=1000},
-          {object="wall",  x=150, y=-1200,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=1050, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=1950, y=-1200,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=2850, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=3750, y=-1200,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=4650, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
+          {object="spike",  x=150, y=-1200,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=1050, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=1950, y=-1200,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=2850, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=3750, y=-1200,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=4650, y=-1200,    type="fg-wall-divider", rotation=90, flip="y"},
 
          --{object="spike", x=200, y=-500,    type="fg-wall-divider", rotation=90, copy=4, gap=1000},
             
             -- second floor ceiling & floor
-            {object="wall",  x=150, y=-350,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=1050, y=-350,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=1950, y=-350,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=2850, y=-350,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=3750, y=-350,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=150, y=-350,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=1050, y=-350,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=1950, y=-350,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=2850, y=-350,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=3750, y=-350,    type="fg-wall-divider", rotation=90},
 
            -- {object="spike", x=200, y=400,     type="fg-wall-divider", rotation=90, copy=5, gap=1000},
            
@@ -47,21 +52,29 @@ local levelData = {
             -- third level ceiling & floor
           --  {object="wall",  x=200, y=500,     type="fg-wall-divider", rotation=90, copy=5, gap=1000},
            
-            {object="wall",  x=300, y=540,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=1200, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=2100, y=540,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=3000, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=3900, y=540,    type="fg-wall-divider", rotation=90},
-             {object="wall",  x=4800, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=300, y=540,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=1200, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=2100, y=540,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=3000, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=3900, y=540,    type="fg-wall-divider", rotation=90},
+             {object="spike",  x=4800, y=540,    type="fg-wall-divider", rotation=90, flip="y"},
 
             --{object="spike", x=200, y=1300,    type="fg-wall-divider", rotation=90, copy=5, gap=1000, physics={shapeOffset={left=20}}},
 
-            {object="wall",  x=200, y=1400,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=1100, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=2000, y=1400,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=2900, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
-            {object="wall",  x=3800, y=1400,    type="fg-wall-divider", rotation=90},
-            {object="wall",  x=4700, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=200, y=1400,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=1100, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=2000, y=1400,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=2900, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=3800, y=1400,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=4700, y=1400,    type="fg-wall-divider", rotation=90, flip="y"},
+
+            --Second row of spikes
+            {object="spike",  x=450, y=670,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=1350, y=670,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=2250, y=670,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=3150, y=670,    type="fg-wall-divider", rotation=90, flip="y"},
+            {object="spike",  x=4050, y=670,    type="fg-wall-divider", rotation=90},
+            {object="spike",  x=4950, y=670,    type="fg-wall-divider", rotation=90, flip="y"},
 
             {object="scenery", x=-200, y=-650, type="fg-foilage-1-yellow", size=1, layer=2, flip="y"},
             {object="scenery", x=-50,  y=-650, type="fg-foilage-3-yellow", size=1, layer=2, flip="y"},
@@ -154,7 +167,6 @@ local levelData = {
             {object="scenery", x=0,    y=60, type="fg-spikes-1", size=0.8, layer=4},
             {object="scenery", x=-200, y=50, type="fg-spikes-2", size=0.8, layer=4},
             {object="scenery", x=-400, y=50, type="fg-spikes-3", size=0.8, layer=4},
-
             {object="scenery", x=-2000, y=60, type="fg-spikes-1", size=0.8, layer=4},
             {object="scenery", x=-2200, y=50, type="fg-spikes-2", size=0.8, layer=4},
             {object="scenery", x=-2400, y=50, type="fg-spikes-3", size=0.8, layer=4},
@@ -171,13 +183,16 @@ local levelData = {
             {object="rings", color=pink, pattern={{0,-100}, {600,0}}},
 
         {object="ledge", x=-200, y=250, size="medium"},
+          
+
             -- moving spikes
-            {object="spike", x=-550, y=-550, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}},
-                movement={pattern=movePatternVertical, distance=200, speed=1}
+            {object="spike", x=-550, y=-575, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}},
+                movement={pattern=movePatternVertical, distance=275, speed=1}
             },
             {object="spike", x=-550, y=-85,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, 
-                movement={pattern={{0,-200},{0,200}}, speed=1}
+                movement={pattern={{0,-275},{0,275}}, speed=1}
             },
+
 
         {object="ledge", x=-500, y=100, surface="spiked", timerOff=5000},
             {object="rings", color=red, pattern={{-150,-250}, {-50,-75,color=blue}, {-100,-50,color=white}}},
@@ -187,7 +202,7 @@ local levelData = {
             {object="scenery", x=-450, y=490,  type="fg-spikes-1", size=0.8, layer=4, rotation=25},
             {object="scenery", x=-250, y=550,  type="fg-spikes-1", size=0.8, layer=4, rotation=25},
             {object="scenery", x=100,  y=670,  type="fg-spikes-3", size=0.8, layer=4, rotation=25},
-            {object="spike",   x=-350, y=180,  type="vertical-wall", rotation=-70, layer=4},
+            {object="spike",   x=-250, y=380,  type="fg-wall-divider", rotation=-70, layer=4},
             {object="scenery", x=-200, y=-600, type="fg-flowers-2-green", size=1, layer=4, rotation=135},
 
             {object="emitter", x=0, y=-300, timer={5000, 15000}, limit=5, layer=4,
@@ -203,7 +218,7 @@ local levelData = {
 
         {object="ledge", x=400, y=-250, surface=collapsing},
             {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=50}, layer=4},
-            {object="scenery", x=-285, y=-240, type="fg-flowers-1-yellow", size=1, layer=4, flip="y"},
+            {object="scenery", x=285, y=-240, type="fg-flowers-1-yellow", size=1, layer=4, flip="y"},
 
         {object="ledge", x=400, y=0,    surface=collapsing},
             {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=50}, layer=4},
@@ -223,8 +238,8 @@ local levelData = {
 
         {object="ledge", x=600, y=-100, size="big2"},
             {object="rings", color=green, pattern={{-0,-100}}},
-            {object="scenery", x=-230, y=20, type="fg-spikes-2", size=1, layer=4},
-            {object="scenery", x=180,  y=20, type="fg-spikes-2", size=1, layer=4},
+            {object="scenery", x=-230, y=0, type="fg-spikes-2", size=1, layer=4},
+            {object="scenery", x=180,  y=0, type="fg-spikes-2", size=1, layer=4},
 
         {object="ledge", x=400, y=-150, size="medium", pointsPos=left, movement={pattern=movePatternVertical, speed=1, distance=300, dontDraw=true}},
             {object="spike", x=-50, y=-330, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}}, layer=4},

@@ -13,6 +13,8 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
+ 
+
     elements = {
         {object="ledge", type="start"},
             {object="scenery", x=50, y=-400, type="fg-tree-1-yellow", size=1.5},  

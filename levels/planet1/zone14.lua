@@ -15,7 +15,8 @@ local levelData = {
     },
 
     backgroundSounds = {
-        {name="nature/lava1", quietTime=1000, minVolume=9, maxVolume=10},
+        {name="nature/lava1", quietTime=500, minVolume=9, maxVolume=10},
+        {name="nature/wind2", quietTime=3000, minVolume=2, maxVolume=3},
     },
 
     elements = {

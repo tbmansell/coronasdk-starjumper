@@ -14,6 +14,11 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
+     backgroundSounds = {
+        {name="animals/cats3", quietTime=10000, minVolume=1, maxVolume=2},
+        {name="animals/birds3", quietTime=6000, minVolume=2, maxVolume=3},
+    },
+
     elements = {
         {object="ledge", type="start"},
             {object="scenery", x=100, onLedge=true, type="fg-foilage-3-green",  layer=4, size=0.4, copy=5},
