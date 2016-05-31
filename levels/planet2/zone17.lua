@@ -5,7 +5,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -1500,
     floor            = 1000,
-    startLedge       = 1,
+    startLedge       = 7,
 
     backgroundOrder = {
         [bgrFront] = {},
@@ -65,10 +65,10 @@ local levelData = {
         {object="ledge", x=500, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
 
-        {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}},
+        {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}, triggerEvent="rescue"},
             {object="scenery", x=400, y=-325, rotation=20, type="fgflt-pole-1"},
 
-        {object="ledge", x=300, y=-150, surface="electric", triggerEvent="rescue"},
+        {object="ledge", x=300, y=-150, surface="electric"},
             {object="rings", color=aqua, trajectory={x=50, y=-175, xforce=150, yforce=30, arc=45, num=3}},
        
         {object="ledge", x=300, y=-150, surface="ramp"},

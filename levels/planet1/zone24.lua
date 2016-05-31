@@ -33,7 +33,7 @@ local levelData = {
 
         {object="ledge", x=-350, y=-450, size="medium"},
             {object="scenery", x=-75, y=-145, type="fg-foilage-1-green", size=0.7, layer=2},
-            {object="spike", x=800, y=-1000, type="vertical-wall", size=0.8, rotation=-65},
+            {object="spike", x=800, y=-1000, type="fg-wall-divider", size=0.8, rotation=-65, flip="x"},
 
         {object="ledge", x=-200, y=-200, size="small3", movement={pattern={{-200,-200}, {200,-200}, {200,200}, {-200,200}}, speed=2}}, 
             {object="rings", color=pink, pattern={ {0,-50}, {-200,-150}, {200,-200}, {200,200} }, onLedge=true},
