@@ -414,6 +414,8 @@ function spineStore:showStartMarker(camera, x, y, flip)
 	    seq:wait(500)
 	    seq:tran({time=1000, alpha=1})
 	    seq:start()
+
+	    hud.startMarker = marker
 	end
 end
 
@@ -436,6 +438,7 @@ function spineStore:hideStartMarker(camera)
 	        	camera:remove(marker.image)
 	        	self.spineCollection:remove(marker)
 	        	self:releaseObject(typeStartMarker, marker)
+	        	hud.startMarker = nil
 			end
 			seq:start()
 		end

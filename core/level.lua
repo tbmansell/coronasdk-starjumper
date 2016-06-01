@@ -683,6 +683,10 @@ function level:scaleAll()
     end
 
     builder:setCollectionBoundaries(camera.scaleMode)
+
+    if hud.startMarker then
+        hud.startMarker:scale(camera)
+    end
 end
 
 
