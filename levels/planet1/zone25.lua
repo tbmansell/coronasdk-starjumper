@@ -11,7 +11,7 @@ local levelData = {
         [bgrMid]   = {1, 4, 3},
     },
 
-      backgroundSounds = {
+    backgroundSounds = {
         {name="animals/cats1", quietTime=8000, minVolume=2, maxVolume=3},
         {name="nature/wind2", quietTime=4000, minVolume=2, maxVolume=4},
     },

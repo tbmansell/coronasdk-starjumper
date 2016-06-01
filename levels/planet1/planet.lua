@@ -87,8 +87,8 @@ local planetData = {
 
     -- Background sounds
     backgroundSounds = {
-        {name="nature/wind2", quietTime=7000, minVolume=2, maxVolume=5},
-        {name="nature/wind3", quietTime=5000, minVolume=2, maxVolume=5},
+        {name="nature/wind2", quietTime=7000, minVolume=1, maxVolume=3},
+        {name="nature/wind3", quietTime=5000, minVolume=1, maxVolume=3},
     },
 
     -- Scenery element definitions

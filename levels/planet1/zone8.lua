@@ -11,10 +11,10 @@ local levelData = {
         [bgrSky]   = {2, 1}
     },
 
-      backgroundSounds = {
+    backgroundSounds = {
         {name="animals/birds4", quietTime=6000, minVolume=1, maxVolume=2},
         {name="animals/birds1", quietTime=8000, minVolume=1, maxVolume=2},
-     },
+    },
 
     elements = {
         {object="ledge", type="start"},

@@ -11,9 +11,7 @@ local levelData = {
         [bgrMid]   = {2, 1, 2, 1},
         [bgrBack]  = {4, 1, 2, 3},
         [bgrSky]   = {1, 2}
-    },
-
- 
+    }, 
 
     elements = {
         {object="ledge", type="start"},
