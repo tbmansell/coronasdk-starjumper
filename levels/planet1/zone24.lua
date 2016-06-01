@@ -122,9 +122,9 @@ local levelData = {
             {object="spike", x=-105, y=-70,  type="fg-spikes-float-1", flip="y", layer=2, size=0.5, physics={shape={-100,-125, 100,-125, 0,150}}},
 
         {object="ledge", x=450, y=-150, size="medium", length=150, movement={pattern=movePatternCircular, speed=1, arcStart=0, arc=360, fullCircle=true}},
-            {object="wall", x=-100, y=-1700, type="vertical-wall", size=0.8, rotation=-45},
-            {object="wall", x=1400, y=-1700, type="vertical-wall", size=0.8, rotation=45},
-            {object="wall", x=650,  y=-1400, type="vertical-wall", size=0.8, rotation=90},
+            --{object="wall", x=-100, y=-1700, type="vertical-wall", size=0.8, rotation=-45},
+            --{object="wall", x=1400, y=-1700, type="vertical-wall", size=0.8, rotation=45},
+            --{object="wall", x=650,  y=-1400, type="vertical-wall", size=0.8, rotation=90},
 
         {object="ledge", x=450, y=-100, size="medium", length=150, movement={pattern=movePatternCircular, speed=1.5, arcStart=360, arc=0, fullCircle=true}},
             {object="randomizer", onLedge=true, items={ {50,blue},{100,white} }},
