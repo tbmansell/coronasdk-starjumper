@@ -65,19 +65,19 @@ function scenery:shieldedPlayerCollideSpike(player, spikes)
     local key = self.key
 
     if spikes then
-        object.spikeCollisions[#spikes+1] = key
+        player.spikeCollisions[#spikes+1] = key
     else
-        object.spikeCollisions = {key}
+        player.spikeCollisions = {key}
     end
 
     after(500, function()
-        local spikes = object.spikeCollisions or {}
+        local spikes = player.spikeCollisions or {}
         local num    = #spikes
 
         for i=1,num do
             if spikes[i] and spikes[i] == key then
                 player:explode({animation="Death EXPLODE SMALL", message="spike"})
-                player:spikeCollisions = nil
+                player.spikeCollisions = nil
             end
         end
     end)

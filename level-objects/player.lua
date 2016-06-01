@@ -55,6 +55,7 @@ local player = {
     -- initForGameType()
     -- setPhysics()
     -- setPhysicsFilter()
+    -- selectFilter()
     -- !detachFromObstacle()
     -- murder()
     -- explode()
@@ -225,15 +226,7 @@ end
 
 
 function player:setPhysicsFilter(action)
-    local filter = nil
-
-    if action == "addShield" then
-        filter = playerShieldedFilter    --filter = -3  -- immune to enemies
-    elseif action == "addObstacle" then
-        filter = playerOnObstacleFilter  --filter = -5  -- immune to other ledges
-    else
-        filter = playerFilter            --filter = -2  -- normal mode
-    end
+    local filter = self:selectFilter(action)
 
     if self.physicsFilterPrev ~= filter then
         self.physicsFilterPrev = filter
@@ -246,6 +239,42 @@ function player:setPhysicsFilter(action)
         if xvel ~= 0 or yvel ~= 0 then
             self:applyForce(xvel, yvel)
         end
+
+        -- if on an obstable then keep player from falling off
+        if self.attachedObstacle then
+            self.image.gravityScale = 0
+        end
+    end
+end
+
+
+function player:selectFilter(action)
+    if action == "addShield" then
+        if self.attachedObstacle then
+            return playerShieldedOnObstacleFilter
+        else    
+            return playerShieldedFilter
+        end
+    elseif action == "addObstacle" then
+        if self.shielded then
+            return playerShieldedOnObstacleFilter
+        else
+            return playerOnObstacleFilter
+        end
+    elseif action == "removeShield" then
+        if self.attachedObstacle then
+            return playerOnObstacleFilter
+        else 
+            return playerFilter
+        end
+    elseif action == "removeObstacle" then
+        if self.shielded then
+            return playerShieldedFilter
+        else 
+            return playerFilter
+        end
+    else
+        return playerFilter
     end
 end
 
@@ -256,6 +285,7 @@ function player:detachFromObstacle()
 
     if obstacle then
         if obstacle.isDeathSlide or obstacle.isRopeSwing or obstacle.isSpaceRocketCapsule then
+            print("detachFromObstacle")
             self:setPhysicsFilter("removeObstacle")
         end
         -- release will nil this objects reference
