@@ -4,7 +4,6 @@ local levelData = {
     ceiling          = -4000,
     floor            = 2000,
     startLedge       = 1,
-   -- warpChase        = true,
 
     backgroundOrder = {
         [bgrFront] = {},
