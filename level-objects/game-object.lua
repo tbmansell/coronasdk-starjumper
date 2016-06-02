@@ -92,6 +92,7 @@ local gameObject = {
     -- scaleCircularMovement()
     -- removeCircularPath()
     -- scalePatternMovement()
+    -- scalePatternPath()
     -- removePatternPath()
     -- emit()
     -- bindEmitter()
@@ -734,41 +735,29 @@ function gameObject:scalePatternMovement(camera)
     local moveScale    = camera.scalePosition
     local movement     = self.movement
     local pattern      = movement.pattern
+    local patternPos   = movement.patternPos
     local drawPath     = movement.draw
     local fromX, fromY = self.image.x, self.image.y
+    local path         = {}
 
     if drawPath then
-        local currX, currY = movement.currentX, movement.currentY
-
         if movement.inReverse then
-            fromX = fromX - ((pattern[1][1] + currX) * moveScale)
-            fromY = fromY - ((pattern[1][2] + currY) * moveScale)
+            fromX = fromX - ((pattern[patternPos][1] + movement.currentX) * moveScale)
+            fromY = fromY - ((pattern[patternPos][2] + movement.currentY) * moveScale)
         else
-            fromX = fromX - (currX * moveScale)
-            fromY = fromY - (currY * moveScale)
+            fromX = fromX - (movement.currentX * moveScale)
+            fromY = fromY - (movement.currentY * moveScale)
         end
     end
 
-    local numPoints = #pattern
-    local path      = {}
-    local line, circle, fromCircle = nil, nil, nil
+    -- Draw from current path ppoint to end
+    for i=patternPos, #pattern do
+        fromX, fromY = self:scalePatternPath(camera, pattern, path, moveScale, drawPath, i, fromX, fromY)
+    end
 
-    for i=1, numPoints do
-        pattern[i][1] = pattern[i][1] * moveScale
-        pattern[i][2] = pattern[i][2] * moveScale
-
-        if drawPath then
-            fromX, fromY, line, circle, fromCircle = draw_point(fromX, fromY, pattern, i, camera)
-
-            if drawPath then
-                path[#path+1] = line
-                path[#path+1] = circle
-                
-                if fromCircle then
-                    path[#path+1] = fromCircle
-                end
-            end
-        end
+    -- Draw from start up to before current path point
+    for i=1, patternPos-1 do
+        fromX, fromY = self:scalePatternPath(camera, pattern, path, moveScale, drawPath, i, fromX, fromY)
     end
 
     self.movementPathway = path
@@ -777,6 +766,27 @@ function gameObject:scalePatternMovement(camera)
     movement.currentX = movement.currentX * moveScale
     movement.currentY = movement.currentY * moveScale
     movement.speed    = movement.speed    * moveScale
+end
+
+
+function gameObject:scalePatternPath(camera, pattern, path, moveScale, drawPath, index, fromX, fromY)
+    pattern[index][1] = pattern[index][1] * moveScale
+    pattern[index][2] = pattern[index][2] * moveScale
+
+    if drawPath then
+        local fromX, fromY, line, circle, fromCircle = draw_point(fromX, fromY, pattern, index, camera)
+
+        path[#path+1] = line
+        path[#path+1] = circle
+        
+        if fromCircle then
+            path[#path+1] = fromCircle
+        end
+
+        return fromX, fromY
+    else
+        return 0, 0
+    end
 end
 
 

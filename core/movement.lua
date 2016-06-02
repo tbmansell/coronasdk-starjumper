@@ -622,18 +622,10 @@ function moveItemPattern(camera, item, delta)
         return pauseItemPatternMovement(item)
     end
 
-    --[[if item.isEnemy and item.thief then
-        print("moveItemPattern check   ... reached point "..item.key)
-    end]]
-
     if reachedPatternPoint(item) then
         if item.reachedPatternPoint then
             item:reachedPatternPoint()
         end
-
-        --[[if item.isEnemy and item.thief then
-            print("moveItemPattern reached point "..item.key)
-        end]]
 
         -- look for the next position to move to (or reverse or loop if at end of pattern)
         if selectNextPatternPosition(item) then
