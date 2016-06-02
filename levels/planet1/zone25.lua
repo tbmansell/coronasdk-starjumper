@@ -166,12 +166,13 @@ local levelData = {
         {object="ledge", x=-650, y=150, size="medium"},
 
         {object="ledge", x=-650, y=-150, size="medium2", movement={pattern=movePatternHorizontal, speed=2, distance=600}},
+
             {object="rings", color=pink, pattern={{-600,-100}, {600,0}}},
             {object="enemy", type="brain", x=400, y=150, size=1, color="Blue", spineDelay=333, behaviour={mode=stateSleeping, awaken=0},
                 movement={pattern=movePatternHorizontal, distance=3000, speed=0.5, moveStyle=moveStyleSway,}
             },
 
-        {object="ledge", x=-1300, y=-150, size="small2", movement={pattern={{600,0},{-600,0}}, speed=2}},
+        {object="ledge", x=-1300, y=-150, size="small2", movement={pattern=movePatternHorizontal, speed=2, distance=-600}},
             {object="rings", color=pink, pattern={{0,-100}, {600,0}}},
 
         {object="ledge", x=-200, y=250, size="medium"},
