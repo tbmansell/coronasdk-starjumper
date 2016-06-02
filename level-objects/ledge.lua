@@ -1,5 +1,6 @@
-local spineStore  = require("level-objects.collections.spine-store")
 local soundEngine = require("core.sound-engine")
+local spineStore  = require("level-objects.collections.spine-store")
+local builder     = require("level-objects.builders.builder")
 
 
 -- @class Base ledge class
@@ -472,7 +473,9 @@ function ledge:shake(camera)
         if self.movement then
             self.stashedMovement = self.movement
         end
-        self:setMovement(camera, self.master.ledgeShakeMovement)
+        -- copy movement pattern so that any scaling wont affect the original
+        self:setMovement(camera, builder:newClone(self.master.ledgeShakeMovement))
+
         -- remove ledge before adding to ensure we dont needlessly add two entries in movement collection
         self:stop()
         self:move()
@@ -487,7 +490,6 @@ function ledge:movementCompleted()
         -- resume movement for moving ledges
         self.movement        = self.stashedMovement
         self.stashedMovement = nil
-
     else
         self:stop()
     end

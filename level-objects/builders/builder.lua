@@ -76,10 +76,8 @@ function builder:deepCopy(orig, copy)
         copy = copy or {}
 
         for orig_key, orig_value in next, orig, nil do
-        	if globalDebugCopy then print("deepCopy: "..tostring(orig_key).."="..tostring(orig_value).." copy="..tostring(copy)) end
-            copy[self:deepCopy(orig_key, copy)] = self:deepCopy(orig_value, copy)
+        	copy[self:deepCopy(orig_key, copy)] = self:deepCopy(orig_value, copy)
         end
-        --setmetatable(copy, self:deepCopy(getmetatable(orig, copy)))
     else  -- number, string, boolean, etc
         copy = orig
     end
@@ -98,10 +96,8 @@ function builder:newClone(orig)
     if orig_type == 'table' then
         copy = {}
         for orig_key, orig_value in next, orig, nil do
-        	--print("newClone: "..tostring(orig_key).."="..tostring(orig_value))
-            copy[self:newClone(orig_key)] = self:newClone(orig_value)
+        	copy[self:newClone(orig_key)] = self:newClone(orig_value)
         end
-        --setmetatable(copy, self:newClone(getmetatable(orig)))
     else  -- number, string, boolean, etc
     	copy = orig
     end
