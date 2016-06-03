@@ -23,6 +23,7 @@ local animateTrajectoryPoint = nil
 
 local math_round = math.round
 local math_abs   = math.abs
+local math_floor = math.floor
 local new_circle = display.newCircle
 local new_image  = display.newImage
 
@@ -257,19 +258,26 @@ function curve:drawLine(camera, px, py, ex, ey)
         camera:add(pullLine, 2)
     end
 
-    if grid and grid.toFront then 
-        grid:toFront() 
-    elseif grid ~= nil then
+    --[[if grid and grid.toFront then
+        grid:toFront()
+        print("grid to front")
+    elseif grid == nil then
+        curve:drawJumpGrid(camera, hud.player)
+    end]]
+
+    if grid == nil then
         curve:drawJumpGrid(camera, hud.player)
     end
+
 
     if fingerPoint == nil then
         fingerPoint = new_image("images/hud/jump-grid-marker.png", ex-37.5, ey-37.5)
         fingerPoint.alpha = 0.5
         camera:add(fingerPoint, 2)
+        fingerPoint:toFront()
     else
         fingerPoint.x, fingerPoint.y = ex, ey
-        fingerPoint:toFront()
+        --fingerPoint:toFront()
     end
 
     if self.lock then
@@ -278,9 +286,10 @@ function curve:drawLine(camera, px, py, ex, ey)
         if lockPoint == nil then
             lockPoint = new_image("images/hud/jump-grid-locked.png", x, y)
             camera:add(lockPoint, 2)
+            lockPoint:toFront()
         else
             lockPoint.x, lockPoint.y = x, y
-            lockPoint:toFront()
+            --lockPoint:toFront()
         end
     end
 
@@ -294,12 +303,14 @@ end
 function curve:drawGridAxis(camera, px, py, ex, ey)
     if xAxis == nil then
         xAxis = new_image("images/hud/jump-grid-horiz.png", ex, py-45)
+        xAxis.posColor = 0
         xAxis:scale(0.7,0.7)
         camera:add(xAxis, 2)
     end
 
     if yAxis == nil then
         yAxis = new_image("images/hud/jump-grid-vert.png", px-115, ey-10)
+        yAxis.posColor = 0
         yAxis:scale(0.7,0.7)
         if grid and grid.direction == left then yAxis:scale(-1,1) end
         camera:add(yAxis, 2)
@@ -314,11 +325,20 @@ function curve:drawGridAxis(camera, px, py, ex, ey)
         yAxis.x = px + 50
     end
 
+    -- Round to 1DP to reduce the number of times we call set fill color
     local boundary = 200 * camera.scaleVelocity
-    local xColor   = math_abs(px-ex) / boundary
-    local yColor   = math_abs(py-ey) / boundary
-    xAxis:setFillColor(xColor, 1-xColor, 0)
-    yAxis:setFillColor(yColor, 1-yColor, 0)
+    local xColor   = math_floor( (math_abs(px-ex) / boundary) * 10 + 0.5) / 10
+    local yColor   = math_floor( (math_abs(py-ey) / boundary) * 10 + 0.5) / 10
+
+    if xColor ~= xAxis.posColor then
+        xAxis:setFillColor(xColor, 1-xColor, 0)
+        xAxis.posColor = xColor
+    end
+
+    if yColor ~= yAxis.posColor then
+        yAxis:setFillColor(yColor, 1-yColor, 0)
+        yAxis.posColor = yColor
+    end
 end
 
 
@@ -359,6 +379,8 @@ function curve:drawJumpGrid(camera, player)
 
     gridAnimationHandle = timer.performWithDelay(50, curve.animateGrid, 0)
     camera:add(grid, 2)
+    -- instead of doing it every time event triggered
+    grid:toFront()
 end
 
 
