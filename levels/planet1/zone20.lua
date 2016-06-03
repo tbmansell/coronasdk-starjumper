@@ -13,7 +13,7 @@ local levelData = {
     },
 
     backgroundSounds = {
-        {name="animals/bird1", quietTime=7000, minVolume=2, maxVolume=3},
+        {name="animals/birds1", quietTime=7000, minVolume=2, maxVolume=3},
         {name="animals/cats1", quietTime=9000, minVolume=2, maxVolume=3},
     },
 
