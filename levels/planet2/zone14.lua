@@ -31,13 +31,13 @@ local levelData = {
         {object="obstacle", x=110, y=-130, timerOn=5000, timerOff=1500, type="electricgate"},    
 
             {object="emitter", x=150, y=-1000, timer={3000, 5000}, layer=3, limit=nil, force={ {0, 0}, {100,300}, {90, 91} }, 
-                item={object="spike", type="fg-rock-3", size={5, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-3", size={5, 6}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
             {object="emitter", x=550, y=-1000, timer={3000, 6000}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 46} }, 
-                item={object="spike", type="fg-rock-2", size={5, 8}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-2", size={5, 8}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
             },
             {object="emitter", x=800, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {40, 45}, {100, 300}, {0, 1} }, 
-                item={object="spike", type="fg-rock-3", size={4, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-3", size={4, 6}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
 
         ----------- Outside Ledges 1
@@ -75,15 +75,15 @@ local levelData = {
         ----------- Outside Ledges 2          
 
             {object="emitter", x=200, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
-                item={object="spike", type="fg-rock-1", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-1", size={3, 5}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
 
             {object="emitter", x=700, y=-1000, timer={3500, 6000}, layer=3, limit=nil, force={ {-25, -35}, {200, 400}, {45, 90} }, 
-                item={object="spike", type="fg-rock-5", size={4, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-5", size={4, 6}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
             },
 
             {object="emitter", x=1000, y=-1000, timer={3500, 6500}, layer=3, limit=nil, force={ {0, 0}, {100, 300}, {45, 90} }, 
-                item={object="spike", type="fg-rock-4", size={5, 7}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-4", size={5, 7}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
 
         {object="ledge", x=320, y=50, size="medbig2", rotation=-10, triggerEvent="dropGear2"}, 
@@ -126,23 +126,23 @@ local levelData = {
         ----------- OUtside Ledges 3          
 
             {object="emitter", x=200, y=-1000, timer={4000, 6000}, layer=3, limit=nil, force={ {-10, -27}, {300, 600}, {45, 90} }, 
-                item={object="spike", type="fg-rock-1", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-1", size={3, 5}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
 
             {object="emitter", x=700, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {75, 90}, {300, 600}, {45, 90} }, 
-                item={object="spike", type="fg-rock-3", size={4,6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-3", size={4,6}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
             },
 
             {object="emitter", x=1000, y=-1000, timer={4000, 6000}, layer=3, limit=nil, force={ {88, 100}, {300, 500}, {45, 90} }, 
-                item={object="spike", type="fg-rock-4", size={3, 5}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-4", size={3, 5}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
 
             {object="emitter", x=1700, y=-1000, timer={3000, 5500}, layer=3, limit=nil, force={ {-15, 35}, {300, 400}, {45, 90} }, 
-                item={object="spike", type="fg-rock-2", size={5, 7}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-2", size={5, 7}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.5, bounce=0.8, filter=rockFilter} }
             },
 
             {object="emitter", x=2400, y=-1000, timer={3500, 5500}, layer=3, limit=nil, force={ {15, 65}, {300, 400}, {45, 90} }, 
-                item={object="spike", type="fg-rock-1", size={3, 6}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
+                item={object="spike", type="fg-rock-1", size={3, 6}, rgb={1,0,0}, physics={body="kinematic", gravityScale=0, shape="circle", friction=0.3, bounce=0.8, filter=rockFilter} }
             },
 
         {object="ledge", x=320, y=50, size="medsmall", rotation=-15, triggerEvent="dropGear3"}, 
