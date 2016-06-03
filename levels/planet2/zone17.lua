@@ -51,17 +51,7 @@ local levelData = {
         {object="ledge", x=470, y=-150, size="medsmall"},
             {object="spike", x=-330, y=-220, size=0.6, type="fg-spikes-float-1", physics={shape={-80,-10, 80,-90, 80,110, -80,110}}},
             {object="spike", x=200,  y=-300, size=0.6, type="fg-spikes-float-1", physics={shape={-80,-10, 80,-90, 80,110, -80,110}}},
-            --[[
-            {object="enemy", type="greyshooter", x=-600, y=-225, size=0.5, 
-                shooting={minWait=2, maxWait=5, velocity={x=700, y=200, varyX=200, varyY=300}, itemsMax=10, ammo={negDizzy, negTrajectory}},
-                movement={pattern=moveTemplateHorizontal, reverse=true, isTemplate=true, distance=800, speed=3, pause=500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}},
-            ]]
-          --[[  {object="enemy", type="greyshooter", x=450, y=-200, size=0.5,
-                shooting={minWait=2, maxWait=5, velocity={x=700, y=200, varyX=200, varyY=300}, itemsMax=10, ammo={negDizzy, negTrajectory}},
-                behaviour={mode=stateSleeping, awaken=2, range=3},--, atRange=stateResetting},
-                movement={pattern=movePatternFollow, speed=1, pause=1000, moveStyle=moveStyleWave, pauseStyle=moveStyleWave}
-            },
-            ]]
+            
         {object="ledge", x=500, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
 

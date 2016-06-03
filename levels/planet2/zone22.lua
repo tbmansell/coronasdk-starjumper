@@ -101,7 +101,7 @@ local levelData = {
         {object="ledge", x=200, y=-200, surface="exploding"},
 
         {object="ledge", x=300, y=-50, surface="exploding"},
-            {object="friend", type="fuzzy", x=-100, color="Orange", onLedge=true},
+            --{object="friend", type="fuzzy", x=-100, color="Orange", onLedge=true},
 
         {object="ledge", x=250, y=-150, surface="exploding"},
             {object="rings", color=aqua, trajectory={x=75, y=-240, xforce=130, yforce=15, arc=20, num=3}},

@@ -61,9 +61,7 @@ local levelData = {
                  {object="rings", color=white, pattern={ {0,-75} }},
 
             {object="ledge", x=-380, y=-240, size="small2"},
-                {object="friend", type="fuzzy", x=30, size=0.6, color="White", onLedge=true},
-
-
+                --{object="friend", type="fuzzy", x=30, size=0.6, color="White", onLedge=true},
 
             {object="obstacle", x=1775, y=525, size=1.3, timerOn=2000, timerOff=3000, type="electricgate"},
     
@@ -94,8 +92,7 @@ local levelData = {
                  {object="rings", color=aqua, pattern={ {300,-120}, {45,40,color=white}, {45,40} }},
 
             {object="ledge", x=320, y=250, size="small3"},
-                {object="friend", type="fuzzy", x=30, size=0.4, color="Pink", onLedge=true},
-
+                --{object="friend", type="fuzzy", x=30, size=0.4, color="Pink", onLedge=true},
 
             {object="ledge", x=-170, y=220, size="small2"},
 
