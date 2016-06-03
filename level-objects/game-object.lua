@@ -882,13 +882,15 @@ function gameObject:sound(action, params)
         soundData = params or {}
     end
 
-    soundData.sound = soundData.sound    or sounds[action]
+    soundData.sound = soundData.sound or sounds[action]
 
     if soundData.duration == "forever" then
         soundData.loops    = -1
     end
 
-    soundEngine:playManagedAction(self, action, soundData)
+    if soundData.sound then
+        soundEngine:playManagedAction(self, action, soundData)
+    end
 end
 
 

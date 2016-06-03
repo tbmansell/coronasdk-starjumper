@@ -263,7 +263,7 @@ end
 -- Note: this also checks if the same action is running and aborts if so
 function engine:playManagedAction(sourceObject, actionName, params)
 	-- safety check so we can safely pass in nils without always having to check in the source object (more compact calling code)
-	if sourceObject and actionName and params and enabled then
+	if sourceObject and actionName and params and params.sound and enabled then
 		local key = sourceObject.key..":"..actionName
 
 		if soundInQueue(key) then

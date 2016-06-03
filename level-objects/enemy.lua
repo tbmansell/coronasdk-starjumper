@@ -128,7 +128,9 @@ end
 
 function enemy:passedPlayer()
     if self.image then
-        self:sound("miss", self.missSound)
+        if self.missSound then
+            self:sound("miss", self.missSound)
+        end
         self:flipX()
     end
 end
