@@ -124,7 +124,7 @@ local planetData = {
 
 
 function planetData:setDefaults(data)
-    data.floor               = data.floor               or display.contentHeight
+    data.floor               = data.floor               or display.contentHeight+100
     data.ceiling             = data.ceiling             or -display.contentHeight
     data.defaultLedgeSize    = data.defaultLedgeSize    or big
     data.defaultRingColor    = data.defaultRingColor    or aqua
