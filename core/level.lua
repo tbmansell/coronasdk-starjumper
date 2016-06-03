@@ -166,7 +166,7 @@ function level:createEventHandlers()
     check_moving_objects       = movingCollection.moveEach
     check_moving_players       = playerCollection.checkMovement
 
-    if state.data.gameSettings.backgrounds then
+    if state.data.gameSettings.backgroundImages then
         check_background_movement = self.checkBackgroundMovement
     end
 end
@@ -227,7 +227,7 @@ end
 
 -- reset the level after the player dies
 function level:reset(player)
-    if state.data.gameSettings.backgrounds then
+    if state.data.gameSettings.backgroundImages then
         self:clearBackgrounds(camera)
         self:createBackgrounds(camera)
     end

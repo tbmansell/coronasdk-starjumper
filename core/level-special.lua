@@ -164,7 +164,7 @@ function newObjectsLoader:load(level)
             img:toBack()
             backgroundImages[key][insertOrder] = img
 
-            if state.data.gameSettings.backgrounds then
+            if state.data.gameSettings.backgroundImages then
                 camera:add(img, 4+key, false, true, pinTop)
             end
         end

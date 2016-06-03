@@ -168,36 +168,43 @@ function scene:showSettings()
     scene.userLeaving   = true
     scene.settingsGroup = display.newGroup()
 
-    local settings      = state.data.gameSettings
-    local group         = scene.settingsGroup
-    local background    = newBackground(group, "title/options-background")
-    local bgrOption     = display.newRect(group, 220, 125, 360, 80)
-    local resetOption   = display.newRect(group, 740, 125, 360, 80)
-    local musicOption   = display.newRect(group, 220, 260, 360, 80)
-    local advertOption  = display.newRect(group, 740, 260, 360, 80)
-    local creditOption  = display.newRect(group, 480, 360, 200, 50)
+    local settings       = state.data.gameSettings
+    local group          = scene.settingsGroup
+    local background     = newBackground(group, "title/options-background")
+    local bgrImageOption = display.newRect(group, 220, 125, 360, 80)
+    local bgrSoundOption = display.newRect(group, 220, 255, 360, 80)
+    local musicOption    = display.newRect(group, 740, 125, 360, 80)
+    local storyOption    = display.newRect(group, 740, 255, 360, 80)
+    local creditOption   = display.newRect(group, 480, 355, 200, 65)
 
-    scene:createSettingStatus("background", settings.backgrounds, 340, 120)
-    scene:createSettingStatus("music",      settings.music,       340, 255)
-    scene:createSettingStatus("adverts",    settings.adverts,     855, 255)
+    scene:createSettingStatus("bgrImage", settings.backgroundImages, 360, 120)
+    scene:createSettingStatus("bgrSound", settings.backgroundSounds, 360, 255)
+    scene:createSettingStatus("music",    settings.music,            880, 120)
     newButton(group, 55, 45, "back", scene.closeSettings)
 
-    bgrOption.alpha, resetOption.alpha, musicOption.alpha, advertOption.alpha, creditOption.alpha = 0.01, 0.01, 0.01, 0.01, 0.01
+    bgrImageOption.alpha, bgrSoundOption.alpha, storyOption.alpha, musicOption.alpha, creditOption.alpha = 0.01, 0.01, 0.01, 0.01, 0.01
 
     background:addEventListener("tap", function() return true end)
 
-    bgrOption:addEventListener("tap", function()
+    bgrImageOption:addEventListener("tap", function()
         play(sounds.generalClick)
         scene.optionChanged  = true
-        settings.backgrounds = not settings.backgrounds
-        scene:createSettingStatus("background", settings.backgrounds, 340, 120)
+        settings.backgroundImages = not settings.backgroundImages
+        scene:createSettingStatus("bgrImage", settings.backgroundImages, 360, 120)
+    end)
+
+    bgrSoundOption:addEventListener("tap", function()
+        play(sounds.generalClick)
+        scene.optionChanged  = true
+        settings.backgroundSounds = not settings.backgroundSounds
+        scene:createSettingStatus("bgrSound", settings.backgroundSounds, 360, 255)
     end)
 
     musicOption:addEventListener("tap", function() 
         play(sounds.generalClick)
         scene.optionChanged = true
         settings.music      = not settings.music
-        scene:createSettingStatus("music", settings.music, 340, 255)
+        scene:createSettingStatus("music", settings.music, 880, 120)
 
         if settings.music then
             state.musicSceneContinue = false
@@ -207,18 +214,13 @@ function scene:showSettings()
         end
     end)
 
-    resetOption:addEventListener("tap", function()
+    storyOption:addEventListener("tap", function()
         play(sounds.generalClick)
         state.data.storiesAcknowledged = {}
         state:saveGame()
 
         play(sounds.shopPurchase)
-        scene:displaySettingMessage("all game stories will show again", "green")
-    end)
-
-    advertOption:addEventListener("tap", function() 
-        play(sounds.generalClick)
-        -- take em to the store
+        scene:displaySettingMessage("all stories and hints will show again", "green")
     end)
 
     creditOption:addEventListener("tap", function() 

@@ -157,6 +157,9 @@ end
 
 function tutorials:showSpeech(event)
 	after(event.delay or 0, function()
+		-- safegaurd as was getting niled
+		if self.speechGroup == nil then self.speechGroup = display.newGroup() end
+
 		local speaker = event.speaker
 		local name    = characterData[speaker].title..": "..characterData[speaker].name
 		local balloon = newImage(self.speechGroup, "message-tabs/messagetab-"..characterData[speaker].name.."-big", 0, event.y)

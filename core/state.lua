@@ -55,9 +55,9 @@ local state = {
 
         -- list of game settings that can be changed in the settings page
         gameSettings = {
-            backgrounds = true, -- make backgrounds move in levels: turn off for fixed backgrounds to speed game up
-            music       = true, -- play music in menu and game scenes: turn off for no music
-            adverts     = true, -- show adverts: can only be turned off by purchasing a pack
+            backgroundImages = true, -- make backgrounds move in levels: turn off for fixed backgrounds to speed game up
+            backgroundSounds = true, -- play ambient background sounds in levels
+            music            = true, -- play music in menu and game scenes: turn off for no music
         },
 
         -- complete level progress for game,  in this format:
@@ -121,7 +121,7 @@ local state = {
 
         -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
         -- This is the starting structure when nothing is unlocked.
-        --[[unlocked = {
+        unlocked = {
             -- list of characters unlocked
             characters = { characterNewton },
             -- list of gear that is unlocked
@@ -135,9 +135,9 @@ local state = {
                     games = { gameTypeStory },
                 },
             },
-        },]]
+        },
         -- TEST UNLOCK STRUCTURE
-        unlocked = {
+        --[[unlocked = {
             characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
             gear       = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
             planets = {
@@ -150,7 +150,7 @@ local state = {
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
             }
-        }, 
+        }, ]]
     }
 
     -- Methods:

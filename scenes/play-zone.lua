@@ -263,7 +263,10 @@ function scene:loadGame()
     end
     
     soundEngine:setup()
-    soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
+
+    if state.data.gameSettings.backgroundSounds then
+        soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
+    end
     
     hud:create(camera, player, level, scene.pauseLevel, scene.resumeLevel)
 end
@@ -471,7 +474,6 @@ function scene:startPlaying(player)
     player.startLedge:bind(player)
     player:stand()
 
-    --soundEngine:loadBackgroundSounds(level.data.backgroundSounds or level.planetDetails.backgroundSounds)
     level:startConstantSounds()
     level:startCustomEvents()
 
