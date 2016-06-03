@@ -149,7 +149,7 @@ local scripts = {
 		forced   = true,
 		delay    = 1500,
 		sequence = {
-			{delay=1000, speaker=characterGygax, dir=right, text="Danger {player}! You've entered a gravity storm zone, which I can't get near to help you. Escape quick before it destroys the whole zone!", size="-big"},			
+			{delay=1000, speaker=characterGygax, dir=right, text="Danger {player}! You've entered a gravity storm zone. I can't get near to help you. Escape quick before it destroys the whole zone!", size="-big"},			
 		},
 	},
 	["intro-earlgrey-planet2-zone8"] = {

@@ -416,49 +416,67 @@ end
 
 
 function gameObject:flipX()
-    self.flipXAxis = true
-    self.image:scale(-1,1)
+    if self.image then
+        self.flipXAxis = true
+        self.image:scale(-1,1)
+    end
 end
 
 
 function gameObject:flipY()
-    self.flipYAxis = true
-    self.image:scale(1,-1)
+    if self.image then
+        self.flipYAxis = true
+        self.image:scale(1,-1)
+    end
 end
 
 
 function gameObject:solid()
-    self.image.isSensor = false
+    if self.image then
+        self.image.isSensor = false
+    end
 end
 
 
 function gameObject:intangible()
-    self.image.isSensor = true
+    if self.image then
+        self.image.isSensor = true
+    end
 end
 
 
 function gameObject:setGravity(gravityScale)
-    self.image.gravityScale = gravityScale or 1
+    if self.image then
+        self.image.gravityScale = gravityScale or 1
+    end
 end
 
 
 function gameObject:body(type)
-    self.image.bodyType = type
+    if self.image then
+        self.image.bodyType = type
+    end
 end
 
 
 function gameObject:visible(alpha)
-	self.image.alpha = alpha or 1
+    if self.image then
+	   self.image.alpha = alpha or 1
+    end
 end
 
 
 function gameObject:hide()
-	self.image.alpha = 0
+    if self.image then
+	   self.image.alpha = 0
+    end
 end
 
 
 function gameObject:rotate(rotation)
-    self.image.rotation = rotation
+    if self.image then
+        self.image.rotation = rotation
+    end
 end
 
 
@@ -468,12 +486,16 @@ end
 
 
 function gameObject:applyForce(velx, vely)
-    self.image:setLinearVelocity(velx, vely)
+    if self.image then
+        self.image:setLinearVelocity(velx, vely)
+    end
 end
 
 
 function gameObject:applySpin(spin)
-    self.image.angularVelocity = spin
+    if self.image then
+        self.image.angularVelocity = spin
+    end
 end
 
 

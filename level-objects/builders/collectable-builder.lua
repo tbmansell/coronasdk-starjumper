@@ -396,7 +396,7 @@ function collectableBuilder:setupCommon(camera, collectable, spec, collisionHand
     collectable.image.collision = collisionHandler
     collectable.image:addEventListener("collision", collectable.image)
 
-    camera:add(collectable.image, 3)
+    camera:add(collectable.image, spec.layer or 3)
 end
 
 
