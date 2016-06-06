@@ -246,33 +246,35 @@ function newObjectsLoader:load(level)
 
         for i=1,numberLedges do
             local ledge = allLedges[i]
-            local diffLeft, diffRight = math_abs(x - ledge:leftEdge()), math_abs(x - ledge:rightEdge())
-            local diffTop,  diffBot   = math_abs(y - ledge:topEdge()),  math_abs(y - ledge:bottomEdge())
-            local distX, distY        = 0, 0
-            local sideX, sideY        = "left", "top"
-            
-            if diffRight < diffLeft then
-                distX = diffRight
-                if diffRight < curX then sideX = "right" end
-            else
-                distX = diffLeft
-                if diffLeft  < curX then sideX = "left" end
-            end
+            if ledge and ledge ~= -1 then
+                local diffLeft, diffRight = math_abs(x - ledge:leftEdge()), math_abs(x - ledge:rightEdge())
+                local diffTop,  diffBot   = math_abs(y - ledge:topEdge()),  math_abs(y - ledge:bottomEdge())
+                local distX, distY        = 0, 0
+                local sideX, sideY        = "left", "top"
+                
+                if diffRight < diffLeft then
+                    distX = diffRight
+                    if diffRight < curX then sideX = "right" end
+                else
+                    distX = diffLeft
+                    if diffLeft  < curX then sideX = "left" end
+                end
 
-            if diffBot < diffTop then
-                distY = diffBot
-                if diffBot < curY then sideY = "bottom" end
-            else
-                distY = diffTop
-                if diffTop < curY then sideY = "top" end
-            end
-            
-            if (distX + distY) < (curX + curY) then
-                curLedge = ledge
-                curX     = distX
-                curY     = distY
-                curSideX = sideX
-                curSideY = sideY
+                if diffBot < diffTop then
+                    distY = diffBot
+                    if diffBot < curY then sideY = "bottom" end
+                else
+                    distY = diffTop
+                    if diffTop < curY then sideY = "top" end
+                end
+                
+                if (distX + distY) < (curX + curY) then
+                    curLedge = ledge
+                    curX     = distX
+                    curY     = distY
+                    curSideX = sideX
+                    curSideY = sideY
+                end
             end
         end
 

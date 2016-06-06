@@ -52,7 +52,6 @@ local levelData = {
             {object="spike", type="fg-wall-l0",        x=1000, y=200, size=1.5, rgb={1,0,0}, physics={shape={-20,-75, 20,-75, 100,50, -100,50}}},
 
             {object="emitter", x=1100, y=180, timer={500, 3000}, limit=nil, force={{-1000, 1000}, {-1000, -1600}, {0, 50}},
-            --{object="emitter", x=1100, y=180, timer={500, 3000}, limit=nil, force={-1000, -1000, 0},
                 items={
                     {25,  {object="negable", type=negTrajectory} },
                     {50,  {object="negable", type=negDizzy}      },
@@ -65,12 +64,10 @@ local levelData = {
             {object="scenery", x=-95, type="fg-foilage-2-yellow", size=0.7, onLedge=true, layer=2},
             {object="scenery", x=-30,  type="fg-foilage-2-green",  size=0.7, onLedge=true, layer=4, flip="x"},
 
-        --{object="ledge", x=200, y=230, size="small"},
         {object="ledge", x=180, y=230, size="small"},
             {object="randomizer", onLedge=true, spawn=5, items={ {35,blue},{70,white},{100,yellow} }},
             {object="rings", color=red, pattern={ {-50,-50}, {0,-50,color=pink}, {50,0}, {50,0,color=pink}, {0,50} }, onLedge=true},
 
-        --{object="ledge", x=350, y=-180, size="medium2"},
         {object="ledge", x=370, y=-180, size="medium2"},
 
         {object="ledge", x=200, y=150, size="medium3"},

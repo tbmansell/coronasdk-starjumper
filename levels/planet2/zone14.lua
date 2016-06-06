@@ -1,4 +1,4 @@
-local rockFilter = { categoryBits=32, maskBits=3 }  --groupIndex=-3
+local rockFilter = { categoryBits=32, maskBits=3 }
 
 
 local levelData = {
