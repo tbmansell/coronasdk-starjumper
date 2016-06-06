@@ -3,11 +3,11 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -4000,
     floor            = 1000,
-    startLedge       = 1,
+    startLedge       = 21,
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {2},
+        [bgrMid]   = {2, 1},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },
@@ -19,18 +19,25 @@ local levelData = {
             --Set Up Level
 
             -- Left Side
-            {object="spike", x=690,  y=-2200, type="fg-wall-dividerx2-spiked", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=690,  y=-1336, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=690,  y=-2200, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            
             {object="spike", x=705,  y=-2390, type="fg-wall-divider-cornertop", physics={shapeOffset={bottom=-125, left=0},   bounce=1}},
             {object="spike", x=1297,  y=-2802, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={bottom=0, right=-25},   bounce=1}},
             {object="spike", x=1790,  y=-2516, type="fg-wall-divider-cornerbottom", flip="x", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="spike", x=1899,  y=-4235, type="fg-wall-dividerx2-spiked", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            
+             {object="spike", x=1899,  y=-3371, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=1899,  y=-4235, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
 
             -- Right Side A - 1000 D - 500
-            {object="spike", x=1890,  y=-1700, type="fg-wall-dividerx2-spiked", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=1890,  y=-836, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=1890,  y=-1700, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            
             {object="spike", x=1905,  y=-1890, type="fg-wall-divider-cornertop", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="spike", x=2497,  y=-2302, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="spike", x=2990,  y=-2016, type="fg-wall-divider-cornerbottom", flip="x", physics={shapeOffset={bottom=0, left=75},   bounce=1}},
-            {object="spike", x=3099,  y=-3735, type="fg-wall-dividerx2-spiked", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=3099,  y=-2871, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="spike", x=3099,  y=-3735, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
 
             -- Phase 1 - First Climb
 
@@ -101,7 +108,7 @@ local levelData = {
         {object="ledge", x=200, y=-200, surface="exploding"},
 
         {object="ledge", x=300, y=-50, surface="exploding"},
-            --{object="friend", type="fuzzy", x=-100, color="Orange", onLedge=true},
+            {object="randomizer", x=-10, onLedge=true, items={{30,gearParachute}, {70,gearJetpack}, {100,blue}}},
 
         {object="ledge", x=250, y=-150, surface="exploding"},
             {object="rings", color=aqua, trajectory={x=75, y=-240, xforce=130, yforce=15, arc=20, num=3}},
@@ -125,6 +132,8 @@ local levelData = {
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=40, yforce=125, arc=40, num=3}},
 
         {object="ledge", x=300, y=25, surface="exploding"},
+             {object="spike", x=70,  y=-600, type="fg-rock-2", size=1, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
+               {object="randomizer", x=-20, onLedge=true, items={{30, gearFreezeTime}, {70,blue}, {100,gearShield}}},
 
         {object="ledge", x=250, y=-200, surface="exploding"},
             {object="scenery", x=150, y=-750, type="fgflt-pole-6"},

@@ -19,7 +19,9 @@ local levelData = {
 
     elements = {
         {object="ledge", type="start"},
-             {object="spike", x=550,  y=-1450, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+             {object="spike", x=118,  y=-1020, type="fg-wall-dividerx2-spiked2", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+             {object="spike", x=982,  y=-1020, type="fg-wall-dividerx2-spiked1", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+           
 
         {object="ledge", x=320, y=150, size="medbig"},
              {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=75, yforce=170, arc=40, num=3}},
@@ -55,7 +57,8 @@ local levelData = {
 
         ----------- inside ledges 2
         {object="obstacle", x=110, y=-130, timerOn=4000, timerOff=2500, type="electricgate"},  
-            {object="spike", x=870,  y=-1117, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},  
+            {object="spike", x=438,  y=-687, type="fg-wall-dividerx2-spiked2", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+            {object="spike", x=1302,  y=-687, type="fg-wall-dividerx2-spiked1", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},    
 
         {object="ledge", x=275, y=180, size="medium",movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="scenery", x=500, y=-400, type="fgflt-pole-5"},
@@ -107,7 +110,8 @@ local levelData = {
     ----------- inside ledges 3
 
         {object="obstacle", x=110, y=-130, timerOn=4000, timerOff=2500, type="electricgate"},  
-        {object="spike", x=870,  y=-1117, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, right=-20}, bounce=1}},  
+        {object="spike", x=438,  y=-687, type="fg-wall-dividerx2-spiked2", rotation=90, physics={shapeOffset={bottom=0, right=-20}, bounce=1}}, 
+        {object="spike", x=1302,  y=-687, type="fg-wall-dividerx2-spiked1", rotation=90, physics={shapeOffset={bottom=0, right=-20}, bounce=1}}, 
 
         {object="ledge", x=275, y=250, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}},
             {object="friend", type="fuzzy", x=230, y=-420, color="Pink", kinetic="hang", direction=left},

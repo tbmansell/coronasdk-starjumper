@@ -33,7 +33,8 @@
                 }
             },
 
-            {object="spike", x=900,  y=-1950, type="fg-wall-dividerx2-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=900,  y=-1094, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+             {object="spike", x=900,  y=-1950, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
 
         {object="ledge", x=170, y=240, size="medium", movement={pattern={{700,-200}}, reverse=true, speed=3, pause=1500}},
 

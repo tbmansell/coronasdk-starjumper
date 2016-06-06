@@ -7,7 +7,7 @@ local levelData = {
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {3, 2},
+        [bgrMid]   = {9, 6},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },
@@ -40,7 +40,8 @@ local levelData = {
              {object="ledge", x=320, y=-150, surface="ramp"},
                 {object="rings", color=aqua, pattern={ {450,-200}, {40,-50}, {40,50} }},  
                 {object="wall", x=237,  y=314, type="fg-wall-divider", copy=2, gap=1095, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-                {object="spike", x=250,  y=105, type="fg-wall-divider-fs-completedown", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+                {object="spike", x=250,  y=105, type="fg-wall-divider-fs-completedown1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+                 {object="spike", x=890,  y=105, type="fg-wall-divider-fs-completedown2", physics={shapeOffset={top=50, right=-20},   bounce=1}},
                 {object="spike", x=547,  y=81, type="fg-spikes-row-big", copy=2, gap=100},
                 {object="scenery", x=900, y=-900, rotation=200, type="fgflt-pole-2"},    
 
@@ -61,7 +62,7 @@ local levelData = {
                  {object="rings", color=white, pattern={ {0,-75} }},
 
             {object="ledge", x=-380, y=-240, size="small2"},
-                --{object="friend", type="fuzzy", x=30, size=0.6, color="White", onLedge=true},
+               {object="randomizer", x=0, onLedge=true, items={{30,gearSpringShoes}, {70,green}, {100,white}}},
 
             {object="obstacle", x=1775, y=525, size=1.3, timerOn=2000, timerOff=3000, type="electricgate"},
     
@@ -72,7 +73,8 @@ local levelData = {
                 {object="spike", x=320,  y=-1100, type="fg-wall-divider", rotation=40, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
                 {object="spike", x=1240,  y=-325, type="fg-wall-divider", rotation=40, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
                 {object="spike", x=480,  y=-380, type="fg-wall-divider", rotation=40, physics={shapeOffset={bottom=0, right=-20},   bounce=1}},
-                {object="spike", x=540,  y=-790, type="fg-wall-divider-fs-completedown", rotation=40, physics={shapeOffset={bottom=-140, right=-20},   bounce=1}},
+                {object="spike", x=621,  y=-995, type="fg-wall-divider-fs-completedown1", rotation=40, physics={shapeOffset={bottom=-140, right=-20},   bounce=1}},
+                {object="spike", x=1109,  y=-590, type="fg-wall-divider-fs-completedown2", rotation=40, physics={shapeOffset={bottom=-140, right=-20},   bounce=1}},
                 {object="spike", x=75,  y=125, size=0.6, type="fg-spikes-float-2", physics={shape={-60,-130, 70,140, -80,140}}}, 
                 {object="spike", x=-125,  y=125, size=0.6, type="fg-spikes-float-2", physics={shape={-60,-130, 70,140, -80,140}}}, 
 
@@ -92,7 +94,7 @@ local levelData = {
                  {object="rings", color=aqua, pattern={ {300,-120}, {45,40,color=white}, {45,40} }},
 
             {object="ledge", x=320, y=250, size="small3"},
-                --{object="friend", type="fuzzy", x=30, size=0.4, color="Pink", onLedge=true},
+                {object="randomizer", x=-10, onLedge=true, items={{30,gearParachute}, {70,yellow}, {100,green}}},
 
             {object="ledge", x=-170, y=220, size="small2"},
 

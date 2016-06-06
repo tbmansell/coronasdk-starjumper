@@ -37,7 +37,8 @@ local levelData = {
 --Start
             {object="spike", x=50,  y=-900, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=50, right=-20},   bounce=1}},
 --Middle
-            {object="spike", x=925,  y=-1750, type="fg-wall-dividerx2-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=925,  y=-886, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=925,  y=-1750, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
 --End
             {object="spike", x=1965,  y=-900, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=50, right=-20},   bounce=1}},         
 
@@ -55,9 +56,9 @@ local levelData = {
 
         {object="ledge", x=134, y=-260, size="small3"},    
 
-        {object="ledge", x=-253, y=-285, size="small3"},     
+        {object="ledge", x=-253, y=-295, size="small3"},     
 
-        {object="ledge", x=500, y=100, surface="exploding"},
+        {object="ledge", x=500, y=110, surface="exploding"},
             {object="rings", color=pink, pattern={ {-70,-60} }},
 
         {object="ledge", x=315, y=270, size="medium"},
@@ -71,9 +72,9 @@ local levelData = {
                     {100, {object="scenery", layer=1, type="fg-debris-barrel-red", size={6, 8}} },
                 }
             },
-            {object="spike", x=400,  y=-500, type="fg-rock-2", size=1.2, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
-            {object="spike", x=400,  y=-200, type="fg-rock-2", size=1.0, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
-            {object="spike", x=400,  y=75, type="fg-rock-2", size=0.8, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
+            {object="spike", x=300,  y=-500, type="fg-rock-2", size=1.2, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
+            {object="spike", x=300,  y=-200, type="fg-rock-2", size=1.0, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
+            {object="spike", x=300,  y=75, type="fg-rock-2", size=0.8, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
 
         {object="ledge", x=-400, y=205, size="medsmall2", rotation=17},
 

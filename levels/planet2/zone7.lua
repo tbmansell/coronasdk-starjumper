@@ -3,6 +3,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -4000,
     floor            = 1000,
+    startLedge       = 1,
     warpChase        = true,
 
     backgroundOrder = {
@@ -14,8 +15,11 @@ local levelData = {
 
     elements = {
         {object="ledge", type="start"},
-                 {object="spike", x=350,  y=-1700, type="fg-wall-dividerx2-spiked", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-                 {object="spike", x=1325,  y=-1600, type="fg-wall-dividerx2-spiked", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+                 {object="spike", x=215,  y=-1100, type="fg-wall-dividerx2-spiked2", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+                 {object="spike", x=825,  y=-1710, type="fg-wall-dividerx2-spiked1", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+                 {object="spike", x=1180,  y=-1000, type="fg-wall-dividerx2-spiked2", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+                
+                 {object="spike", x=1790,  y=-1610, type="fg-wall-dividerx2-spiked1", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
                  {object="scenery", x=1500, y=-1000, type="fgflt-pole-4", rotation=-35},
 
 

@@ -24,7 +24,8 @@ local levelData = {
                 }
             },
 
-            {object="spike", x=1280,  y=-1000, type="fg-wall-dividerx2-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=1280,  y=-136, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=1280,  y=-1000, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
             {object="spike", x=2300,  y=-1500, type="fg-wall-divider-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
             {object="spike", x=2300,  y=-100, type="fg-wall-divider-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
                   

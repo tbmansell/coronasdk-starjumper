@@ -15,8 +15,11 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-            {object="spike", x=700,  y=-2200, type="fg-wall-dividerx2-spiked", physics={shapeOffset={top=50, right=-20},  bounce=1}},
-            {object="spike", x=2500,  y=-2000, type="fg-wall-dividerx2-spiked", physics={shapeOffset={top=50, right=-20}, bounce=1}}, 
+            {object="spike", x=700,  y=-1336, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20},  bounce=1}},
+             {object="spike", x=700,  y=-2200, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},  bounce=1}},
+            
+            {object="spike", x=2500,  y=-1136, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20}, bounce=1}},
+             {object="spike", x=2500,  y=-2000, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},  bounce=1}}, 
 
             {object="emitter", x=100, y=-2500, timer={2000, 4000}, limit=nil, force={ {200, 500}, {100, 300}, {45, 180} }, 
                 items={
@@ -45,6 +48,8 @@ local levelData = {
 
         {object="ledge", x=250, y=30, size="small"},
             {object="gear", type=gearJetpack, x=0, y=-200, onLedge=true, regenerate=false},
+
+
         
 -- Level Start
 
@@ -107,7 +112,8 @@ local levelData = {
                 }
             },
             {object="spike", x=-75,  y=-700, type="fg-spikes-float-5", size=0.8, physics={shape={-75,-100, 75,-100, -25,200}}},
-            {object="wall", x=300,  y=-820, type="fg-wall-divider-fs-completedown", rotation=-30, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=300,  y=-820, type="fg-wall-divider-fs-completedown1", rotation=-30, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=850,  y=-1138, type="fg-wall-divider-fs-completedown2", rotation=-30, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
 
         {object="ledge", x=550, y=350, type="finish"}
     },

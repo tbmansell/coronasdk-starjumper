@@ -89,9 +89,10 @@ local levelData = {
 
         {object="ledge", x=1300, y=350, size="big3", positionFromLedge=15, movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
             {object="rings", color=aqua, trajectory={x=110, y=-150, xforce=-120, yforce=75, arc=70, num=5}},
-            {object="wall", x=461,  y=-218, type="fg-wall-divider",  targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="wall", x=475,  y=-425, type="fg-wall-divider-fs-completedown1", targetName="moveableEndScenery2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-        
+            {object="wall", x=465,  y=-218, type="fg-wall-divider",  targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=480,  y=-425, type="fg-wall-divider-fs-completedown1", targetName="moveableEndScenery2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=1120,  y=-425, type="fg-wall-divider-fs-completedown2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+
         {object="ledge", x=400, y=0, type="finish", targetName="endLedge"}
     },
 
