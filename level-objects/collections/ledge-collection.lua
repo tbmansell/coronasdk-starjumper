@@ -28,11 +28,6 @@ function ledgeCollection:add(ledge, zoneState)
     self:addToSpineCollection(ledge)
     self:addToMovementCollection(ledge)
 
-	-- if ledge has a keylock then add the keylock to the spine collection
-	if ledge.keylock then
-		self.spineCollection:add(ledge.keylock)
-	end
-
 	-- load in previous scores and colour ledge from previous zone plays
 	if zoneState and zoneState.jumpScores and zoneState.jumpScores[ledge.id] and state.demoActions == nil then
         ledge.score = zoneState.jumpScores[ledge.id]
