@@ -68,7 +68,8 @@ local levelData = {
   
 -- Key Pad
         {object="ledge", x=450, y=-530, size="medium", positionFromLedge=2, keylock="Yellow", triggerEvent="unlockLevelEnd"},      
-            {object="wall", x=400,  y=220, type="fg-wall-divider-fs-completedown", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=400,  y=220, type="fg-wall-divider-fs-completedown1", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+             {object="wall", x=1040,  y=220, type="fg-wall-divider-fs-completedown2", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=386,  y=-218, type="fg-wall-divider-halfsize", targetName="moveableEndScenery2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=383,  y=-1050, type="fg-wall-divider", targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             
