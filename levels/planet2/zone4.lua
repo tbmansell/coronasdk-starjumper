@@ -38,7 +38,8 @@ local levelData = {
             {object="rings", color=aqua, pattern={ {800,-400}, {575,150}, {350,200}}},
 
             {object="wall", x=237,  y=314, type="fg-wall-divider", copy=2, gap=1095, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="spike", x=250,  y=105, type="fg-wall-divider-fs-completedown", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=250,  y=105, type="fg-wall-divider-fs-completedown1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=890,  y=105, type="fg-wall-divider-fs-completedown2", physics={shapeOffset={top=50, right=-20},   bounce=1}},
             {object="spike", x=547,  y=81, type="fg-spikes-row-big", copy=2, gap=100},
             
             {object="emitter", x=600, y=-950, timer={3000, 6000}, limit=nil, force={ {-500, 500}, {100, 300}, {0, 360} }, 
