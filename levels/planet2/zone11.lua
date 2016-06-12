@@ -12,6 +12,12 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
+      backgroundSounds = {
+        {name="nature/wind5", quietTime=3000, minVolume=1, maxVolume=2},
+        {name="nature/wind1", quietTime=6000, minVolume=2, maxVolume=3},
+    },
+
+
     elements = {
         {object="ledge", type="start"},
 

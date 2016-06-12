@@ -12,6 +12,13 @@ local levelData = {
         [bgrSky]   = {2, 1}
     },
 
+      backgroundSounds = {
+        {name="space/space6", quietTime=4000, minVolume=3, maxVolume=4},
+        {name="space/space3", quietTime=4000, minVolume=3, maxVolume=4},
+       
+    },
+
+
     elements = {
         {object="ledge", type="start"},
             {object="scenery", type="fg-debris-ufo-left", x=50, y=-300, layer=4, rotation=-10},

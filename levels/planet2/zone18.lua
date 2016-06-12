@@ -12,6 +12,11 @@
         [bgrSky]   = {1, 2}
     },
 
+     backgroundSounds = {
+        {name="space/space3", quietTime=5000, minVolume=4, maxVolume=5},
+        {name="nature/wind5", quietTime=3000, minVolume=2, maxVolume=3},
+    },
+
     elements = {
         {object="ledge", type="start"},
             {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=90, yforce=0, arc=50, num=5}},

@@ -6,11 +6,17 @@ local levelData = {
 
     backgroundOrder = {
         [bgrFront] = {},
-        [bgrMid]   = {7, 7},
+        [bgrMid]   = {7, 8},
         [bgrBack]  = {},
         [bgrSky]   = {1, 2}
     },
 
+
+    backgroundSounds = {
+        {name="space/space2", quietTime=3000, minVolume=4, maxVolume=6},
+        {name="nature/wind1", quietTime=7000, minVolume=1, maxVolume=2},
+    },
+    
     elements = {
         {object="ledge", type="start"},
 

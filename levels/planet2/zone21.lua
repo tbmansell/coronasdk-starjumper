@@ -17,6 +17,12 @@ local levelData = {
         [bgrSky]   = {2, 1}
     },
 
+     backgroundSounds = {
+       {name="space/space6", quietTime=3000, minVolume=3, maxVolume=4},
+        {name="space/space1", quietTime=4000, minVolume=3, maxVolume=4},
+    },
+
+
     elements = {
         {object="ledge", type="start"},
             {object="rings", color=aqua, trajectory={x=30, y=-200, xforce=85, yforce=155, arc=65, num=3}},

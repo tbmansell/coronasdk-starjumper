@@ -17,6 +17,12 @@ local levelData = {
 
 ---- Change the asteroid physics objects in to kinematic and set paths
 
+      backgroundSounds = {
+        {name="space/space6", quietTime=7000, minVolume=2, maxVolume=3},
+        {name="space/space5", quietTime=7000, minVolume=2, maxVolume=4},
+    },
+
+
     elements = {
         {object="ledge", type="start"},
              {object="spike", x=118,  y=-1020, type="fg-wall-dividerx2-spiked2", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},

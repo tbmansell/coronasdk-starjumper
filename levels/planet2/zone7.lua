@@ -13,6 +13,11 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
+    backgroundSounds = {
+        {name="space/space4", quietTime=8000, minVolume=3, maxVolume=4},
+    },
+    
+
     elements = {
         {object="ledge", type="start"},
                  {object="spike", x=215,  y=-1100, type="fg-wall-dividerx2-spiked2", rotation=45, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
