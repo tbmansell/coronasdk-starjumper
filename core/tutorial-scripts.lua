@@ -3,13 +3,13 @@ local scripts = {
 		sequence = {
 			[1] = {
 				actions     = { {name="select-gear", target=gearTrajectory} },
-				showNote    = { delay=3000, image="leftbox", x=200, y=500, size=0.6, text="select trajectory jump equipment", color="white", textY=-20, inCamera=false },
+				showNote    = { delay=3000, image="leftbox", x=181, y=500, size=0.6, text="select trajectory jump equipment", color="white", textY=-20, inCamera=false },
 				showSpeech  = { delay=0, speaker=characterGygax, dir=right, y=50, text="Ok {player}, I will help you through this zone to get you started. I'll be supplying you some precious jump trajectory equipment to learn jumping"
 				},
 			},
 			[2] = {
 				actions     = { {name="prepare-jump", target=nil} },
-				showNote    = { image="reverseleftbox", x=290, y=440, size=0.6, text="drag from feet to prepare a jump", color="white", textY=0, inCamera=true },
+				showNote    = { image="reverseleftbox", x=284, y=440, size=0.6, text="drag from feet to prepare a jump", color="white", textY=0, inCamera=true },
 			},
 			[3] = {
 				actions     = { {name="jump", target=nil, params={pullx=-100, pully=150}} },
@@ -20,16 +20,16 @@ local scripts = {
 			},
 			[4] = {
 				actions     = { {name="tap-ledge", target="ledge_stone_2", params={to=-100, accuracy=50}} },
-				showNote    = { delay=2500, image="reverseleftbox", x=180, y=450, size=0.6, text="tap ledge to collect equipment", color="white", textY=0, inCamera=true },
+				showNote    = { delay=2500, image="reverseleftbox", x=160, y=450, size=0.6, text="tap ledge to collect equipment", color="white", textY=0, inCamera=true },
 				showSpeech  = { delay=2500, speaker=characterGygax, dir=right, y=50, text="You can move around a ledge by tapping a point on it. Go collect that trajectory I placed for you"},
 			},
 			[5] = {
 				actions     = { {name="select-gear", target=gearTrajectory} },
-				showNote    = { delay=1500, image="leftbox", x=200, y=500, size=0.6, text="select trajectory jump equipment", color="white", textY=-20, inCamera=false },
+				showNote    = { delay=1500, image="leftbox", x=179, y=500, size=0.6, text="select trajectory jump equipment", color="white", textY=-20, inCamera=false },
 			},
 			[6] = {
 				actions     = { {name="prepare-jump", target=nil} },
-				showNote    = { image="reverseleftbox", x=290, y=440, size=0.6, text="drag from feet to prepare a jump", color="white", textY=0, inCamera=true },
+				showNote    = { image="reverseleftbox", x=285, y=440, size=0.6, text="drag from feet to prepare a jump", color="white", textY=0, inCamera=true },
 			},
 			[7] = {
 				actions     = { {name="jump", target=nil, params={pullx=-130, pully=170}} },
