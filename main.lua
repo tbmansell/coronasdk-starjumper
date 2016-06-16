@@ -55,7 +55,7 @@ end
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "zone"
+local mode     = "testads"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -68,7 +68,7 @@ if mode == "zone" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 1
+	state.data.zoneSelected   = 25
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 
@@ -82,7 +82,11 @@ elseif mode == "gen" then
 	state.data.planetSelected = 1
 	state.data.zoneSelected   = 18
 	require("core.level-algorithms"):run("reverse")
+
+elseif mode == "testads" then
+	composer.gotoScene("scenes.test-ads")
 	
 elseif mode == "game" or mode == nil then
 	composer.gotoScene("scenes.title")
+
 end

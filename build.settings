@@ -40,6 +40,8 @@ settings = {
             UIStatusBarHidden           = true,
             MinimumOSVersion            = "7.0",
             NSAppTransportSecurity      = { NSAllowsArbitraryLoads=true },
+            NSLocationAlwaysUsageDescription = { "" },
+            NSLocationWhenInUseUsageDescription = { "" },
 		},
 	},
 	androidPermissions = 
@@ -76,6 +78,15 @@ settings = {
         {
             publisherId = "com.coronalabs",
             supportedPlatforms = { android=true }
+        },
+        ["plugin.coronaAds"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { iphone=true, android=true }
+        },
+        ["CoronaProvider.ads.vungle"] =
+        {
+            publisherId = "com.vungle"
         },
         --[[["plugin.revmob"] =
         {
