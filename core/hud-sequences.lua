@@ -1,9 +1,10 @@
-local composer   = require("composer")
-local TextCandy    = require("text_candy.lib_text_candy")
+local composer     = require("composer")
 local anim         = require("core.animations")
 local soundEngine  = require("core.sound-engine")
 local messages     = require("core.messages")
 local recorder     = require("core.recorder")
+local adverts      = require("core.adverts")
+local TextCandy    = require("text_candy.lib_text_candy")
 local spineStore   = require("level-objects.collections.spine-store")
 
 -- Aliases:
@@ -158,7 +159,7 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
     if state.demoActions then return end
     
     if not passGuard and (state.data.game == levelOverFailed or state.data.game == levelOverComplete) then
-        print("WARNING: double fail sequence attmpted")
+        print("WARNING: double fail sequence attempted")
         return
     end
 
@@ -193,6 +194,7 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
     self:endLevelBasics(false)
     self:endLevelTip()
     self:endLevelCollectables(false)
+    self:endLevelShowAdvert(false)
     self:endLevelButtons(false)
 
     if not infiniteGameType[game] then 
@@ -256,6 +258,7 @@ function hud:levelCompleteSequence(passGuard)
             hud:endLevelShowUnlocks()
         end
 
+        hud:endLevelShowAdvert(true)
         hud:endLevelButtons(true)
         hud:endLevelSequenceStart()
     end)
@@ -803,4 +806,12 @@ function hud:endLevelShowUnlocks()
             seq:tran({time=250, scale=0.01, alpha=0})
         end
     end
+end
+
+
+function hud:endLevelShowAdvert(success)
+    local seq = anim:chainSeq("endLevel")
+    seq:callback(function()
+        adverts:checkShowAdvert()
+    end)
 end

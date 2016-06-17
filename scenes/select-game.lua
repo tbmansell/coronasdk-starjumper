@@ -1,4 +1,5 @@
-local composer  = require("composer")
+local composer    = require("composer")
+local adverts     = require("core.adverts")
 local anim        = require("core.animations")
 local particles   = require("core.particles")
 local builder     = require("level-objects.builders.builder")
@@ -51,8 +52,8 @@ function scene:create(event)
     self.creating = true
     self.context  = "selectPlanet"
 
-    local adverts = require("core.adverts")
-    adverts:showStaticAdvert()
+    -- Adding this call here means that we always show a single advert, only once, the first time anyone starts the game, but after they have picked an initial game choice
+    adverts:forceAdvert()
     
     -- Allow the code from show() to run before this
     after(1000, function()

@@ -287,6 +287,9 @@ function hud:calculateAwards()
 end
 
 
+--------------------------------------
+
+
 function hud:racerCompletedZone(racer)
     local model = racer.model
     

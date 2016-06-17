@@ -1,4 +1,12 @@
 local adverts = {
+
+	-- a counter which shows how many adverts we have forced the player to see
+	forcedAdsShown     = 0,
+	-- a counter which tracks checks to see if we should force an add on a player
+	forcedAdsChecks    = 0,
+	-- the number of times that a check to see if we should force an ad on a player, before we show one
+	forcedAdsFrequency = 3,
+
 	-- config settings for the corona ads account
 	coronaAds = {
 		apiKey = "5223c2c3-cf81-4c43-ae41-2d4ed16552bc"
@@ -8,6 +16,31 @@ local adverts = {
 		appId = "57158296f49eec2152000024"
 	},
 }
+
+
+
+-- Force user to view an advert and track that we've shown them one
+function adverts:forceAdvert()
+	print("****forceAdvert")
+	self.forcedAdsShown  = self.forcedAdsShown + 1
+	self.forcedAdsChecks = 0
+
+	globalSoundPlayer(sounds.unlock)
+	self:showStaticAdvert()
+end
+
+
+-- Checks if we should show and advert and tracks checks, so every N calsl will trigger an advert
+function adverts:checkShowAdvert()
+	print("**checkShowAdvert")
+	globalSoundPlayer(sounds.collectKey)
+
+	self.forcedAdsChecks = self.forcedAdsChecks + 1
+
+	if self.forcedAdsChecks >= self.forcedAdsFrequency then
+		self:forceAdvert()
+	end
+end
 
 
 -- Show a full-screen non video advert
