@@ -225,8 +225,9 @@ function hud:rankPlayerStoryMode()
 
     -- calculate total score player could get from rings
     for color=1, #ringValues do
-        local num = hud:rings(color)
-        if num > 0 then
+        local num = hud.level.collectables.ringsAvailable[color]
+        
+        if num and num > 0 then
             maxRingScore = maxRingScore + (num * ringValues[color].points)
         end
     end

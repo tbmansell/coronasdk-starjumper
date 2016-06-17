@@ -15,18 +15,7 @@ local spineStore         = require("level-objects.collections.spine-store")
 
 
 -- Main class
-local level = {
-    -- List of rings in this level, plus their value in points and cubes
-    rings = {
-        [yellow] = {inLevel=0, points=60, cubes=6},
-        [aqua]   = {inLevel=0, points=10, cubes=1},
-        [pink]   = {inLevel=0, points=20, cubes=2},
-        [white]  = {inLevel=0, points=50, cubes=5},
-        [red]    = {inLevel=0, points=30, cubes=3},
-        [green]  = {inLevel=0, points=70, cubes=7},
-        [blue]   = {inLevel=0, points=40, cubes=4},
-    }
-}
+local level = {}
 
 
 -- Local vars (for this file only)
