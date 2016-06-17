@@ -17,7 +17,8 @@ local adverts = {
 	},
 	-- config settings for the vungle ads account
 	vungle = {
-		appId = "57158296f49eec2152000024"
+		["Android"]   = "57158296f49eec2152000024",
+		["iPhone OS"] = "57644672a6d78e284600006f",
 	},
 }
 
@@ -83,8 +84,10 @@ function adverts:loadVungleAdvert(advertType, successCallback)
             end
         end
     end
-    
-    vungleAds.init("vungle", self.vungle.appId, adListener)
+
+    local appId = self.vungle[system.getInfo("platformName")]
+
+    vungleAds.init("vungle", appId, adListener)
     vungleAds.show(advertType, { isBackButtonEnabled=true })
     --globalSoundPlayer(sounds.collectKey)
 end
