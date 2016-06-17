@@ -375,7 +375,7 @@ function scene:purchase(product)
     self:hideStatus()
     
     if store == nil then
-        self:showStatus("Purchase "..product.id.." failed: purchases not available as no store loaded")
+        --self:showStatus("Purchase "..product.id.." failed: purchases not available as no store loaded")
         return
     end
 
@@ -390,7 +390,7 @@ function scene:purchase(product)
             store.purchase({product.id})
         end
     else
-        self:showStatus("Store purchases have been disabled in phone settings")
+        --self:showStatus("Store purchases have been disabled in phone settings")
     end
 end
 
@@ -398,7 +398,7 @@ end
 function scene:restorePurchases()
     -- calls storeTransaction() for each previous purchase to restore
     if store and not restoreChecked then
-        self:showStatus("checking store restore")
+        --self:showStatus("checking store restore")
         transactionProduct = nil
         store.restore()
         restoreChecked = true
@@ -463,14 +463,14 @@ function scene:storeTransaction(event)
 
     elseif transaction.state == "cancelled" then
         play(sounds.shopCantBuy)
-        self:showStatus("Purchase cancelled: "..tostring(transaction.productIdentifier))
+        --self:showStatus("Purchase cancelled: "..tostring(transaction.productIdentifier))
 
     elseif transaction.state == "failed" then
         play(sounds.shopCantBuy)
-        self:showStatus("Purchase failed: "..tostring(transaction.productIdentifier).." => "..tostring(event.errorType).." "..tostring(event.errorString))
+        --self:showStatus("Purchase failed: "..tostring(transaction.productIdentifier).." => "..tostring(event.errorType).." "..tostring(event.errorString))
     else
         play(sounds.shopCantBuy)
-        self:showStatus("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
+        --self:showStatus("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
     end
 
     if store then
@@ -652,13 +652,15 @@ function scene:displayPlanetUnlocked(planet, restore)
     local productId = transactionProduct.id
     local product   = productData.iap[productId]
 
-    product.labelPurchased.alpha = 1
-    product.labelPrice.alpha     = 0
+    if product then
+        product.labelPurchased.alpha = 1
+        product.labelPrice.alpha     = 0
 
-    product.buyButton1:removeSelf()
-    product.buyButton2:removeSelf()
-    product.buyButton1 = nil
-    product.buyButton2 = nil
+        product.buyButton1:removeSelf()
+        product.buyButton2:removeSelf()
+        product.buyButton1 = nil
+        product.buyButton2 = nil
+    end
 
     newBlocker(self.view)
     self:animatePurchases(500, 1000, 500)
@@ -730,13 +732,13 @@ end
 
 function scene:refundPlanetPack1()
     self:refundPlanetPack(1, characterKranio)
-    self:showStatus("Purchase refunded: Organia Planet Pack")
+    --self:showStatus("Purchase refunded: Organia Planet Pack")
 end
 
 
 function scene:refundPlanetPack2()
     self:refundPlanetPack(2, characterReneGrey)
-    self:showStatus("Purchase refunded: Apocalypsoid Planet Pack")
+    --self:showStatus("Purchase refunded: Apocalypsoid Planet Pack")
 end
 
 
