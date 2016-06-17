@@ -226,7 +226,7 @@ function hud:rankPlayerStoryMode()
     -- calculate total score player could get from rings
     for color=1, #ringValues do
         local num = hud.level.collectables.ringsAvailable[color]
-        
+
         if num and num > 0 then
             maxRingScore = maxRingScore + (num * ringValues[color].points)
         end
@@ -260,12 +260,12 @@ function hud:calculateAwards()
 
     -- 1. Did they get the time bonus
     -- Survival & Inifnite Game - dont allow this award
-    if hud.timeCounter > 0 and gameType ~= gameTypeSurvival and not infiniteGameType[gameType] then
+    if self.timeCounter > 0 and gameType ~= gameTypeSurvival and not infiniteGameType[gameType] then
         table.insert(awards, awardDefinitions[awardSpeedPro])
     end
 
     -- 2. Did they get gold digger award: collected everything on the level?
-    if hud.ringsCollected == self.collectables.totalCollectables then
+    if self.ringsCollected == self.level.collectables:countRings() then
         table.insert(awards, awardDefinitions[awardGoldDigger])
     end
 

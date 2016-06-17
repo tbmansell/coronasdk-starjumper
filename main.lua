@@ -68,7 +68,7 @@ if mode == "zone" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 20
+	state.data.zoneSelected   = 2
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 

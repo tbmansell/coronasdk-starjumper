@@ -9,6 +9,7 @@ local collectableCollection = {
     -- !add()
     -- tallyRings()
     -- numberRings()
+    -- countRings()
     -- reset()
 }
 
@@ -53,6 +54,22 @@ end
 ----
 function collectableCollection:numberRings(color) 
     return self.ringsAvailable[color] or 0
+end
+
+
+-- Gets the number of rings loaded into the level
+-- @return num rings in total
+----
+function collectableCollection:countRings()
+    local count = 0
+
+    for color=1, #ringValues do
+        if self.ringsAvailable[color] then
+            count = count + self.ringsAvailable[color]
+        end
+    end
+
+    return count
 end
 
 
