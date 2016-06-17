@@ -6,11 +6,11 @@ globalDebugGame    = false
 require("constants.globals")
 
 -- Define global objects
-state  = require("core.state")
-track  = require("core.track")
-sounds = require("core.sounds")
-curve  = require("core.curve")
-hud    = require("core.hud")
+state   = require("core.state")
+track   = require("core.track")
+sounds  = require("core.sounds")
+curve   = require("core.curve")
+hud     = require("core.hud")
 
 -- Define global functions
 require("core.draw")
@@ -87,10 +87,5 @@ elseif mode == "testads" then
 	composer.gotoScene("scenes.test-ads")
 	
 elseif mode == "game" or mode == nil then
-	-- Load a basic advert each time the game is started
-	--local adverts = require("core.adverts")
-	--adverts:showStaticAdvert()
-
 	composer.gotoScene("scenes.title")
-
 end
