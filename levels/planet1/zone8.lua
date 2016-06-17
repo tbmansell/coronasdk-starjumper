@@ -29,7 +29,7 @@ local levelData = {
             {object="scenery", x=-150, y=900, type="fg-wall-l2"},
 
         {object="ledge", x=250, y=-200, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
-            {object="friend", type="fuzzy", x=300, y=133, color="Orange", kinetic="hangDouble"},
+            {object="friend", type="fuzzy", x=300, y=143, color="Orange", kinetic="hangDouble"},
             {object="wall", x=175, y=-75, type="fg-rock-3", physics={shape="circle", bounce=1}},
             {object="rings", color=aqua, trajectory={x=30, y=350, xforce=90, yforce=50, arc=50, num=2}},
 
