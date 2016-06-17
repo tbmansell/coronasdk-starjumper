@@ -416,26 +416,33 @@ end
 function hud:endLevelButtons(success)
     if state.demoActions then return end
 
-    local group = hud.endLevelGroup
-    local game  = state.data.gameSelected
+    local group    = hud.endLevelGroup
+    local game     = state.data.gameSelected
+    local planet   = state.data.planetSelected
+    local zoneNum  = state.data.zoneSelected
+    local lastZone = planetData[planet].normalZones
+    local nextZoneUnlocked = state:zoneUnlocked(planet, zoneNum + 1)
 
-    local btnExit,   btnExitOverlay   = self:createButtonExit(group,   450, 800)
-    local btnReplay, btnReplayOverlay = self:createButtonReplay(group, 650, 800)
+    -- Show exit and replay buttons unless player has completed the last zone to unlock character
+    if success and game == gameTypeStory and zoneNum == lastZone then
+        -- dont show the default buttons to force story mode
+    else
+        local btnExit,   btnExitOverlay   = self:createButtonExit(group,   450, 800)
+        local btnReplay, btnReplayOverlay = self:createButtonReplay(group, 650, 800)
 
-    local seq2 = anim:chainSeq("endLevel", btnExit)
-    seq2.target2 = btnExitOverlay
-    seq2:tran({time=150, y=575, ease=easing.inOutCirc})
+        local seq2 = anim:chainSeq("endLevel", btnExit)
+        seq2.target2 = btnExitOverlay
+        seq2:tran({time=150, y=575, ease=easing.inOutCirc})
 
-    local seq3 = anim:chainSeq("endLevel", btnReplay)
-    seq3.target2 = btnReplayOverlay
-    seq3:tran({time=150, y=575, ease=easing.inOutCirc})
+        local seq3 = anim:chainSeq("endLevel", btnReplay)
+        seq3.target2 = btnReplayOverlay
+        seq3:tran({time=150, y=575, ease=easing.inOutCirc})
+    end
 
-    -- Infinite Games - dont show next levelbutton
+    -- Infinite Games - dont show next level button
     if success and not infiniteGameType[game] then
-        -- only show next button if next zone is playable OR we are in story mode (as this takes us to outro sequence)
-        local zoneState = state:zoneState(state.data.zoneSelected + 1)
-
-        if game == gameTypeStory or (zoneState ~= nil and zoneState.playable) then
+        -- only shot it if next zone is unlocked OR lastZone which actually plays the unlocked character sequence
+        if nextZoneUnlocked or zoneNum == lastZone then
             local btnNext, btnNextOverlay = self:createButtonNext(group, 850, 800)
             local seq4   = anim:chainSeq("endLevel", btnNext)
             seq4.target2 = btnNextOverlay
@@ -456,6 +463,19 @@ function hud:endLevelButtons(success)
         seq5.target2 = btnShopOverlay
         seq5:add("pulse", {time=1500, scale=0.05})
         seq5:start()
+
+        -- display reward video skipper if next level is LOCKED but is not the last normal zone or a secret one
+        if game == gameTypeStory and not nextZoneUnlocked and (zoneNum+1) < lastZone then
+            local skipVideo    = display.newGroup()
+            local skipVideoBgr = newImage(skipVideo, "message-tabs/skipvideo-messagebox", 650, 350)
+            local btnSkip, btnSkipOverlay = self:createButtonSkipZone(skipVideo, 800, 370)
+
+            skipVideo.alpha = 0
+            group:insert(skipVideo)
+
+            local seq6 = anim:chainSeq("endLevel", skipVideo)
+            seq6:tran({time=1000, alpha=1, delay=1000})
+        end
     end
 end
 

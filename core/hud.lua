@@ -848,6 +848,11 @@ function hud:createButtonShop(group, x, y)
 end
 
 
+function hud:createButtonSkipZone(group, x, y)
+    return newButton(group, x, y, "playvideo", function() hud:playVideoToSkipZone() end)
+end
+
+
 function hud:createButtonPlayerSelect(group, x, y)
     return newButton(group, x, y, "charselect", function() hud:exitToPlayerSelect() end)
 end

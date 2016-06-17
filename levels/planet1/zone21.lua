@@ -4,7 +4,6 @@ local levelData = {
     defaultLedgeSize = "medium",
     aiRace           = true,
     playerStart      = playerStartWalk,
-    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {1,  2, 3,  4},

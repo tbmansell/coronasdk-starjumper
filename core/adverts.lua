@@ -27,14 +27,14 @@ function adverts:forceAdvert()
 	self.forcedAdsShown  = self.forcedAdsShown + 1
 	self.forcedAdsChecks = 0
 
-	globalSoundPlayer(sounds.unlock)
+	--globalSoundPlayer(sounds.unlock)
 	self:showStaticAdvert()
 end
 
 
 -- Checks if we should show and advert and tracks checks, so every N calsl will trigger an advert
 function adverts:checkShowAdvert()
-	globalSoundPlayer(sounds.collectKey)
+	--globalSoundPlayer(sounds.collectKey)
 
 	self.forcedAdsChecks = self.forcedAdsChecks + 1
 
@@ -71,7 +71,7 @@ end
 
 -- Show a full screen video advert which triggers a callback if the video is fully viewed
 function adverts:loadRewardVideoAdvert(successCallback)
-	self:loadVungleAdvert("incentivized")
+	self:loadVungleAdvert("incentivized", successCallback)
 end
 
 
@@ -86,6 +86,7 @@ function adverts:loadVungleAdvert(advertType, successCallback)
     
     vungleAds.init("vungle", self.vungle.appId, adListener)
     vungleAds.show(advertType, { isBackButtonEnabled=true })
+    --globalSoundPlayer(sounds.collectKey)
 end
 
 

@@ -1,5 +1,6 @@
 local composer = require("composer")
-local recorder   = require("core.recorder")
+local recorder = require("core.recorder")
+local adverts  = require("core.adverts")
 
 
 -- Aliases
@@ -62,22 +63,34 @@ function hud:nextLevel()
     play(sounds.gameStart)
     loadSceneTransition()
     
-    -- Race - save the updated race positions since plaer landed
+    -- Race - save the updated race positions since player landed
     if state.data.gameSelected == gameTypeRace then
         self:saveUpdatedRacePositions()
     end
 
     after(1000, function()
-        -- check if completed last zone, if so go to the outro scene
-        if state.data.zoneSelected == #hud.level.planetDetails.zones then
-            state.data.zoneSelected = "-outro"
-            composer.gotoScene("scenes.cutscene", {effect="fade"})
+        local zone     = state.data.zoneSelected
+        local lastZone = planetData[state.data.planetSelected].normalZones
+
+        -- check if completed last zone, if so go to the unlocked character scene
+        if zone == lastZone then
+            state.cutsceneStory      = "cutscene-character-intro"
+            state.cutsceneCharacter  = hud.level.planetDetails.unlockFriend
+            state.sceneAfterCutScene = "scenes.select-zone"
+            composer.gotoScene("scenes.mothership", {effect="fade"})
         else
-            state.data.zoneSelected = state.data.zoneSelected + 1
+            state.data.zoneSelected = zone + 1
             composer.gotoScene("scenes.play-zone", {effect="fade"})
         end
     end)
     return true
+end
+
+
+function hud:playVideoToSkipZone()
+    adverts:loadRewardVideoAdvert(function()
+        self:nextLevel()
+    end)
 end
 
 

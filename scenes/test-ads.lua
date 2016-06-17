@@ -125,6 +125,10 @@ function scene:loadVungleAdvert(advertType)
         local s=""
         for k, v in pairs(event) do
             s=s..tostring(k)..": "..tostring(v)..", "
+
+            if k == "isCompletedView" and (v == true or v == "true") then
+            	s = s.." **woowoo completed**, "
+            end
         end
         scene:showStatus(s)
     end

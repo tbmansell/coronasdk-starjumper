@@ -121,7 +121,7 @@ local state = {
 
         -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
         -- This is the starting structure when nothing is unlocked.
-        --[[unlocked = {
+        unlocked = {
             -- list of characters unlocked
             characters = { characterNewton },
             -- list of gear that is unlocked
@@ -135,9 +135,9 @@ local state = {
                     games = { gameTypeStory },
                 },
             },
-        },]]
+        },
         -- TEST UNLOCK STRUCTURE
-        unlocked = {
+        --[[unlocked = {
             characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
             gear       = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
             planets = {
@@ -150,7 +150,7 @@ local state = {
                     games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
                 },
             }
-        },
+        },]]
     }
 
     -- Methods:
@@ -586,7 +586,6 @@ function state:completeZone(zoneNumber, levelScore, ranking, awards, fuzzies, le
     if zone then
         zone.plays     = zone.plays + 1
         zone.completed = true
-        zone.playable  = true
 
         if zone.score and zone.score < levelScore then
             zone.score = levelScore
@@ -652,13 +651,17 @@ function state:completeZoneUnlockCheck(zoneNumber, gameUnlocks, friendlyCharacte
     local unlocks           = {}
     local planet            = self.data.planetSelected
     local normalZones       = planetData[planet].normalZones
+    local nextZone          = zoneNumber + 1
     local zonesCompleted    = self:numberZonesCompleted(planet, gameTypeStory)
     local allZonesCompleted = self:totalStoryZonesCompleted()
 
     -- 1. unlock next zone (unless this is the last normal in the planet)
-    local nextZone = zoneNumber + 1
-
-    if nextZone < normalZones and not self:zoneUnlocked(planet, nextZone) then
+    -- if the next zone is the last one (which unlocks the character), then all previous zone must have been completed for this to be unlocked.
+    -- because the player can skip with adverts, we still require them to have complete all levels before they can play the last one
+    if (nextZone == normalZones and zonesCompleted >= (normalZones - 1) and not self:zoneUnlocked(planet, nextZone))
+        or
+       (nextZone < normalZones and not self:zoneUnlocked(planet, nextZone))
+    then
         self:unlockZone(planet, nextZone)
         unlocks[#unlocks+1] = {"zone", nextZone}
     end
@@ -908,7 +911,6 @@ end
 -- NOTE: this will cancel if planet zone data already exists, to avoid overwriting and losing player state
 function state:setupNewPlanet(planetNumber, numberZones)
     if self.data.levelProgress[planetNumber] ~= nil then
-        print("Warning: attempt to overwrite existing planet state")
         return
     end
 
