@@ -428,7 +428,7 @@ end
 
 
 -- returns number zones player has completed (= # playable -1)
-function state:numberZonesCompleted(planetNumber, gameType)
+function state:numberZonesCompleted(planetNumber, gameType, normalOnly)
     local planet    = planetNumber or self.data.planetSelected
     local game      = gameType     or self.data.gameSelected
     local zones     = self:getZones(planet, game)
@@ -436,6 +436,11 @@ function state:numberZonesCompleted(planetNumber, gameType)
 
     if zones then
         local num = #zones
+
+        if normalOnly then
+            num = planetData[planet].normalZones
+        end
+
         for i=1, num do
             local zone = zones[i]
 
@@ -472,12 +477,12 @@ end
 
 
 -- returns the total zones completed accross planets for story mode - used for gear unlocks
-function state:totalStoryZonesCompleted()
+function state:totalStoryZonesCompleted(normalOnly)
     local completed = 0
 
     for i=1, #planetData do
         if self:planetUnlocked(i) then
-            completed = completed + self:numberZonesCompleted(i, gameTypeStory)
+            completed = completed + self:numberZonesCompleted(i, gameTypeStory, normalOnly)
         end
     end
 
@@ -650,20 +655,17 @@ end
 function state:completeZoneUnlockCheck(zoneNumber, gameUnlocks, friendlyCharacter)
     local unlocks           = {}
     local planet            = self.data.planetSelected
-    local normalZones       = planetData[planet].normalZones
+    local lastZone          = planetData[planet].normalZones
     local nextZone          = zoneNumber + 1
-    local zonesCompleted    = self:numberZonesCompleted(planet, gameTypeStory)
+    local zonesCompleted    = self:numberZonesCompleted(planet, gameTypeStory, true)
     local allZonesCompleted = self:totalStoryZonesCompleted()
 
-    -- 1. unlock next zone (unless this is the last normal in the planet)
-    -- if the next zone is the last one (which unlocks the character), then all previous zone must have been completed for this to be unlocked.
-    -- because the player can skip with adverts, we still require them to have complete all levels before they can play the last one
-    if (nextZone == normalZones and zonesCompleted >= (normalZones - 1) and not self:zoneUnlocked(planet, nextZone))
-        or
-       (nextZone < normalZones and not self:zoneUnlocked(planet, nextZone))
-    then
-        self:unlockZone(planet, nextZone)
-        unlocks[#unlocks+1] = {"zone", nextZone}
+    -- 1. unlock next zone (unless this is the last normal in the planet)  
+    if not self:zoneUnlocked(planet, nextZone) then
+        if nextZone < lastZone or (nextZone == lastZone and zonesCompleted >= (lastZone - 1)) then
+            self:unlockZone(planet, nextZone)
+            unlocks[#unlocks+1] = {"zone", nextZone}
+        end
     end
 
     -- 2. check to unlock next planet
@@ -685,7 +687,7 @@ function state:completeZoneUnlockCheck(zoneNumber, gameUnlocks, friendlyCharacte
     end
 
     -- 4. check to unlock friendly character - ensure they have completed all normal zones and def the last normal zone
-    if friendlyCharacter and not self:characterUnlocked(friendlyCharacter) and zonesCompleted >= normalZones and self:zoneUnlocked(planet, normalZones) then
+    if friendlyCharacter and not self:characterUnlocked(friendlyCharacter) and zonesCompleted >= lastZone and self:zoneUnlocked(planet, lastZone) then
         self:unlockCharacter(friendlyCharacter)
         unlocks[#unlocks+1] = {"character", friendlyCharacter}
     end
