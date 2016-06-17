@@ -50,6 +50,9 @@ end
 function scene:create(event)
     self.creating = true
     self.context  = "selectPlanet"
+
+    local adverts = require("core.adverts")
+    adverts:showStaticAdvert()
     
     -- Allow the code from show() to run before this
     after(1000, function()

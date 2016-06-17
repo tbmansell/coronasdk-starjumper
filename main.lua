@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.12.6"
+globalBuildVersion = "0.12.7"
 globalDebugGame    = true
 
 -- Define global constants
@@ -55,7 +55,7 @@ end
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "testads"
+local mode     = "game"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -87,6 +87,10 @@ elseif mode == "testads" then
 	composer.gotoScene("scenes.test-ads")
 	
 elseif mode == "game" or mode == nil then
+	-- Load a basic advert each time the game is started
+	--local adverts = require("core.adverts")
+	--adverts:showStaticAdvert()
+
 	composer.gotoScene("scenes.title")
 
 end

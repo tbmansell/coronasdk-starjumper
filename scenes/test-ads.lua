@@ -12,8 +12,6 @@ function scene:show(event)
 	local group = self.view
 
     if event.phase == "did" then
-    	print("scene loaded")
-
     	local reload  = newText(group, "reload scene ", 100, 100, 0.5, "white", "LEFT")
 
     	--local adMob1  = newText(group, "admob: standard ads ", 100, 250, 0.5, "yellow", "LEFT")
