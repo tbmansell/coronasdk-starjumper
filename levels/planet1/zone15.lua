@@ -31,17 +31,17 @@ local levelData = {
 
         {object="ledge", x=300, y=-200, size="big3", rotation=-15, triggerLedgeIds={5}, triggerEvent="brainiakTrap"},
             -- top row of blocks
-            {object="scenery", x=-100, y=355, type="fg-wall-left"},
-            {object="scenery", x=0,    y=355, type="fg-wall-middle"},
-            {object="scenery", x=380,  y=355, type="fg-wall-right"},
+            {object="scenery", x=-100, y=455, type="fg-wall-left"},
+            {object="scenery", x=0,    y=455, type="fg-wall-middle"},
+            {object="scenery", x=380,  y=455, type="fg-wall-right"},
             -- bottom row of blocks
-            {object="scenery", x=-400, y=455, type="fg-wall-left"},
-            {object="scenery", x=-300, y=455, type="fg-wall-middle", copy=3},
-            {object="scenery", x=840,  y=455, type="fg-wall-right"},
+            {object="scenery", x=-400, y=555, type="fg-wall-left"},
+            {object="scenery", x=-300, y=555, type="fg-wall-middle", copy=3},
+            {object="scenery", x=840,  y=555, type="fg-wall-right"},
             -- gap for falling rock
-            {object="scenery", x=1500, y=455, type="fg-wall-left"},
-            {object="scenery", x=1600, y=455, type="fg-wall-middle", copy=3},
-            {object="scenery", x=2740, y=455, type="fg-wall-right"},
+            {object="scenery", x=1500, y=590, type="fg-wall-left"},
+            {object="scenery", x=1600, y=590, type="fg-wall-middle", copy=3},
+            {object="scenery", x=2740, y=590, type="fg-wall-right"},
 
             {object="emitter", x=0, y=-125, timer={1000, 3000}, limit=3, layer=4,
                 item={

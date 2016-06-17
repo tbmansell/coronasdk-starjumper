@@ -26,6 +26,8 @@ local levelData = {
         {object="ledge", x=300, y=-170, size="medium3"},
             {object="rings", color=aqua, trajectory={x=30, y=-200, xforce=90, yforce=120, arc=65, num=3}},
 
+        {object="ledge", x=270, y=-200, size="medium3"},    
+
             {object="emitter", x=200, y=699, timer={2000, 4000}, limit=nil, force={ {-500, 500}, {-100, -300}, {0, 360} }, 
                 items={
                     {10,  {object="scenery", layer=1, type="fg-debris-ufo-left", size={6, 9}} },
@@ -35,7 +37,7 @@ local levelData = {
                 }
             },    
 
-        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,0}}, reverse=true, speed=1.5, pause=1000}},
+        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1300,0}}, reverse=true, speed=1.5, pause=1000}},
 
         --Fuzzy
         {object="ledge", x=200, y=280, size="medium3"},

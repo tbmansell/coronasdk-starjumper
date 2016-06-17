@@ -39,7 +39,7 @@ local levelData = {
         
         {object="spike", x=100,  y=-1000, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=0, right=-20},   bounce=1}},     
 
-        {object="ledge", x=270, y=-150, surface=oneshot, size="medium", destroyAfter=300, rotation=-20},
+        {object="ledge", x=270, y=-150, size="medium", rotation=-20},
             -- ring napper
             {object="enemy", type="greynapper", skin="ring-stealer", x=750, y=-1100, size=0.5,
                 movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=1000, speed=2.5, pause=500, pauseStyle=moveStyleSwayBig, steering=steeringMild}
