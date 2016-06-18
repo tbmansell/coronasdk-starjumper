@@ -473,6 +473,7 @@ function ledge:shake(camera)
         if self.movement then
             self.stashedMovement = self.movement
         end
+
         -- copy movement pattern so that any scaling wont affect the original
         self:setMovement(camera, builder:newClone(self.master.ledgeShakeMovement))
 

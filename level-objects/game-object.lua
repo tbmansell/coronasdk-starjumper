@@ -735,7 +735,6 @@ function gameObject:scaleCircularMovement(camera)
         camera:add(path, 3)
         path:toBack()
 
-        path.bongo = 12345
         self.movementCircularPathway = path
     end
 end
@@ -760,7 +759,7 @@ function gameObject:scalePatternMovement(camera)
     local patternPos   = movement.patternPos
     local drawPath     = movement.draw
     local fromX, fromY = self.image.x, self.image.y
-    local path         = {}
+    local pathway      = {}
 
     if drawPath then
         if movement.inReverse then
@@ -774,15 +773,15 @@ function gameObject:scalePatternMovement(camera)
 
     -- Draw from current path ppoint to end
     for i=patternPos, #pattern do
-        fromX, fromY = self:scalePatternPath(camera, pattern, path, moveScale, drawPath, i, fromX, fromY)
+        fromX, fromY = self:scalePatternPath(camera, pattern, pathway, moveScale, drawPath, i, fromX, fromY)
     end
 
     -- Draw from start up to before current path point
     for i=1, patternPos-1 do
-        fromX, fromY = self:scalePatternPath(camera, pattern, path, moveScale, drawPath, i, fromX, fromY)
+        fromX, fromY = self:scalePatternPath(camera, pattern, pathway, moveScale, drawPath, i, fromX, fromY)
     end
 
-    self.movementPathway = path
+    movement.pathway  = pathway
     movement.nextX    = movement.nextX    * moveScale
     movement.nextY    = movement.nextY    * moveScale
     movement.currentX = movement.currentX * moveScale
@@ -814,7 +813,7 @@ end
 
 function gameObject:removePatternPath(camera)
     local drawPath = self.movement.draw
-    local path     = self.movementPathway
+    local path     = self.movement.pathway
 
     if drawPath and path then
         local num = #path
