@@ -165,8 +165,8 @@ end
 
 
 -- Displays the common menu hud
-function newMenuHud(group, spineStore, tapCubeCallback, tapScoreCallback)
-    local game       = state.data.gameSelected    
+function newMenuHud(group, spineStore, toStore, toPlayerSelect, toInAppStore, toProgress)
+    local game       = state.data.gameSelected
     local playerName = characterData[state.data.playerModel].name
     local bgr        = newImageRect(group, "hud/menu-hud", centerX, 562, backgroundWidth, 157)
     local cube       = spineStore:showHoloCube(70, 615, 0.65)
@@ -177,13 +177,13 @@ function newMenuHud(group, spineStore, tapCubeCallback, tapScoreCallback)
     -- block touch events
     bgr:addEventListener("touch", function() return true end)
 
-    if tapCubeCallback then
-        cube.tap = tapCubeCallback
+    if toStore then
+        cube.tap = toStore
         cube.image:addEventListener("tap", cube)
     end
 
-    if tapScoreCallback then
-        playerIcon.tap = tapScoreCallback
+    if toPlayerSelect then
+        playerIcon.tap = toPlayerSelect
         playerIcon:addEventListener("tap", playerIcon)
     end
 
@@ -193,6 +193,38 @@ function newMenuHud(group, spineStore, tapCubeCallback, tapScoreCallback)
 
     -- return items that need to be referenced and removed afterward
     return labelCubes, labelScore, playerIcon
+end
+
+
+function newMenuHudIcons(group, toInAppStore, toProgress)
+    local iconProgress = newImage(group, "hud/hud-tab-progress", 520, 545)
+    local iconFruity   = newImage(group, "hud/hud-tab-random",   625, 545)
+    local iconStore    = newImage(group, "hud/hud-tab-shop",     730, 545)
+
+    iconProgress:addEventListener("tap", function()
+        local seq  = anim:chainSeq("iconProgress", iconProgress)
+        seq:tran({time=150, scale=1.1})
+        seq:tran({time=150, scale=1})
+        seq.onComplete = toProgress
+        seq:start()
+    end)
+
+    iconFruity:addEventListener("tap", function()
+        local seq = anim:chainSeq("iconFruity", iconFruity)
+        seq:tran({time=150, scale=1.1})
+        seq:tran({time=150, scale=1})
+        seq:start()
+    end)
+
+    iconStore:addEventListener("tap", function()
+        local seq = anim:chainSeq("iconStore", iconStore)
+        seq:tran({time=150, scale=1.1})
+        seq:tran({time=150, scale=1})
+        seq.onComplete = toInAppStore
+        seq:start()
+    end)
+
+    return iconProgress
 end
 
 
