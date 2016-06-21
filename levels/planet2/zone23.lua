@@ -14,12 +14,12 @@ local levelData = {
 
     backgroundSounds = {
         {name="space/space5", quietTime=4000, minVolume=4, maxVolume=5},
-        {name="space/space7", quietTime=4000, minVolume=5, maxVolume=6},   
+        {name="space/space7", quietTime=4000, minVolume=5, maxVolume=6},
     },
 
     elements = {
         {object="ledge", type="start"},
-           
+        
         {object="ledge", x=275, y=250, size="medium3"},
             {object="wall", x=475,  y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0}, bounce=1}},    
 

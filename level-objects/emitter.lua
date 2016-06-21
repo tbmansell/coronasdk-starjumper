@@ -83,7 +83,7 @@ function emitter:emit()
     elseif object == "spike"   then element = level:createScenery(spec, self)
     elseif object == "livebgr" then element = level:createLiveBackground(spec, self)
     elseif object == "negable" then element = level:createCollectable(spec, self)
-    elseif object == "gear"    then element = level:createCollectable(spec, self) 
+    elseif object == "gear"    then element = level:createCollectable(spec, self)
     elseif object == "enemy"   then element = level:createEnemy(spec, self)
     elseif object == "friend"  then element = level:createFriend(spec, self)  end
 

@@ -15,11 +15,14 @@ local levelData = {
     elements = {
         {object="ledge", type="start"},
 
-            {object="emitter", x=500, y=-500, timer={3000, 6000}, limit=nil, force={ {-100, 300}, {100, 300}, {45, 90} }, 
+            {object="emitter", x=0, y=300, timer={3000, 6000}, limit=5, 
                 items={
-                    {50,  {object="scenery", layer=4, type="fg-bg-rock-1", size={2, 5}} },
-                    {90,  {object="scenery", layer=4, type="fg-bg-rock-3", size={2, 5}} },
-                    {100, {object="scenery", layer=1, type="fg-debris-ufo-right", size={6, 8}} },
+                    {50, {object="livebgr", type="greyother", skin="shooter", imagePath="enemies/space/greyother", size={0.5, 0.4, 0.3, 0.2, 0.1}, modifyImage={0.5, 0.5, 0.5},
+                           movement={rangeX={10000, 20000}, rangeY={-10000, -20000}, speed={4, 3, 2, 1}, oneWay=true}}
+                    },
+                    {100, {object="livebgr", type="greyufo", imagePath="enemies/space/greyufo", size={0.5, 0.4, 0.3, 0.2, 0.1}, modifyImage={0.5, 0.5, 0.5},
+                           movement={rangeX={10000, 20000}, rangeY={-10000, -20000}, speed={4, 3, 2, 1}, oneWay=true}}
+                    }
                 }
             },
         

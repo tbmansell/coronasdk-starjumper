@@ -244,8 +244,8 @@ end
 ----
 function sceneryBuilder:newLiveBackground(camera, spec)
     local json      = spec.theme.."/enemy-"..spec.type
-    local imagePath = "background/"..spec.theme
-    local skin      = spec.color or nil
+    local imagePath = spec.imagePath or ("background/"..spec.theme)
+    local skin      = spec.color or spec.skin
     local livebgr   = builder:newSpineObject(spec, {jsonName=json, imagePath=imagePath, scale=spec.size, skin=skin, animation="Standard"})
 
     function livebgr:appear()
@@ -276,8 +276,15 @@ function sceneryBuilder:newLiveBackground(camera, spec)
     livebgr.image.xScale = 0.1
     livebgr.image.yScale = 0.1
 
-    if livebgr.movement.pattern[1][1] > 0 then
-        livebgr:changeDirection(right)
+    -- Ian created these facing the opposite way from planet1 enemies
+    if spec.type == "greyufo" or spec.type == "greyother" then
+        if livebgr.movement.pattern[1][1] < 0 then
+            livebgr:changeDirection(right)
+        end
+    else
+        if livebgr.movement.pattern[1][1] > 0 then
+            livebgr:changeDirection(right)
+        end
     end
 
     camera:add(livebgr.image, spec.layer)
