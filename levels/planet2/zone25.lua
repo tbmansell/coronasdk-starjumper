@@ -1,5 +1,5 @@
 local levelData = {
-    name             = "eye of the storm",
+    name             = "time to escape",
     timeBonusSeconds = 220,
     ceiling          = -4000,
     floor            = 2500,

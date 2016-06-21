@@ -12,20 +12,19 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-      backgroundSounds = {
+    backgroundSounds = {
         {name="space/space7", quietTime=7000, minVolume=4, maxVolume=6},
         {name="space/space3", quietTime=6000, minVolume=3, maxVolume=5},
     },
-
 
     elements = {
         {object="ledge", type="start"},
 
             {object="spike", x=700,  y=-1336, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20},  bounce=1}},
-             {object="spike", x=700,  y=-2200, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},  bounce=1}},
+            {object="spike", x=700,  y=-2200, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},  bounce=1}},
             
             {object="spike", x=2500,  y=-1136, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20}, bounce=1}},
-             {object="spike", x=2500,  y=-2000, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},  bounce=1}}, 
+            {object="spike", x=2500,  y=-2000, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},  bounce=1}}, 
 
             {object="emitter", x=100, y=-2500, timer={2000, 4000}, limit=nil, force={ {200, 500}, {100, 300}, {45, 180} }, 
                 items={
@@ -54,15 +53,13 @@ local levelData = {
 
         {object="ledge", x=250, y=30, size="small"},
             {object="gear", type=gearJetpack, x=0, y=-200, onLedge=true, regenerate=false},
-
-
         
 -- Level Start
 
         {object="ledge", x=330, y=-50, surface="ramp", positionFromLedge=1}, 
-             {object="rings", color=aqua, pattern={ {400,-400}, {100,-75}, {100,-75} }},
+            {object="rings", color=aqua, pattern={ {400,-400}, {100,-75}, {100,-75} }},
 
-             {object="enemy", type="greyshooter", x=600, y=-550, size=0.5, 
+            {object="enemy", type="greyshooter", x=600, y=-550, size=0.5, 
                 shooting={minWait=2, maxWait=5, velocity={x=700, y=200, varyX=200, varyY=300}, itemsMax=10, ammo={negDizzy, negTrajectory}},
                 movement={pattern=moveTemplateCross, reverse=true, isTemplate=true, distance=250, speed=3, pause=500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
             },
@@ -96,8 +93,7 @@ local levelData = {
 
         {object="ledge", x=200, y=0, size="medsmall2", positionFromLedge=8},
             {object="rings", color=aqua, pattern={ {275,-100} }},
-
-         		{object="warpfield", x=750, y=75, size=0.70, radius=100, movement={steering=steeringMild, speed=4, pattern={{700, 0}, {-700, 0}}}},    
+         	{object="warpfield", x=750, y=75, size=0.70, radius=100, movement={steering=steeringMild, speed=4, pattern={{700, 0}, {-700, 0}}}},    
 
         {object="spike", x=50,  y=300, type="fg-spikes-float-5", size=1, physics={shape={-75,-100, 75,-100, -25,200}}},
 

@@ -17,7 +17,6 @@ local levelData = {
         {name="nature/wind4", quietTime=4000, minVolume=1, maxVolume=2},
     },
 
-
     elements = {
         {object="ledge", type="start"},
 
@@ -132,7 +131,6 @@ local levelData = {
 
         -- Stage 3
         {object="ledge", x=210, y=210, size="small"},
-            --{object="warpfield", x=350, y=100, size=0.35, radius=100, movement={steering=steeringMild, speed=3, pattern={{300,200},{-300,-200}}}},
         
         {object="ledge", x=170, y=270, size="small2"},
 
@@ -167,7 +165,7 @@ local levelData = {
             {object="wall", x=150,  y=-975, type="fg-rock-2", size=1.2, physics={shape="circle", friction=0.3, bounce=1}},
 
         {object="ledge", x=400, y=-150, surface="exploding"},
-             {object="rings", color=aqua, trajectory={x=100, y=-100, xforce=250, yforce=150, arc=40, num=5}},
+            {object="rings", color=aqua, trajectory={x=100, y=-100, xforce=250, yforce=150, arc=40, num=5}},
 
         {object="ledge", x=440, y=-200, type="finish"}
     },

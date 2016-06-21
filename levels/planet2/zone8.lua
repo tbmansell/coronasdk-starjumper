@@ -12,13 +12,11 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-
     backgroundSounds = {
         {name="space/space6", quietTime=4000, minVolume=4, maxVolume=5},
         {name="nature/wind1", quietTime=6000, minVolume=1, maxVolume=2},
     },
     
-
     elements = {
         {object="ledge", type="start"},
 
@@ -85,7 +83,6 @@ local levelData = {
             --first walls
             {object="spike", x=700,  y=-800, type="fg-wall-divider-spiked", rotation=-72,  physics={shapeOffset={left=20},   bounce=1}},
             {object="spike", x=700,  y=-300, type="fg-wall-divider-spiked", rotation=-72, flip="x", physics={shapeOffset={right=-20, left=0},   bounce=1}},
-            
 
         {object="obstacle", x=120, y=-130, size=1.3, timerOn=2000, timerOff=1000, type="electricgate"},   
 
@@ -95,8 +92,7 @@ local levelData = {
         {object="ledge", x=390, y=155, size="small3"},
 
          {object="ledge", x=300, y=-85, surface="collapsing", movement={pattern={{0,250}}, reverse=true, speed=3, pause=3000}}, 
-             {object="friend", x=-100, type="fuzzy", color="Red", onLedge=true},
-           -- {object="friend", type="fuzzy", x=230, y=30, color="Yellow", kinetic="hang", direction=right},
+            {object="friend", x=-100, type="fuzzy", color="Red", onLedge=true},
 
         {object="ledge", x=220, y=370, size="medsmall3", rotation=20}, 
             {object="rings", color=aqua, pattern={ {650,-50}, {200, 80}, {200, 80} }}, 
@@ -115,7 +111,6 @@ local levelData = {
         {object="ledge", x=700, y=334, size="medsmall3", rotation=20},
 
         {object="ledge", x=320, y=70, size="big2"},
-            --{object="rings", color=aqua, pattern={ {510,-150}, {40,-80}, {40,80} }},
             {object="wall", x=-50, y=-160, type="fg-rock-5", size=.8, rotation=90, physics={body="dynamic", shape="circle", friction=0.3, bounce=0.4}},
 
         {object="obstacle", x=390, y=-290, size=1.3, timerOn=2000, timerOff=2000, type="electricgate"},

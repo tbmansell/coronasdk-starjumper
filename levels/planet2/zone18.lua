@@ -39,7 +39,7 @@
             },
 
             {object="spike", x=900,  y=-1094, type="fg-wall-dividerx2-spiked2", physics={shapeOffset={top=50, right=-20},   bounce=1}},
-             {object="spike", x=900,  y=-1950, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
+            {object="spike", x=900,  y=-1950, type="fg-wall-dividerx2-spiked1", physics={shapeOffset={top=50, right=-20},   bounce=1}},
 
         {object="ledge", x=170, y=240, size="medium", movement={pattern={{700,-200}}, reverse=true, speed=3, pause=1500}},
 
@@ -74,11 +74,10 @@
         {object="ledge", x=220, y=-125, surface="ramp"},   
             {object="rings", color=aqua, pattern={ {650,100}, {100,35}, {100,35}}},
             {object="spike", x=910,  y=-250, type="fg-spikes-float-4", size=0.7, targetName="endLedge", physics={shape={-75,-100, 75,-100, -25,200}}},
-           {object="wall", x=910,  y=-1150, type="fg-wall-divider", targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
-             {object="rings", color=aqua, pattern={ {1100,-300}, {200,35}, {200,35}}},
+            {object="wall", x=910,  y=-1150, type="fg-wall-divider", targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+            {object="rings", color=aqua, pattern={ {1100,-300}, {200,35}, {200,35}}},
 
         {object="obstacle", x=820, y=-0, type="pole", length=1700},
-
 
         {object="ledge", x=0, y=150, size="big2", keylock="Blue", triggerEvent="unlockLevelEnd"},
 
@@ -109,7 +108,7 @@
         {object="ledge", x=700, y=-600, type="finish"}
     },
 
-        customEvents = {
+    customEvents = {
         -- list each event by name: reference this by adding triggerEvent=<name> on the ledge in question
         ["unlockLevelEnd"] = {
             conditions = {

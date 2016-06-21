@@ -14,10 +14,9 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-     backgroundSounds = {
+    backgroundSounds = {
         {name="space/space8", quietTime=3000, minVolume=3, maxVolume=4},
         {name="space/space9", quietTime=8000, minVolume=4, maxVolume=6},
-       
     },
 
     elements = {
@@ -141,8 +140,7 @@ local levelData = {
 
         {object="ledge", x=1700, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp3, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
-
-          {object="wall", x=350,  y=-650, type="fg-rock-1", size=.8, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},    
+            {object="wall", x=350,  y=-650, type="fg-rock-1", size=.8, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},    
 
         {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},  
 

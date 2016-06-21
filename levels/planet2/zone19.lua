@@ -12,9 +12,9 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
- backgroundSounds = {
+    backgroundSounds = {
         {name="space/space2", quietTime=7000, minVolume=4, maxVolume=5},
-           {name="space/space6", quietTime=7000, minVolume=4, maxVolume=5},      
+        {name="space/space6", quietTime=7000, minVolume=4, maxVolume=5},      
     },
 
     elements = {
@@ -37,7 +37,7 @@ local levelData = {
                 }
             },
         
-        {object="spike", x=100,  y=-1000, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=0, right=-20},   bounce=1}},     
+            {object="spike", x=100,  y=-1000, type="fg-wall-divider-spiked", rotation=90, physics={shapeOffset={top=0, right=-20},   bounce=1}},     
 
         {object="ledge", x=270, y=-150, size="medium", rotation=-20},
             -- ring napper
@@ -101,7 +101,7 @@ local levelData = {
 
         {object="ledge", x=300, y=250, size="medium3"},     
 
- 				{object="obstacle", type="spacerocket", x=400, y=0, angle=-30, takeoff="fast", force={1000,-900}, rotation={time=100, degrees=1}},    
+ 		{object="obstacle", type="spacerocket", x=400, y=0, angle=-30, takeoff="fast", force={1000,-900}, rotation={time=100, degrees=1}},    
 
            {object="emitter", x=600, y=-1000, timer={1000, 2000}, targetName="moveableEndScenery1", limit=nil, force={ {50, 150}, {100, 300}, {45, 90} }, 
                 items={

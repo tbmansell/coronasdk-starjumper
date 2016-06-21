@@ -16,6 +16,7 @@ local levelData = {
         {name="space/space3", quietTime=3000, minVolume=4, maxVolume=6},
         {name="nature/wind2", quietTime=7000, minVolume=2, maxVolume=3},
     },
+
     elements = {
         {object="ledge", type="start"},
 
@@ -40,7 +41,6 @@ local levelData = {
 
             {object="spike", x=400,  y=0, type="fg-wall-divider-completedown", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=387,  y=208, type="fg-wall-divider", copy=2, gap=645, physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            --{object="wall", x=200,  y=100, type="grid", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
 
         {object="ledge", x=270, y=-150, size="big2"},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=70, yforce=150, arc=65, num=5}},

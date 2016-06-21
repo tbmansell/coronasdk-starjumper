@@ -12,13 +12,10 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-
     backgroundSounds = {
         {name="space/space2", quietTime=5000, minVolume=4, maxVolume=6},
-        {name="space/space4", quietTime=5000, minVolume=3, maxVolume=5},
-        
+        {name="space/space4", quietTime=5000, minVolume=3, maxVolume=5},        
     },
-    
 
     elements = {
         {object="ledge", type="start"},
@@ -59,7 +56,6 @@ local levelData = {
 
 -- Center Low
         {object="ledge", x=123, y=-220, size="medium", positionFromLedge=8},   
-            -- {object="friend", type="fuzzy", x=-30, y=-50, color="Green", onLedge=true},
         
  -- Above Base Level Ledges
         {object="ledge", x=200, y=120,  surface=oneshot, size="medium", destroyAfter=300, positionFromLedge=2},
@@ -68,16 +64,14 @@ local levelData = {
 --To Key Pad Ledges
         {object="ledge", x=120, y=-250,  surface=oneshot, size="medium", destroyAfter=300, positionFromLedge=2},
             {object="rings", color=aqua, trajectory={x=-0, y=-150, xforce=40, yforce=125, arc=40, num=3}},
---            {object="key", x=0, y=-60, color="Yellow", onLedge=true},
 
         {object="ledge", x=-120, y=-250, surface=oneshot, size="medium", destroyAfter=300, positionFromLedge=2},
             {object="rings", color=aqua, trajectory={x=0, y=-150, xforce=-40, yforce=125, arc=40, num=3}},
---            {object="key", x=0, y=-60, color="Blue", onLedge=true},
   
 -- Key Pad
         {object="ledge", x=450, y=-530, size="medium", positionFromLedge=2, keylock="Yellow", triggerEvent="unlockLevelEnd"},      
             {object="wall", x=400,  y=220, type="fg-wall-divider-fs-completedown1", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-             {object="wall", x=1040,  y=220, type="fg-wall-divider-fs-completedown2", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=1040,  y=220, type="fg-wall-divider-fs-completedown2", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=386,  y=-218, type="fg-wall-divider-halfsize", targetName="moveableEndScenery2", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=383,  y=-1050, type="fg-wall-divider", targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             
@@ -109,8 +103,6 @@ local levelData = {
                     {100, {object="scenery", layer=1, type="fg-debris-ufo-left", size={8, 9}} },
                 }
             },    
-
-        --{object="obstacle", x=939, y=-347, timerOn=1000, timerOff=0, type="electricgate"},
         
         {object="ledge", x=500, y=100, type="finish", positionFromLedge=15, targetName="endLedge"}
     },

@@ -11,7 +11,6 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-
     backgroundSounds = {
         {name="space/space2", quietTime=3000, minVolume=4, maxVolume=6},
         {name="nature/wind1", quietTime=7000, minVolume=1, maxVolume=2},
@@ -66,10 +65,8 @@ local levelData = {
         {object="ledge", x=210, y=0, size="medium3", movement={pattern={{1600,-200}}, reverse=true,  distance=800, speed=2.5, pause=1000}},
 
         {object="ledge", x=600, y=-350, size="small2"},
---            {object="enemy", type="greynapper", skin="fuzzy-napper", x=650, y=-125, size=0.5,
---                movement={pattern=moveTemplateVertical, isTemplate=true, distance=1, reverse=true, speed=2.5, pause=3000, pauseStyle=moveStyleSwayBig}, --steering=steeringMild}
---            },
-            {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate", antishield=true},
+
+        {object="obstacle", x=150, y=200, timerOn=2000, timerOff=0, type="electricgate", antishield=true},
 
             {object="emitter", x=0, y=-800, timer={2000, 6000}, limit=nil, force={ {-500, 500}, {100, 300}, {0, 360} }, 
                 items={
@@ -86,7 +83,7 @@ local levelData = {
         
         {object="ledge", x=300, y=-170, size="medsmall"},
 
-        	  {object="warpfield", x=220, y=-240, size=0.75, radius=100, movement={steering=steeringMild, speed=4, pattern={{0, 150}, {0, -150}}}},    
+        	{object="warpfield", x=220, y=-240, size=0.75, radius=100, movement={steering=steeringMild, speed=4, pattern={{0, 150}, {0, -150}}}},    
         
         {object="ledge", x=300, y=-200, type="finish"}
     },

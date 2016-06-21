@@ -11,7 +11,7 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-backgroundSounds = {
+    backgroundSounds = {
         {name="space/space1", quietTime=3000, minVolume=4, maxVolume=6},
         {name="nature/wind1", quietTime=6000, minVolume=2, maxVolume=3},
     },
@@ -53,9 +53,9 @@ backgroundSounds = {
             {object="scenery", x=300, y=-400, type="fgflt-pole-2"},
 
         {object="ledge", x=480, y=50, size="medium2"},
-            {object="wall", x=475,  y=100, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="wall", x=487,  y=-87, type="fg-wall-divider-cornertop", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="spike", x=855,  y=-273, type="fg-wall-divider-halfsize", physics={shapeOffset={bottom=0, left=0},   bounce=1}, rotation=90},
+            {object="wall", x=475,  y=100, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+            {object="wall", x=487,  y=-87, type="fg-wall-divider-cornertop", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+            {object="spike", x=855,  y=-273, type="fg-wall-divider-halfsize", physics={shapeOffset={bottom=0, left=0}, bounce=1}, rotation=90},
 
         {object="ledge", x=250, y=-220, rotation=15},
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=130, yforce=15, arc=40, num=3}},
@@ -82,8 +82,8 @@ backgroundSounds = {
             },
 
         {object="obstacle", x=100, y=-100, timerOn=4000, timerOff=1000, type="electricgate"},
-            {object="wall", x=-54,  y=-750, type="fg-wall-divider-halfsize", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="wall", x=-51,  y=190, type="fg-wall-divider", flip="y", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
+            {object="wall", x=-54,  y=-750, type="fg-wall-divider-halfsize", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
+            {object="wall", x=-51,  y=190, type="fg-wall-divider", flip="y", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
         
         {object="ledge", x=600, y=250, type="finish"}
     },

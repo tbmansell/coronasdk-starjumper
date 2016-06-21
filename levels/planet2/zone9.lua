@@ -12,11 +12,9 @@ local levelData = {
         [bgrSky]   = {1, 2}
     },
 
-
     backgroundSounds = {
         {name="space/space8", quietTime=3000, minVolume=4, maxVolume=6},
     },
-    
 
     elements = {
         {object="ledge", type="start"},
@@ -74,9 +72,6 @@ local levelData = {
                 }
             },
         
---      {object="obstacle", x=100, y=-300, timerOn=1000, timerOff=0, type="electricgate"},
---      {object="obstacle", x=50, y=0, timerOn=1000, timerOff=0, type="electricgate"},
-
             {object="wall", x=430,  y=-925, type="fg-wall-divider", targetName="moveableEndScenery1", physics={shapeOffset={bottom=0, left=0}, bounce=1}},
             {object="wall", x=427,  y=-25,  type="fg-wall-divider", targetName="moveableEndScenery2", physics={shapeOffset={bottom=0, left=0}, bounce=1}, flip="y"},
         

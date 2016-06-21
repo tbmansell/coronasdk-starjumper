@@ -17,11 +17,10 @@ local levelData = {
         [bgrSky]   = {2, 1}
     },
 
-     backgroundSounds = {
-       {name="space/space6", quietTime=3000, minVolume=3, maxVolume=4},
+    backgroundSounds = {
+        {name="space/space6", quietTime=3000, minVolume=3, maxVolume=4},
         {name="space/space1", quietTime=4000, minVolume=3, maxVolume=4},
     },
-
 
     elements = {
         {object="ledge", type="start"},
@@ -54,7 +53,6 @@ local levelData = {
             {object="rings", color=pink, pattern={ {500,-150}}},
 
         {object="ledge", x=275, y=180, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
-        
             {object="scenery", x=300, y=-400, type="fgflt-pole-4"},
 
         {object="ledge", x=285, y=150, size="medium", movement={bobbingPattern=moveTemplateBobDown3, speed=1, distance=50}},
@@ -145,7 +143,7 @@ local levelData = {
                 animation="Death JUMP HIGH", dontLoop=true, targetName="hammer", storyModeOnly=true
             },
             {object="enemy", type="greyshooter", x=-200, y=-225, size=0.4, targetName="henchman", shooting={velocity={x=-100, y=-200}, itemsMax=0, ammo={negTrajectory}} },
-    },
+        },
 
     customEvents = {
         -- Whizzes to skyanna and back, then brainiak summons 3 brains
