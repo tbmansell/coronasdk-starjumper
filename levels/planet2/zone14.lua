@@ -73,7 +73,7 @@ local levelData = {
         {object="ledge", x=270, y=200, surface="electric"},    
             {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=50, yforce=170, arc=40, num=3}},
 
-        {object="ledge", x=285, y=-220, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},
+        {object="ledge", x=285, y=-220, size="medium"},
 
         {object="ledge", x=200, y=130, size="medsmall2"}, ---- Rotating
             {object="scenery", x=500, y=-400, type="fgflt-pole-1"},

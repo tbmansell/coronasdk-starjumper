@@ -5,7 +5,7 @@ local levelData = {
     timeBonusSeconds = 28,
     ceiling          = -1500,
     floor            = 1000,
-    startLedge       = 1,
+    startLedge       = 17,
 
     backgroundOrder = {
         [bgrFront] = {},
@@ -133,14 +133,16 @@ local levelData = {
         {object="ledge", x=325, y=-210, size="small3", movement={bobbingPattern=moveTemplateBobUp3, speed=1, distance=50}},        
 
         {object="ledge", x=300, y=-150, surface="electric"},   
-            {object="rings", color=aqua, trajectory={x=50, y=-100, xforce=130, yforce=120, arc=40, num=3}},
+            {object="rings", color=aqua, trajectory={x=50, y=-150, xforce=130, yforce=130, arc=40, num=3}},
 
 
-        {object="obstacle", type="spacerocket", x=500, y=-150, angle=-20, takeoff="slow", force={1000,-700}, rotation={time=100, degrees=-1}},	    
+        {object="obstacle", type="spacerocket", x=500, y=-170, angle=-30, takeoff="slow", force={1400,-1000}, rotation={time=100, degrees=-1}},	    
                 {object="scenery", x=2200, y=-500, rotation=-11, type="fgflt-pole-2"},
 
         {object="ledge", x=1700, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp3, speed=1, distance=50}},
             {object="gear", type=gearTrajectory},
+
+          {object="wall", x=350,  y=-650, type="fg-rock-1", size=.8, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},    
 
         {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp2, speed=1, distance=50}},  
 
