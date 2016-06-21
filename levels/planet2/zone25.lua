@@ -17,14 +17,22 @@ local levelData = {
 
             {object="emitter", x=0, y=300, timer={3000, 6000}, limit=5, 
                 items={
-                    {50, {object="livebgr", type="greyother", skin="shooter", imagePath="enemies/space/greyother", size={0.5, 0.4, 0.3, 0.2, 0.1}, modifyImage={0.5, 0.5, 0.5},
-                           movement={rangeX={10000, 20000}, rangeY={-10000, -20000}, speed={4, 3, 2, 1}, oneWay=true}}
+                    {50, {object="livebgr", type="greyother", skin="shooter", imagePath="enemies/space/greyother", size={0.5, 0.4, 0.3, 0.2}, modifyImage={0.5, 0.5, 0.5},
+                          movement={rangeX={10000, 20000}, rangeY={-10000, -20000}, speed={4, 3, 2, 1}, oneWay=true}}
                     },
-                    {100, {object="livebgr", type="greyufo", imagePath="enemies/space/greyufo", size={0.5, 0.4, 0.3, 0.2, 0.1}, modifyImage={0.5, 0.5, 0.5},
+                    {100, {object="livebgr", type="greyufo", imagePath="enemies/space/greyufo", size={0.5, 0.4, 0.3, 0.2}, modifyImage={0.5, 0.5, 0.5},
                            movement={rangeX={10000, 20000}, rangeY={-10000, -20000}, speed={4, 3, 2, 1}, oneWay=true}}
                     }
                 }
             },
+
+        --{object="ledge", x=300, y=-150, surface=pulley, distance=-1000, speed=3},
+
+        {object="ledge", x=300, y=-150, surface=ramp},
+
+        {object="ledge", x=200, y=0, surface=ramp, flip="x"},
+
+        
         
         
         {object="ledge", x=2500, y=-200, type="finish"},

@@ -17,7 +17,7 @@ local deathslide = {
 }
 
 
-function deathslide:jumpTop() 
+function deathslide:jumpTop()
     return self:y() + (35 * self:getCamera().scaleImage)
 end
 

@@ -71,7 +71,7 @@ end
 function emitter:emit()
     local camera  = self:getCamera()
     local level   = hud.level
-    local spec    = self:getItemToEmit()
+    local spec    = self:getItemToEmit(camera)
     local object  = spec.object
     --local scale   = camera.scaleImage
     --local move    = camera.scalePosition
@@ -110,7 +110,7 @@ function emitter:emit()
 end
 
 
-function emitter:getItemToEmit()
+function emitter:getItemToEmit(camera)
     -- An emitter can pick a new item in two ways: either the emitter specifies a single item with self.item or there is a list with self.items to pick from
     local itemSpec = self.item
 
@@ -127,7 +127,7 @@ function emitter:getItemToEmit()
 
     if itemSpec.object == "livebgr" then
         item.layer    = 4 + math_random(4)
-        item.size     = itemSpec.size[item.layer-4]
+        item.size     = itemSpec.size[item.layer-4] * camera.scaleImage
         item.movement = self:generateMovement(item.layer, itemSpec.movement)
 
     elseif type(itemSpec.size) == "table" then

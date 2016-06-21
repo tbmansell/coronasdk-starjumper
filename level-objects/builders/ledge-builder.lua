@@ -236,7 +236,7 @@ function ledgeBuilder:makeSpineLedge(camera, spec)
         ledge.deadlyTimer = true  -- used by AI so they know to time the jump
         ledge:toggleDeadlyState()
 
-    elseif ledge.surface == ramp then        
+    elseif ledge.surface == ramp then
         if ledge.flip == "x" then
         	ledge.rotation = 10
         else 
@@ -302,11 +302,7 @@ function ledgeBuilder:setupCommonLedge(ledge)
     end
 
     if ledge.flip == "x" then
-        self.flipXAxis = true
-        -- give spine ledges a chance to load
-        if spineSurfaces[ledge.surface] then
-            after(1000, function() ledge.image:scale(-1,1) end)
-        end
+        ledge:flipX()
     end
 
     -- bind tap event to global sceneTapLedge

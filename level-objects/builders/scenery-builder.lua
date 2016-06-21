@@ -14,6 +14,7 @@ local sceneryBuilder = {
 	-- setupDeadlyScenery()
     -- newEmitterCollection()
 	-- newEmitter()
+    -- newLiveBackground()
     -- newCloudCollection()
 	-- newCloud()
 }

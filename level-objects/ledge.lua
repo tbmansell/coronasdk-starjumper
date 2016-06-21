@@ -486,6 +486,10 @@ end
 
 -- Called when a oneway movement has completed and movement should be stopped (or previous movement should be resumed)
 function ledge:movementCompleted()
+    if self.surface == pulley then
+        self:stopSound("ledgePulleyActivated")
+    end
+    
     -- ensure that shaking a pulley ledge does not trigger it to move after it has been reset (as has an existing movement pattern)
     if self.stashedMovement and (self.surface ~= pulley or self.triggeredPulley) then
         -- resume movement for moving ledges
