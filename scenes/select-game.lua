@@ -87,10 +87,6 @@ function scene:show(event)
             self.creating = false
         else
             self:updateScene()
-
-            if self.progressText then
-                animateText(self.progressText)
-            end
         end
 
         self:startMusic()
@@ -165,11 +161,11 @@ function scene:displayBackground(redraw)
     self.background:toBack()
 
     if game == gameTypeStory then
-        self.hudTitle = newText(self.view, "story mode",  centerX, 590, 1, "green",  "CENTER")
+        self.hudTitle = newText(self.view, "story mode",  centerX, 600, 1, "green",  "CENTER")
     elseif infiniteGameType[game] then
-        self.hudTitle = newText(self.view, "arcade mode", centerX, 590, 1, "yellow", "CENTER")
+        self.hudTitle = newText(self.view, "arcade mode", centerX, 600, 1, "yellow", "CENTER")
     elseif challengeGameType[game] then
-        self.hudTitle = newText(self.view, "challenges",  centerX, 590, 1, "pink",   "CENTER")
+        self.hudTitle = newText(self.view, "challenges",  centerX, 600, 1, "pink",   "CENTER")
     end
 end
 
@@ -181,19 +177,12 @@ function scene:displayHud()
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
 
-    self.progressGroup = new_group()
+    --[[self.progressGroup = new_group()
     self.progressGroup.alpha = 0
-    group:insert(self.progressGroup)
-
-    local progress    = newImage(self.progressGroup, "hud/progress-tab", centerX, 508)
-    self.progressText = newText(self.progressGroup,  "progress",         centerX, 515, 0.5, "red", "CENTER")
-
-    animateText(self.progressText)
-
-    progress:addEventListener("tap", scene.exitToPlanetProgress)
-    self.progressText:addEventListener("tap", scene.exitToPlanetProgress)
+    group:insert(self.progressGroup)]]
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(group, spineStore, scene.exitToShop, scene.exitToPlayerStore)
+    newMenuHudIcons(group, scene.exitToInApStore, scene.exitToPlanetProgress)
 
     self.holobar = new_image(self.view, "select-game/challenges-holobar", centerX, 55, nil, 0)
 end
@@ -570,11 +559,11 @@ function scene:contextBack()
     elseif scene.context == "selectGame" then
         scene.context = "selectPlanet"
 
-        if state.data.gameSelected ~= gameTypeStory then
+        --[[if state.data.gameSelected ~= gameTypeStory then
             local seq = anim:chainSeq("progressTab", scene.progressGroup)
             seq:tran({time=1000, alpha=0})
             seq:start()
-        end
+        end]]
 
         scene:slideGameModesOut("primaryAnims")
         scene:startAnimations("primaryAnims")
@@ -618,11 +607,11 @@ function scene:selectPlanet(group)
                 end)
             end
 
-            if state.data.gameSelected ~= gameTypeStory then
+            --[[if state.data.gameSelected ~= gameTypeStory then
                 local seq = anim:chainSeq("progressTab", self.progressGroup)
                 seq:tran({time=1000, alpha=1})
                 seq:start()
-            end
+            end]]
         else
             newLockedPopup(self.view, planet, "planet", planetData[planet].name, function() scene:startSparkles() end)
         end
@@ -1087,6 +1076,14 @@ function scene:exitToPlanetProgress()
 end
 
 
+function scene:exitToInApStore()
+    state.musicSceneContinue = false
+    play(sounds.sceneEnter)
+    composer.gotoScene("scenes.inapp-purchases")
+    return true
+end
+
+
 -- Called when scene is about to move offscreen:
 function scene:hide(event)
     if event.phase == "will" then
@@ -1101,13 +1098,10 @@ function scene:hide(event)
         particles:destroy()
         stopSparkles()
 
-        if self.progressText then
-            self.progressText:removeInOutTransition()
-        end
-
         logAnalyticsEnd()
 
     elseif event.phase == "did" then
+        -- we dont purge the scene as this stays in same stat ethrough whole game so we can return to previous options quickly
         --composer.removeScene("scenes.select-game")
     end
 end

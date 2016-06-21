@@ -346,19 +346,13 @@ end
 function scene:displayHud()
     local data = planetData[state.data.planetSelected]
 
-    self.borderGroup  = display.newGroup()
-    local progress    = newImage(self.borderGroup, "hud/progress-tab", centerX, 508)
-    self.progressText = newText(self.borderGroup, "progress", centerX, 515, 0.5, "red", "CENTER")
+    self.borderGroup = display.newGroup()
 
-    animateText(self.progressText)
-
-    progress:addEventListener("tap", scene.exitToPlanetProgress)
-    self.progressText:addEventListener("tap", scene.exitToPlanetProgress)
-
-    self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(self.borderGroup, spineStore, scene.exitToShop, scene.exitToPlayerStore)
+    newMenuHud(self.borderGroup, spineStore, scene.exitToShop, scene.exitToPlayerStore)
+    newMenuHudIcons(self.borderGroup, scene.exitToInAppStore, scene.exitToPlanetProgress)
 
     newImage(self.borderGroup, "select-game/banner-planet"..state.data.planetSelected, 310, 597)
-    newText(self.borderGroup, data.name, centerX, 590, 0.8, data.color, "CENTER")
+    newText(self.borderGroup, data.name, centerX, 600, 0.8, data.color, "CENTER")
     newButton(self.view, 55, 50, "back", scene.exitToPlanetSelect)
 end
 
@@ -629,6 +623,13 @@ function scene:exitToPlanetProgress()
 end
 
 
+function scene:exitToInAppStore()
+    play(sounds.sceneEnter)
+    composer.gotoScene("scenes.inapp-purchases")
+    return true
+end
+
+
 -- Called when scene is about to move offscreen:
 function scene:hide(event)
     if event.phase == "will" then
@@ -652,9 +653,9 @@ function scene:hide(event)
         camera.destroy()
         soundEngine:destroy()
 
-        self.progressText:removeInOutTransition()
-        self.progressText:removeSelf()
-        self.progressText = nil
+        --self.progressText:removeInOutTransition()
+        --self.progressText:removeSelf()
+        --self.progressText = nil
 
         self:closePopup()
         self.player:destroy()
@@ -663,13 +664,12 @@ function scene:hide(event)
         self.borderGroup:removeSelf()
         self.moveable:removeSelf()
         self.front:removeSelf()
-        self.labelCubes:removeSelf()
-        self.labelScore:removeSelf()
-        self.playerIcon:removeSelf()
+        --self.labelCubes:removeSelf()
+        --self.labelScore:removeSelf()
+        --self.playerIcon:removeSelf()
 
         cameraHolder      = nil
         globalIgnorePhysicsEngine = false
-        self.progressText = nil
         self.player       = nil
         self.borderGroup  = nil
         self.moveable     = nil
@@ -683,9 +683,9 @@ function scene:hide(event)
         collectableCollection = nil
         movingCollection  = nil
         spineCollection   = nil
-        self.labelCubes   = nil
-        self.labelScore   = nil
-        self.playerIcon   = nil
+        --self.labelCubes   = nil
+        --self.labelScore   = nil
+        --self.playerIcon   = nil
 
         logAnalyticsEnd()
 
