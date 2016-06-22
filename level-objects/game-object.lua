@@ -83,6 +83,7 @@ local gameObject = {
     -- jumpRight()
     -- jumpTop()
     -- setMovement()
+    -- setBobbingMovement()
     -- move()
     -- stop()
     -- pauseMovement()
@@ -616,6 +617,23 @@ function gameObject:setMovement(camera, movement, drawPath)
     end
     
     self:scaleMovement(camera)
+end
+
+
+-- Sets up movements based on shortcut names, to save lots of repeated stuff in the levels
+-- @param ledge
+----
+function gameObject:setBobbingMovement()
+    local m = self.movement
+
+    -- Short cuts for bobbing ledges:
+    if m.bobbingPattern then
+        -- NOTE: bobbing patterns should loop so they dont require reverse=true to keep things simple
+        self.punyMover = true
+        self.movement  = {
+            pattern=m.bobbingPattern, isTemplate=true, pause=0, dontDraw=true, distance=m.distance, speed=m.speed, steering=(m.steering or steeringSmall)
+        }
+    end
 end
 
 

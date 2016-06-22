@@ -96,6 +96,7 @@ function sceneryBuilder:newScenery(camera, spec, x, y)
     if scenery.movement then
         scenery.movement.originalX = spec.x
         scenery.movement.originalY = spec.y
+        scenery:setBobbingMovement()
         scenery:moveNow()
     end
 
