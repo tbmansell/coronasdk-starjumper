@@ -50,7 +50,7 @@
 
         {object="ledge", x=-375, y=-100, surface=pulley, distance=1500, speed=1},
 
-        {object="ledge", x=-800, y=150, surface=pulley, distance=-1450, speed=2},
+        {object="ledge", x=-800, y=150, surface=pulley, distance=-1450, speed=2, dontReset=true},
 
         {object="ledge", x=-265, y=-185, size="medsmall", positionFromLedge=5},
 

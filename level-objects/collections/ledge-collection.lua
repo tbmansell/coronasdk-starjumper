@@ -61,7 +61,7 @@ function ledgeCollection:reset(player, camera)
 		local ledge = items[i]
 
 		if validObject(ledge) then
-            if ledge.surface == pulley and ledge.triggeredPulley then
+            if ledge.surface == pulley and ledge.triggeredPulley and not ledge.dontReset then
                 ledge.triggeredPulley = false
                 ledge:stop()
                 ledge:moveBy(-ledge.movement.currentX, -ledge.movement.currentY)
