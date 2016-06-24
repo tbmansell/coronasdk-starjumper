@@ -1,6 +1,6 @@
 local levelData = {
     name             = "reach for the stars",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 50,
     ceiling          = -1500,
     startLedge       = 1,
 

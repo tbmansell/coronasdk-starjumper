@@ -2,10 +2,10 @@ local utils = require("core.utils")
 
 local levelData = {
     name             = "stay up forever",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 105,
     ceiling          = -1500,
     floor            = 1000,
-    startLedge       = 17,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},

@@ -1,6 +1,6 @@
 local levelData = {
     name             = "close the gate",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 31,
     ceiling          = -1000,
     floor            = 1000,
 

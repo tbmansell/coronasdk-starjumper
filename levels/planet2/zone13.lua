@@ -1,6 +1,6 @@
 local levelData = {
     name             = "sky high",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 100,
     ceiling          = -2500,
     floor            = 1400,
     startLedge       = 1,

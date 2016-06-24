@@ -1,6 +1,6 @@
 local levelData = {
     name             = "angle of death",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 180,
     ceiling          = -1000,
     floor            = 1400,
     startLedge       = 1,

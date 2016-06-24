@@ -1,6 +1,6 @@
 local levelData = {
     name             = "conspiracy 23",
-    timeBonusSeconds = 50,
+    timeBonusSeconds = 145,
     ceiling          = -1000,
     floor            = 2000,   
     startLedge       = 1,
@@ -85,7 +85,9 @@ local levelData = {
             {object="rings", color=aqua, trajectory={x=50, y=-150, xforce=250, yforce=20, arc=40, num=5}},
             {object="randomizer", x=-100, onLedge=true, items={{40,gearSpringShoes}, {80,gearGlider}, {100,yellow}}},
 
-        {object="ledge", x=435, y=125, surface="electric", timerOn=1000, timerOff=5000}, 
+        {object="ledge", x=435, y=125, surface="electric", timerOn=1000, timerOff=6000}, 
+                {object="gear", x=-30, type=gearGlider, onLedge=true},
+
             {object="spike", x=-275, y=-260, size=0.3, rotation=90, type="fg-spikes-float-1", physics={shape={0,-110, 80,110, -80,110}}},
 
         -- Secret Ledge

@@ -1,6 +1,6 @@
     local levelData = {
     name             = "bad feeling about this drop",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 150,
     ceiling          = -2300,
     floor            = 1000,
     startLedge       = 1,
@@ -54,7 +54,7 @@
 
         {object="ledge", x=-265, y=-185, size="medsmall", positionFromLedge=5},
 
-        {object="ledge", x=235, y=-165, size="medium", rotation=15, movement={pattern={{620,-250}}, reverse=true, speed=1.5, pause=2000}},
+        {object="ledge", x=235, y=-165, size="medium", rotation=9, movement={pattern={{620,-250}}, reverse=true, speed=1.5, pause=2000}},
             {object="spike", x=555,  y=-500, type="fg-rock-5", size=0.7, rotation=-45, physics={shape="circle", friction=0.3, bounce=0.4}},
 
         {object="ledge", x=-195, y=-270, size="medium"},  

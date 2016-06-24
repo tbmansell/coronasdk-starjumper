@@ -1,6 +1,6 @@
 local levelData = {
     name             = "key master",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 66,
     ceiling          = -1000,
     floor            = 1800,
     startLedge       = 1,

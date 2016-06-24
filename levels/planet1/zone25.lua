@@ -1,6 +1,6 @@
 local levelData = {
     name             = "creepy cavern",
-    timeBonusSeconds = 180,
+    timeBonusSeconds = 200,
     playerStart      = playerStartWalk,
     ceiling          = -1000,
     floor            = 3000,

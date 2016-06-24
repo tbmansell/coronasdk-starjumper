@@ -1,6 +1,6 @@
 local levelData = {
     name             = "over and under",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 40,
     ceiling          = -1000,
     floor            = 1800,
     startLedge       = 1,

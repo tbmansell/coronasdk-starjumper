@@ -1,9 +1,9 @@
 local levelData = {
     name             = "time to escape",
-    timeBonusSeconds = 220,
+    timeBonusSeconds = 150,
     ceiling          = -4000,
     floor            = 2500,
-    startLedge       = 10,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},

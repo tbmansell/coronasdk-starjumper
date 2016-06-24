@@ -1,6 +1,6 @@
 local levelData = {
     name             = "express elevator to hell...",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 60,
     ceiling          = -1500,
     startLedge       = 1,
 

@@ -1,6 +1,6 @@
 local levelData = {
     name             = "a day at the races",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 85,
     ceiling          = -2700,
     floor            = 1000,
     startLedge       = 1,

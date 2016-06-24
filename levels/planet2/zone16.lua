@@ -1,6 +1,6 @@
 local levelData = {
     name             = "model behaviour",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 50,
     ceiling          = -2000,
     floor            = 1000,
     startLedge       = 1,

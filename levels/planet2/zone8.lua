@@ -1,6 +1,6 @@
 local levelData = {
     name             = "fly my pretty",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 49,
     ceiling          = -1000,
     floor            = 2000,
     startLedge       = 1,
