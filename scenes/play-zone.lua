@@ -213,6 +213,7 @@ function scene:initPhysics()
     physics.pause()
     physics.setGravity(0, curve.Gravity)
     physics.setDebugErrorsEnabled()
+    --physics.setTimeStep(1/display.fps)
     physics.setTimeStep(1/60)
 end
 
@@ -220,11 +221,10 @@ end
 function scene:loadGame()
     local game      = state.data.gameSelected
     state.data.game = levelStartShowCase
-
     -- Create key game objects
-    camera = cameraLoader.createView()
+    camera          = cameraLoader.createView()
     -- Create global and cleanup after this scene
-    cameraHolder = { camera = camera }
+    cameraHolder    = { camera = camera }
 
     self:createLevel()
 

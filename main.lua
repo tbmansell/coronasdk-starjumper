@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.12.10"
+globalBuildVersion = "0.13.5"
 globalDebugGame    = true
 
 -- Define global constants
@@ -49,7 +49,7 @@ if globalDebugGame then
     -- Testing: add 100 holocubes
     state.data.holocubes = 100
     -- Testing: Show performance info
-    --timer.performWithDelay(1000, displayPerformance, 0)
+    timer.performWithDelay(1000, displayPerformance, 0)
 end
 
 

@@ -121,7 +121,7 @@ local state = {
 
         -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
         -- This is the starting structure when nothing is unlocked.
-     --[[   unlocked = {
+        --[[unlocked = {
             -- list of characters unlocked
             characters = { characterNewton },
             -- list of gear that is unlocked

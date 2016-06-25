@@ -61,15 +61,6 @@ function hud:switchDebugMode()
             self.debugGroup = nil
         end
 
-        --[[local players = self.level.players.items
-        local num     = #players
-
-        for i=1,num do
-            local player = players[i]
-            player.debugStatusText:removeSelf()
-            player.debugStatusText = nil
-        end]]
-
         self:clearItemDebug(self.level.players)
         self:clearItemDebug(self.level.enemies)
     end
@@ -106,7 +97,8 @@ function hud:displayLedgeDebug()
                 route:setFillColor(0,0,1)
             end
             
-            for z = 1,4 do
+            -- Display lines which mark the score zones
+            --[[for z = 1,4 do
                 local jumpLine = display.newLine(self.debugGroup, x, y-length, x, y+length)
                 jumpLine:setStrokeColor(0,255,0)
                 jumpLine.strokeWidth = 2
@@ -121,7 +113,7 @@ function hud:displayLedgeDebug()
                 jumpLine.strokeWidth = 2
                 x = x + 25
                 length = 50
-            end
+            end]]
             
             local points = ledge.points or ""
             local jumpScore = display.newText(self.debugGroup, ledge.score.."/"..points, ledge:x()-30, ledge:y()+110, "Arial", 18)

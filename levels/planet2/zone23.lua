@@ -24,7 +24,7 @@ local levelData = {
             {object="wall", x=475,  y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0}, bounce=1}},    
 
         {object="ledge", x=425, y=200, size="big2"},        
-            {object="rings", color=aqua, trajectory={x=35, y=-100, xforce=60, yforce=120, arc=30, num=3}},  
+            {object="rings", color=aqua, trajectory={x=35, y=-100, xforce=60, yforce=120, arc=30, num=3}},
             
         {object="ledge", x=330, y=-150, size="small2"},
             {object="gear", type=gearJetpack, x=0, y=-150, onLedge=true, regenerate=false},

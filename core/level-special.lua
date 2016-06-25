@@ -123,11 +123,17 @@ function newObjectsLoader:load(level)
             backgroundImages[key] = {}
 
             if self.data.backgroundOrder[key] then
-                local count = #self.data.backgroundOrder[key]
+                local size  = #self.data.backgroundOrder[key]
+                local count = size
+
+                if state.data.gameSettings.backgroundImages == false then
+                    count = math.min(2, size)
+                end
+
                 local xpos  = -self.bgrWidth * count
 
                 for i=1, count do
-                    self:createBackgroundImage(camera, key, i, i, xpos)
+                    --self:createBackgroundImage(camera, key, i, i, xpos)
                     xpos = xpos + self.bgrWidth
                     -- Fix visual tearing of sky bgr showing black background by overlapping
                     xpos = xpos - 1
@@ -147,13 +153,14 @@ function newObjectsLoader:load(level)
 
 
     function level:createBackgroundImage(camera, key, sheetNum, insertOrder, xpos)
-        local path   = "levels/planet"..self.planetNumber.."/images/bgr-"
-        local sheet  = self.data.backgroundOrder[key][sheetNum]
+        local path  = "levels/planet"..self.planetNumber.."/images/bgr-"
+        local sheet = self.data.backgroundOrder[key][sheetNum]
 
         if sheet == 0 then
             backgroundImages[key][insertOrder] = 0
         else
-            local img    = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
+            local img = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
+            print(path..backgroundNames[key].."-"..sheet..".png")
 
             local pinTop = false
             if key == bgrSky then
