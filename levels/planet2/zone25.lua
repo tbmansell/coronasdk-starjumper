@@ -11,7 +11,7 @@ local emitterItems = {
 
 local levelData = {
     name             = "escape apocalypse",
-    timeBonusSeconds = 120,
+    timeBonusSeconds = 150,
     ceiling          = -4000,
     floor            = 2500,
     startLedge       = 1,

@@ -3,7 +3,7 @@ local utils = require("core.utils")
 
 local levelData = {
     name             = "strobe runner",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 90,
     ceiling          = -2700,
     floor            = 1000,
     aiRace           = true,

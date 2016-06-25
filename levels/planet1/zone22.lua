@@ -1,6 +1,6 @@
 local levelData = {
     name             = "you cannot be serious",
-    timeBonusSeconds = 50,
+    timeBonusSeconds = 135,
     ceiling          = -1000,
     floor            = 2000,   
     startLedge       = 1,

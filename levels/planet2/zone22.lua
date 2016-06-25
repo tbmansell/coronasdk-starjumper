@@ -1,9 +1,9 @@
 local levelData = {
     name             = "bad electric",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 115,
     ceiling          = -4000,
     floor            = 1000,
-    startLedge       = 21,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {},

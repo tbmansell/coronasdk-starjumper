@@ -1,6 +1,6 @@
 local levelData = {
     name             = "bad electric",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 83,
     ceiling          = -4000,
     floor            = 1000,
     startLedge       = 1,

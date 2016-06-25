@@ -1,6 +1,6 @@
 local levelData = {
     name             = "3 lifts and a rift",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 155,
     ceiling          = -2000,
     floor            = 1000,
     startLedge       = 1,

@@ -1,6 +1,6 @@
 local levelData = {
     name             = "explosive sprint",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 60,
     ceiling          = -1000,
     floor            = 1800,
     startLedge       = 1,

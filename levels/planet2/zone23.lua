@@ -1,6 +1,6 @@
 local levelData = {
     name             = "you know the drill",
-    timeBonusSeconds = 28,
+    timeBonusSeconds = 125,
     ceiling          = -4000,
     floor            = 2000,
     startLedge       = 1,
