@@ -18,7 +18,7 @@ end
 -- Called when the scene's view does not exist:
 function scene:create(event)
     local group  = self.view
-    local planet = math.random(1,2)
+    local planet = math.random(1,3)
     
     newBackground(group, "title/title-screen"..planet)
 
