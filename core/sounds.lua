@@ -134,11 +134,10 @@ end
 ------------------ STATIC GROUP SOUNDS ----------------------
 
 function sounds:loadMusic()
-    self.tuneTitle       = loadSound("sounds/tunes/title_time100.mp3")
-    self.tuneZoneSelect  = loadSound("sounds/tunes/zoneSelect_time32.mp3")
-    self.tuneShop        = loadSound("sounds/tunes/shop_time32.mp3")
-    --self.tuneStory       = loadSound("sounds/tunes/story_time183.mp3")
-    self.tuneStory       = loadSound("sounds/tunes/zoneSelect_time32.mp3")
+    self.tuneTitle       = loadSound("sounds/tunes/title.mp3")
+    self.tuneZoneSelect  = loadSound("sounds/tunes/zone-select.mp3")
+    self.tuneShop        = loadSound("sounds/tunes/shop.mp3")
+    self.tuneStory       = loadSound("sounds/tunes/story.mp3")
 end
 
 

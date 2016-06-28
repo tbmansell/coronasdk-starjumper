@@ -4,7 +4,7 @@ local messages = {
             [gearSpringShoes] = {"spring shoes",    "jump from the spot without running to the end of the ledge",           3},
             [gearFreezeTime]  = {"freeze time",     "pause time until your jump completes, use icon below you to cancel",   6},
             [gearShield]      = {"force shield",    "dangerous enemies and obstacles cannot harm you for 10 seconds",       8},
-            [gearTrajectory]  = {"jump trajectory", "computer display calculates the jump path as you plan your jump",      10},
+            [gearTrajectory]  = {"jump trajectory", "computer display calculates the jump path as you plan your jump",      15},
         },
         [air] = {
             [gearGlider]      = {"glider",          "tap screen mid-jump to activate your glider wings for long distances", 5},
@@ -15,7 +15,7 @@ local messages = {
         [land] = {
             [gearMagnet]      = {"item magnet",     "nearby items will shoot towards you for 10 seconds",                   5},
             [gearDestroyer]   = {"destroyer",       "destroys any enemies nearby when landing on a ledge",                  5},
-            [gearGloves]      = {"climbing gloves", "automatically climb up a ledge if you hit it from the front",          10},
+            [gearGloves]      = {"climbing gloves", "automatically climb up a ledge if you hit it from the front",          15},
             [gearGrappleHook] = {"grapple hook",    "automatically hook on the back of a ledge if you overshoot it",        10},
         }
     },
