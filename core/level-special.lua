@@ -117,6 +117,7 @@ function newObjectsLoader:load(level)
 
     -- Do all work to Load backgrounds in from file and set backgrounds for level
     function level:createBackgrounds(camera)
+        clearSceneTransition()
         backgroundImages = {}
 
         for key=bgrFront, bgrSky do

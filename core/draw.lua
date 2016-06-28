@@ -289,8 +289,8 @@ end
 
 
 function clearTransitionTimer()
-    if globalTransitionTimer then 
-        timer.cancel(globalTransitionTimer) 
+    if globalTransitionTimer then
+        timer.cancel(globalTransitionTimer)
     end
 end
 

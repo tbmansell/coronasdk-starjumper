@@ -269,8 +269,8 @@ end
 
 -- Create the level floor marker, which kills the player if they go below it
 function level:createFloor()
-    self.floor = display.newCircle(-50, self.data.floor, 25)
-    self.floor.alpha = 1
+    self.floor = display.newRect(-50, self.data.floor, 2, 2)
+    self.floor.alpha = 0
     camera:add(self.floor, 3)
     levelFloor = self.floor
 end
