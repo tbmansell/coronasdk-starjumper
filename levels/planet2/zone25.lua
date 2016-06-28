@@ -1,6 +1,6 @@
 -- All emitters on this zone generate fleeing grey ufos
 local emitterItems = {
-    {50, {object="livebgr", type="greyother", skin="shooter", imagePath="enemies/space/greyother", size={0.5, 0.4, 0.3, 0.2}, modifyImage={0.5, 0.5, 0.5},
+    {50, {object="livebgr", type="greyother", skin="shooter", imagePath="enemies/space/greyother", size={0.4, 0.3, 0.2, 0.1}, modifyImage={0.5, 0.5, 0.5},
           movement={rangeX={10000, 20000}, rangeY={-10000, -20000}, speed={4, 3, 2, 1}, oneWay=true}}
     },
     {100, {object="livebgr", type="greyufo", imagePath="enemies/space/greyufo", size={0.4, 0.3, 0.2, 0.1}, modifyImage={0.5, 0.5, 0.5},
@@ -34,7 +34,7 @@ local levelData = {
             {object="scenery", x=180, y=-230, type="fg-debris-barrel-red",  size=0.7, rotation=90,  layer=2},
             {object="scenery", x=240, y=-243, type="fg-debris-barrel-grey", size=0.7, rotation=-45, layer=2},
             {object="scenery", x=400, y=-230, type="fg-debris-barrel-blue", size=0.7, rotation=90,  layer=2},
-
+            
             {object="emitter", x=0,    y=300, timer={3000, 6000}, limit=5, items=emitterItems},
             {object="emitter", x=2000, y=300, timer={3000, 6000}, limit=5, items=emitterItems},
             {object="emitter", x=4000, y=300, timer={3000, 6000}, limit=5, items=emitterItems},

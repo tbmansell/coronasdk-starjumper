@@ -160,7 +160,6 @@ function newObjectsLoader:load(level)
             backgroundImages[key][insertOrder] = 0
         else
             local img = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
-            print(path..backgroundNames[key].."-"..sheet..".png")
 
             local pinTop = false
             if key == bgrSky then
@@ -181,10 +180,8 @@ function newObjectsLoader:load(level)
     -- Reload backgrounds
     function level:clearBackgrounds(camera)
         for key, list in pairs(backgroundImages) do
-            for i=1, #list do
-                local img = backgroundImages[key][i]
-
-                if type(img) ~= "number" then
+            for _,img in pairs(list) do
+                if img then
                     camera:remove(img)
                     img:removeSelf()
                 end
@@ -206,7 +203,6 @@ function newObjectsLoader:load(level)
                 local img = list[i]
 
                 if type(img) ~= "number" then
-
                     local leftSwapLimit  = dcWidth * (count - 1)
 
                     if img.x + bgrWidthHalf < leftSwapLimit then
