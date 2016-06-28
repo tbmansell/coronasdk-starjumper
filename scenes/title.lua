@@ -171,29 +171,31 @@ function scene:rollCredits()
         self.creditsGroup.y  = contentHeight
 
         self:addCredit("game programming", true)
-        self:addCredit("toby mansell jnr")
+        self:addCredit("toby mansell")
 
         self:addCredit("graphics, animations & sound", true)
-        self:addCredit("ian jay esquire")
+        self:addCredit("ian jay")
 
         self:addCredit("game design and concept", true)
         self:addCredit("ian jay & toby mansell")
-        self:addCredit("brothers in battle")
 
         self:addCredit("special thanks to", true)
-        self:addCredit("corona labs - technology platform")
-        self:addCredit("esoteric software - spine animation tech")
-        self:addCredit("x-pressive games - text candy")
-        self:addCredit("dudes who gave us free sound effects")
+        self:addCredit("corona labs")
+        self:addCredit("esoteric software")
+        self:addCredit("x-pressive games")
+        self:addCredit("www.freesfx.co.uk")
+        self:addCredit("www.shapes4free.com")
+        self:addCredit("thesuper.deviantart.com")
+        self:addCredit("suziq creations")
 
         self:addCredit("game bugs", true)
         self:addCredit("toby mansell")
 
         scene:addCreditImage("hud/player-head-newton", 150)
 
-        self:addCredit("star jumpr",           true,  "white", 100)
+        self:addCredit("star jumper",          true,  "white", 100)
         self:addCredit("weak sauce games ltd", false, "aqua")
-        self:addCredit("2015",                 false, "aqua")
+        self:addCredit("2016",                 false, "aqua")
 
         local seq = anim:oustSeq("credits", self.creditsGroup, true)
         seq:tran({time=60000, y=-2000})
