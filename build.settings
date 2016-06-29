@@ -10,7 +10,7 @@ settings = {
 	},
     android =
     {
-        -- determines if the build is pslit into expansion packs for games > 1MB
+        -- determines if the build is split into expansion packs for games > 1MB
         -- usesExpansionFile = true,
         supportsTV = true,
         isGame = true,
@@ -88,10 +88,5 @@ settings = {
         {
             publisherId = "com.vungle"
         },
-        --[[["plugin.revmob"] =
-        {
-            publisherId = "com.coronalabs",
-            supportedPlatforms = { iphone=true, android=true }
-        },]]
     },
 }

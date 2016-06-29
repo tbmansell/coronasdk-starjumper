@@ -153,10 +153,11 @@ function scene:createSceneMoveableContent(event)
 
     self:createAnimatedItems(camera, moveable)
 
-    local overlay = display.newImage(moveable, "levels/"..planet.."/images/zone-select-overlay.png", 2400, centerY-10, true)
-    local px = state.data.zoneSelected or 1
+    --local overlay = display.newImage(moveable, "levels/"..planet.."/images/zone-select-overlay.png", 2400, centerY-10, true)
+    local overlay = display.newImageRect(moveable, "levels/"..planet.."/images/zone-select-overlay.png", system.ResourceDirectory, 4800, backgroundHeight)
+    overlay.x, overlay.y = 2400, centerY-10
 
-    -- NOTE: this works for planet1 but may change for other planets
+    local  px = state.data.zoneSelected or 1
     if     px < 5 then  -- dont move along
     elseif px < 9 then  scene.moveable.x = -750
     elseif px < 14 then scene.moveable.x = -1500
