@@ -102,6 +102,7 @@ function playerBuilder:newMainPlayer(camera, spec, ledge)
         if event.phase == "began" and
            player.mode == playerReady and 
            (state.data.game == levelPlaying or state.data.game == levelTutorial) and
+           player.attachedLedge and
            allowPlayerAction("prepare-jump", player.attachedLedge.key)
         then
             player.touchCount = 1
