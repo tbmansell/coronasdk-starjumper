@@ -182,7 +182,7 @@ function newObjectsLoader:load(level)
     function level:clearBackgrounds(camera)
         for key, list in pairs(backgroundImages) do
             for _,img in pairs(list) do
-                if img then
+                if img and type(img) == "table" then
                     camera:remove(img)
                     img:removeSelf()
                 end
