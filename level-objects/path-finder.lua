@@ -159,9 +159,7 @@ local function obstructionSensorCollision(self, event)
 	local sensor = self
 	local hit    = event.other.object
 
-	if not hit then return end
-
-	if event.phase == "began" then
+	if hit and event.phase == "began" then
 		-- TODO: possibly work out how much the object intersects to determine if it counts as a problems
 		if sensor.fromIndex ~= hit.zoneRouteIndex and sensor.targetIndex ~= hit.zoneRouteIndex then
 			-- ignore from and target jump items

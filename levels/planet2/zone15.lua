@@ -34,7 +34,7 @@ local levelData = {
             {object="spike", x=2300,  y=-1500, type="fg-wall-divider-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
             {object="spike", x=2300,  y=-100, type="fg-wall-divider-spiked", physics={shapeOffset={top=50, right=-20},   bounce=1}},
                   
-        {object="obstacle", x=1870, y=-140, timerOn=1000, timerOff=0, type="electricgate"},
+        {object="obstacle", type="electricgate", x=1870, y=-140, timerOn=1000, timerOff=0, antishield=true},
 
 --First ledges Up
 

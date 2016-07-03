@@ -14,32 +14,32 @@ local planetData = {
 
     -- Story mode zone select scene markers:
     zones = {
-        [1]  = { x=180,  y=360, hint={gearShield} },
-        [2]  = { x=330,  y=465, hint={gearGlider} },
-        [3]  = { x=500,  y=435, hint={gearShield, gearGlider} },
-        [4]  = { x=630,  y=370, hint={gearJetpack} },
-        [5]  = { x=830,  y=420, hint={gearJetpack, gearGrappleHook} },
-        [6]  = { x=1010, y=360, hint={gearTrajectory, gearJetpack, gearGloves} },
-        [7]  = { x=1180, y=285, special=true, hint={gearSpringShoes, gearShield, gearGloves} },
-        [8]  = { x=1350, y=350, hint={gearFreezeTime, gearGlider, gearGrappleHook} },
-        [9]  = { x=1550, y=475, hint={gearTrajectory, gearParachute} },
-        [10] = { x=1690, y=425, hint={gearSpringShoes, gearParachute, gearGloves} },
-        [11] = { x=1820, y=350, hint={} },
-        [12] = { x=1960, y=290, hint={} },
-        [13] = { x=2150, y=320, hint={} },
-        [14] = { x=2290, y=410, special=true, gameTypeSurvival="no", gameTypeTimeAttack="no", gameTypeRace="no", hint={} },
-        [15] = { x=2450, y=450, hint={} },
-        [16] = { x=2605, y=355, hint={} },
-        [17] = { x=2800, y=230, hint={} },
-        [18] = { x=2960, y=350, hint={} },
-        [19] = { x=3180, y=485, hint={} },
-        [20] = { x=3370, y=435, hint={} },
-        [21] = { x=3550, y=330, special=true, hint={} },
+        [1]  = { x=180,  y=360, hint={gearShield}},
+        [2]  = { x=330,  y=465, hint={gearGlider}},
+        [3]  = { x=500,  y=435, hint={gearShield,      gearGlider} },
+        [4]  = { x=630,  y=370, hint={gearJetpack}},
+        [5]  = { x=830,  y=420, hint={gearJetpack,     gearGrappleHook}},
+        [6]  = { x=1010, y=360, hint={gearTrajectory,  gearJetpack,     gearGloves}},
+        [7]  = { x=1180, y=285, hint={gearSpringShoes, gearShield,      gearGloves},      special=true},
+        [8]  = { x=1350, y=350, hint={gearFreezeTime,  gearGlider,      gearGrappleHook}},
+        [9]  = { x=1550, y=475, hint={gearTrajectory,  gearParachute}},
+        [10] = { x=1690, y=425, hint={gearSpringShoes, gearParachute,   gearGloves}},
+        [11] = { x=1820, y=350, hint={gearFreezeTime,  gearGrappleHook}},
+        [12] = { x=1960, y=290, hint={gearFreezeTime,  gearParachute,   gearGrappleHook}},
+        [13] = { x=2150, y=320, hint={gearJetpack,     gearReverseJump, gearGloves}},
+        [14] = { x=2290, y=410, hint={gearShield,      gearReverseJump, gearGrappleHook}, special=true},
+        [15] = { x=2450, y=450, hint={gearShield,      gearParachute,   gearGrappleHook}},
+        [16] = { x=2605, y=355, hint={gearFreezeTime,  gearParachute,   gearGrappleHook}},
+        [17] = { x=2800, y=230, hint={gearTrajectory,  gearJetpack,     gearGloves}},
+        [18] = { x=2960, y=350, hint={gearTrajectory,  gearJetpack,     gearGloves}},
+        [19] = { x=3180, y=485, hint={gearFreezeTime,  gearReverseJump, gearGrappleHook}},
+        [20] = { x=3370, y=435, hint={gearSpringShoes, gearGlider,      gearJetpack}},
+        [21] = { x=3550, y=330, hint={gearTrajectory,  gearGlider,      gearGloves},      special=true},
         -- secret zones:
-        [22] = { x=4000, y=350, secret=true, hint={} },
-        [23] = { x=4200, y=400, secret=true, hint={} },
-        [24] = { x=4350, y=280, secret=true, hint={gearFreezeTime, gearGlider, gearGrappleHook} },
-        [25] = { x=4500, y=450, secret=true, hint={gearFreezeTime, gearParachute, gearJetpack} },
+        [22] = { x=4000, y=350, hint={gearParachute,   gearGloves,      gearGrappleHook}, secret=true},
+        [23] = { x=4200, y=400, hint={gearTrajectory,  gearJetpack,     gearGloves},      secret=true},
+        [24] = { x=4350, y=280, hint={gearFreezeTime,  gearGlider,      gearGrappleHook}, secret=true},
+        [25] = { x=4500, y=450, hint={gearFreezeTime,  gearParachute,   gearJetpack},     secret=true},
     },
 
     -- Story mode zone select scene - spine objects shown
@@ -132,7 +132,6 @@ function planetData:setDefaults(data)
     data.defaultTheme        = data.defaultTheme        or "space"
     data.defaultLedgePoints  = data.defaultLedgePoints  or 100
     data.defaultCloudColor   = data.defaultCloudColor   or function(cloud) cloud:setFillColor(0.2, 0.2, math.max(0.4,math.random())) end
-    --data.defaultLedgeShake   = data.defaultLedgeShake   or {pattern={{0,50}, {0,-70}, {0,50}, {0,-40}, {0,20}, {0,-10}}, delay=0, speed=4, oneWay=true}
     data.defaultLedgeShake   = data.defaultLedgeShake   or {pattern={{0,50},{0,-50,speed=4}}, delay=0, speed=8, oneWay=true}
     data.defaultRunSound     = "playerRunMetal"
 end

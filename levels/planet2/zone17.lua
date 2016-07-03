@@ -2,7 +2,7 @@ local utils = require("core.utils")
 
 local levelData = {
     name             = "stay up forever",
-    timeBonusSeconds = 105,
+    timeBonusSeconds = 140,
     ceiling          = -1500,
     floor            = 1000,
     startLedge       = 1,

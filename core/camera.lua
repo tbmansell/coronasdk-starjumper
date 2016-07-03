@@ -541,7 +541,7 @@ function Perspective.createView(numLayers)
 
 	--Remove an object from the camera
 	function view:remove(obj)
-		if obj~=nil and layer[obj._perspectiveLayer]~=nil then
+		if obj~=nil and type(obj) ~= "number" and layer[obj._perspectiveLayer]~=nil then
 			layer[obj._perspectiveLayer]:remove(obj)
     	end
   	end

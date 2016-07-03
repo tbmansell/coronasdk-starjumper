@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.13.5"
+globalBuildVersion = "0.14"
 globalDebugGame    = true
 
 -- Define global constants
@@ -67,9 +67,9 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
-	state.data.zoneSelected   = 3
-	state.data.gameSelected   = gameTypeStory
+	state.data.planetSelected = 2
+	state.data.zoneSelected   = 16
+	state.data.gameSelected   = gameTypeTimeAttack
 	composer.gotoScene("scenes.play-zone")
 
 elseif mode == "cut" then

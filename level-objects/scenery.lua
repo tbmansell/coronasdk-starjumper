@@ -13,20 +13,23 @@ local scenery = {
 function scenery.eventCollideSpike(self, event)
     local spike  = self.object
     local object = event.other.object
-    local spikes = object.spikeCollisions
 
-    if event.phase == "began" and object and object.isPlayer then
-        -- If player shielded they dont die straight away, but in order to stop them sitting on a bed of spikes until it expires,
-        -- detect if they are still on the same spike after a momentand then kill them
-        if object.shielded then
-            spike:shieldedPlayerCollideSpike(object, spikes)
-        else
-            object:explode({animation="Death EXPLODE SMALL", message="spike"})
-        end
-    elseif event.phase == "ended" and spikes then
-        local num = #spikes
-        if num > 0 then
-            spikes[num] = nil
+    if object then
+        local spikes = object.spikeCollisions
+
+        if event.phase == "began" and object and object.isPlayer then
+            -- If player shielded they dont die straight away, but in order to stop them sitting on a bed of spikes until it expires,
+            -- detect if they are still on the same spike after a momentand then kill them
+            if object.shielded then
+                spike:shieldedPlayerCollideSpike(object, spikes)
+            else
+                object:explode({animation="Death EXPLODE SMALL", message="spike"})
+            end
+        elseif event.phase == "ended" and spikes then
+            local num = #spikes
+            if num > 0 then
+                spikes[num] = nil
+            end
         end
     end
 end
