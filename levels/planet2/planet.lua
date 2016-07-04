@@ -73,8 +73,8 @@ local planetData = {
 
         {object="warpfield", x=2840, y=400, size=0.9, radius=1},
 
-        {object="player", model=characterEarlGrey,   x=3650, y=315, size=0.17, direction=left},
-        {object="player", model=characterHammer, x=3670, y=315, size=0.17, direction=left, animation="Seated"},
+        {object="player", model=characterEarlGrey, x=3650, y=315, size=0.17, direction=left},
+        {object="player", model=characterHammer,   x=3670, y=315, size=0.17, direction=left, animation="Seated", rescue=true},
     },
 
     -- Unlocking scheme

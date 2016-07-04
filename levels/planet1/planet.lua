@@ -73,7 +73,7 @@ local planetData = {
         },
         
         {object="friend",   type="fuzzy",            x=3330, y=380, color="Blue", kinetic="hang", direction=right},
-        {object="player",   model=characterSkyanna,  x=3710, y=345, size=0.17, direction=left, animation="Seated"},
+        {object="player",   model=characterSkyanna,  x=3710, y=345, size=0.17, direction=left, animation="Seated", rescue=true},
         {object="player",   model=characterBrainiak, x=3765, y=350, size=0.17, direction=left},
     },
 

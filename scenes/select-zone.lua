@@ -177,7 +177,11 @@ function scene:createAnimatedItems(camera, moveable)
         local item = self.planetData.animated[number]
 
         if item.object == "player" then
-            self:createCharacter(item, moveable)
+            if item.rescue and state:characterUnlocked(item.model) then
+                -- dont show rescued character
+            else
+                self:createCharacter(item, moveable)
+            end
 
         elseif item.object == "obstacle" then
             local obstacle = obstacleBuilder:newObstacle(camera, item)
