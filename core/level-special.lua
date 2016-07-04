@@ -124,27 +124,33 @@ function newObjectsLoader:load(level)
             backgroundImages[key] = {}
 
             if self.data.backgroundOrder[key] then
-                local size  = #self.data.backgroundOrder[key]
-                local count = size
+                local size     = #self.data.backgroundOrder[key]
+                local count    = size
+                local fixedBgr = state.data.gameSettings.backgroundImages == false
 
-                if state.data.gameSettings.backgroundImages == false then
+                if fixedBgr then
                     count = math.min(2, size)
                 end
 
-                local xpos  = -self.bgrWidth * count
+                -- for sky bgr we double it up as it only has two images, so cannot scroll fully
+                local xpos = 0
 
-                for i=1, count do
-                    --self:createBackgroundImage(camera, key, i, i, xpos)
-                    xpos = xpos + self.bgrWidth
-                    -- Fix visual tearing of sky bgr showing black background by overlapping
-                    xpos = xpos - 1
+                if key == bgrSky and not fixedBgr then
+                    xpos = -self.bgrWidth * count
                 end
 
                 for i=1, count do
-                    self:createBackgroundImage(camera, key, i, i+count, xpos)
+                    self:createBackgroundImage(camera, key, i, i, xpos)
                     xpos = xpos + self.bgrWidth
-                    -- Fix visual tearing of sky bgr showing black background by overlapping
-                    xpos = xpos - 1
+                    xpos = xpos - 1  -- Fix visual tearing of sky bgr showing black background by overlapping
+                end
+
+                if key == bgrSky and not fixedBgr then
+                    for i=1, count do
+                        self:createBackgroundImage(camera, key, i, i+count, xpos)
+                        xpos = xpos + self.bgrWidth
+                        xpos = xpos - 1  -- Fix visual tearing of sky bgr showing black background by overlapping
+                    end
                 end
             end
         end

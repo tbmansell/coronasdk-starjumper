@@ -55,7 +55,7 @@ end
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "game"
+local mode     = "main"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -67,8 +67,8 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 16
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 21
 	state.data.gameSelected   = gameTypeTimeAttack
 	composer.gotoScene("scenes.play-zone")
 

@@ -179,10 +179,6 @@ function Perspective.createView(numLayers)
 				elseif counter >= 100 then
 					view:forceGridSize()
 				end
-
-				--[[if limitXaxis and limitYaxis and not forcing then
-					return
-				end]]
 			end
 
 			if forcing then
