@@ -47,7 +47,6 @@ function scenery.eventCollideWall(self, event)
             elseif object.isRing == false and wall.image.bodyType == "dynamic" then
                 playInternal(sounds.landLedge)
             end
-
         elseif event.phase == "ended" and object.isPlayer then
             -- only activate the fall after the collision ends: so if they sit on a wall it doesnt trigger
             after(500, function()
@@ -155,10 +154,12 @@ function scenery:createPhysicsShape(scale)
         if p.bounce   then stats.bounce   = p.bounce end
 
         if p.shape == "circle" then
-            if self.preScaleWidth then 
-                stats.radius = (self.preScaleWidth * scale * size) / 2
+            if self.preScaleWidth then
+                local width  = p.radius or self.preScaleWidth
+                stats.radius = (width * scale * size) / 2
             else
-                stats.radius = (self:width() * scale) / 2
+                local width  = p.radius or self:width()
+                stats.radius = (width * scale) / 2
             end
         elseif p.shape then
             stats.shape = {}

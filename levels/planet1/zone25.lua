@@ -27,8 +27,8 @@ local levelData = {
         {object="ledge", x=440, y=100, size="medium2"},
 
             -- entrance walls
-            {object="wall",    x=-580, y=-1550, type="fg-wall-divider", rotation=-35},
-            {object="scenery", x=-650, y=-150,  type="fg-wall-divider", rotation=65, layer=2},
+            {object="wall",   x=-580, y=-1550, type="fg-wall-divider", rotation=-35},
+            {object="wall",   x=-650, y=-150,  type="fg-wall-divider", rotation=65, layer=2},
 
             -- first level ceiling & floor
             {object="spike",  x=150,  y=-1200, type="fg-wall-divider", rotation=90},
@@ -208,14 +208,14 @@ local levelData = {
         {object="ledge", x=0, y=150, size="small"},
 
         {object="ledge", x=400, y=-250, surface=collapsing},
-            {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=50}, layer=4},
+            {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=150}, layer=4},
             {object="scenery", x=285, y=-240, type="fg-flowers-1-yellow", size=1, layer=4, flip="y"},
 
         {object="ledge", x=400, y=0,    surface=collapsing},
-            {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=45}, layer=4},
+            {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=145}, layer=4},
 
         {object="ledge", x=400, y=0,    surface=collapsing},
-            {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=50}, layer=4},
+            {object="spike", x=-100, y=-200, type="fg-rock-2", physics={body="dynamic", shape="circle", friction=1, radius=150}, layer=4},
 
         --#30
         {object="ledge", x=430, y=50, size="medium", positionFromLedge=26, triggerLedgeIds={27}, rotation=-25},
