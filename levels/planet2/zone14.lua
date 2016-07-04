@@ -55,7 +55,7 @@ local levelData = {
 
             -- Friendly help location 1
             {object="player", x=0, y=-200, type="scripted", model=characterReneGrey, direction=left, targetName="reneGrey", storyModeOnly=true, 
-                physicsBody="static", loadGear=gearJetpack, animation="Powerup PARACHUTE",
+                physicsBody="static", loadGear={gearJetpack}, animation="Powerup PARACHUTE",
                 movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=100, speed=2, pause=1500, moveStyle=moveStyleSway, pauseStyle=moveStyleSway}
             },
 

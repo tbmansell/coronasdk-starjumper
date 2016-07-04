@@ -198,7 +198,9 @@ function playerBuilder:applyPlayerOptions(camera, spec, player)
     end
 
     if spec.loadGear then
-        player:setIndividualGear(spec.loadGear)
+        for _,gear in pairs(spec.loadGear) do
+            player:setIndividualGear(gear)
+        end
     end
 
     if player.xpos then
