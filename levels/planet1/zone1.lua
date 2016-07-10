@@ -22,28 +22,14 @@ local levelData = {
             {object="scenery", x=100, y=-260, type="fg-foilage-2-yellow", layer=2, size=0.5},
             {object="scenery", x=230, y=-220, type="fg-foilage-3-yellow", layer=2, size=0.8},
             {object="scenery", x=370, y=-260, type="fg-foilage-2-yellow", layer=2, size=0.5, flip="x"},
-
-            -- tutorial helper:
-            {object="friend", x=-500, y=-950, type="ufoboss", size=0.7, animation="Standard", storyModeOnly=true, 
-                gearDropper={gear={ {100,gearTrajectory} }, wait=2000, limit=1},
-                movement={pattern=movePatternFollow, 
-                    delay=2000,
-                    speed=10,
-                    offsetY=-150, 
-                    --moveStyle=moveStyleWave,
-                    pause=1000, 
-                    --pauseStyle=moveStyleWave,
-                    --steering=steeringMild,
-                }
-            },
         
         {object="ledge", x=280},
             {object="scenery", x=90, y=-300, type="fg-tree-4-yellow"},
-            {object="gear", type=gearTrajectory, x=-100, y=-45, onLedge=true},
             
         {object="ledge", x=280, y=-200},
             {object="scenery", x=0, y=-145, type="fg-flowers-3-yellow", layer=2, size=0.7, onLedge=true},
             {object="rings", color=aqua, trajectory={x=50, y=-50, xforce=100, yforce=50, arc=40, num=3}},
+            {object="gear", type=gearTrajectory, x=120, y=-45, onLedge=true},
 
         {object="ledge", x=250, y=150, size="big2"},
 
