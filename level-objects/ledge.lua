@@ -475,13 +475,7 @@ function ledge:shake(camera)
         end
 
         -- copy movement pattern so that any scaling wont affect the original
-        local shakeMove = builder:newClone(self.master.ledgeShakeMovement)
-
-        --[[for k,v in pairs(shakeMove.pattern) do
-            print("shake["..k.."] x="..v[1].." y="..v[2])
-        end]]
-
-        self:setMovement(camera, shakeMove)
+        self:setMovement(camera, builder:newClone(self.master.ledgeShakeMovement))
 
         -- remove ledge before adding to ensure we dont needlessly add two entries in movement collection
         self:stop()
