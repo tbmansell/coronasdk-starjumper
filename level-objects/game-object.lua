@@ -773,6 +773,13 @@ end
 function gameObject:scalePatternMovement(camera)
     local moveScale    = camera.scalePosition
     local movement     = self.movement
+
+    -- dont scale if: the pattern has not been scaled yet (new since level start) AND scalPosition > 1 (zoomed in then out)
+    -- cos this means new movements produced in-game will get expanded when they shouldnt - such as shake patterns
+    if movement.scale == nil and moveScale > 1 then
+        moveScale = 1
+    end
+
     local pattern      = movement.pattern
     local patternPos   = movement.patternPos
     local drawPath     = movement.draw
@@ -805,6 +812,7 @@ function gameObject:scalePatternMovement(camera)
     movement.currentX = movement.currentX * moveScale
     movement.currentY = movement.currentY * moveScale
     movement.speed    = movement.speed    * moveScale
+    movement.scaled   = moveScale
 end
 
 

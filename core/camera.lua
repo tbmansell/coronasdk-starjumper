@@ -206,24 +206,11 @@ function Perspective.createView(numLayers)
         		local newx  = item.x + xdiff
         		local newy  = item.y + ydiff
 
-                --if item.isFocus then focusX = newx else	item.x = newx end
-                --if item.isFocus then focusY = newy else	item.y = newy end
                 if item.fixXAxis ~= true then 
                 	item.x = newx
                 end
                 
                 item.y = newy
-
-                -- some items are constrained to an edge so you cant see past that edge (eg background images)
-                if applyConstraints then
-                    if item.constrainBottom and newy < item.limitBottom then
-                        newy = item.limitBottom
-                    end
-
-                    if item.constrainTop and newy > item.limitTop then
-                        newy = item.limitTop
-                    end
-                end
             end
 		end
 	end
@@ -233,7 +220,7 @@ function Perspective.createView(numLayers)
 		local damping = view.damping
 		if conf.prevDamping ~= damping then
 			conf.prevDamping = damping
-			conf.damping = 1 / damping -- Set up multiplication damping
+			conf.damping = 1 / damping  -- Set up multiplication damping
 		end
 		damping = conf.damping
 
@@ -261,7 +248,7 @@ function Perspective.createView(numLayers)
             		local ydiff = (gy - (gy - confY * parallaxRatio) * damping)
                     local newy = item.y + ydiff
 
-                    -- some items are constrained to an edge so youcant see past that edge (eg background images)
+                    -- some items are constrained to an edge so you cant see past that edge (eg background images)
                     if applyConstraints then
                         if item.constrainBottom and newy < item.limitBottom then
                             newy = item.limitBottom
@@ -272,7 +259,11 @@ function Perspective.createView(numLayers)
                         end
                     end
                     -- dont move focused object now, only at end
-                    if item.isFocus then focusY = newy else	item.y = newy end
+                    if item.isFocus then 
+                    	focusY = newy
+                    else	
+                    	item.y = newy 
+                    end
                 end
             end
 		end
