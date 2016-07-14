@@ -9,6 +9,7 @@ local ledgeCollection = {
     -- !add()
     -- setShakeMovement()
     -- reset()
+    -- resetPulley()
 }
 
 
@@ -62,9 +63,7 @@ function ledgeCollection:reset(player, camera)
 
 		if validObject(ledge) then
             if ledge.surface == pulley and ledge.triggeredPulley and not ledge.dontReset then
-                ledge.triggeredPulley = false
-                ledge:stop()
-                ledge:moveBy(-ledge.movement.currentX, -ledge.movement.currentY)
+                self:resetPulley(ledge, camera)
 
             elseif ledge.surface == exploding then
                 ledge:visible(1)
@@ -92,6 +91,27 @@ function ledgeCollection:reset(player, camera)
             end
 		end
 	end
+end
+
+
+function ledgeCollection:resetPulley(ledge, camera)
+    local scale    = 1
+    local camScale = camera.scalePosition
+    local movScale = ledge.movement.scaled
+
+    if camScale < 1 then
+        if movScale == nil or movScale >= 1 then
+            scale = camScale
+        end
+    else
+        if movScale < 1 then
+            scale = camScale
+        end
+    end
+
+    ledge.triggeredPulley = false
+    ledge:stop()
+    ledge:moveBy(-ledge.movement.currentX * scale, -ledge.movement.currentY * scale)
 end
 
 
