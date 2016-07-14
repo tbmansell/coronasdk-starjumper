@@ -213,8 +213,7 @@ function scene:initPhysics()
     physics.pause()
     physics.setGravity(0, curve.Gravity)
     physics.setDebugErrorsEnabled()
-    --physics.setTimeStep(1/display.fps)
-    physics.setTimeStep(1/60)
+    physics.setTimeStep(1/display.fps)
 end
 
 
