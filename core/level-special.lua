@@ -250,50 +250,30 @@ function newObjectsLoader:load(level)
     end
 
 
-    -- Randomizes colors for the background images
-    function level:colorBackgroundsRandom()
+    -- Generic function to iterate over images that can have their images modified by things like dizzy negable:
+    -- Is generic cos saves having to create multiple versions for: preserve, randomize, restore
+    function level:iterateRandomizableImages(ledgeAction, bgrAction, bgrLayerAction)
         local ledges = self.ledges.items
         local num    = #ledges
         
         for i=1,num do
             local ledge = ledges[i]
             if ledge and ledge.image then
-                randomizeImage(ledge.image, true, 0.3)
+                ledgeAction(ledge.image)
             end
         end
         
         for key,list in pairs(backgroundImages) do
-            local r,g,b = math_random(), math_random(), math_random(), math_random()
+            local temp = {}
+            if bgrLayerAction then
+                temp = bgrLayerAction() 
+            end
+
             for i=1,#list do
                 local img = backgroundImages[key][i]
 
                 if type(img) ~= "number" then
-                    img:setFillColor(r,g,b)
-                end
-            end
-        end
-    end
-
-
-    -- Restores the colour of the background images
-    function level:colorBackgroundsRestore()
-        local ledges = self.ledges.items
-        local num    = #ledges
-        
-        for i=1,num do
-            local ledge = ledges[i]
-            if ledge and ledge.image then
-                restoreImage(ledge.image)
-            end
-        end
-
-        -- Restore backgrounds
-        for key,list in pairs(backgroundImages) do
-            for i=1,#list do
-                local img = backgroundImages[key][i]
-
-                if type(img) ~= "number" then
-                    img:setFillColor(1,1,1)
+                    bgrAction(img, temp)
                 end
             end
         end
