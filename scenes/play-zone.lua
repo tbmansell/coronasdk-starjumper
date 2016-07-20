@@ -512,6 +512,7 @@ function scene:pauseLevel()
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
 
     track:pauseEventHandles()
+    hud.level:pauseElements()
 --    timer.pause(scene.gameLoopHandle)
     physics:pause()
     anim:pause()
@@ -531,6 +532,7 @@ function scene:resumeLevel(resumeGameState)
     anim:resume()
     physics:start()
 --    timer.resume(scene.gameLoopHandle)
+    hud.level:resumeElements()
     track:resumeEventHandles()
 end
 
