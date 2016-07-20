@@ -166,11 +166,24 @@ function newObjectsLoader:load(level)
         if sheet == 0 then
             backgroundImages[key][insertOrder] = 0
         else
+            local prev = self.bgrPos
+            local ypos = centerY
+
+            if prev then
+                prev = prev[key][sheetNum]
+                ypos = prev.y
+                if key ~= bgrSky then
+                    xpos = prev.x
+                end
+            end
+
             local img = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
 
-            local pinTop = false
+            if prev then
+                img.bottomOverage = prev.overage
+            end
+
             if key == bgrSky then
-                pinTop = true
                 img:setFillColor(skyBlue, skyBlue, 1)
             end
 
@@ -178,7 +191,7 @@ function newObjectsLoader:load(level)
             backgroundImages[key][insertOrder] = img
 
             if state.data.gameSettings.backgroundImages then
-                camera:add(img, 4+key, false, true, pinTop)
+                camera:add(img, 4+key, false, true, key == bgrSky)
             end
         end
     end
@@ -186,9 +199,14 @@ function newObjectsLoader:load(level)
 
     -- Reload backgrounds
     function level:clearBackgrounds(camera)
+        self.bgrPos = {}
+
         for key, list in pairs(backgroundImages) do
-            for _,img in pairs(list) do
+            self.bgrPos[key]= {}
+
+            for i,img in pairs(list) do
                 if img and type(img) == "table" then
+                    self.bgrPos[key][i] = {x=img.x, y=img.y, overage=img.bottomOverage}
                     camera:remove(img)
                     img:removeSelf()
                 end

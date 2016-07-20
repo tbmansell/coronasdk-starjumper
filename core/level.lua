@@ -204,7 +204,7 @@ function level:destroy()
     spineStore:destroy()
 
     self.planetDetails, self.data, self.players, self.ledges, self.obstacles, self.enemies, self.friends, self.collectables, self.scenery = nil,nil,nil,nil,nil,nil,nil,nil,nil
-    self.ai, self.floor, self.startLedge, self.finishLedge, self.checkPoints, self.scoreMarkers, self.regenerate = nil,nil,nil,nil,nil,nil, nil
+    self.ai, self.floor, self.startLedge, self.finishLedge, self.checkPoints, self.scoreMarkers, self.regenerate, self.bgrPos = nil,nil,nil,nil,nil,nil,nil,nil
 
     spineCollection, movingCollection, particleCollection, jumpObjectRoute, mainPlayer, self.camera, camera = nil,nil,nil,nil,nil,nil,nil
     playerCollection, ledgeCollection, obstacleCollection, friendCollection, enemyCollection, collectableCollection, sceneryCollection, emitterCollection = nil,nil,nil,nil,nil,nil,nil,nil

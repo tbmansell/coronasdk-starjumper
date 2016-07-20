@@ -23,12 +23,13 @@ local YAxisLimit = 50
 local leftRightLimit = XAxisLimit
 local upDownLimit    = YAxisLimit
 
-local leftBoundary=nil
-local rightBoundary=nil
-local bottomBoundary=nil
-local topBoundary=nil
-local bound1=nil
-local bound2=nil
+local leftBoundary   = nil
+local rightBoundary  = nil
+local bottomBoundary = nil
+local topBoundary    = nil
+local bound1         = nil
+local bound2         = nil
+local doingScaling    = false
 
 local abs	= math.abs
 local inf	= math.huge
@@ -39,14 +40,6 @@ local cw	= display.contentWidth
 local ch	= display.contentHeight
 local drm	= display.remove
 
-local debugGroup = ng()
---[[
-local camlab1=newText(debugGroup, ".", 30, 130, 0.35, "white", "LEFT")
-local camlab2=newText(debugGroup, ".", 30, 150, 0.35, "white", "LEFT")
-local camlab3=newText(debugGroup, ".", 30, 170, 0.35, "white", "LEFT")
-local camlab4=newText(debugGroup, ".", 30, 190, 0.35, "white", "LEFT")
-local camlab5=newText(debugGroup, ".", 30, 210, 0.35, "white", "LEFT")
-]]
 
 local Perspective={
 	version="1.4.2",
@@ -111,7 +104,7 @@ function Perspective.createView(numLayers)
 		layer[l]:insert(obj)
 
         if constrainBottom then
-            obj.limitBottom = math.abs(obj.y)
+        	obj.limitBottom = math.abs(obj.y)
         end
 
         if constrainTop then
@@ -190,7 +183,7 @@ function Perspective.createView(numLayers)
 	end
 
 
-	function view.trackFocusForcing(conf, confFocus)
+	--[[function view.trackFocusForcing(conf, confFocus)
 		local focusX, focusY = nil, nil
 		local confX, confY   = -confFocus.x + ccx, -confFocus.y + ccy
 
@@ -213,7 +206,7 @@ function Perspective.createView(numLayers)
                 item.y = newy
             end
 		end
-	end
+	end]]
 
 
 	function view.trackFocusNormal(conf, confFocus)
@@ -224,8 +217,13 @@ function Perspective.createView(numLayers)
 		end
 		damping = conf.damping
 
-		local focusX, focusY = nil, nil
-		local confX, confY   = -confFocus.x + ccx, -confFocus.y + ccy
+		local focusX, focusY, confX, confY
+
+		if doingScaling then
+			confX, confY = -confFocus.x, -confFocus.y
+		else
+			confX, confY = -confFocus.x + ccx, -confFocus.y + ccy
+		end
 
         for i=1,numLayers do
             local g = layer[i]
@@ -250,19 +248,40 @@ function Perspective.createView(numLayers)
 
                     -- some items are constrained to an edge so you cant see past that edge (eg background images)
                     if applyConstraints then
-                        if item.constrainBottom and newy < item.limitBottom then
-                            newy = item.limitBottom
+                        if item.constrainBottom then
+                        	if newy < item.limitBottom then
+                        		-- Ensure that items constrained to bottom, cant move their bottom edge higher than their start point
+	                        	local diff = (item.limitBottom - newy)
+	                        	if diff > 1 then
+	                        		-- Records how much past the limit the item has logically moved so it can be pinned and not move striaght up again
+	                        		item.bottomOverage = (item.bottomOverage or 0) + diff
+	                        	end
+	                        	-- lock Y to the bottom
+	                        	newy = item.limitBottom
+
+	                        elseif newy > item.y and item.bottomOverage then
+	                        	-- If item with bottom contraint moves back down, only alolw it once its overage has been covered: this keeps Y position consistency
+	                        	item.bottomOverage = item.bottomOverage - (newy - item.y)
+
+	                        	if item.bottomOverage > 0 then
+	                        		-- pin Y to the bottom as it has gone way past when it was locked to bottom
+	                        		newy = item.limitBottom
+	                        	else
+	                        		item.bottomOverage = nil
+	                        	end
+	                        end
                         end
 
                         if item.constrainTop and newy > item.limitTop then
                             newy = item.limitTop
                         end
                     end
+
                     -- dont move focused object now, only at end
-                    if item.isFocus then 
+                    if item.isFocus then
                     	focusY = newy
-                    else	
-                    	item.y = newy 
+                    else
+                    	item.y = newy
                     end
                 end
             end
@@ -280,7 +299,6 @@ function Perspective.createView(numLayers)
 			isTracking = true
 			Runtime:addEventListener("enterFrame", view.trackFocus)
 		end
-		debugGroup:toFront()
 	end
 	
 
@@ -317,12 +335,9 @@ function Perspective.createView(numLayers)
 		topBoundary    = y2
 
 		-- Setup the bounding objects
-		--bound1 = display.newCircle(leftBoundary,  bottomBoundary, 55)
-		--bound2 = display.newCircle(rightBoundary, topBoundary,    55)
 		bound1 = display.newRect(leftBoundary,  bottomBoundary, 2, 2)
 		bound2 = display.newRect(rightBoundary, topBoundary,    2, 2)
 		bound1.alpha, bound2.alpha = 0, 0
-
 		--bound1:setFillColor(1,0,0)
 		--bound2:setFillColor(1,0,0)
 		
@@ -378,20 +393,16 @@ function Perspective.createView(numLayers)
 		local mr = math.round
 		local b1, b2, b3, b4 = bound1.x, bound1.y, bound1.x+xdiff, bound1.y+ydiff
 		local b5, b6, b7, b8 = bound2.x, bound2.y, bound2.x+xdiff, bound2.y+ydiff
-		--[[
-		camlab1:setText("level bounds (x,x,y,y): "..mr(leftBoundary)..", "..mr(rightBoundary)..", "..mr(bottomBoundary)..", "..mr(topBoundary))
-		camlab2:setText("ccx="..mr(ccx).." ccy="..mr(ccy))
-		camlab3:setText("left-right-limit="..mr(leftRightLimit).." up-down-limit="..mr(upDownLimit))
-		camlab4:setText("bound1 actual="..mr(b1)..", "..mr(b2).." moved="..mr(b3)..", "..mr(b4))
-		camlab5:setText("bound2 actual="..mr(b5)..", "..mr(b6).." moved="..mr(b7)..", "..mr(b8))
-		]]
+		
 		local hitLeft   = (bound1.x + xdiff > 0)
 		local hitBottom = (bound1.y + ydiff < ch)
 		local hitRight  = (bound2.x + xdiff < cw)
 		local hitTop    = (bound2.y + ydiff > 0)
 
-		--if hitLeft  or hitBottom then camlab4:setColor(255,0,0) else camlab4:setColor(255,255,255) end
-		--if hitRight or hitTop    then camlab5:setColor(255,0,0) else camlab5:setColor(255,255,255) end
+		if hitLeft   then print("hit left   boundary") end
+		if hitRight  then print("hit right  boundary") end
+		if hitUp     then print("hit top    boundary") end
+		if hitBottom then print("hit bottom boundary") end
 
         return (hitLeft or hitRight), (hitBottom or hitTop)
 	end
@@ -428,7 +439,6 @@ function Perspective.createView(numLayers)
 
 		if forceX then self:setFocusOffsetX(offsetX) end
 		if forceY then self:setFocusOffsetY(offsetY) end
-		--self:setFocusOffset(offsetX, offsetY)
 
 		return force
 	end
@@ -486,6 +496,14 @@ function Perspective.createView(numLayers)
 	end
 
 
+	function view:removeFocus()
+		if view.CONF.focus then
+			view.CONF.focus.isFocus = false
+			view.CONF.focus = nil  --{x=0,y=0}
+		end
+	end
+
+
 	function view:restoreFocus(item)
 		view:applyBounds(false)
 		view:setFocus(item)
@@ -505,9 +523,6 @@ function Perspective.createView(numLayers)
            newX > display.contentCenterX - leftRightLimit
         then
             ccx = newX
-            --print("Camera Moved: changeX="..changeX)
-        else
-        	--print("Camera Move Blocked: changeX="..changeX.." ccx="..ccx.." newX="..newX.." rightLimit="..(display.contentCenterX + leftRightLimit).." leftLimit="..(display.contentCenterX - leftRightLimit))
         end
     end
 	
@@ -565,9 +580,12 @@ function Perspective.createView(numLayers)
 
 
 	function view:scale(scaleHandler)
-	    if not self.scaling then
-	        self.scaling = true
+	    if not doingScaling then
+	        doingScaling = true
+	        --self:applyBounds(false)
 	        self:cancel()
+	        --self:removeFocus()
+	        --ccx,ccy=0,0
 
 	        local bound1 = layer[2][1]
 			local bound2 = layer[2][2]
@@ -581,9 +599,9 @@ function Perspective.createView(numLayers)
 	            -- restore original speeds rather than recalc them and leave them slightly off each time
 	            setMovementStyleSpeeds()
 	            -- restore offsets (this used to avoid offsets screwing up player viewpoint when scaling in and out near a boundary)
-	            ccx, ccy 	   = LastCcx, LastCcy
-	            leftRightLimit = LastleftRightLimit
-	            upDownLimit    = LastupDownLimit
+	            ccx, ccy 	   	   = LastCcx, LastCcy
+	            leftRightLimit     = LastleftRightLimit
+	            upDownLimit        = LastupDownLimit
 	        else
 	        	-- scale out
 	            self.scaleMode     = true
@@ -606,10 +624,16 @@ function Perspective.createView(numLayers)
 			bound2.y = bound2.y * self.scalePosition
 
 	        scaleHandler()
-			
-	        self.scaling = false
+
 	        self:track()
-	    end
+	        doingScaling = false
+	        
+	        --[[after(500, function() 
+	        	self:applyBounds(true)
+	        	self:track()
+	        	doingScaling = false
+	        end)]]
+		end
 	end
 
 
