@@ -265,7 +265,7 @@ function hud:calculateAwards()
     end
 
     -- 2. Did they get gold digger award: collected everything on the level?
-    if self.ringsCollected == self.level.collectables:countRings() then
+    if self.ringsCollected > 1 and self.ringsCollected == self.level.collectables:countRings() then
         table.insert(awards, awardDefinitions[awardGoldDigger])
     end
 

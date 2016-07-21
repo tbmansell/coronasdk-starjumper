@@ -13,20 +13,23 @@ local scenery = {
 function scenery.eventCollideSpike(self, event)
     local spike  = self.object
     local object = event.other.object
-    local spikes = object.spikeCollisions
 
-    if event.phase == "began" and object and object.isPlayer then
-        -- If player shielded they dont die straight away, but in order to stop them sitting on a bed of spikes until it expires,
-        -- detect if they are still on the same spike after a momentand then kill them
-        if object.shielded then
-            spike:shieldedPlayerCollideSpike(object, spikes)
-        else
-            object:explode({animation="Death EXPLODE SMALL", message="spike"})
-        end
-    elseif event.phase == "ended" and spikes then
-        local num = #spikes
-        if num > 0 then
-            spikes[num] = nil
+    if object then
+        local spikes = object.spikeCollisions
+
+        if event.phase == "began" and object and object.isPlayer then
+            -- If player shielded they dont die straight away, but in order to stop them sitting on a bed of spikes until it expires,
+            -- detect if they are still on the same spike after a momentand then kill them
+            if object.shielded then
+                spike:shieldedPlayerCollideSpike(object, spikes)
+            else
+                object:explode({animation="Death EXPLODE SMALL", message="spike"})
+            end
+        elseif event.phase == "ended" and spikes then
+            local num = #spikes
+            if num > 0 then
+                spikes[num] = nil
+            end
         end
     end
 end
@@ -44,7 +47,6 @@ function scenery.eventCollideWall(self, event)
             elseif object.isRing == false and wall.image.bodyType == "dynamic" then
                 playInternal(sounds.landLedge)
             end
-
         elseif event.phase == "ended" and object.isPlayer then
             -- only activate the fall after the collision ends: so if they sit on a wall it doesnt trigger
             after(500, function()
@@ -152,10 +154,12 @@ function scenery:createPhysicsShape(scale)
         if p.bounce   then stats.bounce   = p.bounce end
 
         if p.shape == "circle" then
-            if self.preScaleWidth then 
-                stats.radius = (self.preScaleWidth * scale * size) / 2
+            if self.preScaleWidth then
+                local width  = p.radius or self.preScaleWidth
+                stats.radius = (width * scale * size) / 2
             else
-                stats.radius = (self:width() * scale) / 2
+                local width  = p.radius or self:width()
+                stats.radius = (width * scale) / 2
             end
         elseif p.shape then
             stats.shape = {}

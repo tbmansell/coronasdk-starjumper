@@ -15,7 +15,7 @@ function collectable.eventCollideRing(self, event)
     local other = event.other.object
     local ring  = self.object
 
-    if other ~= nil and other.isPlayer and event.phase == "began" and not ring.isStolen then
+    if other and other.isPlayer and event.phase == "began" and not ring.isStolen then
         ring:stop()
         ring:animate("Collected")
         other:collected(ring)

@@ -2,7 +2,7 @@ local utils = require("core.utils")
 
 local levelData = {
     name             = "stay up forever",
-    timeBonusSeconds = 105,
+    timeBonusSeconds = 140,
     ceiling          = -1500,
     floor            = 1000,
     startLedge       = 1,
@@ -23,17 +23,13 @@ local levelData = {
         {object="ledge", type="start"},
 
             {object="player", x=0, y=-300, type="scripted", model=characterEarlGrey, targetName="earlGrey", storyModeOnly=true, direction=right,
-                physicsBody="static", loadGear=gearJetpack, animation="Powerup PARACHUTE",
+                physicsBody="static", loadGear={gearJetpack}, animation="Powerup PARACHUTE",
                 movement={pattern=movePatternFollow, offsetY=-200, speed=5, pause=500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig},
             },
 
         {object="ledge", x=500, y=200, size="small"},
+
         {object="ledge", x=500, y=200, size="big"},
-
-            {object="player", x=400, y=-300, type="scripted", model=characterReneGrey, targetName="reneGrey", storyModeOnly=true, direction=left,
-                physicsBody="static", loadGear=gearGlider, animation="Powerup GLIDER",
-            },
-
             {object="emitter", x=100, y=-800, timer={3000, 6000}, limit=nil, force={ {0, 200}, {100, 300}, {0, 45} }, 
                 items={
                     {50,  {object="scenery", layer=4, type="fg-bg-rock-1", size={2, 5}} },
@@ -62,6 +58,10 @@ local levelData = {
 
         {object="ledge", x=400, y=-150, size="medium", movement={bobbingPattern=moveTemplateBobUp1, speed=1, distance=50}, triggerEvent="rescue"},
             {object="scenery", x=400, y=-325, rotation=20, type="fgflt-pole-1"},
+
+            {object="player", x=400, y=-300, type="scripted", model=characterReneGrey, targetName="reneGrey", storyModeOnly=true, direction=left,
+                physicsBody="static", loadGear={gearGlider, gearShield}, animation="Powerup GLIDER",
+            },
 
         {object="ledge", x=300, y=-150, surface="electric"},
             {object="rings", color=aqua, trajectory={x=50, y=-175, xforce=150, yforce=30, arc=45, num=3}},

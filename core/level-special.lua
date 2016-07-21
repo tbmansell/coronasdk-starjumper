@@ -124,27 +124,33 @@ function newObjectsLoader:load(level)
             backgroundImages[key] = {}
 
             if self.data.backgroundOrder[key] then
-                local size  = #self.data.backgroundOrder[key]
-                local count = size
+                local size     = #self.data.backgroundOrder[key]
+                local count    = size
+                local fixedBgr = state.data.gameSettings.backgroundImages == false
 
-                if state.data.gameSettings.backgroundImages == false then
+                if fixedBgr then
                     count = math.min(2, size)
                 end
 
-                local xpos  = -self.bgrWidth * count
+                -- for sky bgr we double it up as it only has two images, so cannot scroll fully
+                local xpos = 0
 
-                for i=1, count do
-                    --self:createBackgroundImage(camera, key, i, i, xpos)
-                    xpos = xpos + self.bgrWidth
-                    -- Fix visual tearing of sky bgr showing black background by overlapping
-                    xpos = xpos - 1
+                if key == bgrSky and not fixedBgr then
+                    xpos = -self.bgrWidth * count
                 end
 
                 for i=1, count do
-                    self:createBackgroundImage(camera, key, i, i+count, xpos)
+                    self:createBackgroundImage(camera, key, i, i, xpos)
                     xpos = xpos + self.bgrWidth
-                    -- Fix visual tearing of sky bgr showing black background by overlapping
-                    xpos = xpos - 1
+                    xpos = xpos - 1  -- Fix visual tearing of sky bgr showing black background by overlapping
+                end
+
+                if key == bgrSky and not fixedBgr then
+                    for i=1, count do
+                        self:createBackgroundImage(camera, key, i, i+count, xpos)
+                        xpos = xpos + self.bgrWidth
+                        xpos = xpos - 1  -- Fix visual tearing of sky bgr showing black background by overlapping
+                    end
                 end
             end
         end
@@ -160,11 +166,24 @@ function newObjectsLoader:load(level)
         if sheet == 0 then
             backgroundImages[key][insertOrder] = 0
         else
+            local prev = self.bgrPos
+            local ypos = centerY
+
+            if prev then
+                prev = prev[key][sheetNum]
+                ypos = prev.y
+                if key ~= bgrSky then
+                    xpos = prev.x
+                end
+            end
+
             local img = display.newImage(path..backgroundNames[key].."-"..sheet..".png", xpos, centerY)
 
-            local pinTop = false
+            if prev then
+                img.bottomOverage = prev.overage
+            end
+
             if key == bgrSky then
-                pinTop = true
                 img:setFillColor(skyBlue, skyBlue, 1)
             end
 
@@ -172,7 +191,7 @@ function newObjectsLoader:load(level)
             backgroundImages[key][insertOrder] = img
 
             if state.data.gameSettings.backgroundImages then
-                camera:add(img, 4+key, false, true, pinTop)
+                camera:add(img, 4+key, false, true, key == bgrSky)
             end
         end
     end
@@ -180,9 +199,14 @@ function newObjectsLoader:load(level)
 
     -- Reload backgrounds
     function level:clearBackgrounds(camera)
+        self.bgrPos = {}
+
         for key, list in pairs(backgroundImages) do
-            for _,img in pairs(list) do
-                if img then
+            self.bgrPos[key]= {}
+
+            for i,img in pairs(list) do
+                if img and type(img) == "table" then
+                    self.bgrPos[key][i] = {x=img.x, y=img.y, overage=img.bottomOverage}
                     camera:remove(img)
                     img:removeSelf()
                 end
@@ -226,50 +250,30 @@ function newObjectsLoader:load(level)
     end
 
 
-    -- Randomizes colors for the background images
-    function level:colorBackgroundsRandom()
+    -- Generic function to iterate over images that can have their images modified by things like dizzy negable:
+    -- Is generic cos saves having to create multiple versions for: preserve, randomize, restore
+    function level:iterateRandomizableImages(ledgeAction, bgrAction, bgrLayerAction)
         local ledges = self.ledges.items
         local num    = #ledges
         
         for i=1,num do
             local ledge = ledges[i]
             if ledge and ledge.image then
-                randomizeImage(ledge.image, true, 0.3)
+                ledgeAction(ledge.image)
             end
         end
         
         for key,list in pairs(backgroundImages) do
-            local r,g,b = math_random(), math_random(), math_random(), math_random()
+            local temp = {}
+            if bgrLayerAction then
+                temp = bgrLayerAction() 
+            end
+
             for i=1,#list do
                 local img = backgroundImages[key][i]
 
                 if type(img) ~= "number" then
-                    img:setFillColor(r,g,b)
-                end
-            end
-        end
-    end
-
-
-    -- Restores the colour of the background images
-    function level:colorBackgroundsRestore()
-        local ledges = self.ledges.items
-        local num    = #ledges
-        
-        for i=1,num do
-            local ledge = ledges[i]
-            if ledge and ledge.image then
-                restoreImage(ledge.image)
-            end
-        end
-
-        -- Restore backgrounds
-        for key,list in pairs(backgroundImages) do
-            for i=1,#list do
-                local img = backgroundImages[key][i]
-
-                if type(img) ~= "number" then
-                    img:setFillColor(1,1,1)
+                    bgrAction(img, temp)
                 end
             end
         end

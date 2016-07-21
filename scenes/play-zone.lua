@@ -213,8 +213,7 @@ function scene:initPhysics()
     physics.pause()
     physics.setGravity(0, curve.Gravity)
     physics.setDebugErrorsEnabled()
-    --physics.setTimeStep(1/display.fps)
-    physics.setTimeStep(1/60)
+    physics.setTimeStep(1/display.fps)
 end
 
 
@@ -513,6 +512,7 @@ function scene:pauseLevel()
     Runtime:removeEventListener("enterFrame", enterFrameFunction)
 
     track:pauseEventHandles()
+    hud.level:pauseElements()
 --    timer.pause(scene.gameLoopHandle)
     physics:pause()
     anim:pause()
@@ -532,6 +532,7 @@ function scene:resumeLevel(resumeGameState)
     anim:resume()
     physics:start()
 --    timer.resume(scene.gameLoopHandle)
+    hud.level:resumeElements()
     track:resumeEventHandles()
 end
 

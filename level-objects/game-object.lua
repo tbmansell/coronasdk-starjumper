@@ -530,6 +530,11 @@ function gameObject:scale(camera)
     if self.image then
         self.scaled = scale
 
+        --[[if self.isPlayer then 
+            print("player pre-scale:  "..self:x().." ledge: "..self.attachedLedge:x())
+        end]]
+
+
         local xvel, yvel = 0, 0
         local scaleImage = scale * (self.originalScale or 1)
 
@@ -566,6 +571,10 @@ function gameObject:scale(camera)
         if xvel ~= 0 or yvel ~= 0 then
             self.image:setLinearVelocity(xvel, yvel)
         end
+
+        --[[if self.isPlayer then 
+            print("player post-scale: "..self:x().." ledge: "..self.attachedLedge:x())
+        end]]
     end
 end
 
@@ -773,6 +782,13 @@ end
 function gameObject:scalePatternMovement(camera)
     local moveScale    = camera.scalePosition
     local movement     = self.movement
+
+    -- dont scale if: the pattern has not been scaled yet (new since level start) AND scalPosition > 1 (zoomed in then out)
+    -- cos this means new movements produced in-game will get expanded when they shouldnt - such as shake patterns
+    if movement.scaled == nil and moveScale > 1 then
+        moveScale = 1
+    end
+
     local pattern      = movement.pattern
     local patternPos   = movement.patternPos
     local drawPath     = movement.draw
@@ -805,6 +821,7 @@ function gameObject:scalePatternMovement(camera)
     movement.currentX = movement.currentX * moveScale
     movement.currentY = movement.currentY * moveScale
     movement.speed    = movement.speed    * moveScale
+    movement.scaled   = moveScale
 end
 
 

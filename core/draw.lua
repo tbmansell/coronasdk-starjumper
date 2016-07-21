@@ -232,7 +232,7 @@ end
 function randomizeImage(image, doAlpha, alphaMin)
     local r, g, b = math_random(), math_random(), math_random()
 
-    if image.setFillColor ~= nil then
+    if image.setFillColor then
         image:setFillColor(r,g,b)
     end
 
@@ -248,10 +248,17 @@ end
 
 -- Resets and images RGB values
 function restoreImage(image)
-    if image.setFillColor ~= nil then
-        image:setFillColor(1,1,1)
+    if image.setFillColor then
+        local pre = image.preColor
+
+        if pre then
+            image:setFillColor(pre.r, pre.g, pre.b)
+            image.alpha = pre.alpha
+        else
+            image:setFillColor(1,1,1)
+            image.alpha = 1
+        end
     end
-    image.alpha = 1
 end
 
 

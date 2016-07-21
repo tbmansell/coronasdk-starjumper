@@ -251,8 +251,11 @@ function sceneryBuilder:newLiveBackground(camera, spec)
     local livebgr   = builder:newSpineObject(spec, {jsonName=json, imagePath=imagePath, scale=spec.size, skin=skin, animation="Standard"})
 
     function livebgr:appear()
+        self.scalingIn = true
+
         local seq = anim:oustSeq("appear"..self.key, self.image)
         seq:tran({alpha=0.9, xScale=1, yScale=1, time=2000})
+        seq.onComplete = function() self.scalingOut = false end
         seq:start()
     end
 
@@ -270,6 +273,20 @@ function sceneryBuilder:newLiveBackground(camera, spec)
             seq:start()
         end
     end
+
+    -- We override the base scale() in order to hook in and stop any scaloing in function: so that if scaled out, we dont generate an object way bigger than it should appear scaled out
+    livebgr.baseScale = livebgr.scale
+
+    function livebgr:scale(camera)
+        self:baseScale(camera)
+
+        if self.scalingIn then
+            anim:destroyQueue("appear"..self.key)
+            self.image:scale(camera.scaleImage, camera.scaleImage)
+            self:visible(0.9)
+        end
+    end
+
 
     livebgr.inPhysics   = false
     livebgr.image.alpha = 0  -- must be faded in

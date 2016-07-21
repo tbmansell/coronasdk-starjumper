@@ -1,9 +1,9 @@
 local levelData = {
-    name             = "model behaviour",
-    timeBonusSeconds = 50,
-    ceiling          = -2000,
-    floor            = 1000,
-    startLedge       = 1,
+    name              = "model behaviour",
+    timeBonusSeconds  = 60,
+    ceiling           = -2000,
+    floor             = 1000,
+    startLedge=5,
 
     backgroundOrder = {
         [bgrFront] = {},

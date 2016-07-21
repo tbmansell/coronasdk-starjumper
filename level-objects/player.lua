@@ -399,7 +399,11 @@ function player:loseLife()
             self:getCamera():track()
         else
             self:reset()
-            self:aiRecordDeath()
+
+            if self.ai then 
+                self:aiRecordDeath() 
+            end
+
             hud:reset(self)
             self.gear = {[jump]=nil, [air]=nil, [land]=nil}
         end

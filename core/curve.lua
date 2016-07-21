@@ -385,27 +385,27 @@ end
 
 
 function curve:moveJumpGridBy(x, y)
-    if grid == nil then return end
-
-	if x then
-		grid.x = (grid.x or 0) + x
-		if pullLine then
-			pullLine.x    = pullLine.x + x
-			xAxis.x       = xAxis.x + x
-			yAxis.x       = yAxis.x + x
+    if grid and pullLine and xAxis and yAxis and fingerPoint then
+    	if x then
+    		grid.x = (grid.x or 0) + x
+    		--if pullLine and xAxis and yAxis and fingerPoint then
+    		pullLine.x    = pullLine.x + x
+    		xAxis.x       = xAxis.x + x
+    		yAxis.x       = yAxis.x + x
             fingerPoint.x = fingerPoint.x + x
-		end
-	end
+    		--end
+    	end
 
-	if y then
-		grid.y = (grid.y or 0) + y
-		if pullLine then
-			pullLine.y    = pullLine.y + y
-			xAxis.y       = xAxis.y + y
-			yAxis.y       = yAxis.y + y
+    	if y then
+    		grid.y = (grid.y or 0) + y
+    		--if pullLine and xAxis and yAxis and fingerPoint then
+    		pullLine.y    = pullLine.y + y
+    		xAxis.y       = xAxis.y + y
+    		yAxis.y       = yAxis.y + y
             fingerPoint.y = fingerPoint.y + y
-		end
-	end
+    		--end
+    	end
+    end
 end
 
 

@@ -57,8 +57,8 @@ function track:cancelEventHandles()
 	self.timerHandles = {}
 	self.transitionHandles = {}
 	-- WARNING: never reset the timerKey as relying on this does not work. Once a timer peice of code has run, even if it is paused or cancelled
-	-- It can still complete and nil the key, which is reset could actually be the key for a new timer entry.
-	-- Resetting this made certain deom plays never start as the last timer run cancelled the event for the firs trecorded action
+	-- It can still complete and nil the key, which if reset could actually be the key for a new timer entry.
+	-- Resetting this made certain demo plays never start as the last timer run cancelled the event for the first recorded action
 	-- self.timerKey = 0
 end
 

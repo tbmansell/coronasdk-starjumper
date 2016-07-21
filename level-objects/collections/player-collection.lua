@@ -261,13 +261,15 @@ end
 
 
 function playerCollection:drawGrappleHook(player)
+    local camera = hud.camera
+
     if player.grappleLine then
-        hud.camera:remove(player.grappleLine)
+        camera:remove(player.grappleLine)
         player.grappleLine:removeSelf()
     end
 
     local ledge   = player.grappleTarget
-    local playerY = player:y() - 80
+    local playerY = player:y() - (70 * camera.scaleImage)
 
     if ledge and ledge.inGame then
         if player.grappleSide == right then
@@ -278,7 +280,7 @@ function playerCollection:drawGrappleHook(player)
 
         player.grappleLine.strokeWidth = 3
         player.grappleLine:setStrokeColor(0.7, 0.6, 0.5)
-        hud.camera:add(player.grappleLine, 3)
+        camera:add(player.grappleLine, 3)
     end
 end
 

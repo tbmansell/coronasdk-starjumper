@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.13.5"
+globalBuildVersion = "0.14"
 globalDebugGame    = true
 
 -- Define global constants
@@ -55,7 +55,7 @@ end
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "game"
+local mode     = "zone"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -67,8 +67,8 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 1
-	state.data.zoneSelected   = 3
+	state.data.planetSelected = 2
+	state.data.zoneSelected   = 16
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 

@@ -65,7 +65,7 @@ end
 
 function particles:resume()
     for _,data in pairs(createdEmitters) do
-        if data then
+        if data and data.start then
             data:start()
         end
     end

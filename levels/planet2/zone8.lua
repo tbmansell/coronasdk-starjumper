@@ -25,7 +25,7 @@ local levelData = {
                 movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=300, speed=2, pause=1500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
             },
             {object="player", x=450, y=-300, type="scripted", model=characterEarlGrey, direction=left, targetName="earlGrey", storyModeOnly=true, 
-                physicsBody="static", loadGear=gearJetpack, animation="Powerup PARACHUTE",
+                physicsBody="static", loadGear={gearJetpack}, animation="Powerup PARACHUTE",
                 movement={pattern=moveTemplateVertical, isTemplate=true, reverse=true, distance=300, speed=2, pause=1500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
             },
             {object="enemy", type="greyshooter", x=850, y=-500, size=0.5, spineDelay=250, storyModeOnly=true,

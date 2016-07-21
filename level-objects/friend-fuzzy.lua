@@ -26,7 +26,7 @@ function fuzzy.eventCollide(self, event)
     local friend = self.object
     local other  = event.other.object
 
-    if event.phase == "began" and other ~= nil and other.isPlayer then
+    if event.phase == "began" and other and other.isPlayer then
         other:collected(friend)
     elseif event.phase == "ended" and friend.stealTimer ~= nil then
         timer.cancel(friend.stealTimer)

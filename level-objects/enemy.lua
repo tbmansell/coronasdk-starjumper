@@ -39,7 +39,7 @@ function enemy.eventCollide(self, event)
     local enemy  = self.object
     local object = event.other.object
 
-    if event.phase == "began" and object ~= nil and object.isPlayer then
+    if event.phase == "began" and object and object.isPlayer then
         enemy:contact(object)
     elseif (event.phase == "ended" or event.phase == "cancelled") then
         enemy:lostContact(object)

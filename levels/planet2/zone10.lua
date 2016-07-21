@@ -1,6 +1,6 @@
 local levelData = {
     name             = "break away marathon",
-    timeBonusSeconds = 127,
+    timeBonusSeconds = 167,
     ceiling          = -2000,
     floor            = 1800,
     startLedge       = 1,

@@ -2,7 +2,7 @@ local levelData = {
     name             = "a nice breather",
     floor            = display.contentHeight+300,
     timeBonusSeconds = 45,
-    startLedge       = 1,
+    startLedge       = 4,
 
     backgroundOrder = {
         [bgrFront] = {3, 4, 1, 2},
@@ -30,7 +30,7 @@ local levelData = {
 
         {object="ledge", x=250, y=-200, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
             {object="friend", type="fuzzy", x=300, y=143, color="Orange", kinetic="hangDouble"},
-            {object="wall", x=175, y=-75, type="fg-rock-3", physics={shape="circle", bounce=1}},
+            {object="wall", x=175, y=-75, type="fg-rock-3", physics={shape="circle", bounce=1, radius=160}},
             {object="rings", color=aqua, trajectory={x=30, y=350, xforce=90, yforce=50, arc=50, num=2}},
 
              {object="emitter", x=0, y=150, timer={1000, 3000}, limit=3, layer=4,
@@ -38,10 +38,9 @@ local levelData = {
                     object="livebgr", type="brain", color="Purple", direction=left, size={0.175, 0.15, 0.125, 0.1}, modifyImage={0.3, 0, 0.3},
                     movement={rangeX={-200, -1000}, rangeY={-50, 150}, speed={0.5, 0.4, 0.3, 0.2}, moveStyle=moveStyleSway, oneWay=true},
                 }
-            },    
+            },
 
         {object="ledge", x=340, y=0, size="medium2", movement={pattern=movePatternVertical, distance=500, speed=1}},
-
        
         {object="ledge", x=300, y=120, size="big2"},
             {object="rings", color=aqua, trajectory={x=30, y=-150, xforce=80, yforce=150, arc=75, num=5}},
