@@ -31,7 +31,7 @@ end
 
 
 function deathslide:canGrab(player)
-    if player.mode == playerKilled then
+    if self.used or player.mode == playerKilled then
         return false 
     end
 
