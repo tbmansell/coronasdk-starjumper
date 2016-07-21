@@ -792,7 +792,7 @@ function hud:endLevelShowUnlocks()
         if type ~= "zone" then
             local group = display.newGroup()
             group.alpha = 0
-            group.x, group.y = 650, 350
+            group.x, group.y = 650, 300
 
             if type == "gear" then
                 local category = gearSlots[value]
@@ -812,9 +812,9 @@ function hud:endLevelShowUnlocks()
 
             elseif type == "character" then
                 local name = characterData[value].name
-                newImage(group, "hud/player-head-"..name, 0, 0)
-                newText(group, "unlocked character!", 0, -80, 0.5, "green",  "CENTER")
-                newText(group, name,                  0, 80,  0.5, "yellow", "CENTER")
+                newImage(group, "select-player/head-"..name.."-selected", 0, 0)
+                newText(group,  "unlocked character!", 0, -100, 0.5, "green",  "CENTER")
+                newText(group,  name,                  0, 80,   0.5, "yellow", "CENTER")
             end
 
             group:scale(0.1, 0.1)
