@@ -32,6 +32,7 @@ end
 function scene:create(event)
     self.planet  = state.data.planetSelected
     self.data    = planetData[self.planet]
+    self.lockGroup = display.newGroup()
     self.locks   = {}
     self.animate = 0
 
@@ -43,6 +44,9 @@ function scene:create(event)
 
     newBackground(self.view, "select-zone/progress-bgr")
     self:summary()
+
+    self.view:insert(self.lockGroup)
+    self.lockGroup:toFront()
 end
 
 
@@ -74,6 +78,11 @@ function scene:displayHud()
 
     newText(self.view, data.name.." - progress", centerX, 590, 0.8, data.color, "CENTER")
     newButton(self.view, 55, 50, "back", scene.exitProgress)
+end
+
+
+function scene:addLock(xpos, ypos)
+    newImage(self.lockGroup, "locking/lock", xpos, ypos, 0.6, 0.9)
 end
 
 
@@ -169,8 +178,8 @@ function scene:createGameModeStatus(xpos, ypos, game, unlockText)
 
         newText(group, text, xpos-40, ypos+10, 0.3, "white", "LEFT")
     else
-        newImage(group, "locking/lock", xpos-65, ypos,    0.6, 0.9)
-        newText(group,  unlockText,     xpos-45, ypos+15, 0.7, "white", "LEFT")
+        self:addLock(xpos-65, ypos)
+        newText(group, unlockText, xpos-45, ypos+15, 0.7, "white", "LEFT")
 
         self.locks[#self.locks+1] = group
     end
@@ -195,8 +204,8 @@ function scene:summaryCharacter(xpos, ypos, character, unlockText)
     newText(group,  data.name, xpos+30, ypos, 0.5, data.color, "LEFT")
 
     if not state:characterUnlocked(character) then
-        newImage(group, "locking/lock", xpos,    ypos,    0.6, 0.9)
-        newText(group,  unlockText,     xpos-35, ypos+30, 0.4, "white", "LEFT")
+        self:addLock(xpos, ypos)
+        newText(group, unlockText, xpos-35, ypos+30, 0.4, "white", "LEFT")
 
         self.locks[#self.locks+1] = group
     end
@@ -213,8 +222,8 @@ function scene:summaryNextPlanet(xpos, ypos)
     newImage(group, "select-game/tab-planet"..pid, xpos-40, ypos, 0.35)
 
     if not state:planetUnlocked(self.planet+1) then
-        newImage(group, "locking/lock",    xpos-50, ypos-15, 0.6,  0.9)
-        newText(group, "complete 5 zones", xpos,    ypos+40, 0.4, "white", "CENTER")
+        self:addLock(xpos-50, ypos-15)
+        newText(group, "complete 5 zones", xpos, ypos+40, 0.4, "white", "CENTER")
 
         self.locks[#self.locks+1] = group
     end
@@ -234,8 +243,8 @@ function scene:summarySecretZones(xpos, ypos)
 
     -- just assume that if first two zones after 21 are unlocked, then secrets are unlocked
     if not state:zoneUnlocked(self.planet, 22) or not state:zoneUnlocked(self.planet, 23) then
-        newImage(group, "locking/lock",   xpos-55, ypos-10, 0.6, 0.9)
-        newText(group, "buy planet pack", xpos,    ypos+50, 0.4, "white", "CENTER")
+        self:addLock(xpos-55, ypos-10)
+        newText(group, "buy planet pack", xpos, ypos+50, 0.4, "white", "CENTER")
 
         self.locks[#self.locks+1] = group
     end

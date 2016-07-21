@@ -3,7 +3,7 @@ local levelData = {
     floor            = display.contentHeight+200,
     ceiling          = -display.contentHeight*2,
     timeBonusSeconds = 95,
-    startLedge       = 1,
+    startLedge       = 4,
 
     backgroundOrder = {
         [bgrFront] = {4, 1, 2, 3},
@@ -119,7 +119,6 @@ local levelData = {
                 local bomb       = nil
 
                 camera:setFocus(ledgeFocus.image)
-                camera:setFocusOffsetX(50)
                 
                 brainiak:setIndividualGear(gearJetpack)
 
