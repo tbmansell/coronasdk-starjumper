@@ -72,8 +72,7 @@ local levelData = {
             {object="scenery", x=950, y=300, type="fg-tree-5-yellow", size=1.2, flip="x"},  
             {object="wall",    x=-50, y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=-20}, bounce=1}},
 
-        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{500,150}}, reverse=true,  distance=200, speed=2, pause=900}},
-        		  {object="randomizer", x=-60, onLedge=true, items={{30,negDizzy}, {70,gearSpringShoes}, {100,red}}},    
+        {object="ledge", x=210, y=0, size="medium3", movement={pattern={{500,150}}, reverse=true,  distance=200, speed=2, pause=900}},  
 
         {object="ledge", x=400, y=-100, size="medium"},
             {object="rings", color=aqua, pattern={ {-135,175}, {0,-75}, {75,0}, {0,75} }},
@@ -88,9 +87,11 @@ local levelData = {
                 }
             },    
 
-        {object="ledge", x=350, y=-225, size="medium"},
-            {object="friend", type="fuzzy", x=-70, color="Orange", onLedge=true},
-            
+         {object="ledge", x=-350, y=-275, size="medium"},
+             {object="randomizer", x=-60, onLedge=true, items={{30,negDizzy}, {70,gearSpringShoes}, {100,red}}},  
+
+        {object="ledge", x=350, y=-225, size="medium", positionFromLedge=11},
+            {object="friend", type="fuzzy", x=-70, color="Orange", onLedge=true},            
             {object="enemy", type="brain", x=200, y=-150, size=0.5, color="Purple",
                 behaviour={mode=stateSleeping, awaken=0},
                 movement={pattern={{0,220}, {-400,0}, {0,-220}, {400,0}}, speed=4, pause=0, moveStyle="sway", pauseStyle="sway-small"}

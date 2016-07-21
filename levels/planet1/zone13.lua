@@ -3,7 +3,7 @@ local levelData = {
     floor            = display.contentHeight+500,
     timeBonusSeconds = 55,
     turnNight        = true,
-    startLedge       = 1,
+    startLedge       = 8,
 
     backgroundOrder = {
         [bgrFront] = {1, 2, 3, 4},
@@ -40,7 +40,7 @@ local levelData = {
 
 
         {object="ledge", x=400, y=-100, size="big3"},
-        	{object="rings", color=aqua, trajectory={x=25, y=-100, xforce=160, yforce=20, arc=35, num=3}},
+        	{object="rings", color=aqua, trajectory={x=25, y=-150, xforce=160, yforce=20, arc=35, num=3}},
             
             {object="enemy", type="heart", x=50, y=120, size=0.5, color="Red",
                 behaviour={mode=stateSleeping, awaken=0, range=5, atRange=stateResetting, thefts=5},
@@ -48,13 +48,16 @@ local levelData = {
             },
     
       
-        {object="obstacle", type="pole", x=200, y=100, length=300, ai={ignore=75}},
+        {object="obstacle", type="pole", x=200, y=-150, length=500, ai={ignore=75}},
+            {object="wall", x=-80,  y=-320,  type="fg-rock-1", size=0.3},
+            {object="wall", x=-80,  y=-720,  type="fg-rock-1", size=1.2},
 
-        {object="ledge", x=300, y=-300, size="medium"},
+        {object="ledge", x=300, y=-248, size="medium"},
         	{object="scenery", x=-70, y=-145, type="fg-foilage-1-yellow", size=1, layer=4, size=0.8, onLedge=true},
         	{object="scenery", x=-10, y=-115, type="fg-flowers-6-yellow", size=1, layer=2, size=0.3, onLedge=true},
         	{object="scenery", x=40,  y=-140, type="fg-flowers-6-yellow", size=1, layer=2, size=0.7, onLedge=true},
         	{object="scenery", x=-10, y=-145, type="fg-foilage-1-yellow", size=1, layer=2, size=0.8, onLedge=true},
+            {object="wall",    x=120, y=-1200, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=.2}},
 
            {object="emitter", x=0, y=100, timer={1000, 3000}, limit=3, layer=4,
                 item={
@@ -73,9 +76,11 @@ local levelData = {
 		{object="ledge", x=600, y=0, size="medium2"},
             {object="scenery", x=500, y=-150, type="fg-tree-1-yellow", size=0.8},
             {object="scenery", x=600, y=405, type="fg-rock-4", size=0.8},
+            {object="wall",    x=0, y=-1200, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=.2}},
+
 
 		{object="ledge", x=300, y=-300, size="medium2", ai={nextJump={[100]=20}}, movement={pattern={{800,350}}, reverse=true, speed=3}},
-
+             {object="wall",  x=1200, y=-800, type="fg-wall-divider", physics={shapeOffset={bottom=-30}, bounce=.2}},
 
         -- Path two lower than start ledge
         {object="ledge", x=200, y=150, positionFromLedge=1, surface="lava"},

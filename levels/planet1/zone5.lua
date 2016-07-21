@@ -82,7 +82,7 @@ local levelData = {
             },
 
         -- remaining ledges alternatives to not using spring shoes
-        {object="ledge", x=-800, y=-260, size="medium"},
+        {object="ledge", x=-900, y=-260, size="medium"},
 
         {object="ledge", x=350, y=-250, size="small"},
 
