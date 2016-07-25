@@ -30,7 +30,7 @@ function scene:show(event)
     	--adMob2:addEventListener("tap", function() return self:loadAdMobAdvert("ca-app-pub-1657862030086732/2588765600") end)
 
     	corona1:addEventListener("tap", function() return self:loadCoronaAdvert("banner") end)
-    	corona2:addEventListener("tap", function() return self:loadCoronaAdvert("interstitial") end)
+    	corona2:addEventListener("tap", function() return self:loadCoronaAdvert("interstitial-1") end)
 
     	vungle1:addEventListener("tap", function() return self:loadVungleAdvert("interstitial") end)
     	vungle2:addEventListener("tap", function() return self:loadVungleAdvert("incentivized") end)
@@ -90,27 +90,37 @@ end
 
 
 function scene:loadCoronaAdvert(advertType)
-     local coronaAds = require("plugin.coronaAds")
+    scene:setupStatus()
+     
+    local coronaAds = require("plugin.coronaAds")
 
-     -- Substitute your own placement IDs when generated
-     local bannerPlacement       = "top-banner-320x50"
-     local interstitialPlacement = "interstitial-1"
+    -- Substitute your own placement IDs when generated
+    local bannerPlacement       = "top-banner-320x50"
+    local interstitialPlacement = "interstitial-1"
 
-     -- Corona Ads listener function
-     local function adListener(event)
-         -- Successful initialization of Corona Ads
-         if event.phase == "init" then
-             -- Show an ad
-             if advertType == "banner" then
-             	coronaAds.show(bannerPlacement, false)
-             else
-             	coronaAds.show(interstitialPlacement, true)
-             end
-         end
-     end
+    -- Corona Ads listener function
+    local function adListener(event)
+        scene:showStatus("phase: ["..tostring(event.phase).."]")
 
-     -- Initialize Corona Ads (substitute your own API key when generated)
-     coronaAds.init("5223c2c3-cf81-4c43-ae41-2d4ed16552bc", adListener)
+        local s=""
+        for k, v in pairs(event) do
+            s=s..tostring(k)..": "..tostring(v)..", "
+        end
+        scene:showStatus(s)
+
+        -- Successful initialization of Corona Ads
+        if event.phase == "init" then
+            -- Show an ad
+            if advertType == "banner" then
+            	coronaAds.show(bannerPlacement, false)
+            else
+            	coronaAds.show(interstitialPlacement, true)
+            end
+        end
+    end
+
+    -- Initialize Corona Ads (substitute your own API key when generated)
+    coronaAds.init("5223c2c3-cf81-4c43-ae41-2d4ed16552bc", adListener)
 end
 
 
