@@ -119,7 +119,7 @@ function curve:drawTrajectory(camera, jumpX, jumpY, pullX, pullY)
     local velx, vely = curve:calcVelocity(jumpX-pullX, jumpY-pullY)
     local startVelX, startVelY = velx, vely
 
-    for i=1,90 do
+    for i=1,40 do
         local pointX, pointY = self:getTrajectoryPoint(jumpX, jumpY, startVelX, startVelY, i)
 
         local circle = new_circle(trajectory, pointX, pointY, 5)
@@ -367,8 +367,8 @@ function curve:drawJumpGrid(camera, player)
     gridSideX = new_imager("images/hud/accelerator-lines-horizontal.png", 212, 70)
     gridSideY = new_imager("images/hud/accelerator-lines-vertical.png",   70,  212)
 
-    gridSideX.alpha = 0.5
-    gridSideY.alpha = 0.5
+    gridSideX.alpha = 0.8
+    gridSideY.alpha = 0.8
     gridSideX.x, gridSideX.y = player:x()-(106*scale), player:y()-(35*scale)
     gridSideY.x, gridSideY.y = player:x()+(35*scale),  player:y()+(106*scale)
 

@@ -256,24 +256,28 @@ function scene:createZones(moveable)
 
         if zone.state.completed then tabType = "completed" end
 
-        zone.image      = new_image(moveable, "select-zone/zone-"..self:zoneColor(zone), x+45, y-10)
-        zone.tab        = new_image(moveable, "select-zone/tab-"..tabType, x+55, y-100)
-        zone.textNumber = newText(moveable, zone.id, x+45, y-150, 0.5, "white", "CENTER")
+        zone.image = new_image(moveable, "select-zone/zone-"..self:zoneColor(zone), x+45, y-10)
 
-        zone.tab.zone   = zone
-        zone.tab.tap    = scene.selectZone
-        zone.tab:addEventListener("tap", zone.tab)
+        -- only show tab to select zone if unlocked (playable) or secret
+        if zone.unlocked or zone.data.secret then
+            zone.tab        = new_image(moveable, "select-zone/tab-"..tabType, x+55, y-100)
+            zone.textNumber = newText(moveable, zone.id, x+45, y-150, 0.5, "white", "CENTER")
 
-        zone.image.zone = zone
-        zone.image.tap  = scene.selectZone
-        zone.image:addEventListener("tap", zone.image)
+            zone.tab.zone   = zone
+            zone.tab.tap    = scene.selectZone
+            zone.tab:addEventListener("tap", zone.tab)
 
-        if zone.data.secret and not zone.unlocked then
-            new_image(moveable, "locking/lock", x+40, y-100, 0.6, 0.9)
-        end
+            zone.image.zone = zone
+            zone.image.tap  = scene.selectZone
+            zone.image:addEventListener("tap", zone.image)
 
-        if zone.state.completed then
-            self:createZoneRanking(self.zones.stars, zone.data, zone.state.ranking, zone.data)
+            if zone.data.secret and not zone.unlocked then
+                new_image(moveable, "locking/lock", x+40, y-100, 0.6, 0.9)
+            end
+
+            if zone.state.completed then
+                self:createZoneRanking(self.zones.stars, zone.data, zone.state.ranking, zone.data)
+            end
         end
 
         if number == state.data.zoneSelected then

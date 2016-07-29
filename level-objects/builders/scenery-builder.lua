@@ -181,6 +181,8 @@ function sceneryBuilder:setupDeadlyScenery(camera, scenery)
     scenery.inPhysics = true
     scenery.layer     = scenery.layer or 2
 
+    scenery.image:setFillColor(1, 0.4, 0.4)
+
 	scenery.image.collision = sceneryDef.eventCollideSpike
 	scenery.image:addEventListener("collision", scenery.image)
 end

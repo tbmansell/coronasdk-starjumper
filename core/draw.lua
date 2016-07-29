@@ -228,6 +228,13 @@ function newMenuHudIcons(group, toInAppStore, toProgress)
 end
 
 
+function recordImageColor(image)
+    if image.setFillColor and not image.preColor then
+        image.preColor = {r=image.fill.r, g=image.fill.g, b=image.fill.b, alpha=image.alpha}
+    end
+end
+
+
 -- Randomly modifies an images RGB and alpha values
 function randomizeImage(image, doAlpha, alphaMin)
     local r, g, b = math_random(), math_random(), math_random()
@@ -254,6 +261,7 @@ function restoreImage(image)
         if pre then
             image:setFillColor(pre.r, pre.g, pre.b)
             image.alpha = pre.alpha
+            image.preColor = nil
         else
             image:setFillColor(1,1,1)
             image.alpha = 1
@@ -436,16 +444,20 @@ local function newLockedPopupSpecifics(group, id, type, description)
 end
 
 
-local function newLockedPopupGeneral(group, title, description, buymode, planet)
+local function newLockedPopupGeneral(group, title, description, buymode, planet, buyHandler)
     newText(group, title,       370, 160, 0.8, "red",   "CENTER")
     newText(group, description, 370, 260, 0.5, "white", "CENTER", 550)
 
     if buymode == "storeOnly" or buymode == "both" then
-        newImage(group, "locking/buy-to-unlock", 170, 410)
-        newText(group,  "purchase in store",     370, 400, 0.5, "white", "CENTER")
+        local icon  = newImage(group, "locking/buy-to-unlock", 170, 410)
+        local instr = newText(group,  "purchase in store",     370, 400, 0.5, "white", "CENTER")
+
+        icon:addEventListener("tap", buyHandler)
+        instr:addEventListener("tap", buyHandler)
 
         if buymode == "both" then
-            newText(group, "or", 170, 400, 0.8, "red")
+            local label = newText(group, "or", 170, 400, 0.8, "red")
+            label:addEventListener("tap", buyHandler)
         end
     end
 
@@ -488,7 +500,7 @@ function newLockedPopup(sceneGroup, id, type, title, callback, description)
     popup:addEventListener("tap", function() return true end)
 
     local buymode, description = newLockedPopupSpecifics(group, id, type, description)
-    newLockedPopupGeneral(group, title, description, buymode, planet)
+    newLockedPopupGeneral(group, title, description, buymode, planet, buyHandler)
 
     newButton(group, 370, 455, "close", exitHandler)
     local b1, b1o = newButton(group, 700, 455, "buy", buyHandler)

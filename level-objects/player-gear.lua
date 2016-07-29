@@ -478,8 +478,8 @@ function player:negableDizzyStarted()
     if not self.main then return end
 
     hud.level:iterateRandomizableImages(
-        function(image) image.preColor = {r=image.fill.r, g=image.fill.g, b=image.fill.b, alpha=image.alpha} end,
-        function(image) image.preColor = {r=image.fill.r, g=image.fill.g, b=image.fill.b, alpha=image.alpha} end
+        recordImageColor,
+        recordImageColor
     )
 
     local seq = anim:oustSeq("negableDizzy", self.image)
@@ -494,8 +494,8 @@ function player:negableDizzyStarted()
 
     seq.onComplete=function()
         hud.level:iterateRandomizableImages(
-            function(image) restoreImage(image) end, 
-            function(image) restoreImage(image) end
+            restoreImage, 
+            restoreImage
         )
         hud:clearSlot(jump)
     end

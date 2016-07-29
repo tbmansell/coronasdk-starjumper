@@ -177,7 +177,7 @@ local levelData = {
         {object="ledge", x=-200, y=250, size="medium"},
           
             -- moving spikes
-            {object="spike", x=-550, y=-575, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}},
+            {object="spike", x=-550, y=-675, type="fg-spikes-float-1", size=0.8, flip="y", physics={shape={-90,-130, 90,-130, 0,125}},
                 movement={pattern=movePatternVertical, distance=275, speed=1}
             },
             {object="spike", x=-550, y=-85,  type="fg-spikes-float-1", size=0.8, physics={shape={0,-125, 90,130, -90,130}}, 
