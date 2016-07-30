@@ -577,7 +577,9 @@ function scene:jumpPreperationMoving(event)
         return
     end
 
-    curve:drawLine(camera, px, py, ex, ey)
+    if not state.demoActions then 
+        curve:draw(camera, px, py, ex, ey)
+    end
 
     if curve.showTrajectory then
         curve:drawTrajectory(camera, px, py, ex, ey, camera.scaleVelocity)
@@ -613,12 +615,13 @@ function scene:jumpPreperationGo(event)
 
     local px, py, ex, ey = curve:calcPull(camera, player, event)
     local diffx, diffy   = px-ex, py-ey
+    local minPull        = 40 * camera.scaleImage
 
     if curve.lock then
         diffx, diffy = -curve.lock[1], -curve.lock[2]
     end
 
-    if (math_abs(diffx) > 40 or math_abs(diffy) > 40) and
+    if (math_abs(diffx) > minPull or math_abs(diffy) > minPull) and
        ((diffx < 0 and player.direction == left) or (diffx > 0 and player.direction == right)) 
     then
         if player.mode == playerDrag then

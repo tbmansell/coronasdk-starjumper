@@ -1,9 +1,9 @@
 local composer   = require("composer")
-local anim         = require("core.animations")
-local stories      = require("core.story")
-local tutorials    = require("core.tutorial")
-local messages     = require("core.messages")
-local particles    = require("core.particles")
+local anim       = require("core.animations")
+local stories    = require("core.story")
+local tutorials  = require("core.tutorial")
+local messages   = require("core.messages")
+local particles  = require("core.particles")
 
 -- CORE class
 local hud = {}

@@ -10,28 +10,26 @@ local YLimit      = 200
 local timeStep    = 1/display.fps  --seconds per time step at 60fps
 local gravityStep = timeStep * curve.Gravity
 local trajectory  = nil
-local line        = nil
-local grid        = nil
+local jumpGroup   = nil
+--local grid        = nil
 local gridSideX   = nil
 local gridSideY   = nil
-local gridMaskX   = nil
-local gridMaskY   = nil
 local fingerPoint = nil
 local lockPoint   = nil
 local xAxis       = nil
 local yAxis       = nil
 local pullLine    = nil
 local animHandle  = nil
-local animateTrajectoryPrev  = nil
-local animateTrajectoryPoint = nil
+--local animateTrajectoryPrev  = nil
+--local animateTrajectoryPoint = nil
 
-local math_round = math.round
-local math_abs   = math.abs
-local math_floor = math.floor
-local new_circle = display.newCircle
-local new_image  = display.newImage
-local new_imager = display.newImageRect
-local new_mask   = graphics.newMask
+local math_round     = math.round
+local math_abs       = math.abs
+local math_floor     = math.floor
+local new_circle     = display.newCircle
+local new_image      = display.newImage
+local new_image_rect = display.newImageRect
+local new_mask       = graphics.newMask
 
 
 function curve:debug(player, px, py, ex, ey)
@@ -128,8 +126,8 @@ function curve:drawTrajectory(camera, jumpX, jumpY, pullX, pullY)
     end
 
     camera:add(trajectory, 2)
-    animateTrajectoryPoint = 1
-    animateTrajectoryPrev  = -10
+    --animateTrajectoryPoint = 1
+    --animateTrajectoryPrev  = -10
 
     --[[curve.animHandleHandle = timer.performWithDelay(100, function()
         --curve.animHandle = timer.performWithDelay(15, curve.animateTrajectory, 0)
@@ -206,7 +204,7 @@ function curve:getTrajectoryPoint(startX, startY, velX, velY, n)
 end
 
 
-function curve:animateTrajectory()
+--[[function curve:animateTrajectory()
     if trajectory ~= nil then
         if animateTrajectoryPrev > 0 then
             trajectory[animateTrajectoryPrev].alpha = 0.2
@@ -232,7 +230,7 @@ function curve:animateTrajectory()
             animateTrajectoryPoint = 1
         end
     end
-end
+end]]
 
 
 function curve:removeTrajectory()
@@ -240,7 +238,7 @@ function curve:removeTrajectory()
         trajectory:removeSelf()
         trajectory = nil
 
-        if animHandleHandle ~= nil then
+        --[[if animHandleHandle ~= nil then
             timer.cancel(animHandleHandle)
             animHandleHandle = nil
         end
@@ -248,87 +246,174 @@ function curve:removeTrajectory()
         if animHandle then
             timer.cancel(animHandle)
             animHandle = nil
-        end
+        end]]
     end
 end
 
 
-function curve:drawLine(camera, px, py, ex, ey)
-    self:removeLine(camera)
-    
-    if self.showGrid then
-        --[[
-        pullLine = display.newLine(px, py, ex, ey)
-        --pullLine:setStrokeColor(0.5,0.5,0.5)
-        pullLine:setStrokeColor(0.8,0.8,0.8)
-        --pullLine.strokeWidth = 4
-        pullLine.strokeWidth = 2
-        camera:add(pullLine, 2)]]
+-- Draws all items per frame for the jump curve, plus sets up items not created
+function curve:draw(camera, px, py, ex, ey)
+    if jumpGroup == nil then
+        jumpGroup = display.newGroup()
+        camera:add(jumpGroup, 2) 
+
+        if self.showGrid then    
+            self:drawGrid(camera, hud.player)
+            self:drawAxis(px, py, ex, ey)
+        end
+    else
+        self:removePullLine(camera)
     end
 
-    if grid == nil then
-        curve:drawJumpGrid(camera, hud.player)
+    -- modify the coords for the group coords
+    px = px - jumpGroup.x
+    ex = ex - jumpGroup.x
+    
+    if self.showGrid then
+        self:drawGridPosition(camera, px, py, ex, ey)
     end
 
     if fingerPoint == nil then
-        fingerPoint = new_image("images/hud/jump-grid-marker.png", ex-37.5, ey-37.5)
-        fingerPoint.alpha = 0.5
-        camera:add(fingerPoint, 2)
-        fingerPoint:toFront()
+        self:drawFingerPoint(ex, ey)
     else
         fingerPoint.x, fingerPoint.y = ex, ey
     end
 
     if self.lock then
-        local x, y = px + self.lock[1], py + self.lock[2]
-
-        if lockPoint == nil then
-            lockPoint = new_image("images/hud/jump-grid-locked.png", x, y)
-            camera:add(lockPoint, 2)
-            lockPoint:toFront()
-        else
-            lockPoint.x, lockPoint.y = x, y
-        end
-    end
-
-    -- Only display X and Y axis bars if drawing grid
-    if self.showGrid then
-        self:drawGridAxis(camera, px, py, ex, ey)
+        self:drawLockPoint(px, py)
     end
 end
 
 
-function curve:drawGridAxis(camera, px, py, ex, ey)
-    if xAxis == nil then
-        xAxis = new_image("images/hud/jump-grid-horiz.png", ex, py-45)
-        xAxis.posColor = 0
-        xAxis:scale(0.7,0.7)
-        camera:add(xAxis, 2)
+function curve:drawFingerPoint(ex, ey)
+    fingerPoint = new_image("images/hud/jump-grid-marker.png", ex-37.5, ey-37.5)
+    fingerPoint.alpha = 0.5
+    jumpGroup:insert(fingerPoint)
+end
+
+
+function curve:drawLockPoint(px, py)
+    local x, y = px + self.lock[1], py + self.lock[2]
+
+    if lockPoint == nil then
+        lockPoint = new_image("images/hud/jump-grid-locked.png", x, y)
+        jumpGroup:insert(lockPoint)
+    else
+        lockPoint.x, lockPoint.y = x, y
+    end
+end
+
+
+function curve:drawGrid(camera, player)
+    local scale     = camera.scaleVelocity
+    local playerX   = player:x()
+    local playerY   = player:y()
+    local xSideHalf = 106 * scale
+    local ySideHalf = 35  * scale
+    local xSideFull = 212 * scale
+    --local xoffset = 192 * scale
+    --local yoffset = 61  * scale
+    --local adjust  = 135 * scale
+
+    --grid = new_image("images/hud/jump-grid.png", playerX+xoffset, playerY+yoffset)
+    --grid.alpha = 0
+
+    gridSideX = new_image_rect("images/hud/accelerator-lines-horizontal.png", 212, 70)
+    gridSideY = new_image_rect("images/hud/accelerator-lines-vertical.png",   70,  212)
+
+    gridSideX.alpha, gridSideY.alpha = 0.7, 0.7
+    gridSideX.x, gridSideX.y = playerX-xSideHalf, playerY-ySideHalf
+    gridSideY.x, gridSideY.y = playerX+ySideHalf, playerY+xSideHalf
+
+    gridSideX:setMask(new_mask("images/hud/accelerator-horizontal-mask.png"))
+    gridSideY:setMask(new_mask("images/hud/accelerator-vertical-mask.png"))
+    --gridSideY.maskY = -xSideFull
+
+    if camera.scaleMode then
+        --grid:scale(scale, scale)
+        gridSideX:scale(scale, scale)
+        gridSideY:scale(scale, scale)
     end
 
-    if yAxis == nil then
-        yAxis = new_image("images/hud/jump-grid-vert.png", px-115, ey-10)
-        yAxis.posColor = 0
-        yAxis:scale(0.7,0.7)
-        if grid and grid.direction == left then yAxis:scale(-1,1) end
-        camera:add(yAxis, 2)
+    if player.direction == right then
+        --grid.direction = right
+        --grid.x = grid.x - (grid.width * scale) + adjust
+
+        --gridSideX.maskX = xSideFull
+    else
+        --grid.direction = left
+        --grid:scale(-1,1)
+        --grid.x = grid.x - adjust
+
+        gridSideX:scale(-1,1)
+        gridSideY:scale(-1,1)
+        self:adjustGridLeft(scale)
     end
 
+    jumpGroup.direction = player.direction
+    jumpGroup:insert(gridSideX)
+    jumpGroup:insert(gridSideY)
+
+    --self.showGridHandle = transition.to(grid, {alpha=0.7, time=300, onComplete=function() curve.showGridHandle=nil end})
+    --self.showGridHandle = transition.to(grid, {alpha=0.4, time=300, onComplete=function() curve.showGridHandle=nil end})
+    --gridAnimationHandle = timer.performWithDelay(50, curve.animateGrid, 0)
+
+    --camera:add(grid, 2)
+    --camera:add(gridSideY, 2)
+    --camera:add(gridSideX, 2)
+
+    -- instead of doing it every time event triggered
+    -- grid:toFront()
+end
+
+
+function curve:drawAxis(px, py, ex, ey)
+    xAxis = new_image("images/hud/jump-grid-horiz.png", ex, py-45)
+    yAxis = new_image("images/hud/jump-grid-vert.png", px-115, ey-10)
+
+    xAxis.posColor = 0
+    yAxis.posColor = 0
+    xAxis:scale(0.7,0.7)
+    yAxis:scale(0.7,0.7)
+
+    if grid and grid.direction == left then 
+        yAxis:scale(-1,1)
+    end
+    
+    jumpGroup:insert(xAxis)
+    jumpGroup:insert(yAxis)
+end
+
+
+function curve:drawGridPosition(camera, px, py, ex, ey)
+    -- Draw line
+    pullLine = display.newLine(px, py, ex, ey)
+    pullLine:setStrokeColor(0.8,0.8,0.8)
+    pullLine.strokeWidth = 2
+    jumpGroup:insert(pullLine)
+
+    -- Position axis
     xAxis.x = ex
     yAxis.y = ey
 
-    gridSideY.maskY = -106 - (gridSideY.y - ey)
+    local scale = camera.scaleVelocity
+
+    -- Position side axis masks
+    gridSideY.maskY = ((ey - gridSideY.y) / scale) - 106
 
     if ex >= px then
-        yAxis.x = px - 50
-        gridSideX.maskX = 106 + (gridSideX.x - ex)
+        yAxis.x = px - (50 * scale)
+        gridSideX.maskX = 106 + ((gridSideX.x - ex) / scale)
     else
         yAxis.x = px + 50
-        gridSideX.maskX = -(gridSideX.x - ex) + 106
+        gridSideX.maskX = -((gridSideX.x - ex) / scale) + 106
     end
 
-    -- Round to 1DP to reduce the number of times we call set fill color
-    local boundary = 200 * camera.scaleVelocity
+    -- fix for calc bodge where maskX ends up nearly 0 (and grid sides flicker in full - when X at flip point)
+    if gridSideX.maskX < 1 then gridSideX.maskX = 212 end
+
+    -- Color Axis: Round to 1DP to reduce the number of times we call set fill color
+    local boundary = 200 * scale
     local xColor   = math_floor( (math_abs(px-ex) / boundary) * 10 + 0.5) / 10
     local yColor   = math_floor( (math_abs(py-ey) / boundary) * 10 + 0.5) / 10
 
@@ -344,123 +429,53 @@ function curve:drawGridAxis(camera, px, py, ex, ey)
 end
 
 
-function curve:removeLine(camera)
+function curve:removePullLine(camera)
     if pullLine and pullLine.removeSelf then
-        camera:remove(pullLine)
         pullLine:removeSelf()
         pullLine = nil
     end
 end
 
 
-function curve:drawJumpGrid(camera, player)
-    if state.demoActions then return end
-
-    local scale   = camera.scaleVelocity
-    local xoffset = 192 * scale
-    local yoffset = 61  * scale
-    local adjust  = 135 * scale
-
-    grid = new_image("images/hud/jump-grid.png", player:x()+xoffset, player:y()+yoffset)
-    grid.alpha = 0
-
-    gridSideX = new_imager("images/hud/accelerator-lines-horizontal.png", 212, 70)
-    gridSideY = new_imager("images/hud/accelerator-lines-vertical.png",   70,  212)
-
-    gridSideX.alpha = 0.8
-    gridSideY.alpha = 0.8
-    gridSideX.x, gridSideX.y = player:x()-(106*scale), player:y()-(35*scale)
-    gridSideY.x, gridSideY.y = player:x()+(35*scale),  player:y()+(106*scale)
-
-    gridMaskX = new_mask("images/hud/accelerator-horizontal-mask.png")
-    gridSideX:setMask(gridMaskX)
-
-    gridMaskY = new_mask("images/hud/accelerator-vertical-mask.png")
-    gridSideY:setMask(gridMaskY)
-    gridSideY.maskY = -212
-
-    if camera.scaleMode then
-        grid:scale(scale, scale)
-        gridSideX:scale(scale, scale)
-        gridSideY:scale(scale, scale)
-    end
-
-    if player.direction == right then
-        grid.direction = right
-        grid.x = grid.x - (grid.width * scale) + adjust
-
-        gridSideX.maskX = 212
-    else
-        grid.direction = left
-        grid:scale(-1,1)
-        grid.x = grid.x - adjust
-
-        gridSideX.maskX = -212
-    end
-
-    --self.showGridHandle = transition.to(grid, {alpha=0.7, time=300, onComplete=function() curve.showGridHandle=nil end})
-    --self.showGridHandle = transition.to(grid, {alpha=0.4, time=300, onComplete=function() curve.showGridHandle=nil end})
-
-    --gridAnimationHandle = timer.performWithDelay(50, curve.animateGrid, 0)
-    camera:add(grid, 2)
-    camera:add(gridSideX, 2)
-    camera:add(gridSideY, 2)
-
-    -- instead of doing it every time event triggered
-    grid:toFront()
-end
-
-
 function curve:moveJumpGridBy(x, y)
-    if grid and pullLine and xAxis and yAxis and fingerPoint then
-    	if x then
-    		grid.x        = (grid.x or 0) + x
-            gridSideX.x   = gridSideX.x + x
-            gridSideY.x   = gridSideY.x + x
-    		pullLine.x    = pullLine.x + x
-    		xAxis.x       = xAxis.x + x
-    		yAxis.x       = yAxis.x + x
-            fingerPoint.x = fingerPoint.x + x
-    	end
-
-    	if y then
-    		grid.y        = (grid.y or 0) + y
-            gridSideX.y   = gridSideX.y + y
-            gridSideY.y   = gridSideY.y + y
-    		pullLine.y    = pullLine.y + y
-    		xAxis.y       = xAxis.y + y
-    		yAxis.y       = yAxis.y + y
-            fingerPoint.y = fingerPoint.y + y
-    	end
+    if jumpGroup then
+        if x then jumpGroup.x = jumpGroup.x + x end
+        if y then jumpGroup.y = jumpGroup.y + y end
     end
 end
 
 
 function curve:flipGrid(player)
-    if self.showGrid and grid then
+    if self.showGrid and jumpGroup then
         local scale = player:getCamera().scaleVelocity
 
-        grid:scale(-1,1)
+        --grid:scale(-1,1)
         gridSideX:scale(-1,1)
         gridSideY:scale(-1,1)
         yAxis:scale(-1,1)
 
-        if grid.direction == left then
-            grid.direction = right
-            grid.x      = player:x() - (55 * scale)
-            gridSideX.x = player:x() - (106 * scale)
-            gridSideY.x = player:x() + (35 * scale)
-
-            gridSideX.maskX = (212 * scale)
+        if jumpGroup.direction == left then
+            jumpGroup.direction = right
+            self:adjustGridRight(scale)
         else
-            grid.direction = left
-            grid.x      = player:x() + (55 * scale)
-            gridSideX.x = player:x() + (106 * scale)
-            gridSideY.x = player:x() - (35 * scale)
-
-            gridSideX.maskX = -(212 * scale)
+            jumpGroup.direction = left
+            self:adjustGridLeft(scale)
         end
     end
+end
+
+
+function curve:adjustGridRight(scale)
+    --grid.x      = player:x() - (55 * scale)
+    gridSideX.x = gridSideX.x - (212 * scale)
+    gridSideY.x = gridSideY.x + (70  * scale)
+end
+
+
+function curve:adjustGridLeft(scale)
+    --grid.x      = player:x() + (55 * scale)    
+    gridSideX.x = gridSideX.x + (212 * scale)
+    gridSideY.x = gridSideY.x - (70  * scale)
 end
 
 
@@ -489,68 +504,21 @@ function curve:freeJump(camera)
 end
 
 
-function curve:clearLockJump(camera)
-    if lockPoint then
-        camera:remove(lockPoint)
-        lockPoint:removeSelf()
-        lockPoint = nil
-    end
-end
-
-
 function curve:hideJumpGrid(camera)
-    if fingerPoint then
-        camera:remove(fingerPoint)
-        if fingerPoint.removeSelf then fingerPoint:removeSelf() end
+    if jumpGroup then
+        jumpGroup:removeSelf()
+        jumpGroup   = nil
         fingerPoint = nil
-    end
-
-    self:clearLockJump(camera)
-
-    if xAxis then
-        camera:remove(xAxis)
-        if xAxis.removeSelf then xAxis:removeSelf() end
-        xAxis = nil
-    end
-    
-    if yAxis then
-        camera:remove(yAxis)
-        if yAxis.removeSelf then yAxis:removeSelf() end
-        yAxis = nil
-    end
-
-    if self.showGridHandle then
-        transition.cancel(self.showGridHandle)
-        self.showGridHandle = nil
-    end
-
-    if gridAnimationHandle then
-        timer.cancel(gridAnimationHandle)
-        gridAnimationHandle = nil
-    end
-
-    transition.to(grid, {alpha=0, time=100, onComplete=function()
-        if grid then
-            camera:remove(grid)
-            if grid.removeSelf then grid:removeSelf() end
-            grid = nil
-        end
-    end})
-
-    if gridSideX then
-        camera:remove(gridSideX)
-        if gridSideX.removeSelf then gridSideX:removeSelf() end
-        gridSideX = nil
-    end
-    if gridSideY then
-        camera:remove(gridSideY)
-        if gridSideY.removeSelf then gridSideY:removeSelf() end
-        gridSideY = nil
+        xAxis       = nil
+        yAxis       = nil
+        gridSideX   = nil
+        gridSideY   = nil
+        lockPoint   = nil
     end
 end
 
 
-function curve:animateGrid()
+--[[function curve:animateGrid()
     local self = curve
 
     if grid == nil or grid.alpha == nil then
@@ -582,12 +550,12 @@ function curve:animateGrid()
             grid.alpha = grid.alpha + 0.025
         end
     end
-end
+end]]
 
 
 function curve:clearUp(camera)
     curve:hideJumpGrid(camera)
-    curve:removeLine(camera)
+    curve:removePullLine(camera)
     curve:removeTrajectory(c)
 end
 

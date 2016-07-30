@@ -171,9 +171,9 @@ function hud:saveLevelCubes()
             self.holocubes = self.holocubes + 5
         end
     elseif game == gameTypeTimeRunner then
-        -- Time Runner - reward 1 cube for each stage reached beyond 2
-        if self.infiniteStage > 2 then
-            self.holocubes = self.holocubes + (self.infiniteStage - 2)
+        -- Time Runner - reward 1 cube for each stage reached
+        if self.infiniteStage > 1 then
+            self.holocubes = self.holocubes + (self.infiniteStage - 1)
         end
     end
 

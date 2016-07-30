@@ -120,10 +120,6 @@ function player:readyJump()
         end
 
         hud:levelStartedSequence()
-
-        if curve.showGrid then
-            curve:drawJumpGrid(self:getCamera(), self)
-        end
     end
 end
 
