@@ -194,18 +194,14 @@ end
 
 
 function tutorials:show()
-	print("tutorial started: "..tutorialId)
 end
 
 
 function tutorials:completed()
-	print("tutorial completed")
-
 	curve:freeJump(hud.camera)
 	globalTutorialScript = nil
 
 	state.data.game = levelPlaying
-	--TODO: save this tutorial in state?
 	hud.magnifyIcon.alpha = 1
 end
 

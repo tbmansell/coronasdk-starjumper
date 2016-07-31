@@ -1,3 +1,5 @@
+local particles = require("core.particles")
+
 local curve = {
     Gravity        = 40,
     showTrajectory = false,
@@ -258,11 +260,12 @@ function curve:draw(camera, px, py, ex, ey)
         camera:add(jumpGroup, 2) 
 
         if self.showGrid then    
-            self:drawGrid(camera, hud.player)
+            self:drawGrid(camera, px, py)
             self:drawAxis(px, py, ex, ey)
+            self:drawEmitter(camera, px, py, ex, ey)
         end
     else
-        self:removePullLine(camera)
+        self:removePullLine()
     end
 
     -- modify the coords for the group coords
@@ -304,10 +307,9 @@ function curve:drawLockPoint(px, py)
 end
 
 
-function curve:drawGrid(camera, player)
+function curve:drawGrid(camera, px, py)
     local scale     = camera.scaleVelocity
-    local playerX   = player:x()
-    local playerY   = player:y()
+    local direction = hud.player.direction
     local xSideHalf = 106 * scale
     local ySideHalf = 35  * scale
     local xSideFull = 212 * scale
@@ -322,12 +324,11 @@ function curve:drawGrid(camera, player)
     gridSideY = new_image_rect("images/hud/accelerator-lines-vertical.png",   70,  212)
 
     gridSideX.alpha, gridSideY.alpha = 0.7, 0.7
-    gridSideX.x, gridSideX.y = playerX-xSideHalf, playerY-ySideHalf
-    gridSideY.x, gridSideY.y = playerX+ySideHalf, playerY+xSideHalf
+    gridSideX.x, gridSideX.y = px-xSideHalf, py-ySideHalf
+    gridSideY.x, gridSideY.y = px+ySideHalf, py+xSideHalf
 
     gridSideX:setMask(new_mask("images/hud/accelerator-horizontal-mask.png"))
     gridSideY:setMask(new_mask("images/hud/accelerator-vertical-mask.png"))
-    --gridSideY.maskY = -xSideFull
 
     if camera.scaleMode then
         --grid:scale(scale, scale)
@@ -335,11 +336,9 @@ function curve:drawGrid(camera, player)
         gridSideY:scale(scale, scale)
     end
 
-    if player.direction == right then
+    if direction == right then
         --grid.direction = right
         --grid.x = grid.x - (grid.width * scale) + adjust
-
-        --gridSideX.maskX = xSideFull
     else
         --grid.direction = left
         --grid:scale(-1,1)
@@ -350,7 +349,7 @@ function curve:drawGrid(camera, player)
         self:adjustGridLeft(scale)
     end
 
-    jumpGroup.direction = player.direction
+    jumpGroup.direction = direction
     jumpGroup:insert(gridSideX)
     jumpGroup:insert(gridSideY)
 
@@ -385,12 +384,19 @@ function curve:drawAxis(px, py, ex, ey)
 end
 
 
+function curve:drawEmitter(camera, px, py, ex, ey)
+    self.emitter = particles:showEmitter(camera, "jump-grid-line", px, py, "forever", 0.8, 2)
+end
+
+
 function curve:drawGridPosition(camera, px, py, ex, ey)
     -- Draw line
-    pullLine = display.newLine(px, py, ex, ey)
+    --[[pullLine = display.newLine(px, py, ex, ey)
     pullLine:setStrokeColor(0.8,0.8,0.8)
     pullLine.strokeWidth = 2
-    jumpGroup:insert(pullLine)
+    jumpGroup:insert(pullLine)]]
+
+    self.emitter.angle = 90 + (math.atan2(ex-px, ey-py) * -180 / math.pi)
 
     -- Position axis
     xAxis.x = ex
@@ -429,7 +435,7 @@ function curve:drawGridPosition(camera, px, py, ex, ey)
 end
 
 
-function curve:removePullLine(camera)
+function curve:removePullLine()
     if pullLine and pullLine.removeSelf then
         pullLine:removeSelf()
         pullLine = nil
@@ -473,7 +479,7 @@ end
 
 
 function curve:adjustGridLeft(scale)
-    --grid.x      = player:x() + (55 * scale)    
+    --grid.x      = player:x() + (55 * scale)
     gridSideX.x = gridSideX.x + (212 * scale)
     gridSideY.x = gridSideY.x - (70  * scale)
 end
@@ -500,7 +506,6 @@ end
 
 function curve:freeJump(camera)
     self.lock = nil
-    self:clearLockJump(camera)
 end
 
 
@@ -514,6 +519,11 @@ function curve:hideJumpGrid(camera)
         gridSideX   = nil
         gridSideY   = nil
         lockPoint   = nil
+    end
+
+    if self.emitter then
+        self.emitter:destroy()
+        self.emitter = nil
     end
 end
 
