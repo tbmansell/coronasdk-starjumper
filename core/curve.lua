@@ -313,13 +313,8 @@ function curve:drawGrid(camera, px, py)
     local xSideHalf = 106 * scale
     local ySideHalf = 35  * scale
     local xSideFull = 212 * scale
-    --local xoffset = 192 * scale
-    --local yoffset = 61  * scale
-    --local adjust  = 135 * scale
 
-    --grid = new_image("images/hud/jump-grid.png", playerX+xoffset, playerY+yoffset)
-    --grid.alpha = 0
-
+    grid      = new_image("images/hud/jump-grid.png", px-(55*scale), py+(61*scale))
     gridSideX = new_image_rect("images/hud/accelerator-lines-horizontal.png", 212, 70)
     gridSideY = new_image_rect("images/hud/accelerator-lines-vertical.png",   70,  212)
 
@@ -331,27 +326,23 @@ function curve:drawGrid(camera, px, py)
     gridSideY:setMask(new_mask("images/hud/accelerator-vertical-mask.png"))
 
     if camera.scaleMode then
-        --grid:scale(scale, scale)
+        grid:scale(scale, scale)
         gridSideX:scale(scale, scale)
         gridSideY:scale(scale, scale)
     end
 
-    if direction == right then
-        --grid.direction = right
-        --grid.x = grid.x - (grid.width * scale) + adjust
-    else
-        --grid.direction = left
-        --grid:scale(-1,1)
-        --grid.x = grid.x - adjust
-
+    if direction == left then
+        grid:scale(-1,1)
         gridSideX:scale(-1,1)
         gridSideY:scale(-1,1)
         self:adjustGridLeft(scale)
     end
 
     jumpGroup.direction = direction
+    jumpGroup:insert(grid)
     jumpGroup:insert(gridSideX)
     jumpGroup:insert(gridSideY)
+
 
     --self.showGridHandle = transition.to(grid, {alpha=0.7, time=300, onComplete=function() curve.showGridHandle=nil end})
     --self.showGridHandle = transition.to(grid, {alpha=0.4, time=300, onComplete=function() curve.showGridHandle=nil end})
@@ -375,9 +366,9 @@ function curve:drawAxis(px, py, ex, ey)
     xAxis:scale(0.7,0.7)
     yAxis:scale(0.7,0.7)
 
-    if grid and grid.direction == left then 
+    --[[if grid and grid.direction == left then 
         yAxis:scale(-1,1)
-    end
+    end]]
     
     jumpGroup:insert(xAxis)
     jumpGroup:insert(yAxis)
@@ -397,6 +388,9 @@ function curve:drawGridPosition(camera, px, py, ex, ey)
     jumpGroup:insert(pullLine)]]
 
     self.emitter.angle = 90 + (math.atan2(ex-px, ey-py) * -180 / math.pi)
+
+    --self.emitter.x = ex
+    --self.emitter.y = ey
 
     -- Position axis
     xAxis.x = ex
@@ -455,7 +449,7 @@ function curve:flipGrid(player)
     if self.showGrid and jumpGroup then
         local scale = player:getCamera().scaleVelocity
 
-        --grid:scale(-1,1)
+        grid:scale(-1,1)
         gridSideX:scale(-1,1)
         gridSideY:scale(-1,1)
         yAxis:scale(-1,1)
@@ -472,14 +466,14 @@ end
 
 
 function curve:adjustGridRight(scale)
-    --grid.x      = player:x() - (55 * scale)
+    grid.x      = grid.x      - (110  * scale)
     gridSideX.x = gridSideX.x - (212 * scale)
     gridSideY.x = gridSideY.x + (70  * scale)
 end
 
 
 function curve:adjustGridLeft(scale)
-    --grid.x      = player:x() + (55 * scale)
+    grid.x      = grid.x      + (110  * scale)
     gridSideX.x = gridSideX.x + (212 * scale)
     gridSideY.x = gridSideY.x - (70  * scale)
 end
@@ -516,6 +510,7 @@ function curve:hideJumpGrid(camera)
         fingerPoint = nil
         xAxis       = nil
         yAxis       = nil
+        grid        = nil
         gridSideX   = nil
         gridSideY   = nil
         lockPoint   = nil
