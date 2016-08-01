@@ -8,7 +8,8 @@ local adverts = {
 	-- a counter which tracks checks to see if we should force an add on a player
 	forcedAdsChecks    = 0,
 	-- the number of times that a check to see if we should force an ad on a player, before we show one
-	forcedAdsFrequency = 3,
+	--forcedAdsFrequency = 3,
+	forcedAdsFrequency = 1,
 
 	-- config settings for the corona ads account
 	corona = {
@@ -50,14 +51,14 @@ function adverts:showStaticAdvert()
     	self:debugAdvertEvent(event)
     	
         if event.phase == "init" then
-        	self.corona.initialised = true
-            coronaAds.show(advertId, true)
-
-            updateDebugPanel("static advert shown")
+        	if self.corona.initialised == false then
+        	    self.corona.initialised = true
+            	coronaAds.show(advertId, true)
+            end
         end
     end
 
-    displayDebugPanel(centerX, centerY, 900, 600, "show static advert: "..advertId.." api-key: "..self.corona.apiKey)
+    displayDebugPanel(centerX, centerY, 1200, 600, "show static advert: "..advertId.." api-key: "..self.corona.apiKey)
 
     if self.corona.initialised then
     	coronaAds.show(advertId, true)
@@ -92,13 +93,18 @@ function adverts:loadVungleAdvert(advertType, successCallback)
 
     local appId = self.vungle[system.getInfo("platformName")]
 
-    displayDebugPanel(centerX, centerY, 900, 600, "init video advert: "..appId)
+    displayDebugPanel(centerX, centerY, 1200, 600, "init video advert: "..appId)
 
     vungleAds.init("vungle", appId, adListener)
 	updateDebugPanel("video advert initialised")
 
-    vungleAds.show(advertType, { isBackButtonEnabled=true })
-    updateDebugPanel("video advert shown")
+    
+    if vungleAds.isAdAvailable() then
+        vungleAds.show(advertType, { isBackButtonEnabled=true })
+        updateDebugPanel("video advert shown")
+    else
+    	updateDebugPanel("video advert not available")
+    end
 end
 
 
@@ -106,7 +112,9 @@ function adverts:debugAdvertEvent(event)
 	if globalDebugStatus then
 		local text = "staticAdvertEvent: "
 		for k,v in pairs(event) do
-			text = text..k.."="..tostring(v).." "
+			if k then
+				text = text..tostring(k).."="..tostring(v).." "
+			end
 		end
 		updateDebugPanel(text)
 	end

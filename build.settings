@@ -84,6 +84,15 @@ settings = {
             publisherId = "com.coronalabs",
             supportedPlatforms = { iphone=true, android=true }
         },
+        ["shared.android.support.v4"] = {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { android=true }
+        },
+        ["CoronaProvider.ads.iads"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { iphone=true, ["iphone-sim"]=true },
+        },
         ["CoronaProvider.ads.vungle"] =
         {
             publisherId = "com.vungle"
