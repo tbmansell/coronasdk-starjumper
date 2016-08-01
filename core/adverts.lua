@@ -28,15 +28,12 @@ function adverts:forceAdvert()
 	self.forcedAdsShown  = self.forcedAdsShown + 1
 	self.forcedAdsChecks = 0
 
-	--globalSoundPlayer(sounds.unlock)
 	self:showStaticAdvert()
 end
 
 
 -- Checks if we should show and advert and tracks checks, so every N calsl will trigger an advert
 function adverts:checkShowAdvert()
-	--globalSoundPlayer(sounds.collectKey)
-
 	self.forcedAdsChecks = self.forcedAdsChecks + 1
 
 	if self.forcedAdsChecks >= self.forcedAdsFrequency then
@@ -48,19 +45,27 @@ end
 -- Show a full-screen non video advert
 function adverts:showStaticAdvert()
 	local advertId = "interstitial-1"
+	local action   = "init"
 
     local function adListener(event)
+    	self:debugAdvertEvent(event)
+    	
         if event.phase == "init" then
         	self.corona.initialised = true
             coronaAds.show(advertId, true)
+
+            updateDebugPanel("static advert shown")
         end
     end
 
     if self.corona.initialised then
+    	action = "show"
     	coronaAds.show(advertId, true)
     else
     	coronaAds.init(self.corona.apiKey, adListener)
     end
+
+    displayDebugPanel(centerX, centerY, 900, 600, action.." static advert: "..advertId.." api-key: "..self.corona.apiKey)
 end
 
 
@@ -79,6 +84,8 @@ end
 function adverts:loadVungleAdvert(advertType, successCallback)
     local function adListener(event)
     	for property, value in pairs(event) do
+    		self:debugAdvertEvent(event)
+
             if property == "isCompletedView" and (value == true or value == "true") and successCallback then
             	successCallback()
             end
@@ -87,9 +94,24 @@ function adverts:loadVungleAdvert(advertType, successCallback)
 
     local appId = self.vungle[system.getInfo("platformName")]
 
+    displayDebugPanel(centerX, centerY, 900, 600, "init video advert: "..appId)
+
     vungleAds.init("vungle", appId, adListener)
+	updateDebugPanel("video advert initialised")
+
     vungleAds.show(advertType, { isBackButtonEnabled=true })
-    --globalSoundPlayer(sounds.collectKey)
+    updateDebugPanel("video advert shown")
+end
+
+
+function adverts:debugAdvertEvent(event)
+	if globalDebugStatus then
+		local text = "staticAdvertEvent: "
+		for k,v in pairs(event) do
+			text = text..k.."="..v.." "
+		end
+		updateDebugPanel(text)
+	end
 end
 
 

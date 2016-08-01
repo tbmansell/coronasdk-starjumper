@@ -4,8 +4,11 @@ local anim       = require("core.animations")
 local particles  = require("core.particles")
 
 -- local vars:
-local sparklSeq = nil
-local goSparkle = false
+local sparklSeq  = nil
+local goSparkle  = false
+local debugPanel = nil
+local debugText  = nil
+
 
 local lockedSparkles = {
     {x=580, y=135}, {x=780, y=135}, {x=660, y=450}, {x=740, y=450}
@@ -228,48 +231,6 @@ function newMenuHudIcons(group, toInAppStore, toProgress)
 end
 
 
-function recordImageColor(image)
-    if image.setFillColor and not image.preColor then
-        image.preColor = {r=image.fill.r, g=image.fill.g, b=image.fill.b, alpha=image.alpha}
-    end
-end
-
-
--- Randomly modifies an images RGB and alpha values
-function randomizeImage(image, doAlpha, alphaMin)
-    local r, g, b = math_random(), math_random(), math_random()
-
-    if image.setFillColor then
-        image:setFillColor(r,g,b)
-    end
-
-    if doAlpha then
-        local alpha = math_random()
-        local min   = alphaMin or 0
-
-        if alpha < min then alpha = min end
-        image.alpha = alpha
-    end
-end
-
-
--- Resets and images RGB values
-function restoreImage(image)
-    if image.setFillColor then
-        local pre = image.preColor
-
-        if pre then
-            image:setFillColor(pre.r, pre.g, pre.b)
-            image.alpha = pre.alpha
-            image.preColor = nil
-        else
-            image:setFillColor(1,1,1)
-            image.alpha = 1
-        end
-    end
-end
-
-
 -- Loads the mid-sceen scene
 function loadSceneTransition(time)
     globalSceneTransitionGroup.alpha = 0
@@ -323,26 +284,6 @@ function clearSceneTransition(time)
         globalSceneTransitionGroup:removeSelf()
         globalSceneTransitionGroup = display.newGroup()
     end
-end
-
-
--- Used for debugging performance stats over all over display objects
--- requires globalFPS be incremented in enterFrame handler
-function displayPerformance()
-    local data = "mem usage: "..math_round(collectgarbage("count")/1024).." mb|texture mem: "..math_round(system.getInfo("textureMemoryUsed") / 1024/1024).." mb|fps: "..globalFPS
-    globalFPS = 0
-
-    if globalPerformanceLabel == nil then
-        globalPerformanceLabel = newText(nil, data, 50, 110, 0.4, "white", "LEFT", 1000)
-    else
-        globalPerformanceLabel:setText(data)
-    end
-    globalPerformanceLabel:toFront()
-end
-
-
-function capitalise(s)
-    return string.upper(string.sub(s,1,1))..string.sub(s,2)
 end
 
 
@@ -511,5 +452,96 @@ function newLockedPopup(sceneGroup, id, type, title, callback, description)
     seq:start()
 
     newRandomSparkle(group, 1000, lockedSparkles)
+end
+
+
+-- Saves an objects fillcolor to a property it can be restored from, for temporary colouring
+function recordImageColor(image)
+    if image.setFillColor and not image.preColor then
+        image.preColor = {r=image.fill.r, g=image.fill.g, b=image.fill.b, alpha=image.alpha}
+    end
+end
+
+
+-- Randomly modifies an images RGB and alpha values
+function randomizeImage(image, doAlpha, alphaMin)
+    local r, g, b = math_random(), math_random(), math_random()
+
+    if image.setFillColor then
+        image:setFillColor(r,g,b)
+    end
+
+    if doAlpha then
+        local alpha = math_random()
+        local min   = alphaMin or 0
+
+        if alpha < min then alpha = min end
+        image.alpha = alpha
+    end
+end
+
+
+-- Resets and images RGB values
+function restoreImage(image)
+    if image.setFillColor then
+        local pre = image.preColor
+
+        if pre then
+            image:setFillColor(pre.r, pre.g, pre.b)
+            image.alpha = pre.alpha
+            image.preColor = nil
+        else
+            image:setFillColor(1,1,1)
+            image.alpha = 1
+        end
+    end
+end
+
+
+-- Used for debugging performance stats over all over display objects
+-- requires globalFPS be incremented in enterFrame handler
+function displayPerformance()
+    local data = "mem usage: "..math_round(collectgarbage("count")/1024).." mb|texture mem: "..math_round(system.getInfo("textureMemoryUsed") / 1024/1024).." mb|fps: "..globalFPS
+    globalFPS = 0
+
+    if globalPerformanceLabel == nil then
+        globalPerformanceLabel = newText(nil, data, 50, 110, 0.4, "white", "LEFT", 1000)
+    else
+        globalPerformanceLabel:setText(data)
+    end
+    globalPerformanceLabel:toFront()
+end
+
+
+function displayDebugPanel(x, y, width, height, startMessage)
+    if globalDebugStatus then
+        debugPanel = display.newRoundedRect(x, y, width, height, 15)
+        debugPanel:setFillColor(0.3,    0.3,  0.3,  0.85)
+        debugPanel:setStrokeColor(0.75, 0.75, 0.75, 0.75)
+        debugPanel.strokeWidth = 2
+
+        debugText = display.newText({text=startMessage, x=x, y=y, width=width, height=height, fontSize=22, align="center"})
+
+        debugPanel:addEventListener("tap", closeDebugPanel)
+        debugText:addEventListener("tap", closeDebugPanel)
+    end
+end
+
+
+function updateDebugPanel(text)
+    if globalDebugStatus and debugText then
+        debugText.text = debugText.text.."\n"..text
+    end
+end
+
+
+function closeDebugPanel()
+    if debugPanel then
+        debugPanel:removeSelf()
+        debugText:removeSelf()
+        debugPanel = nil
+        debugText  = nil
+    end
+    return true
 end
 
