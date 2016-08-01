@@ -376,18 +376,19 @@ end
 
 
 function curve:drawEmitter(camera, px, py, ex, ey)
-    self.emitter = particles:showEmitter(camera, "jump-grid-line", px, py, "forever", 0.8, 2)
+    --self.emitter = particles:showEmitter(camera, "jump-grid-line", px, py, "forever", 0.8, 2)
 end
 
 
 function curve:drawGridPosition(camera, px, py, ex, ey)
     -- Draw line
-    --[[pullLine = display.newLine(px, py, ex, ey)
-    pullLine:setStrokeColor(0.8,0.8,0.8)
+    pullLine = display.newLine(px, py, ex, ey)
+    pullLine:setStrokeColor(1, 1, 0.5)
     pullLine.strokeWidth = 2
-    jumpGroup:insert(pullLine)]]
+    pullLine.alpha = 0.3
+    jumpGroup:insert(pullLine)
 
-    self.emitter.angle = 90 + (math.atan2(ex-px, ey-py) * -180 / math.pi)
+    --self.emitter.angle = 90 + (math.atan2(ex-px, ey-py) * -180 / math.pi)
 
     --self.emitter.x = ex
     --self.emitter.y = ey

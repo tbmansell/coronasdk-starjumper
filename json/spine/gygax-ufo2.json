@@ -1,26 +1,32 @@
 {
-"skeleton": { "hash": "9HEipgdv0xFKy4dxkPvdxCvDwaU", "spine": "3.3.07", "width": 311.42, "height": 236.45 },
+"skeleton": {
+	"hash": "35YlKrCMiM9VU2BAzXFnpkkhCeg",
+	"spine": "2.0.23",
+	"width": 311.42,
+	"height": 236.45,
+	"images": "C:/Users/Slacky/Dropbox/Games/Tilt/Good Guys/UFO"
+},
 "bones": [
 	{ "name": "root" },
 	{ "name": "Alien", "parent": "root", "x": -19.42, "y": 59.53 },
-	{ "name": "Alien Body", "parent": "Alien", "length": 101.67, "rotation": 90, "x": 1 },
-	{ "name": "Front Arm Top", "parent": "Alien Body", "length": 44.21, "rotation": -133.36, "x": 76, "y": 0.32 },
-	{ "name": "Arm Front Bottom", "parent": "Front Arm Top", "length": 32.15, "rotation": 39.84, "x": 34.21, "y": 0.2 },
-	{ "name": "Arm Top Back", "parent": "Alien Body", "length": 46.77, "rotation": -113.01, "x": 75.67, "y": 0.68 },
-	{ "name": "Body", "parent": "root", "length": 103.99, "rotation": 90, "x": -0.5, "y": 1.99 },
-	{ "name": "Greenlights", "parent": "root", "length": 63.55, "rotation": 90, "x": 38.21, "y": 16.31 },
+	{ "name": "Body", "parent": "root", "length": 103.99, "x": -0.5, "y": 1.99, "rotation": 90 },
+	{ "name": "Greenlights", "parent": "root", "length": 63.55, "x": 38.21, "y": 16.31, "rotation": 90 },
+	{ "name": "Redlights", "parent": "root", "length": 70, "x": -144.5, "y": 73.99, "rotation": 85.48 },
+	{ "name": "passenger-body", "parent": "root", "length": 69.95, "x": 11.73, "y": 73.33, "rotation": 90 },
+	{ "name": "Alien Body", "parent": "Alien", "length": 101.67, "x": 1, "rotation": 90 },
+	{ "name": "passenger-front-toparm", "parent": "passenger-body", "length": 42.84, "x": 64.72, "y": 0.86, "rotation": -176.37 },
+	{ "name": "passenger-head", "parent": "passenger-body", "length": 38.83, "x": 61.27 },
+	{ "name": "Arm Top Back", "parent": "Alien Body", "length": 46.77, "x": 75.67, "y": 0.68, "rotation": -113.01 },
+	{ "name": "Front Arm Top", "parent": "Alien Body", "length": 44.21, "x": 76, "y": 0.32, "rotation": -133.36 },
 	{ "name": "Neck", "parent": "Alien Body", "length": 12.16, "x": 87.56, "y": -0.57 },
+	{ "name": "Arm Front Bottom", "parent": "Front Arm Top", "length": 32.15, "x": 34.21, "y": 0.2, "rotation": 39.84 },
 	{ "name": "Head", "parent": "Neck", "length": 27.26, "x": 3.4, "y": 0.55, "scaleX": 0.928, "scaleY": 0.928 },
-	{ "name": "Redlights", "parent": "root", "length": 70, "rotation": 85.48, "x": -144.5, "y": 73.99 },
-	{ "name": "bone2", "parent": "Arm Top Back", "length": 40.34, "rotation": 26.67, "x": 39.76, "y": -0.67 },
-	{ "name": "passenger-body", "parent": "root", "length": 69.95, "rotation": 90, "x": 11.73, "y": 73.33 },
-	{ "name": "passenger-front-toparm", "parent": "passenger-body", "length": 42.84, "rotation": -176.37, "x": 64.72, "y": 0.86 },
-	{ "name": "passenger-head", "parent": "passenger-body", "length": 38.83, "x": 61.27 }
+	{ "name": "bone2", "parent": "Arm Top Back", "length": 40.34, "x": 39.76, "y": -0.67, "rotation": 26.67 }
 ],
 "slots": [
 	{ "name": "skin-passenger-body", "bone": "passenger-body", "attachment": "skin-passenger-body" },
 	{ "name": "skin-passenger-head", "bone": "passenger-head", "attachment": "skin-passenger-head" },
-	{ "name": "skin-passenger-headblink", "bone": "passenger-head", "attachment": "skin-passenger-headblink" },
+	{ "name": "skin-passenger-headblink", "bone": "passenger-head" },
 	{ "name": "skin-passenger-ftoparm", "bone": "passenger-front-toparm", "attachment": "skin-passenger-ftoparm" },
 	{ "name": "Arm Top Back", "bone": "Arm Top Back", "attachment": "Arm Top Back" },
 	{ "name": "Arm Bottom Back", "bone": "bone2", "attachment": "Arm bottom Back" },
@@ -67,29 +73,6 @@
 		},
 		"UFO-redlights": {
 			"UFO-redlights": { "rotation": -90.45, "width": 27, "height": 11 }
-		}
-	},
-	"Passenger-brain-alien": {
-		"skin-passenger-body": {
-			"skin-passenger-body": { "name": "brain-alien/Body", "x": 41.61, "y": 1.02, "rotation": -90, "width": 32, "height": 55 }
-		},
-		"skin-passenger-ftoparm": {
-			"skin-passenger-ftoparm": { "name": "brain-alien/Arm Top Front", "x": 19.47, "y": -1.74, "rotation": 86.37, "width": 17, "height": 37 }
-		},
-		"skin-passenger-head": {
-			"skin-passenger-head": { "name": "brain-alien/Head", "x": 32.78, "y": 2.05, "scaleX": 0.9, "scaleY": 0.9, "rotation": -90, "width": 74, "height": 75 }
-		},
-		"skin-passenger-headblink": {
-			"skin-passenger-headblink": {
-				"name": "brain-alien/Head Blink",
-				"x": 32.84,
-				"y": 2.53,
-				"scaleX": 0.9,
-				"scaleY": 0.9,
-				"rotation": -90,
-				"width": 74,
-				"height": 75
-			}
 		}
 	},
 	"Passenger-female-alien": {
@@ -145,20 +128,6 @@
 				"width": 44,
 				"height": 66
 			}
-		}
-	},
-	"Passenger-grey-alien": {
-		"skin-passenger-body": {
-			"skin-passenger-body": { "name": "grey-alien/Body", "x": 43.17, "rotation": -90, "width": 32, "height": 55 }
-		},
-		"skin-passenger-ftoparm": {
-			"skin-passenger-ftoparm": { "name": "grey-alien/Arm Top Front", "x": 18.14, "y": -6.29, "rotation": 86.37, "width": 13, "height": 36 }
-		},
-		"skin-passenger-head": {
-			"skin-passenger-head": { "name": "grey-alien/Head", "x": 30, "y": 10, "rotation": -90, "width": 53, "height": 56 }
-		},
-		"skin-passenger-headblink": {
-			"skin-passenger-headblink": { "name": "grey-alien/Head Blink", "x": 30, "y": 9.9, "rotation": -90, "width": 53, "height": 56 }
 		}
 	},
 	"Passenger-muscle-alien": {
@@ -323,8 +292,8 @@
 					{ "time": 2.2, "angle": 0 }
 				],
 				"translate": [
-					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 2.2, "x": -11.49, "y": 0 }
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.2, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
