@@ -528,9 +528,13 @@ function displayDebugPanel(x, y, width, height, startMessage)
 end
 
 
-function updateDebugPanel(text)
+function updateDebugPanel(text, skipNewLine)
     if globalDebugStatus and debugText then
-        debugText.text = debugText.text.."\n"..text
+        if skipNewLine then
+            debugText.text = debugText.text..text
+        else
+            debugText.text = debugText.text.."\n"..text
+        end
     end
 end
 

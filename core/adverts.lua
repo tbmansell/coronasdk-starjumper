@@ -98,13 +98,33 @@ function adverts:loadVungleAdvert(advertType, successCallback)
     vungleAds.init("vungle", appId, adListener)
 	updateDebugPanel("video advert initialised")
 
-    
-    if vungleAds.isAdAvailable() then
+	
+	adverts.attempts = 0
+
+    local function checkAdvert()
+    	if vungleAds.isAdAvailable() then
+    		vungleAds.show(advertType, { isBackButtonEnabled=true })
+        	updateDebugPanel("video advert shown")	
+        else
+        	adverts.attempts = adverts.attempts + 1
+
+        	if adverts.attempts >= 20 then
+        		updateDebugPanel("video advert not available")
+        	else
+        		updateDebugPanel(", "..self.attempts, true)
+        		after(250, function() checkAdvert() end)
+        	end
+        end
+	end
+
+	checkAdvert()
+
+    --[[if vungleAds.isAdAvailable() then
         vungleAds.show(advertType, { isBackButtonEnabled=true })
         updateDebugPanel("video advert shown")
     else
     	updateDebugPanel("video advert not available")
-    end
+    end]]
 end
 
 
