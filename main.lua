@@ -44,18 +44,20 @@ sounds:loadRandomSounds()
 
 -- Global debug game logic
 if globalDebugGame then
+	-- Testing: display hidden external calls from inapp and advert calls
+	globalDebugStatus = true
     -- Testing: provide 20 lives instead of 2
     globalPlayerLives = 20
     -- Testing: add 100 holocubes
     state.data.holocubes = 100
     -- Testing: Show performance info
-    timer.performWithDelay(1000, displayPerformance, 0)
+    --timer.performWithDelay(1000, displayPerformance, 0)
 end
 
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "zone"
+local mode     = "game"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -68,7 +70,7 @@ if mode == "zone" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 2
-	state.data.zoneSelected   = 16
+	state.data.zoneSelected   = 10
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 
