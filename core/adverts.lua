@@ -34,18 +34,17 @@ end
 
 -- Checks if we should show and advert and tracks checks, so every N calsl will trigger an advert
 function adverts:checkShowAdvert()
-	self.forcedAdsChecks = self.forcedAdsChecks + 1
+	--self.forcedAdsChecks = self.forcedAdsChecks + 1
 
-	if self.forcedAdsChecks >= self.forcedAdsFrequency then
+	--if self.forcedAdsChecks >= self.forcedAdsFrequency then
 		self:forceAdvert()
-	end
+	--end
 end
 
 
 -- Show a full-screen non video advert
 function adverts:showStaticAdvert()
 	local advertId = "interstitial-1"
-	local action   = "init"
 
     local function adListener(event)
     	self:debugAdvertEvent(event)
@@ -58,14 +57,13 @@ function adverts:showStaticAdvert()
         end
     end
 
+    displayDebugPanel(centerX, centerY, 900, 600, "show static advert: "..advertId.." api-key: "..self.corona.apiKey)
+
     if self.corona.initialised then
-    	action = "show"
     	coronaAds.show(advertId, true)
     else
     	coronaAds.init(self.corona.apiKey, adListener)
     end
-
-    displayDebugPanel(centerX, centerY, 900, 600, action.." static advert: "..advertId.." api-key: "..self.corona.apiKey)
 end
 
 
