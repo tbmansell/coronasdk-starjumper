@@ -38,7 +38,7 @@ local levelData = {
             },          
             {object="wall", x=475,  y=-1100, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
             {object="wall", x=475,  y=200, type="fg-wall-divider", physics={shapeOffset={bottom=0, left=0},   bounce=1}},
-            {object="spike", x=340,  y=-430, type="fg-spikes-row-big", rotation=-90, physics={shapeOffset={top=20, left=-30}}},
+            {object="spike", x=340,  y=-450, type="fg-spikes-row-big", rotation=-90, physics={shapeOffset={top=20, left=-30}}},
 
         {object="ledge", x=-310, y=-220, size="small2"},
             {object="friend", type="fuzzy", color="Pink", onLedge=true},

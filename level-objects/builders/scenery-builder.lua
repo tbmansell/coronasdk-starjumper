@@ -154,6 +154,7 @@ function sceneryBuilder:setupBlockingScenery(camera, scenery)
 
     scenery.image.collision = sceneryDef.eventCollideWall
     scenery.image:addEventListener("collision", scenery.image)
+
 end
 
 
@@ -181,7 +182,7 @@ function sceneryBuilder:setupDeadlyScenery(camera, scenery)
     scenery.inPhysics = true
     scenery.layer     = scenery.layer or 2
 
-    scenery.image:setFillColor(1, 0.4, 0.4)
+    scenery.image:setFillColor(1, 0.5, 0.5)
 
 	scenery.image.collision = sceneryDef.eventCollideSpike
 	scenery.image:addEventListener("collision", scenery.image)
