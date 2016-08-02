@@ -25,7 +25,7 @@ local adverts = {
 
 -- Force user to view an advert and track that we've shown them one
 function adverts:forceAdvert()
-	self.forcedAdsShown  = self.forcedAdsShown + 1
+	self.forcedAdsShown = self.forcedAdsShown + 1
 
 	self:showStaticAdvert()
 end

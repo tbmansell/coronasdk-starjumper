@@ -1,4 +1,4 @@
-local composer    = require("composer")
+local composer      = require("composer")
 local physics       = require("physics")
 local cameraLoader  = require("core.camera")
 local anim          = require("core.animations")

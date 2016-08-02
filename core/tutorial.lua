@@ -40,7 +40,6 @@ function tutorials:start(tutorialName)
     if tutorialScript and state:showTutorial(tutorialId) then
     	after(tutorialScript.delay or 0, function()
     		self:init()
-    		self:show()
     	end)
     	return true
     end
@@ -48,9 +47,10 @@ end
 
 
 function tutorials:init()
-	state.data.game      = levelTutorial
-	self.step            = 0
-	globalTutorialScript = self
+	state.data.game       = levelTutorial
+	self.step             = 0
+	self.tutorialFinished = false
+	globalTutorialScript  = self
 
 	hud:levelStartedSequence()
 	self:nextSequence()
@@ -78,14 +78,13 @@ function tutorials:filterEvent(eventName, eventTarget, eventParams)
 		if action.name == eventName then
 			if action.target == nil or action.target == eventTarget then
 				if action.params == nil or self:paramsValid(action.params, eventParams) then
-					print("action allowed: "..eventName..": "..tostring(eventTarget))
 					self:nextSequence()
 					return true
 				end
 			end
 		end
 	end
-	print("action disallowed: "..eventName..": "..tostring(eventTarget))
+	
 	return false
 end
 
@@ -107,17 +106,7 @@ end
 
 
 function tutorials:nextSequence()
-	if self.group then
-		hud.camera:remove(self.group)
-
-		if self.group.removeSelf then self.group:removeSelf() end
-		self.group = nil
-	end
-
-	if self.speechGroup then
-		self.speechGroup:removeSelf()
-		self.speechGroup = nil
-	end
+	self:cleanUp()
 
 	self.step    = self.step + 1
 	tutorialStep = tutorialScript.sequence[self.step]
@@ -143,13 +132,34 @@ function tutorials:nextSequence()
 end
 
 
+function tutorials:cleanUp()
+	if self.speechGroup then
+		hud.camera:remove(self.group)
+
+		if self.speechGroup.removeSelf then
+			self.speechGroup:removeSelf()
+		end
+		self.speechGroup = nil
+	end
+
+	if self.group then
+		if self.group.removeSelf then 
+			self.group:removeSelf() 
+		end
+		self.group = nil
+	end
+end
+
+
 function tutorials:showNote(note)
 	after(note.delay or 0, function()
-		newImage(self.group, "message-tabs/tutorial-"..note.image, note.x, note.y, note.size)
-		newText(self.group,  note.text, note.x, note.y + note.textY, 0.35, (note.color or "white"), "CENTER", 500)
+		if not self.tutorialFinished then
+			newImage(self.group, "message-tabs/tutorial-"..note.image, note.x, note.y, note.size)
+			newText(self.group,  note.text, note.x, note.y + note.textY, 0.35, (note.color or "white"), "CENTER", 500)
 
-		if note.inCamera then
-			hud.camera:add(self.group, 2)
+			if note.inCamera then
+				hud.camera:add(self.group, 2)
+			end
 		end
 	end)
 end
@@ -157,29 +167,33 @@ end
 
 function tutorials:showSpeech(event)
 	after(event.delay or 0, function()
-		-- safegaurd as was getting niled
-		if self.speechGroup == nil then self.speechGroup = display.newGroup() end
+		if not self.tutorialFinished then
+			-- safeguard as was getting niled
+			if self.speechGroup == nil then 
+				self.speechGroup = display.newGroup() 
+			end
 
-		local speaker = event.speaker
-		local name    = characterData[speaker].title..": "..characterData[speaker].name
-		local balloon = newImage(self.speechGroup, "message-tabs/messagetab-"..characterData[speaker].name.."-big", 0, event.y)
-		local title   = newText(self.speechGroup, name, 0, event.y+15, 0.35, "white", "LEFT")
-		local message = display.newText(self.speechGroup, self:parseText(event.text), 0, event.y+30, 440, 95, "arial", 18)
+			local speaker = event.speaker
+			local name    = characterData[speaker].title..": "..characterData[speaker].name
+			local balloon = newImage(self.speechGroup, "message-tabs/messagetab-"..characterData[speaker].name.."-big", 0, event.y)
+			local title   = newText(self.speechGroup, name, 0, event.y+15, 0.35, "white", "LEFT")
+			local message = display.newText(self.speechGroup, self:parseText(event.text), 0, event.y+30, 440, 95, "arial", 18)
 
-		balloon.anchorY = 0
-		balloon:scale(1, 0.7)
-		
-		message:setFillColor(0,0,0)
-		message.anchorX, message.anchorY = 0, 0
-		
-		if event.dir == left then
-			balloon.x = 290
-			title.x   = 130
-			message.x = 130
-		else
-			balloon.x = 670
-			title.x   = 510
-			message.x = 510
+			balloon.anchorY = 0
+			balloon:scale(1, 0.7)
+			
+			message:setFillColor(0,0,0)
+			message.anchorX, message.anchorY = 0, 0
+			
+			if event.dir == left then
+				balloon.x = 290
+				title.x   = 130
+				message.x = 130
+			else
+				balloon.x = 670
+				title.x   = 510
+				message.x = 510
+			end
 		end
 	end)
 end
@@ -193,18 +207,16 @@ function tutorials:parseText(text)
 end
 
 
-function tutorials:show()
-end
-
-
 function tutorials:completed()
+	self.tutorialFinished = true
+	
+	self:cleanUp()
 	curve:freeJump(hud.camera)
 	globalTutorialScript = nil
 
 	state.data.game = levelPlaying
 	hud.magnifyIcon.alpha = 1
 end
-
 
 
 return tutorials
