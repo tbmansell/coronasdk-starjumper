@@ -13,7 +13,7 @@ local timeStep    = 1/display.fps  --seconds per time step at 60fps
 local gravityStep = timeStep * curve.Gravity
 local trajectory  = nil
 local jumpGroup   = nil
---local grid        = nil
+local grid        = nil
 local gridSideX   = nil
 local gridSideY   = nil
 local fingerPoint = nil
@@ -22,8 +22,6 @@ local xAxis       = nil
 local yAxis       = nil
 local pullLine    = nil
 local animHandle  = nil
---local animateTrajectoryPrev  = nil
---local animateTrajectoryPoint = nil
 
 local math_round     = math.round
 local math_abs       = math.abs
@@ -53,7 +51,6 @@ function curve:debug(player, px, py, ex, ey)
 
     if curveDebugText ~= nil then curveDebugText:removeSelf() end
     curveDebugText = display.newText(data, 50,100, 800,100, "arial",22)
-    --curveDebugText:setReferencePoint(display.CenterLeftReferencePoint)
     curveDebugText.anchorX = 0
     curveDebugText.x = 50
 end
@@ -128,13 +125,6 @@ function curve:drawTrajectory(camera, jumpX, jumpY, pullX, pullY)
     end
 
     camera:add(trajectory, 2)
-    --animateTrajectoryPoint = 1
-    --animateTrajectoryPrev  = -10
-
-    --[[curve.animHandleHandle = timer.performWithDelay(100, function()
-        --curve.animHandle = timer.performWithDelay(15, curve.animateTrajectory, 0)
-        curve.animHandle = timer.performWithDelay(1000, curve.animateTrajectory, 0)
-    end)]]
 end
 
 
@@ -206,49 +196,10 @@ function curve:getTrajectoryPoint(startX, startY, velX, velY, n)
 end
 
 
---[[function curve:animateTrajectory()
-    if trajectory ~= nil then
-        if animateTrajectoryPrev > 0 then
-            trajectory[animateTrajectoryPrev].alpha = 0.2
-        end
-
-        local alpha = 1.00
-        for i=animateTrajectoryPoint, animateTrajectoryPrev+1, -1 do
-            if i > 1 then
-                trajectory[i].alpha = alpha
-                alpha = alpha - 0.10
-                if alpha < 0.00 then alpha = 0.00 end
-            end
-        end
-
-        animateTrajectoryPrev  = animateTrajectoryPrev + 1
-        animateTrajectoryPoint = animateTrajectoryPoint + 1
-
-        if animateTrajectoryPrev > trajectory.numChildren then
-            animateTrajectoryPrev = 1
-        end
-
-        if animateTrajectoryPoint > trajectory.numChildren then
-            animateTrajectoryPoint = 1
-        end
-    end
-end]]
-
-
 function curve:removeTrajectory()
     if trajectory then
         trajectory:removeSelf()
         trajectory = nil
-
-        --[[if animHandleHandle ~= nil then
-            timer.cancel(animHandleHandle)
-            animHandleHandle = nil
-        end
-
-        if animHandle then
-            timer.cancel(animHandle)
-            animHandle = nil
-        end]]
     end
 end
 
@@ -262,7 +213,6 @@ function curve:draw(camera, px, py, ex, ey)
         if self.showGrid then    
             self:drawGrid(camera, px, py)
             self:drawAxis(px, py, ex, ey)
-            self:drawEmitter(camera, px, py, ex, ey)
         end
     else
         self:removePullLine()
@@ -342,18 +292,6 @@ function curve:drawGrid(camera, px, py)
     jumpGroup:insert(grid)
     jumpGroup:insert(gridSideX)
     jumpGroup:insert(gridSideY)
-
-
-    --self.showGridHandle = transition.to(grid, {alpha=0.7, time=300, onComplete=function() curve.showGridHandle=nil end})
-    --self.showGridHandle = transition.to(grid, {alpha=0.4, time=300, onComplete=function() curve.showGridHandle=nil end})
-    --gridAnimationHandle = timer.performWithDelay(50, curve.animateGrid, 0)
-
-    --camera:add(grid, 2)
-    --camera:add(gridSideY, 2)
-    --camera:add(gridSideX, 2)
-
-    -- instead of doing it every time event triggered
-    -- grid:toFront()
 end
 
 
@@ -365,18 +303,9 @@ function curve:drawAxis(px, py, ex, ey)
     yAxis.posColor = 0
     xAxis:scale(0.7,0.7)
     yAxis:scale(0.7,0.7)
-
-    --[[if grid and grid.direction == left then 
-        yAxis:scale(-1,1)
-    end]]
     
     jumpGroup:insert(xAxis)
     jumpGroup:insert(yAxis)
-end
-
-
-function curve:drawEmitter(camera, px, py, ex, ey)
-    --self.emitter = particles:showEmitter(camera, "jump-grid-line", px, py, "forever", 0.8, 2)
 end
 
 
@@ -385,13 +314,8 @@ function curve:drawGridPosition(camera, px, py, ex, ey)
     pullLine = display.newLine(px, py, ex, ey)
     pullLine:setStrokeColor(1, 1, 0.5)
     pullLine.strokeWidth = 2
-    pullLine.alpha = 0.3
+    pullLine.alpha       = 0.5
     jumpGroup:insert(pullLine)
-
-    --self.emitter.angle = 90 + (math.atan2(ex-px, ey-py) * -180 / math.pi)
-
-    --self.emitter.x = ex
-    --self.emitter.y = ey
 
     -- Position axis
     xAxis.x = ex
@@ -516,47 +440,7 @@ function curve:hideJumpGrid(camera)
         gridSideY   = nil
         lockPoint   = nil
     end
-
-    if self.emitter then
-        self.emitter:destroy()
-        self.emitter = nil
-    end
 end
-
-
---[[function curve:animateGrid()
-    local self = curve
-
-    if grid == nil or grid.alpha == nil then
-        return
-    end
-
-    if grid.pause then
-        if grid.pauseFor then
-            grid.pauseFor = grid.pauseFor - 1
-
-            if grid.pauseFor <= 0 then
-                grid.pause, grid.pauseFor = false, nil
-            end
-        else
-            grid.pauseFor = 8
-        end
-    elseif grid.fadingOut then
-        if grid.alpha <= 0.5 then
-            grid.fadingOut = false
-            grid.pause = true
-        else
-            grid.alpha = grid.alpha - 0.025
-        end
-    else
-        if grid.alpha >= 0.7 then
-            grid.fadingOut = true
-            grid.pause = true
-        else
-            grid.alpha = grid.alpha + 0.025
-        end
-    end
-end]]
 
 
 function curve:clearUp(camera)

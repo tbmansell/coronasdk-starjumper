@@ -8,8 +8,7 @@ local adverts = {
 	-- a counter which tracks checks to see if we should force an add on a player
 	forcedAdsChecks    = 0,
 	-- the number of times that a check to see if we should force an ad on a player, before we show one
-	--forcedAdsFrequency = 3,
-	forcedAdsFrequency = 1,
+	forcedAdsFrequency = 3,
 
 	-- config settings for the corona ads account
 	corona = {
@@ -35,11 +34,11 @@ end
 
 -- Checks if we should show and advert and tracks checks, so every N calsl will trigger an advert
 function adverts:checkShowAdvert()
-	--self.forcedAdsChecks = self.forcedAdsChecks + 1
+	self.forcedAdsChecks = self.forcedAdsChecks + 1
 
-	--if self.forcedAdsChecks >= self.forcedAdsFrequency then
+	if self.forcedAdsChecks >= self.forcedAdsFrequency then
 		self:forceAdvert()
-	--end
+	end
 end
 
 
@@ -51,6 +50,7 @@ function adverts:showStaticAdvert()
     	self:debugAdvertEvent(event)
     	
         if event.phase == "init" then
+        	-- Only show the first time this is called (after init)
         	if self.corona.initialised == false then
         	    self.corona.initialised = true
             	coronaAds.show(advertId, true)
@@ -81,6 +81,9 @@ end
 
 
 function adverts:loadVungleAdvert(advertType, successCallback)
+	local appId = self.vungle[system.getInfo("platformName")]
+
+	-- listener triggered by ad provider
     local function adListener(event)
     	for property, value in pairs(event) do
     		self:debugAdvertEvent(event)
@@ -91,40 +94,29 @@ function adverts:loadVungleAdvert(advertType, successCallback)
         end
     end
 
-    local appId = self.vungle[system.getInfo("platformName")]
-
     displayDebugPanel(centerX, centerY, 1200, 600, "init video advert: "..appId)
 
     vungleAds.init("vungle", appId, adListener)
-	updateDebugPanel("video advert initialised")
-
 	
-	adverts.attempts = 0
+	self.attempts = 0
+	self:checkVungleAdvert(advertType)
+end
 
-    local function checkAdvert()
-    	if vungleAds.isAdAvailable() then
-    		vungleAds.show(advertType, { isBackButtonEnabled=true })
-        	updateDebugPanel("video advert shown")	
-        else
-        	adverts.attempts = adverts.attempts + 1
 
-        	if adverts.attempts >= 20 then
-        		updateDebugPanel("video advert not available")
-        	else
-        		updateDebugPanel(", "..self.attempts, true)
-        		after(250, function() checkAdvert() end)
-        	end
-        end
-	end
-
-	checkAdvert()
-
-    --[[if vungleAds.isAdAvailable() then
-        vungleAds.show(advertType, { isBackButtonEnabled=true })
-        updateDebugPanel("video advert shown")
+-- As it takes a while to load, we check every 250ms for up to 5 seconds for response of video ad
+function adverts:checkVungleAdvert(advertType)
+	if vungleAds.isAdAvailable() then
+		vungleAds.show(advertType, { isBackButtonEnabled=true })
     else
-    	updateDebugPanel("video advert not available")
-    end]]
+    	self.attempts = self.attempts + 1
+
+    	if self.attempts >= 20 then
+    		updateDebugPanel("video advert not available")
+    	else
+    		updateDebugPanel(", "..self.attempts, true)
+    		after(250, function() self:checkVungleAdvert(advertType) end)
+    	end
+    end
 end
 
 

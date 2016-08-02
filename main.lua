@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.14"
+globalBuildVersion = "0.15"
 globalDebugGame    = true
 
 -- Define global constants
@@ -45,9 +45,9 @@ sounds:loadRandomSounds()
 -- Global debug game logic
 if globalDebugGame then
 	-- Testing: display hidden external calls from inapp and advert calls
-	globalDebugStatus = true
+	globalDebugStatus = false
     -- Testing: provide 20 lives instead of 2
-    globalPlayerLives = 20
+    --globalPlayerLives = 20
     -- Testing: add 100 holocubes
     state.data.holocubes = 100
     -- Testing: Show performance info
@@ -69,8 +69,8 @@ if mode == "zone" or mode == "record" then
 	if mode == "record" then globalRecordGame = true end
 
 	sounds:loadPlayer(state.data.playerModel)
-	state.data.planetSelected = 2
-	state.data.zoneSelected   = 10
+	state.data.planetSelected = 1
+	state.data.zoneSelected   = 2
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 

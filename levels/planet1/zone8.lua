@@ -2,7 +2,7 @@ local levelData = {
     name             = "a nice breather",
     floor            = display.contentHeight+300,
     timeBonusSeconds = 45,
-    startLedge       = 4,
+    startLedge       = 1,
 
     backgroundOrder = {
         [bgrFront] = {3, 4, 1, 2},
