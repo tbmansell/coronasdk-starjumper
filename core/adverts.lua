@@ -26,7 +26,6 @@ local adverts = {
 -- Force user to view an advert and track that we've shown them one
 function adverts:forceAdvert()
 	self.forcedAdsShown  = self.forcedAdsShown + 1
-	self.forcedAdsChecks = 0
 
 	self:showStaticAdvert()
 end
@@ -53,6 +52,8 @@ function adverts:showStaticAdvert()
         	-- Only show the first time this is called (after init)
         	if self.corona.initialised == false then
         	    self.corona.initialised = true
+        	    self.forcedAdsChecks    = 0
+
             	coronaAds.show(advertId, true)
             end
         end
@@ -62,6 +63,7 @@ function adverts:showStaticAdvert()
 
     if self.corona.initialised then
     	coronaAds.show(advertId, true)
+    	self.forcedAdsChecks = 0
     else
     	coronaAds.init(self.corona.apiKey, adListener)
     end
