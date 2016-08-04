@@ -13,7 +13,8 @@ local adverts = {
 	-- config settings for the corona ads account
 	corona = {
 		initialised = false,
-		apiKey      = "5223c2c3-cf81-4c43-ae41-2d4ed16552bc"
+		--apiKey      = "5223c2c3-cf81-4c43-ae41-2d4ed16552bc"
+		apiKey      = "a69eadfe-d8e2-424f-8c2f-41a6ac3b9e79"
 	},
 	-- config settings for the vungle ads account
 	vungle = {
