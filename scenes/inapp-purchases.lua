@@ -236,7 +236,7 @@ function scene:buildPlanetPage(planetGroup)
 
     self:newPlanetBuyer(planetGroup, 1, true,  190)
     self:newPlanetBuyer(planetGroup, 2, true,  centerX)
-    self:newPlanetBuyer(planetGroup, 3, false, 800)
+    self:newPlanetBuyer(planetGroup, 3, false, 770)
 end
 
 
