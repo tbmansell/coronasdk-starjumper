@@ -57,7 +57,6 @@ function scene:create(event)
     
     -- Allow the code from show() to run before this
     after(1000, function()
-        --self:init()
         self:displayBackground()
         self:displayHud()
         self:loadPlanetTabs()
@@ -67,7 +66,7 @@ function scene:create(event)
         self:setPlayerState()
         self:updateGameProgress()
 
-        newButton(self.view, 55, 50, "back", scene.contextBack)
+        newButton(self.view, 55, 50, "back", scene.contextBack, 1000)
 
         self:startAnimations("primaryAnims")
     end)
@@ -110,11 +109,13 @@ function scene:init()
         globalSplashScreen:removeSelf()
         globalSplashScreen = nil
     end
+
+    -- Allow interaction again
+    self.blockInput = false
 end
 
 
 function scene:updateScene()
-    --self:init()
     self:displayBackground(true)
     self:setGameTypeState()
     self:updateGameProgress()
@@ -176,10 +177,6 @@ function scene:displayHud()
 
     spineCollection = builder:newSpineCollection()
     spineStore:load(spineCollection)
-
-    --[[self.progressGroup = new_group()
-    self.progressGroup.alpha = 0
-    group:insert(self.progressGroup)]]
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(group, spineStore, scene.exitToShop, scene.exitToPlayerStore)
     newMenuHudIcons(group, scene.exitToInApStore, scene.exitToPlanetProgress)
@@ -559,12 +556,6 @@ function scene:contextBack()
     elseif scene.context == "selectGame" then
         scene.context = "selectPlanet"
 
-        --[[if state.data.gameSelected ~= gameTypeStory then
-            local seq = anim:chainSeq("progressTab", scene.progressGroup)
-            seq:tran({time=1000, alpha=0})
-            seq:start()
-        end]]
-
         scene:slideGameModesOut("primaryAnims")
         scene:startAnimations("primaryAnims")
         scene:removePlanetBanner("secondaryAnims")
@@ -587,12 +578,19 @@ function scene:contextBack()
 end
 
 
+function scene:finishSequence(animName)
+    local seq = anim:chainSeq(animName, nil)
+    seq:callback(function() scene.blockInput = false end)
+end
+
+
 function scene:selectPlanet(group)
     local game   = state.data.gameSelected
     local planet = group.planet
 
-    if scene.context == "selectPlanet" then
+    if scene.context == "selectPlanet" and not scene.blockInput then
         if state:planetUnlocked(planet) then
+            scene.blockInput = true
             state.data.planetSelected = planet
 
             if state:planetUnlocked(group.planet) then
@@ -606,12 +604,6 @@ function scene:selectPlanet(group)
                     elseif challengeGameType[game] then scene:selectOtherPlanet(planet) end
                 end)
             end
-
-            --[[if state.data.gameSelected ~= gameTypeStory then
-                local seq = anim:chainSeq("progressTab", self.progressGroup)
-                seq:tran({time=1000, alpha=1})
-                seq:start()
-            end]]
         else
             newLockedPopup(self.view, planet, "planet", planetData[planet].name, function() scene:startSparkles() end)
         end
@@ -663,6 +655,8 @@ function scene:selectOtherPlanet(planetIndex)
     end
 
     self:slideGameModesIn("planetSlideSelect")
+    self:finishSequence("planetSlideSelect")
+
     anim:startQueue("planetSlideSelect")
     anim:startQueue("planetSlideSelect2")
 
@@ -695,9 +689,10 @@ function scene:selectGameMode(gameGroup)
     local planet = state.data.planetSelected
 
     if state:gameUnlocked(planet, game) then
-        if infiniteGameType[game] and scene.context == "selectGame" then
+        if infiniteGameType[game] and scene.context == "selectGame" and not scene.blockInput then
+            scene.blockInput = true
+            scene.nextScene  = "scenes.play-zone"
             state.data.gameSelected = game
-            scene.nextScene = "scenes.play-zone"
 
             if     game == gameTypeArcadeRacer then state.data.gameSelected = "-arcade-racer"
             elseif game == gameTypeTimeRunner  then state.data.zoneSelected = "-arcade-timer"
@@ -768,6 +763,7 @@ function scene:selectChallengeGame(gameGroup)
         self:changeGameModeBackground("zoneSlideSelect3")
     end
 
+    self:finishSequence("zoneSlideSelect")
     anim:startQueue("zoneSlideSelect")
     anim:startQueue("zoneSlideSelect2")
     anim:startQueue("zoneSlideSelect3")
@@ -916,7 +912,8 @@ end
 function scene:selectZone(zoneGroup)
     local planet = state.data.planetSelected
 
-    if state:zoneUnlocked(planet, zoneGroup.zone) then
+    if state:zoneUnlocked(planet, zoneGroup.zone) and not scene.blockInput then
+        scene.blockInput = true
         state.data.zoneSelected = zoneGroup.zone
 
         scene:bobOption(zoneGroup)
@@ -1045,41 +1042,61 @@ end
 
 
 function scene:exitToTitle()
-    state.musicSceneContinue = true
-    loadSceneTransition()
-    after(1000, function() composer.gotoScene(state:backScene(), {effect="fade", time=750}) end)
+    if not scene.blockInput then
+        scene.blockInput = true
+
+        state.musicSceneContinue = true
+        loadSceneTransition()
+        after(1000, function() composer.gotoScene(state:backScene(), {effect="fade", time=750}) end)
+    end
     return true
 end
 
 
 function scene:exitToShop()
-    state.musicSceneContinue = false
-    play(sounds.sceneEnter)
-    composer.gotoScene("scenes.shop")
+    if not scene.blockInput then
+        scene.blockInput = true
+
+        state.musicSceneContinue = false
+        play(sounds.sceneEnter)
+        composer.gotoScene("scenes.shop")
+    end
     return true
 end
 
 
 function scene:exitToPlayerStore()
-    state.musicSceneContinue = false
-    play(sounds.sceneEnter)
-    composer.gotoScene("scenes.select-player")
+    if not scene.blockInput then
+        scene.blockInput = true
+
+        state.musicSceneContinue = false
+        play(sounds.sceneEnter)
+        composer.gotoScene("scenes.select-player")
+    end
     return true
 end
 
 
 function scene:exitToPlanetProgress()
-    state.musicSceneContinue = false
-    play(sounds.sceneEnter)
-    composer.gotoScene("scenes.progress")
+    if not scene.blockInput then
+        scene.blockInput = true
+
+        state.musicSceneContinue = false
+        play(sounds.sceneEnter)
+        composer.gotoScene("scenes.progress")
+    end
     return true
 end
 
 
 function scene:exitToInApStore()
-    state.musicSceneContinue = false
-    play(sounds.sceneEnter)
-    composer.gotoScene("scenes.inapp-purchases")
+    if not scene.blockInput then
+        scene.blockInput = true
+
+        state.musicSceneContinue = false
+        play(sounds.sceneEnter)
+        composer.gotoScene("scenes.inapp-purchases")
+    end
     return true
 end
 
@@ -1094,15 +1111,16 @@ function scene:hide(event)
         Runtime:removeEventListener("enterFrame", sceneEnterFrameEvent)
         Runtime:removeEventListener("key", sceneKeyEvent)
 
-        anim:destroy()
+        -- NOTE: dont call anim:destroy() as this means exit animations wont always finish and the next time mthe scene items are misplaced
+        self:stopPulsing()
         particles:destroy()
         stopSparkles()
-
         logAnalyticsEnd()
 
     elseif event.phase == "did" then
-        -- we dont purge the scene as this stays in same stat ethrough whole game so we can return to previous options quickly
+        -- NOTE: we dont purge the scene as this stays in same stat ethrough whole game so we can return to previous options quickly
         --composer.removeScene("scenes.select-game")
+        self:stopPulsing()
     end
 end
 

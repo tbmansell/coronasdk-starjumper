@@ -267,7 +267,7 @@ function scene:newPlanetBuyer(planetGroup, planet, available, xpos)
         if not state:hasPurchased(productId) then
             purchasedText.alpha = 0
 
-            local b1, b2 = newButton(planetGroup, xpos-40, 400, "buy", function() scene:purchase(product) end)
+            local b1, b2 = newButton(planetGroup, xpos-40, 400, "buy", function() scene:purchase(product) end, 1000)
             self:animate(b1, b2)
 
             product.labelPrice     = display.newText(planetGroup, " ", xpos+65, 400, "arial", 22)
@@ -286,8 +286,8 @@ function scene:newGearBuyers(group, x, y, nameSmall, nameLarge)
     local iapSmall = productData.iap[nameSmall]
     local iapLarge = productData.iap[nameLarge]
 
-    local b1, b1o = newButton(group, x, y,    "buy", function() scene:purchase(iapSmall) end, nil, 0.7)
-    local b2, b2o = newButton(group, x, y+60, "buy", function() scene:purchase(iapLarge) end, nil, 0.7)
+    local b1, b1o = newButton(group, x, y,    "buy", function() scene:purchase(iapSmall) end, 1000, nil, 0.7)
+    local b2, b2o = newButton(group, x, y+60, "buy", function() scene:purchase(iapLarge) end, 1000, nil, 0.7)
 
     self:animate(b1, b1o, {baseScale=0.7})
     self:animate(b2, b2o, {baseScale=0.7})
