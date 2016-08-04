@@ -142,7 +142,7 @@ end
 
 
 -- Creates an image button that shows it's depression, makes a sound and triggers an function
-function newButton(group, x, y, image, callback, clickSound, size)
+function newButton(group, x, y, image, callback, multiClick, clickSound, size)
     local btn        = newImage(group, "buttons/button-"..image.."-up",   x, y)
     local btnOverlay = newImage(group, "buttons/button-"..image.."-down", x, y, nil, 0)
 
@@ -151,15 +151,26 @@ function newButton(group, x, y, image, callback, clickSound, size)
         btnOverlay:scale(size, size)
     end
 
+    btn.activated = false
+
     btn:addEventListener("tap", function(event)
-        if not clickSound or clicksound ~= "no" then
-            play(clickSound or sounds.sceneEnter)
+        if not btn.activated then
+            btn.activated = true
+
+            if multiClick then
+                after(multiClick, function() btn.activated = false end)
+            end
+
+            if not clickSound or clicksound ~= "no" then
+                play(clickSound or sounds.sceneEnter)
+            end
+
+            btn.alpha, btnOverlay.alpha = 0, 1
+            after(150, function()
+                callback()
+                btn.alpha, btnOverlay.alpha = 1, 0
+            end)
         end
-        btn.alpha, btnOverlay.alpha = 0, 1
-        after(150, function()
-            callback()
-            btn.alpha, btnOverlay.alpha = 1, 0
-        end)
         return true
     end)
 

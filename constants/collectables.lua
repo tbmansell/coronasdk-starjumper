@@ -1,14 +1,15 @@
 -- star colors
-aqua   = 1
-pink   = 2
-red    = 3
-blue   = 4
-white  = 5
-yellow = 6
-green  = 7
-orange = 8  -- not used by rings yet
+orange = 1
+aqua   = 2
+pink   = 3
+red    = 4
+blue   = 5
+white  = 6
+yellow = 7
+green  = 8
 
 colorNames = {
+    [orange] = "Orange",
     [aqua]   = "Aqua",
     [pink]   = "Pink",
     [red]    = "Red",
@@ -16,10 +17,10 @@ colorNames = {
     [white]  = "White",
     [yellow] = "Yellow",
     [green]  = "Green",
-    [orange] = "Orange",
 }
 
 colorCodes = {
+    ["Orange"] = orange,
     ["Aqua"]   = aqua,
     ["Pink"]   = pink,
     ["White"]  = white,
@@ -27,10 +28,10 @@ colorCodes = {
     ["Blue"]   = blue,
     ["Yellow"] = yellow,
     ["Green"]  = green,
-    ["Orange"] = orange,
 }
 
 ringValues = {
+    [orange] = {points=2,  cubes=0.25},
     [aqua]   = {points=10, cubes=1},
     [pink]   = {points=20, cubes=2},
     [red]    = {points=30, cubes=3},
@@ -38,7 +39,6 @@ ringValues = {
     [white]  = {points=50, cubes=5},
     [yellow] = {points=60, cubes=6},
     [green]  = {points=70, cubes=7},
-    [orange] = {points=80, cubes=8},
 }
 
 collectableObject = {
