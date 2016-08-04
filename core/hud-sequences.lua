@@ -351,7 +351,7 @@ function hud:endLevelBasics(success)
     anim:destroyQueue("levelMessage")
     
     hud.endLevelGroup = display.newGroup()
-    local gameType    = state.data.gameSelected
+    local game        = state.data.gameSelected
     local group       = hud.endLevelGroup
     local bgr         = newBlocker(hud.endLevelGroup)
     local sidebar     = newImage(group, "hud/sidebar", -500, centerY, nil, 0.9)
@@ -360,26 +360,28 @@ function hud:endLevelBasics(success)
     local retryText   = nil
     local titleText   = nil
 
-    if gameType ~= gameTypeStory then
-        newImage(group, "select-game/tab-"..gameTypeData[gameType].icon, rightCenter, 60, 0.8)
+    if game ~= gameTypeStory then
+        newImage(group, "select-game/tab-"..gameTypeData[game].icon, rightCenter, 60, 0.8)
         titleYpos = 140
     end
 
     if success then
         local text = "zone "..state.data.zoneSelected.." completed"
         -- Time Runner & Climb Chase - show stage reached
-        if     gameType == gameTypeTimeRunner then text = "reached stage "..hud.infiniteStage
-        elseif gameType == gameTypeClimbChase then text = "escaped at stage "..hud.infiniteStage end
+        if     game == gameTypeTimeRunner then text = "reached stage "..hud.infiniteStage
+        elseif game == gameTypeClimbChase then text = "escaped at stage "..hud.infiniteStage end
 
         titleText = newText(group, text, rightCenter, titleYpos, 1, "yellow", "CENTER")
 
         local zone = state:currentZone()
-        if zone and zone.plays > 1 then
+        if zone and zone.plays > 1 and not infiniteGameType[game] then
             retryText = newText(group, "retry: "..zone.plays-1, rightCenter, titleYpos+160, 0.7, "purple", "CENTER")
         end
     else
         local text = "zone "..state.data.zoneSelected.." failed"
-        if gameType == gameTypeTimeRunner then text = "failed" end
+
+        if     game == gameTypeTimeRunner then text = "failed"
+        elseif game == gameTypeClimbChase then text = "failed at stage "..hud.infiniteStage end
 
         titleText = newText(group, text, rightCenter, titleYpos, 1, "red", "CENTER")
     end
@@ -508,7 +510,7 @@ end
 
 function hud:endLevelCollectables(success)
     local zone = state:currentZone()
-    local gameType = state.data.gameSelected
+    local game = state.data.gameSelected
 
     self.scoreGroup = display.newGroup()
     self.scoreGroup.alpha = 0
@@ -536,15 +538,18 @@ function hud:endLevelCollectables(success)
         hud:createScoreText(valPoints, valCubes, success, score, "jump bonus", jumpPointRatio, jumpCubeRatio, score)
     end
 
+    local ringSet = ringValues
+    if game == gameTypeClimbChase then ringSet = ringValuesClimbChase end
+
     -- Rings
-    for color=1, #ringValues do
+    for color=1, #ringSet do
         local num = hud:rings(color)
         if num > 0 then
             hud:createScoreRing(valPoints, valCubes, success, color, num)
         end
     end
     -- Fuzzies
-    for color=1, #ringValues do
+    for color=1, #ringSet do
         local num = hud:fuzzies(color)
         if num > 0 then
             hud:createScoreFuzzy(valPoints, valCubes, success, color, num)
@@ -553,12 +558,12 @@ function hud:endLevelCollectables(success)
 
     if success then
         -- Some extra game modes have a blanket reward
-        if challengeGameType[gameType] then
+        if challengeGameType[game] then
             -- only award the cubes on the first time the zone is completed for the challenge
             if zone and zone.plays == 1 then 
                 hud:createScoreText(valPoints, valCubes, true, 5, "champion", 0, 1, 1)
             end
-        elseif gameType == gameTypeTimeRunner then
+        elseif game == gameTypeTimeRunner then
             if self.holocubes > 0 then
                 hud:createScoreText(valPoints, valCubes, true, self.holocubes*100, "stage bonus", 0, 0.01, 100)
             end
@@ -572,7 +577,7 @@ function hud:endLevelCollectables(success)
         end
 
         -- Ranking
-        if gameType == gameTypeStory then
+        if game == gameTypeStory then
             for i=1, self.ranking do
                 hud:createScoreStar(i, i==self.ranking)
             end
@@ -629,13 +634,19 @@ function hud:createScoreRing(labelPoints, labelCubes, doScore, color, quantity)
     seq1:tran({time=750, y=ypos, playSound=sounds.bounce, playDelay=150, ease="bounce"})
     
     if doScore and quantity > 0 then
+        local ringSet = ringValues
+        local game    = state.data.gameSelected
         local zone    = state:currentZone()
         local divider = 1
 
-        if zone then divider = zone.plays end
+        if game == gameTypeClimbChase then ringSet = ringValuesClimbChase end
 
-        local pointRatio = ringValues[color].points / divider
-        local cubeRatio  = ringValues[color].cubes  / divider
+        if not infiniteGameType[game] and zone then 
+            divider = zone.plays 
+        end
+
+        local pointRatio = ringSet[color].points / divider
+        local cubeRatio  = ringSet[color].cubes  / divider
 
         hud:createCountingAnimation(labelPoints, labelCubes, itemQuantity, 95, pointRatio, cubeRatio, 100)
     end

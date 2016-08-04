@@ -148,12 +148,15 @@ function hud:saveLevelCubes()
     
     local cubesForRings = 0
     local ringGroup     = self.level.collectables.rings
+    local ringSet       = ringValues
     local game          = state.data.gameSelected
 
-    for color=1, #ringValues do
+    if game == gameTypeClimbChase then ringSet = ringValuesClimbChase end
+
+    for color=1, #ringSet do
         local num = hud:rings(color)
         if num > 0 then
-            cubesForRings = cubesForRings + (num * ringValues[color].cubes)
+            cubesForRings = cubesForRings + (num * ringSet[color].cubes)
         end
     end
 

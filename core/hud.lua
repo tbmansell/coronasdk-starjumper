@@ -342,9 +342,12 @@ end
 
 
 function hud:collectRing(item)
+    local ringSet = ringValues
+    if state.data.gameSelected == gameTypeClimbChase then ringSet = ringValuesClimbChase end
+
     self.collectables.rings[item.type] = self.collectables.rings[item.type] + 1
     self.ringsCollected = self.ringsCollected + 1
-    self.collectScore   = self.collectScore   + ringValues[item.color].points
+    self.collectScore   = self.collectScore   + ringSet[item.color].points
     
     item:emit("collect-ring")
     item:collect(self.camera)
@@ -509,9 +512,12 @@ end
 
 function hud:lost(item)
     if item.isRing and self.collectables.rings[item.type] > 0 then
+        local ringSet = ringValues
+        if state.data.gameSelected == gameTypeClimbChase then ringSet = ringValuesClimbChase end
+
         self.player:sound("randomRing")
         self.collectables.rings[item.type] = self.collectables.rings[item.type] - 1
-        self.collectScore = self.collectScore - ringValues[item.color].points
+        self.collectScore = self.collectScore - ringSet[item.color].points
     end
 end
 
