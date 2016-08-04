@@ -86,7 +86,7 @@ end
 function scene:createItems()
     newBackground(self.view, "select-player/bgr")
     newButton(self.view, 55,  50,  "back",   scene.exitPlayerSelect)
-    newButton(self.view, 700, 410, "select", scene.changeToPlayer, "no")
+    newButton(self.view, 700, 410, "select", scene.changeToPlayer, 0, "no")
 
     -- Delays for a moment to give the scene a chance to display before the heavy player loading is done
     self.characters = {}
