@@ -125,12 +125,13 @@ end
 
 function adverts:debugAdvertEvent(event)
 	if globalDebugStatus then
-		local text = "staticAdvertEvent: "
+		local text = "[event: "
 		for k,v in pairs(event) do
 			if k then
 				text = text..tostring(k).."="..tostring(v).." "
 			end
 		end
+		text = text.."]"
 		updateDebugPanel(text)
 	end
 end
