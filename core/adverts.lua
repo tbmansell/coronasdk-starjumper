@@ -60,7 +60,7 @@ function adverts:showStaticAdvert()
         end
     end
 
-    displayDebugPanel(centerX, centerY, 1200, 600, "show static advert: "..advertId.." api-key: "..self.corona.apiKey)
+    displayDebugPanel(centerX, centerY, 1000, 600, "show static advert: "..advertId.." api-key: "..self.corona.apiKey)
 
     if self.corona.initialised then
     	coronaAds.show(advertId, true)
@@ -97,7 +97,7 @@ function adverts:loadVungleAdvert(advertType, successCallback)
         end
     end
 
-    displayDebugPanel(centerX, centerY, 1200, 600, "init video advert: "..appId)
+    displayDebugPanel(centerX, centerY, 1000, 600, "init video advert: "..appId)
 
     vungleAds.init("vungle", appId, adListener)
 	
