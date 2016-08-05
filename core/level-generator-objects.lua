@@ -187,37 +187,39 @@ function newObjectsLoader:load(levelGenerator)
 		local object   = nil
 		local maxRings = 5
 
-		if color > blue then color = blue end
-		--if maxRings > self.ringsRemaining then maxRings = self.ringsRemaining end
+		if color    > #ringValuesClimbChase then color    = #ringValuesClimbChase end
+		if maxRings > self.ringsRemaining   then maxRings = self.ringsRemaining end
 
-		local numRings = math_random(maxRings)
+		if maxRings and maxRings > 0 then
+			local numRings = math_random(maxRings)
 
-		if location == "onledge" or to == nil then
-			local  pattern = nil
-			if     numRings == 1 then pattern = { {0,-75} }  -- 1 ring: show in center ledge
-			elseif numRings == 2 then pattern = { {0,-75}, {0,-75} }  -- 2 rings: show two vertically in center
-			elseif numRings == 3 then pattern = { {-75,-100}, {75,-75}, {75,75} } -- 3 rings: triangle
-			elseif numRings == 4 then pattern = { {-30,-75}, {0,-75}, {75,0}, {0,75} }  -- 4 rings: square
-			elseif numRings == 5 then pattern = { {0,-75}, {0,-75}, {-75,0}, {75,-75}, {75,75} } -- 5 rings: show diamond with one ring in the center
+			if location == "onledge" or to == nil then
+				local  pattern = nil
+				if     numRings == 1 then pattern = { {0,-75} }  -- 1 ring: show in center ledge
+				elseif numRings == 2 then pattern = { {0,-75}, {0,-75} }  -- 2 rings: show two vertically in center
+				elseif numRings == 3 then pattern = { {-75,-100}, {75,-75}, {75,75} } -- 3 rings: triangle
+				elseif numRings == 4 then pattern = { {-30,-75}, {0,-75}, {75,0}, {0,75} }  -- 4 rings: square
+				elseif numRings == 5 then pattern = { {0,-75}, {0,-75}, {-75,0}, {75,-75}, {75,75} } -- 5 rings: show diamond with one ring in the center
+				end
+
+				object = {object="rings", color=color, pattern=pattern}
+				
+			elseif location == "inair" then
+				local arc            = self:randomRule("objects rings inair arc")
+				local jump           = self:percentRule("objects rings inair jump")
+				local xpos, ypos     = 30, -100
+				local forcex, forcey = self.pathFinder:calcJumpToLedgePull(from, to, self.scale, jump, 0)
+
+				if from:x() > to:x() then xpos = -xpos end
+
+				object = {object="rings", color=color, trajectory={x=xpos, y=ypos, xforce=forcex, yforce=math_abs(forcey), arc=arc, num=numRings} }
+				
+			elseif location == "moving" then
+				-- todo
 			end
 
-			object = {object="rings", color=color, pattern=pattern}
-			
-		elseif location == "inair" then
-			local arc            = self:randomRule("objects rings inair arc")
-			local jump           = self:percentRule("objects rings inair jump")
-			local xpos, ypos     = 30, -100
-			local forcex, forcey = self.pathFinder:calcJumpToLedgePull(from, to, self.scale, jump, 0)
-
-			if from:x() > to:x() then xpos = -xpos end
-
-			object = {object="rings", color=color, trajectory={x=xpos, y=ypos, xforce=forcex, yforce=math_abs(forcey), arc=arc, num=numRings} }
-			
-		elseif location == "moving" then
-			-- todo
+			self.ringsRemaining = self.ringsRemaining - numRings
 		end
-
-		self.ringsRemaining = self.ringsRemaining - numRings
 		return object
 	end
 
