@@ -1,6 +1,6 @@
 -- Global label used for buld version
-globalBuildVersion = "0.15.5"
-globalDebugGame    = true
+globalBuildVersion = "0.16"
+globalDebugGame    = false
 
 -- Define global constants
 require("constants.globals")
