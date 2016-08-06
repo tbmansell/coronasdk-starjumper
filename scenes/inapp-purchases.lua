@@ -138,12 +138,14 @@ end
 
 
 function scene:loadProductFromStore()
+    displayDebugPanel("loadProductsFromStore")
+
     if self:initStore() then
         store.init(storeName, function(event) scene:storeTransaction(event) end)
 
         if store.canLoadProducts then
             -- attempt to read product lists from the inapp store
-            --self:showStatus("Reading product list from store: "..tostring(storeName))
+            updateDebugPanel("Reading product list from store: "..tostring(storeName))
 
             -- build product list to load
             local list = {}
@@ -152,13 +154,13 @@ function scene:loadProductFromStore()
             -- consume IAPs for testing purposes in debug mode
             if globalDebugGame then
                 if store.consumePurchase then
-                    store.consumePurchase(list, function(event) --[[self:showStatus("consumed products")]] end)
+                    store.consumePurchase(list, function(event) updateDebugPanel("consumed products") end)
                 end
             end
 
             store.loadProducts(list, function(event) self:storeProductsLoaded(event) end)
         else
-            --self:showStatus("Store does not allow loading of products: "..tostring(storeName))
+            updateDebugPanel("Store does not allow loading of products: "..tostring(storeName))
         end
     end
 end
@@ -176,7 +178,7 @@ function scene:initStore()
         return true
     else
         storeName   = "unknown"
-        --self:showStatus("In-app purchases are not supported in the Corona Simulator")
+        updateDebugPanel("In-app purchases are not supported in the Corona Simulator")
         return false
     end
 end
@@ -184,18 +186,18 @@ end
 
 -- Called when store.loadProducts completes
 function scene:storeProductsLoaded(event)
-    --self:showStatus("Product list loaded. products: "..#event.products.." invalidProducts: "..#event.invalidProducts)
+    updateDebugPanel("Product list loaded. products: "..#event.products.." invalidProducts: "..#event.invalidProducts)
 
     for i=1, #event.products do
         local product = event.products[i]
         local pid     = product.productIdentifier
         local price   = product.localizedPrice
         
-        --[[local s = tostring(i)..". valid: "
+        local s = tostring(i)..". valid: "
         for k,v in pairs(product) do
             s = s..tostring(k).."="..tostring(v)..", "
         end
-        self:showStatus(s)]]
+        updateDebugPanel(s)
 
         if price and pid and productData.iap[pid] then
             productData.iap[pid].cost = price 
@@ -316,9 +318,9 @@ function scene:buildMenu()
     local gearMenu    = newImage(self.view, "inapp-purchases/menu-gear",    535, 27)
     local specialMenu = newImage(self.view, "inapp-purchases/menu-special", 800, 27)
 
-    planetMenu:addEventListener("tap",  function() scene:showPage("planet",  true) end)
-    gearMenu:addEventListener("tap",    function() scene:showPage("gear",    true) end)
-    specialMenu:addEventListener("tap", function() scene:showPage("special", true) end)
+    planetMenu:addEventListener("tap",  function() scene:showPage("planet")  end)
+    gearMenu:addEventListener("tap",    function() scene:showPage("gear")    end)
+    specialMenu:addEventListener("tap", function() scene:showPage("special") end)
 
     self.menu = {
         ["planet"]  = planetMenu,
@@ -328,9 +330,7 @@ function scene:buildMenu()
 end
 
 
-function scene:showPage(page, hideStatus)
-    if hideStatus then self:hideStatus() end
-
+function scene:showPage(page)
     self.page = page
 
     if self.dontPlaySound then
@@ -365,17 +365,16 @@ end
 -- Use for TESTING on simulator
 function scene:purchase(product)
     transactionProduct = product
-    self:hideStatus()
     self:storeTransaction({transaction={state="purchased"}})
 end
 ]]
 
 -- Use for Real Transactions
 function scene:purchase(product)
-    self:hideStatus()
+    displayDebugPanel("purchase: "..product.id)
     
     if store == nil then
-        --self:showStatus("Purchase "..product.id.." failed: purchases not available as no store loaded")
+        updateDebugPanel("Purchase "..product.id.." failed: purchases not available as no store loaded")
         return
     end
 
@@ -390,7 +389,7 @@ function scene:purchase(product)
             store.purchase({product.id})
         end
     else
-        --self:showStatus("Store purchases have been disabled in phone settings")
+        updateDebugPanel("Store purchases have been disabled in phone settings")
     end
 end
 
@@ -398,7 +397,7 @@ end
 function scene:restorePurchases()
     -- calls storeTransaction() for each previous purchase to restore
     if store and not restoreChecked then
-        --self:showStatus("checking store restore")
+        updateDebugPanel("checking store restore")
         transactionProduct = nil
         store.restore()
         restoreChecked = true
@@ -463,14 +462,14 @@ function scene:storeTransaction(event)
 
     elseif transaction.state == "cancelled" then
         play(sounds.shopCantBuy)
-        --self:showStatus("Purchase cancelled: "..tostring(transaction.productIdentifier))
+        updateDebugPanel("Purchase cancelled: "..tostring(transaction.productIdentifier))
 
     elseif transaction.state == "failed" then
         play(sounds.shopCantBuy)
-        --self:showStatus("Purchase failed: "..tostring(transaction.productIdentifier).." => "..tostring(event.errorType).." "..tostring(event.errorString))
+        updateDebugPanel("Purchase failed: "..tostring(transaction.productIdentifier).." => "..tostring(event.errorType).." "..tostring(event.errorString))
     else
         play(sounds.shopCantBuy)
-        --self:showStatus("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
+        updateDebugPanel("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
     end
 
     if store then
@@ -642,7 +641,7 @@ end
 function scene:consumeProduct()
     if googleIAP then
         store.consumePurchase({transactionProduct.id}, function(event) 
-            --self:showStatus("consumed product: "..transactionProduct.id)
+            updateDebugPanel("consumed product: "..transactionProduct.id)
         end)
     end
 end
@@ -652,7 +651,7 @@ function scene:displayPlanetUnlocked(planet, restore)
     local productId = transactionProduct.id
     local product   = productData.iap[productId]
 
-    if product then
+    if product and product.labelPurchased then
         product.labelPurchased.alpha = 1
         product.labelPrice.alpha     = 0
 
@@ -732,13 +731,13 @@ end
 
 function scene:refundPlanetPack1()
     self:refundPlanetPack(1, characterKranio)
-    --self:showStatus("Purchase refunded: Organia Planet Pack")
+    updateDebugPanel("Purchase refunded: Organia Planet Pack")
 end
 
 
 function scene:refundPlanetPack2()
     self:refundPlanetPack(2, characterReneGrey)
-    --self:showStatus("Purchase refunded: Apocalypsoid Planet Pack")
+    updateDebugPanel("Purchase refunded: Apocalypsoid Planet Pack")
 end
 
 
@@ -753,30 +752,6 @@ end
 
 
 ----- GENERAL -----
-
-
-function scene:showStatus(text)
-    self:hideStatus()
-    print(text)
-
-    self.statusGroup = display.newGroup()
-    self.view:insert(self.statusGroup)
-
-    local bgr = display.newRoundedRect(self.statusGroup, centerX, 150, 880, 100, 15)
-    bgr:setFillColor(0.3,    0.3,  0.3,  0.85)
-    bgr:setStrokeColor(0.75, 0.75, 0.75, 0.75)
-    bgr.strokeWidth = 2
-
-    display.newText({parent=self.statusGroup, text=text, x=centerX, y=330, width=900, height=400, fontSize=22, align="center"})
-end
-
-
-function scene:hideStatus()
-    if self.statusGroup then
-        self.statusGroup:removeSelf()
-        self.statusGroup = nil
-    end
-end
 
 
 function scene:animate(item, item2, params)

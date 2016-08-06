@@ -158,7 +158,7 @@ function newButton(group, x, y, image, callback, multiClick, clickSound, size)
             btn.activated = true
 
             if multiClick then
-                after(multiClick, function() btn.activated = false end)
+                after(multiClick, function() if btn then btn.activated = false end end)
             end
 
             if not clickSound or clicksound ~= "no" then
@@ -216,26 +216,41 @@ function newMenuHudIcons(group, toInAppStore, toProgress)
     local iconStore    = newImage(group, "hud/hud-tab-shop",     730, 545)
 
     iconProgress:addEventListener("tap", function()
-        local seq  = anim:chainSeq("iconProgress", iconProgress)
-        seq:tran({time=150, scale=1.1})
-        seq:tran({time=150, scale=1})
-        seq.onComplete = toProgress
-        seq:start()
+        if not iconProgress.activated then
+            iconProgress.activated = true
+            after(400, function() if iconProgress then iconProgress.activated = false end end)
+
+            local seq  = anim:chainSeq("iconProgress", iconProgress)
+            seq:tran({time=150, scale=1.1})
+            seq:tran({time=150, scale=1})
+            seq.onComplete = toProgress
+            seq:start()
+        end
     end)
 
     iconFruity:addEventListener("tap", function()
-        local seq = anim:chainSeq("iconFruity", iconFruity)
-        seq:tran({time=150, scale=1.1})
-        seq:tran({time=150, scale=1})
-        seq:start()
+        if not iconFruity.activated then
+            iconFruity.activated = true
+            after(400, function() if iconFruity then iconFruity.activated = false end end)
+
+            local seq = anim:chainSeq("iconFruity", iconFruity)
+            seq:tran({time=150, scale=1.1})
+            seq:tran({time=150, scale=1})
+            seq:start()
+        end
     end)
 
     iconStore:addEventListener("tap", function()
-        local seq = anim:chainSeq("iconStore", iconStore)
-        seq:tran({time=150, scale=1.1})
-        seq:tran({time=150, scale=1})
-        seq.onComplete = toInAppStore
-        seq:start()
+        if not iconStore.activated then
+            iconStore.activated = true
+            after(400, function() if iconStore then iconStore.activated = false end end)
+        
+            local seq = anim:chainSeq("iconStore", iconStore)
+            seq:tran({time=150, scale=1.1})
+            seq:tran({time=150, scale=1})
+            seq.onComplete = toInAppStore
+            seq:start()
+        end
     end)
 
     return iconProgress
@@ -524,14 +539,19 @@ function displayPerformance()
 end
 
 
-function displayDebugPanel(x, y, width, height, startMessage)
+function displayDebugPanel(text, x, y, width, height)
     if globalDebugStatus then
+        x      = x      or centerX
+        y      = y      or centerY
+        width  = width  or 1000
+        height = height or 600
+
         debugPanel = display.newRoundedRect(x, y, width, height, 15)
         debugPanel:setFillColor(0.3,    0.3,  0.3,  0.85)
         debugPanel:setStrokeColor(0.75, 0.75, 0.75, 0.75)
         debugPanel.strokeWidth = 2
 
-        debugText = display.newText({text=startMessage, x=x, y=y, width=width, height=height, fontSize=22, align="center"})
+        debugText = display.newText({text=text, x=x, y=y, width=width, height=height, fontSize=22, align="center"})
 
         debugPanel:addEventListener("tap", closeDebugPanel)
         debugText:addEventListener("tap", closeDebugPanel)
@@ -540,11 +560,15 @@ end
 
 
 function updateDebugPanel(text, skipNewLine)
-    if globalDebugStatus and debugText then
-        if skipNewLine then
-            debugText.text = debugText.text..text
+    if globalDebugStatus then
+        if debugText == nil then
+            displayDebugPanel(text)
         else
-            debugText.text = debugText.text.."\n"..text
+            if skipNewLine then
+                debugText.text = debugText.text..text
+            else
+                debugText.text = debugText.text.."\n"..text
+            end
         end
     end
 end

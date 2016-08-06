@@ -45,7 +45,7 @@ sounds:loadRandomSounds()
 -- Global debug game logic
 if globalDebugGame then
 	-- Testing: display hidden external calls from inapp and advert calls
-	globalDebugStatus = false
+	globalDebugStatus = true
     -- Testing: provide 20 lives instead of 2
     --globalPlayerLives = 20
     -- Testing: add 100 holocubes
@@ -71,7 +71,7 @@ if mode == "zone" or mode == "record" then
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
 	state.data.zoneSelected   = 3
-	state.data.gameSelected   = gameTypeClimbChase
+	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 
 elseif mode == "cut" then
