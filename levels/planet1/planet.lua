@@ -39,6 +39,8 @@ local planetData = {
         [23] = { x=4200, y=400, hint={gearFreezeTime,  gearShield,      gearGlider},      secret=true },
         [24] = { x=4350, y=280, hint={gearReverseJump, gearGrappleHook, gearJetpack},     secret=true },
         [25] = { x=4500, y=450, hint={gearTrajectory,  gearGlider,      gearGrappleHook}, secret=true },
+       -- [26] = { x=4500, y=550, hint={gearParachute,   gearGlider,      gearGloves},      secret=true },
+
     },
 
     -- Story mode zone select scene - spine objects shown
