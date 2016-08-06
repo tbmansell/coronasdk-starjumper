@@ -183,7 +183,7 @@ function Perspective.createView(numLayers)
 	end
 
 
-	--[[function view.trackFocusForcing(conf, confFocus)
+	function view.trackFocusForcing(conf, confFocus)
 		local focusX, focusY = nil, nil
 		local confX, confY   = -confFocus.x + ccx, -confFocus.y + ccy
 
@@ -206,7 +206,7 @@ function Perspective.createView(numLayers)
                 item.y = newy
             end
 		end
-	end]]
+	end
 
 
 	function view.trackFocusNormal(conf, confFocus)
@@ -399,10 +399,10 @@ function Perspective.createView(numLayers)
 		local hitRight  = (bound2.x + xdiff < cw)
 		local hitTop    = (bound2.y + ydiff > 0)
 
-		if hitLeft   then print("hit left   boundary") end
+		--[[if hitLeft   then print("hit left   boundary") end
 		if hitRight  then print("hit right  boundary") end
 		if hitUp     then print("hit top    boundary") end
-		if hitBottom then print("hit bottom boundary") end
+		if hitBottom then print("hit bottom boundary") end]]
 
         return (hitLeft or hitRight), (hitBottom or hitTop)
 	end
@@ -499,7 +499,7 @@ function Perspective.createView(numLayers)
 	function view:removeFocus()
 		if view.CONF.focus then
 			view.CONF.focus.isFocus = false
-			view.CONF.focus = nil  --{x=0,y=0}
+			view.CONF.focus = nil
 		end
 	end
 
@@ -582,10 +582,7 @@ function Perspective.createView(numLayers)
 	function view:scale(scaleHandler)
 	    if not doingScaling then
 	        doingScaling = true
-	        --self:applyBounds(false)
 	        self:cancel()
-	        --self:removeFocus()
-	        --ccx,ccy=0,0
 
 	        local bound1 = layer[2][1]
 			local bound2 = layer[2][2]
@@ -627,12 +624,6 @@ function Perspective.createView(numLayers)
 
 	        self:track()
 	        doingScaling = false
-	        
-	        --[[after(500, function() 
-	        	self:applyBounds(true)
-	        	self:track()
-	        	doingScaling = false
-	        end)]]
 		end
 	end
 
