@@ -14,14 +14,14 @@ local restoreChecked     = false
 local productIds = {
     planetPack1       = "planet_pack1",
     planetPack2       = "planet_pack2",
-    gearPackJumpSmall = "gear_pack_jump_small",
-    gearPackJumpLarge = "gear_pack_jump_large",
-    gearPackAirSmall  = "gear_pack_air_small",
-    gearPackAirLarge  = "gear_pack_air_large",
-    gearPackLandSmall = "gear_pack_land_small",
-    gearPackLandLarge = "gear_pack_land_large",
-    gearPackAllSmall  = "gear_pack_all_small",
-    gearPackAllLarge  = "gear_pack_all_large",
+    gearPackJumpSmall = "iap_gear_pack_jump_small",
+    gearPackJumpLarge = "iap_gear_pack_jump_large",
+    gearPackAirSmall  = "iap_gear_pack_air_small",
+    gearPackAirLarge  = "iap_gear_pack_air_large",
+    gearPackLandSmall = "iap_gear_pack_land_small",
+    gearPackLandLarge = "iap_gear_pack_land_large",
+    gearPackAllSmall  = "iap_gear_pack_all_small",
+    gearPackAllLarge  = "iap_gear_pack_all_large",
 }
 
 local productData = {
