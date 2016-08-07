@@ -20,8 +20,8 @@ local productIds = {
     gearPackAirLarge  = "iap_gear_pack_air_large",
     gearPackLandSmall = "iap_gear_pack_land_small",
     gearPackLandLarge = "iap_gear_pack_land_large",
-    gearPackAllSmall  = "iap_gear_pack_all_small",
-    gearPackAllLarge  = "iap_gear_pack_all_large",
+    gearPackAllSmall  = "iap_gear_pack_everything_small",
+    gearPackAllLarge  = "iap_gear_pack_everything_large",
 }
 
 local productData = {
@@ -193,11 +193,11 @@ function scene:storeProductsLoaded(event)
         local pid     = product.productIdentifier
         local price   = product.localizedPrice
         
-        local s = tostring(i)..". valid: "
+        --[[local s = tostring(i)..". valid: "
         for k,v in pairs(product) do
             s = s..tostring(k).."="..tostring(v)..", "
-        end
-        updateDebugPanel(s)
+        end--]]
+        --updateDebugPanel(tostring(i)..". valid: "..pid.." £"..price)
 
         if price and pid and productData.iap[pid] then
             productData.iap[pid].cost = price 
@@ -410,15 +410,16 @@ function scene:storeTransaction(event)
     local transaction = event.transaction
 
     if transaction.state == "purchased" or transaction.state == "restored" then
-        local restore = false
-
-        play(sounds.shopPurchase)
         self.unlockedItems = {}
+        local restore      = false
 
         -- handle restorePurchases: as this will not be nil if a purchase event occured
         if transactionProduct == nil then
             transactionProduct = productData.iap[transaction.productIdentifier]
+            updateDebugPanel("restoring "..tostring(transactionProduct.id))
             restore = true
+        else
+            play(sounds.shopPurchase)
         end
         
         if transactionProduct and not state:hasPurchased(transactionProduct.id) then
@@ -661,11 +662,11 @@ function scene:displayPlanetUnlocked(planet, restore)
         product.buyButton2 = nil
     end
 
-    newBlocker(self.view)
-    self:animatePurchases(500, 1000, 500)
-
     -- dont change scenes if restoring
     if not restore then
+        newBlocker(self.view)
+        self:animatePurchases(500, 1000, 500)
+
         local seq = anim:chainSeq("showUnlocks", self.view)
         seq:callback(function() 
             state.data.planetSelected = planet
