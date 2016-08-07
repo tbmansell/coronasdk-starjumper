@@ -179,7 +179,7 @@ function scene:displayHud()
     spineStore:load(spineCollection)
 
     self.labelCubes, self.labelScore, self.playerIcon = newMenuHud(group, spineStore, scene.exitToShop, scene.exitToPlayerStore)
-    newMenuHudIcons(group, scene.exitToInApStore, scene.exitToPlanetProgress)
+    newMenuHudIcons(group, scene.exitToInApStore, scene.exitToPlanetProgress, scene.exitToFruityMachine)
 
     self.holobar = new_image(self.view, "select-game/challenges-holobar", centerX, 55, nil, 0)
 end
@@ -1101,6 +1101,47 @@ function scene:exitToInApStore()
 end
 
 
+function scene:exitToFruityMachine()
+    if not scene.blockInput and not scene.tappedRewardVideo then
+        scene.tappedRewardVideo = true
+
+        local group  = new_group()
+        local prompt = newImage(group, "message-tabs/tutorial-leftbox",   700, 450)
+        local text   = newText(group,  "watch a video to earn a reward?", 700, 380, 0.37, "white")
+
+        local handler = function()
+            if not scene.blockInput then
+                scene.blockInput         = true
+                state.musicSceneContinue = false
+
+                audio.fadeOut({channel=scene.musicChannel, time=1000})
+
+                after(4000, function() scene.blockInput = false end)
+
+                adverts:loadRewardVideoAdvert(function() composer.gotoScene("scenes.fruit-machine") end)
+            end
+        end
+
+        newButton(group, 700, 440, "playvideo", handler, nil, nil, 0.9)
+
+        scene.rewardVideoPrompt = group
+        scene.view:insert(group)
+    else
+        scene:removeFruityMachine()
+    end
+    return true
+end
+
+
+function scene:removeFruityMachine()
+    if scene.rewardVideoPrompt then
+        scene.rewardVideoPrompt:removeSelf()
+        scene.rewardVideoPrompt = nil
+        scene.tappedRewardVideo = false
+    end
+end
+
+
 -- Called when scene is about to move offscreen:
 function scene:hide(event)
     if event.phase == "will" then
@@ -1113,6 +1154,8 @@ function scene:hide(event)
 
         -- NOTE: dont call anim:destroy() as this means exit animations wont always finish and the next time mthe scene items are misplaced
         self:stopPulsing()
+        self:removeFruityMachine()
+
         particles:destroy()
         stopSparkles()
         logAnalyticsEnd()

@@ -279,8 +279,8 @@ end
 -- Creates a new ring object that is visual only and not part of the physics or game engine
 -- @return spineObject
 ----
-function spineStore:newRing(color)
-    return builder:newSpineObject({type="ring"}, {jsonName="rings", imagePath="collectables", scale=0.7, skin=colorNames[color], animation="Pulse"})
+function spineStore:newRing(params)
+    return builder:newSpineObject({type="ring"}, {jsonName="rings", imagePath="collectables", scale=(params.size or 0.7), skin=colorNames[params.color], animation="Pulse"})
 end
 
 
@@ -651,8 +651,8 @@ end
 -- @param color
 -- @return a ring object
 ----
-function spineStore:showRing(x, y, color)
-	local ring = self:fetchObject(self.newRing, typeRing, color)
+function spineStore:showRing(x, y, color, size)
+	local ring = self:fetchObject(self.newRing, typeRing, {color=color, size=size})
 
 	if ring then
 		ring:moveTo(x, y)

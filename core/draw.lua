@@ -210,48 +210,27 @@ function newMenuHud(group, spineStore, toStore, toPlayerSelect, toInAppStore, to
 end
 
 
-function newMenuHudIcons(group, toInAppStore, toProgress)
+function newMenuHudIcons(group, toInAppStore, toProgress, toFruity)
     local iconProgress = newImage(group, "hud/hud-tab-progress", 520, 545)
     local iconFruity   = newImage(group, "hud/hud-tab-random",   625, 545)
     local iconStore    = newImage(group, "hud/hud-tab-shop",     730, 545)
 
-    iconProgress:addEventListener("tap", function()
-        if not iconProgress.activated then
-            iconProgress.activated = true
-            after(400, function() if iconProgress then iconProgress.activated = false end end)
+    local handler = function(object, callback)
+        if not object.activated then
+            object.activated = true
+            after(400, function() if object then object.activated = false end end)
 
-            local seq  = anim:chainSeq("iconProgress", iconProgress)
-            seq:tran({time=150, scale=1.1})
-            seq:tran({time=150, scale=1})
-            seq.onComplete = toProgress
+            local seq  = anim:chainSeq("iconTap", object)
+            seq:tran({time=150, scale=1.1, transition = easing.outBack})
+            seq:tran({time=150, scale=1,   transition = easing.outBack})
+            seq.onComplete = callback
             seq:start()
         end
-    end)
+    end
 
-    iconFruity:addEventListener("tap", function()
-        if not iconFruity.activated then
-            iconFruity.activated = true
-            after(400, function() if iconFruity then iconFruity.activated = false end end)
-
-            local seq = anim:chainSeq("iconFruity", iconFruity)
-            seq:tran({time=150, scale=1.1})
-            seq:tran({time=150, scale=1})
-            seq:start()
-        end
-    end)
-
-    iconStore:addEventListener("tap", function()
-        if not iconStore.activated then
-            iconStore.activated = true
-            after(400, function() if iconStore then iconStore.activated = false end end)
-        
-            local seq = anim:chainSeq("iconStore", iconStore)
-            seq:tran({time=150, scale=1.1})
-            seq:tran({time=150, scale=1})
-            seq.onComplete = toInAppStore
-            seq:start()
-        end
-    end)
+    iconProgress:addEventListener("tap", function() handler(iconProgress, toProgress)   end)
+    iconFruity:addEventListener("tap",   function() handler(iconFruity,   toFruity)     end)
+    iconStore:addEventListener("tap",    function() handler(iconStore,    toInAppStore) end)
 
     return iconProgress
 end

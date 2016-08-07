@@ -74,36 +74,41 @@ end
 
 -- Show a full-screen video advert
 function adverts:loadVideoAdvert()
-	self:loadVungleAdvert("interstitial")
+	return self:loadVungleAdvert("interstitial")
 end
 
 
 -- Show a full screen video advert which triggers a callback if the video is fully viewed
 function adverts:loadRewardVideoAdvert(successCallback)
-	self:loadVungleAdvert("incentivized", successCallback)
+	return self:loadVungleAdvert("incentivized", successCallback)
 end
 
 
 function adverts:loadVungleAdvert(advertType, successCallback)
 	local appId = self.vungle[system.getInfo("platformName")]
 
-	-- listener triggered by ad provider
-    local function adListener(event)
-    	for property, value in pairs(event) do
-    		self:debugAdvertEvent(event)
+	if appId then
+		-- listener triggered by ad provider
+	    local function adListener(event)
+	    	for property, value in pairs(event) do
+	    		self:debugAdvertEvent(event)
 
-            if property == "isCompletedView" and (value == true or value == "true") and successCallback then
-            	successCallback()
-            end
-        end
-    end
+	            if property == "isCompletedView" and (value == true or value == "true") and successCallback then
+	            	successCallback()
+	            end
+	        end
+	    end
 
-    displayDebugPanel("init video advert: "..appId)
+	    displayDebugPanel("init video advert: "..appId)
 
-    vungleAds.init("vungle", appId, adListener)
-	
-	self.attempts = 0
-	self:checkVungleAdvert(advertType)
+	    vungleAds.init("vungle", appId, adListener)
+		
+		self.attempts = 0
+		self:checkVungleAdvert(advertType)
+		return true
+	else
+		return false
+	end
 end
 
 

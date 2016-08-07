@@ -1,4 +1,4 @@
-local composer = require("composer")
+local composer   = require("composer")
 local anim       = require("core.animations")
 local builder    = require("level-objects.builders.builder")
 local spineStore = require("level-objects.collections.spine-store")
