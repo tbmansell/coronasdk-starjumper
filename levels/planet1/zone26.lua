@@ -2,7 +2,7 @@ local levelData = {
     name             = "yeah, its possible",
     floor            = display.contentHeight+750,
     ceiling          = -display.contentHeight*2,
-    timeBonusSeconds = 45,
+    timeBonusSeconds = 150,
     startLedge       = 1,
 
     backgroundOrder = {
