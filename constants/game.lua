@@ -41,8 +41,8 @@ raceGameType = {
 
 -- basic planet info
 planetData = {
-    [1] = {name="organia",      color="purple", normalZones=21, secretZones=4, fuzzies=22},
-    [2] = {name="apocalypsoid", color="blue",   normalZones=21, secretZones=4, fuzzies=22, buyMode="both"},
+    [1] = {name="organia",      color="purple", normalZones=21, secretZones=5, fuzzies=22},
+    [2] = {name="apocalypsoid", color="blue",   normalZones=21, secretZones=5, fuzzies=22, buyMode="both"},
     [3] = {name="broken earth", color="green",  normalZones=0,  secretZones=0, fuzzies=0,  buyMode="both", comingSoon=true},
 }
 

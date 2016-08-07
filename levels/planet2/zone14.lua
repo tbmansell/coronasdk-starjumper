@@ -186,7 +186,7 @@ local levelData = {
         ----------- inside ledges 4
 
         {object="obstacle", x=170, y=-130, timerOn=4000, timerOff=2500, type="electricgate"},  
-            {object="spike", x=870,  y=-1117, type="fg-wall-dividerx2-spiked", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},  
+            {object="spike", x=450,  y=-690, type="fg-wall-dividerx2-spiked2", rotation=90, physics={shapeOffset={bottom=0, left=0}, bounce=1}},  
 
         {object="ledge", x=740, y=350, type="finish"}
     },

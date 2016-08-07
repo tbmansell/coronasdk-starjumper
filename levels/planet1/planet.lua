@@ -36,10 +36,10 @@ local planetData = {
         [21] = { x=3550, y=390, hint={gearShield,      gearFreezeTime,  gearGlider},      special=true},
         -- secret zones:
         [22] = { x=3900, y=350, hint={gearTrajectory,  gearShield,      gearGloves},      secret=true },
-        [23] = { x=4200, y=400, hint={gearFreezeTime,  gearShield,      gearGlider},      secret=true },
-        [24] = { x=4350, y=280, hint={gearReverseJump, gearGrappleHook, gearJetpack},     secret=true },
-        [25] = { x=4500, y=450, hint={gearTrajectory,  gearGlider,      gearGrappleHook}, secret=true },
-       -- [26] = { x=4500, y=550, hint={gearParachute,   gearGlider,      gearGloves},      secret=true },
+        [23] = { x=4025, y=500, hint={gearFreezeTime,  gearShield,      gearGlider},      secret=true },
+        [24] = { x=4200, y=400, hint={gearReverseJump, gearGrappleHook, gearJetpack},     secret=true },
+        [25] = { x=4350, y=280, hint={gearTrajectory,  gearGlider,      gearGrappleHook}, secret=true },
+        [26] = { x=4500, y=450, hint={gearParachute,   gearGlider,      gearGloves},      secret=true },
 
     },
 

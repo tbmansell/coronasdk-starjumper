@@ -60,7 +60,7 @@ local levelData = {
             {object="rings", color=aqua, pattern={ {400,-400}, {100,-75}, {100,-75} }},
 
             {object="enemy", type="greyshooter", x=600, y=-550, size=0.5, 
-                shooting={minWait=2, maxWait=5, velocity={x=700, y=200, varyX=200, varyY=300}, itemsMax=10, ammo={negDizzy, negTrajectory}},
+                shooting={minWait=2, maxWait=5, velocity={x=700, y=200, varyX=200, varyY=300}, itemsMax=5, ammo={negDizzy, negTrajectory}},
                 movement={pattern=moveTemplateCross, reverse=true, isTemplate=true, distance=250, speed=3, pause=500, moveStyle=moveStyleSwayBig, pauseStyle=moveStyleSwayBig}
             },
 
