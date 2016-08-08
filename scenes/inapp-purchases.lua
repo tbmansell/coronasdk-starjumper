@@ -371,25 +371,20 @@ end
 
 -- Use for Real Transactions
 function scene:purchase(product)
-    displayDebugPanel("purchase: "..product.id)
-    
-    if store == nil then
-        updateDebugPanel("Purchase "..product.id.." failed: purchases not available as no store loaded")
-        return
-    end
+    if store then
+        if store.canMakePurchases then
+            transactionProduct = product
 
-    if store.canMakePurchases then
-        transactionProduct = product
-
-        if googleIAP then
-            -- calls storeTransaction() 
-            store.purchase(product.id)
+            if googleIAP then
+                -- calls storeTransaction() 
+                store.purchase(product.id)
+            else
+                -- calls storeTransaction() 
+                store.purchase({product.id})
+            end
         else
-            -- calls storeTransaction() 
-            store.purchase({product.id})
+            updateDebugPanel("Store purchases have been disabled in phone settings")
         end
-    else
-        updateDebugPanel("Store purchases have been disabled in phone settings")
     end
 end
 
@@ -408,73 +403,88 @@ end
 function scene:storeTransaction(event)
     local self        = scene
     local transaction = event.transaction
+    local state       = transaction.state
+    local pid         = transaction.productIdentifier
 
-    if transaction.state == "purchased" or transaction.state == "restored" then
-        self.unlockedItems = {}
-        local restore      = false
+    if state ~= "failed" then
+        logAnalyticsEvent("iap:"..tostring(state), {product=tostring(pid), store=tostring(storeName)})
+        updateDebugPanel("iap:"..tostring(state).." product="..tostring(pid))
+    end
 
-        -- handle restorePurchases: as this will not be nil if a purchase event occured
-        if transactionProduct == nil then
-            transactionProduct = productData.iap[transaction.productIdentifier]
-            updateDebugPanel("restoring "..tostring(transactionProduct.id))
-            restore = true
-        else
-            play(sounds.shopPurchase)
-        end
-        
-        if transactionProduct and not state:hasPurchased(transactionProduct.id) then
-            local planet = transactionProduct.planet
-            local gear   = transactionProduct.gear
-            local size   = transactionProduct.size
+    if state == "purchased" or state == "restored" then
+        self:storeTransactionPurchased(event, transaction)
 
-            if planet then
-                if     planet == 1 then self:purchasedPlanetPack1(restore)
-                elseif planet == 2 then self:purchasedPlanetPack2(restore) end
-            elseif gear then
-                if     gear == jump  and size == "small" then self:purchasedSmallJumpGearPack()
-                elseif gear == jump  and size == "large" then self:purchasedLargeJumpGearPack()
-                elseif gear == air   and size == "small" then self:purchasedSmallAirGearPack()
-                elseif gear == air   and size == "large" then self:purchasedLargeAirGearPack()
-                elseif gear == land  and size == "small" then self:purchasedSmallLandGearPack()
-                elseif gear == land  and size == "large" then self:purchasedLargeLandGearPack()
-                elseif gear == "all" and size == "small" then self:purchasedSmallAllGearPack()
-                elseif gear == "all" and size == "large" then self:purchasedLargeAllGearPack() end
-            end
+    elseif state == "refunded" then
+        self:storeTransactionRefunded(event, transaction)
 
-            state:saveGame()
-            transactionProduct = nil
-        end
-
-    elseif transaction.state == "refunded" then
-        -- Google Play allows for IAP refunds - so disable the functionality ... pretty tough to work out though
-        transactionProduct = productData.iap[transaction.productIdentifier]
-
-        if transactionProduct then
-            local planet = transactionProduct.planet
-
-            -- Currently: can only refund planet packs not consumables such as gear
-            if planet then
-                if     planet == 1 then self:refundPlanetPack1()
-                elseif planet == 2 then self:refundPlanetPack2() end
-            end
-
-            state:saveGame()
-        end
-
-    elseif transaction.state == "cancelled" then
+    elseif state == "cancelled" then
         play(sounds.shopCantBuy)
-        updateDebugPanel("Purchase cancelled: "..tostring(transaction.productIdentifier))
 
-    elseif transaction.state == "failed" then
+    elseif state == "failed" then
         play(sounds.shopCantBuy)
-        updateDebugPanel("Purchase failed: "..tostring(transaction.productIdentifier).." => "..tostring(event.errorType).." "..tostring(event.errorString))
+        logAnalyticsEvent("iap:failed", {product=tostring(pid), store=tostring(storeName), error=tostring(event.errorType).." "..tostring(event.errorString)})
+        updateDebugPanel("Purchase failed: "..tostring(pid).." => "..tostring(event.errorType).." "..tostring(event.errorString))
     else
         play(sounds.shopCantBuy)
-        updateDebugPanel("Purchase other status: "..tostring(transaction.state).." "..tostring(transaction.productIdentifier))
     end
 
     if store then
         store.finishTransaction(transaction)
+    end
+end
+
+
+function scene:storeTransactionPurchased(event, transaction)
+    self.unlockedItems = {}
+    local restore      = false
+
+    -- handle restorePurchases: as this will not be nil if a purchase event occured
+    if transactionProduct == nil then
+        transactionProduct = productData.iap[transaction.productIdentifier]
+        restore = true
+    else
+        play(sounds.shopPurchase)
+    end
+    
+    if transactionProduct and not state:hasPurchased(transactionProduct.id) then
+        local planet = transactionProduct.planet
+        local gear   = transactionProduct.gear
+        local size   = transactionProduct.size
+
+        if planet then
+            if     planet == 1 then self:purchasedPlanetPack1(restore)
+            elseif planet == 2 then self:purchasedPlanetPack2(restore) end
+        elseif gear then
+            if     gear == jump  and size == "small" then self:purchasedSmallJumpGearPack()
+            elseif gear == jump  and size == "large" then self:purchasedLargeJumpGearPack()
+            elseif gear == air   and size == "small" then self:purchasedSmallAirGearPack()
+            elseif gear == air   and size == "large" then self:purchasedLargeAirGearPack()
+            elseif gear == land  and size == "small" then self:purchasedSmallLandGearPack()
+            elseif gear == land  and size == "large" then self:purchasedLargeLandGearPack()
+            elseif gear == "all" and size == "small" then self:purchasedSmallAllGearPack()
+            elseif gear == "all" and size == "large" then self:purchasedLargeAllGearPack() end
+        end
+
+        state:saveGame()
+        transactionProduct = nil
+    end
+end
+
+
+function scene:storeTransactionRefunded(event, transaction)
+    -- Google Play allows for IAP refunds - so disable the functionality ... pretty tough to work out though
+    transactionProduct = productData.iap[transaction.productIdentifier]
+
+    if transactionProduct then
+        local planet = transactionProduct.planet
+
+        -- Currently: can only refund planet packs not consumables such as gear
+        if planet then
+            if     planet == 1 then self:refundPlanetPack1()
+            elseif planet == 2 then self:refundPlanetPack2() end
+        end
+
+        state:saveGame()
     end
 end
 
