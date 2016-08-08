@@ -87,14 +87,30 @@ function scene:selectRandomizer(item)
         play(sounds.checkpoint)
         item:animate("Activated")
 
-        self.rewardColor = math.random(3)
-        self.ring = spineStore:showRing(item:x(), item:y()-75, self.rewardColor, 2.5)
+        self.rewardCubes = math.random(3)
+        self.ring = spineStore:showRing(item:x(), item:y()-75, self.rewardCubes, 2.5)
 
         local seq = anim:chainSeq("randomizer", item.image)
         seq:callback(function() 
             local seq2 = anim:chainSeq("ring", self.ring.image)
             seq2:tran({y=self.ring:y()-200, time=500, transition=easing.outCirc,   playSound=soundEngine:getRandomRing() })
-            seq2:tran({y=self.ring:y(),     time=500, transition=easing.outBounce, playSound=sounds.awardStar})
+            seq2:tran({y=self.ring:y(),     time=500, transition=easing.outBounce, playSound=sounds.bounce})
+            seq2:callback(function()
+                local startX = 380
+                if     self.rewardCubes == 2 then startX = 330
+                elseif self.rewardCubes == 3 then startX = 280 end
+
+                for i=1, self.rewardCubes do
+                    local cube = spineStore:showHoloCube(startX+(i*100), 550, 0.5)
+                    cube:hide()
+
+                    local seqCube = anim:chainSeq("cube", cube.image)
+                    seqCube:tran({time=250, alpha=0.8, playSound=sounds.awardStar})
+                end
+
+                anim:startQueue("cube")
+            end)
+            seq2:wait(750)
             seq2.onComplete = scene.complete
             seq2:start()
         end)
@@ -107,8 +123,8 @@ end
 function scene:complete()
     local self = scene
 
-    if self.rewardColor >= 1 and self.rewardColor <= 3 then
-        state:addHolocubes(self.rewardColor)
+    if self.rewardCubes >= 1 and self.rewardCubes <= 3 then
+        state:addHolocubes(self.rewardCubes)
         state:saveGame()
     end
 
@@ -117,7 +133,7 @@ end
 
 
 function scene:exitFruitMachine()
-    after(1000, function() composer.gotoScene(state:backScene()) end)
+    after(2000, function() composer.gotoScene(state:backScene()) end)
 end
 
 
