@@ -348,18 +348,22 @@ function player:gliderStarted()
     self:sound("gearAir")
     self.skeleton:setAttachment("Back - POWER UP ATTACHMENT", "attachment-glider-glider")
     self:animate("Powerup GLIDER")
-    self:setGravity(0.1)
     self.gliding = true
 
     local xpos, ypos = -60, -65
-    if self.direction == left then xpos, ypos = 60, -65 end
+    local xvel, yvel = 400, 0
 
-    local scale = self:getCamera().scaleVelocity
-    local xvel, yvel = 400*scale, 0
-    if self.direction == left then xvel = -xvel end
+    if self.direction == left then 
+        xpos = -xpos
+        xvel = -xvel
+    end
+
+    -- NOTE: camera.scaleVelocity of 0.65 doesnt quite fit for glider action    
+    if self:getCamera().scaleMode then xvel = xvel * 0.70 end
 
     self:bindEmitter("jump-trail", {xpos=xpos, ypos=ypos, alpha=0.75})
-    self.image:setLinearVelocity(xvel, yvel)
+    self:setGravity(0.1)
+    self:applyForce(xvel, yvel)
 end
 
 
