@@ -416,7 +416,7 @@ function anim:createTransitionEffect(seq, eventHandler)
             params.scale = nil
         end
 
-        if params.ease ~= nil then
+        if params.ease then
             if     params.ease == "bounce" then params.transition = easing.outBounce
             elseif params.ease == "whizz"  then params.transition = easing.inQuart
             elseif params.ease == "spring" then params.transition = easing.outBack
@@ -425,10 +425,10 @@ function anim:createTransitionEffect(seq, eventHandler)
         end
 
         -- do extra targets first, so they dont include the onComplete event
-        if seq.target2 ~= nil then
+        if seq.target2 then
             table.insert(seq.transitionHandles, transition.to(seq.target2, params))
         end
-        if seq.target3 ~= nil then
+        if seq.target3 then
             table.insert(seq.transitionHandles, transition.to(seq.target3, params))
         end
 
@@ -550,13 +550,13 @@ local function glowLoop(seq, handler)
     handle = transition.to(seq.target, {alpha=alpha, time=time, delay=delay, onComplete=function() glowLoop(seq, handler) end})
     table.insert(seq.transitionHandles, handle)
 
-    if seq.target2 ~= nil then
+    if seq.target2 then
         if switch then alpha = salpha end
         handle2 = transition.to(seq.target2, {alpha=alpha, time=time, delay=delay})
         table.insert(seq.transitionHandles, handle2)
     end
 
-    if seq.target3 ~= nil then
+    if seq.target3 then
         if switch then alpha = salpha end
         handle3 = transition.to(seq.target3, {alpha=alpha, time=time, delay=delay})
         table.insert(seq.transitionHandles, handle3)
@@ -619,11 +619,11 @@ local function countNumLoop(seq, handler)
     
     seq.target:setText(handler.currentNumValue..appendText)
     
-    if seq.target2 ~= nil then
+    if seq.target2 then
         countNumLoopUpdateTarget(handler, seq.target2, p.ratio2, p.align2, p.xpos2)
     end
     
-    if seq.target3 ~= nil then
+    if seq.target3 then
         countNumLoopUpdateTarget(handler, seq.target3, p.ratio3, p.align3, p.xpos3)
     end
     
@@ -713,7 +713,7 @@ function anim:addNumber(label, iterations, delay, addPerIteration, onComplete)
         label.text = start
         i = i + 1
         -- call back on last iteration
-        if i >= iterations and onComplete ~= nil then
+        if i >= iterations and onComplete then
             onComplete()
         end
     end, iterations)
@@ -734,7 +734,7 @@ function anim:addNumberFrom(labelFrom, labelTo, delay, addPerIteration, onComple
         labelTo.text = to
         labelFrom.text = from
         -- call back on last iteration if passed
-        if from < 1 and onComplete ~= nil then
+        if from < 1 and onComplete then
             onComplete()
         end
     end, loop)

@@ -142,14 +142,15 @@ function hud:levelStartedSequence()
     if not hud.startedSequenceRan then
         hud.startedSequenceRan = true
 
-        local seq = anim:chainSeq("startLevelButtons", hud.startLevelGroup, true)
-        seq:tran({time=250, y=900, ease=easing.inOutCirc})
-
         -- get rid of the start message:
         anim:destroyQueue("levelMessage")
-        seq:start()
-        
         spineStore:hideStartMarker(self.camera)
+
+        local seq = anim:chainSeq("startLevelButtons", hud.startLevelGroup, true)
+        seq:tran({time=250, y=900, ease=easing.inOutCirc})
+        -- specifically destroy the queue as the pulses wont stop otherwise
+        seq.onComplete = function() anim:destroyQueue("startLevelButtons") end
+        seq:start()
     end
 end
 
