@@ -1,12 +1,12 @@
 local planetData = {
     name         = "organia",
     gameUnlocks  = {
-        [gameTypeTimeRunner]  = {stars=50},
-        [gameTypeClimbChase]  = {stars=60},
-        [gameTypeArcadeRacer] = {stars=70},
+        [gameTypeTimeRunner]  = {stars=20},  -- lower than normal to treat like a trial
+        [gameTypeClimbChase]  = {stars=50},
+        [gameTypeArcadeRacer] = {stars=60},
         [gameTypeSurvival]    = {fuzzies=7},
         [gameTypeTimeAttack]  = {fuzzies=14},
-        [gameTypeRace]        = {fuzzies=22},
+        [gameTypeRace]        = {fuzzies=21},
     },
     unlockFriend = characterSkyanna,
     unlockEnemy  = characterKranio,

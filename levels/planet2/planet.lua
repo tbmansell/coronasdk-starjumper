@@ -2,9 +2,9 @@ local planetData = {
     name         = "apocalypsoid",
     totalFuzzies = 22,
     gameUnlocks  = {
-        [gameTypeTimeRunner]  = {stars=50},
-        [gameTypeClimbChase]  = {stars=60},
-        [gameTypeArcadeRacer] = {stars=70},
+        [gameTypeTimeRunner]  = {stars=40},
+        [gameTypeClimbChase]  = {stars=50},
+        [gameTypeArcadeRacer] = {stars=60},
         [gameTypeSurvival]    = {fuzzies=7},
         [gameTypeTimeAttack]  = {fuzzies=14},
         [gameTypeRace]        = {fuzzies=21},
