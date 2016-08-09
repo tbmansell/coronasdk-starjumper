@@ -440,6 +440,8 @@ end
 
 
 function player:grabObstacle(obstacle)
+    self:freezeTimeExpired()
+
     if self.mode ~= playerKilled then
         self.attachedObstacle = obstacle
 
