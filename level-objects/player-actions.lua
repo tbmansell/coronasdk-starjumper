@@ -24,6 +24,7 @@ local player = {
 	-- grabObstacle()
 	-- missLedge()
 	-- miss()
+    -- hitWall()
 	-- addKey()
 	-- hasKey()
 	-- moveOnLedge()
@@ -499,6 +500,17 @@ function player:miss(edge, delay)
         -- make solid again so we can fall on any ledges below
         after(delay or 500, function() self:solid() end)
     end 
+end
+
+
+function player:hitWall()
+    self:soundLand(true)
+    self:setGravity(1)
+    self:destroyEmitter()
+    self:destroyVehicle()
+    self:emit("landing-whitegood", {ypos=self:y()-50, alpha=0.75})
+    self:animate("Landing FAR EDGE")
+    self.skeleton:setAttachment("Back - POWER UP ATTACHMENT", nil)
 end
 
 

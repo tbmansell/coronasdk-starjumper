@@ -90,12 +90,7 @@ end
 -- @param player
 ----
 function scenery:playerCollideWall(player)
-    player:soundLand(true)
-    player:destroyEmitter()
-    player:destroyVehicle()
-    player:emit("landing-whitegood", {ypos=player:y()-50, alpha=0.75})
-    player:animate("Landing FAR EDGE")
-    player.image.gravityScale = 1
+    player:hitWall()
 
     -- put a check in place that if we bounce off the same self 3 or more times we kill the player to avoid bouncing forever
     player.repeatWallCollision = player.repeatWallCollision or 0

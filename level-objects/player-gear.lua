@@ -366,7 +366,7 @@ end
 function player:gliderExpired()
     self.gliding = false
     self:setGravity(1)
-    self.skeleton:setAttachment("Back Attachment", nil)
+    self.skeleton:setAttachment("Back - POWER UP ATTACHMENT", nil)
     self:animate("Death JUMP HIGH")
 end
 
