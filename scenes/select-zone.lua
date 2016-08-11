@@ -1,6 +1,5 @@
 local composer           = require("composer")
-local physics            = require("physics")
-local TextCandy          = require("text_candy.lib_text_candy")
+local sharedScene        = require("scenes.shared")
 local cameraLoader       = require("core.camera")
 local anim               = require("core.animations")
 local soundEngine        = require("core.sound-engine")
@@ -67,6 +66,9 @@ end
 -- Called when the scene's view does not exist:
 function scene:create(event)
     globalIgnorePhysicsEngine  = true
+
+    -- assign shared functions
+    sharedScene:loadFruityMachine(self)
 
     movingCollection      = builder:newMovementCollection()
     spineCollection       = builder:newSpineCollection()
@@ -152,7 +154,6 @@ function scene:createSceneMoveableContent(event)
 
     self:createAnimatedItems(camera, moveable)
 
-    --local overlay = display.newImage(moveable, "levels/"..planet.."/images/zone-select-overlay.png", 2400, centerY-10, true)
     local overlay = display.newImageRect(moveable, "levels/"..planet.."/images/zone-select-overlay.png", system.ResourceDirectory, 4800, backgroundHeight)
     overlay.x, overlay.y = 2400, centerY-10
 
@@ -357,7 +358,7 @@ function scene:displayHud()
     self.borderGroup = display.newGroup()
 
     newMenuHud(self.borderGroup, spineStore, scene.exitToShop, scene.exitToPlayerStore)
-    newMenuHudIcons(self.borderGroup, scene.exitToInAppStore, scene.exitToPlanetProgress)
+    newMenuHudIcons(self.borderGroup, scene.exitToInAppStore, scene.exitToPlanetProgress, scene.exitToFruityMachine)
 
     newImage(self.borderGroup, "select-game/banner-planet"..state.data.planetSelected, 310, 597)
     newText(self.borderGroup, data.name, centerX, 600, 0.8, data.color, "CENTER")
@@ -561,7 +562,7 @@ function scene:animatePlayerProgression()
         local next  = self.zones[i]
         local sound = soundEngine:getRandomPlayerCelebrate(state.data.playerModel)
         
-        seq:callback(function() 
+        seq:callback(function()
             if next.image.x < scene.player.image.x then
                 scene.player:loop("Walk BACKWARD")
             else
@@ -603,7 +604,6 @@ end
 
 
 function scene:exitToPlanetSelect()
-    --play(sounds.sceneEnter)
     loadSceneTransition()
     after(1000, function() composer.gotoScene(state:backScene(), {effect="fade", time=750}) end)
     return true
@@ -648,7 +648,6 @@ function scene:hide(event)
         track:cancelEventHandles()
 
         anim:destroy()
-        --particles:destroy()
         friendCollection:destroy()
         enemyCollection:destroy()
         obstacleCollection:destroy()
@@ -661,10 +660,6 @@ function scene:hide(event)
         camera.destroy()
         soundEngine:destroy()
 
-        --self.progressText:removeInOutTransition()
-        --self.progressText:removeSelf()
-        --self.progressText = nil
-
         self:closePopup()
         self.player:destroy()
         self.zones.stars:removeSelf()
@@ -672,9 +667,6 @@ function scene:hide(event)
         self.borderGroup:removeSelf()
         self.moveable:removeSelf()
         self.front:removeSelf()
-        --self.labelCubes:removeSelf()
-        --self.labelScore:removeSelf()
-        --self.playerIcon:removeSelf()
 
         cameraHolder      = nil
         globalIgnorePhysicsEngine = false
@@ -691,9 +683,6 @@ function scene:hide(event)
         collectableCollection = nil
         movingCollection  = nil
         spineCollection   = nil
-        --self.labelCubes   = nil
-        --self.labelScore   = nil
-        --self.playerIcon   = nil
 
         logAnalyticsEnd()
 

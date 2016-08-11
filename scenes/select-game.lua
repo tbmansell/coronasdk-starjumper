@@ -1,4 +1,5 @@
 local composer    = require("composer")
+local sharedScene = require("scenes.shared")
 local adverts     = require("core.adverts")
 local anim        = require("core.animations")
 local particles   = require("core.particles")
@@ -51,6 +52,9 @@ end
 function scene:create(event)
     self.creating = true
     self.context  = "selectPlanet"
+
+    -- assign shared functions
+    sharedScene:loadFruityMachine(self)
 
     -- Adding this call here means that we always show a single advert, only once, the first time anyone starts the game, but after they have picked an initial game choice
     adverts:forceAdvert()
@@ -157,7 +161,6 @@ function scene:displayBackground(redraw)
         self.hudTitle:removeSelf()
     end
     
-    --self.background = new_image(self.view, "select-game/bgr-"..bgrName, centerX, centerY)
     self.background = newBackground(self.view, "select-game/bgr-"..bgrName)
     self.background:toBack()
 
@@ -1098,47 +1101,6 @@ function scene:exitToInApStore()
         composer.gotoScene("scenes.inapp-purchases")
     end
     return true
-end
-
-
-function scene:exitToFruityMachine()
-    if not scene.blockInput and not scene.tappedRewardVideo then
-        scene.tappedRewardVideo = true
-
-        local group  = new_group()
-        local prompt = newImage(group, "message-tabs/tutorial-leftbox",   700, 450)
-        local text   = newText(group,  "watch a video to earn a reward?", 700, 380, 0.37, "white")
-
-        local handler = function()
-            if not scene.blockInput then
-                scene.blockInput         = true
-                state.musicSceneContinue = false
-
-                audio.fadeOut({channel=scene.musicChannel, time=1000})
-
-                after(4000, function() scene.blockInput = false end)
-
-                adverts:loadRewardVideoAdvert(function() composer.gotoScene("scenes.fruit-machine") end)
-            end
-        end
-
-        newButton(group, 700, 440, "playvideo", handler, nil, nil, 0.9)
-
-        scene.rewardVideoPrompt = group
-        scene.view:insert(group)
-    else
-        scene:removeFruityMachine()
-    end
-    return true
-end
-
-
-function scene:removeFruityMachine()
-    if scene.rewardVideoPrompt then
-        scene.rewardVideoPrompt:removeSelf()
-        scene.rewardVideoPrompt = nil
-        scene.tappedRewardVideo = false
-    end
 end
 
 
