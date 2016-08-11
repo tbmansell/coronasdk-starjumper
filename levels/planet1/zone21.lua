@@ -55,11 +55,15 @@ local levelData = {
             {object="scenery", x=0,   y=300, type="fg-wall-left"},
             {object="scenery", x=100, y=300, type="fg-wall-middle"},
             {object="scenery", x=480, y=300, type="fg-wall-right"},
-            -- bottom row of blocks
+            -- middle row of blocks
             {object="scenery", x=-150, y=400, type="fg-wall-left"},
             {object="scenery", x=-50,  y=400, type="fg-wall-middle", copy=2},
             {object="scenery", x=710,  y=400, type="fg-wall-right"},
             {object="scenery", x=650,  y=50,  type="fg-tree-4-yellow", rgb={200,100,255}},
+            -- bottom row of blocks
+            {object="scenery", x=-300, y=500, type="fg-wall-left"},
+            {object="scenery", x=-200,  y=500, type="fg-wall-middle", copy=3},
+            {object="scenery", x=930,  y=500, type="fg-wall-right"},
 
         {object="ledge", x=175, y=-200, size="medium2", flip="x"},
             {object="rings", color=aqua, trajectory={x=50, y=-150, xforce=10, yforce=100, arc=70, num=3}},
