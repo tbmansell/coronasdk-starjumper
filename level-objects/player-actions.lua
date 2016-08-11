@@ -88,17 +88,14 @@ end
 
 
 function player:taunt(sequence, delay)
-    self.mode = playerReady
+    self.mode     = playerReady
     self.taunting = true
     self:stopMomentum()
+
     local anim = sequence or math_random(3)
 
     -- This to get around a problem where AI wont taunt on level start if not looping
-    if delay then
-        after(delay, function() self:animate("Taunt "..anim) end)
-    else
-        self:animate("Taunt "..anim)
-    end
+    after(delay or 0, function() self:animate("Taunt "..anim) end)
 
     after(2000, function()
         self.taunting = false
@@ -179,9 +176,6 @@ function player:runup(xVelocity, yVelocity)
     -- scale velocity by players scaled amount: dont do for AI yet
     if self.main then
         recorder:recordAction("run-up", self.attachedLedge.key, {xvelocity=xVelocity, yvelocity=yVelocity})
-        --local scale = self:getCamera().scaleVelocity
-        --xVelocity = xVelocity * scale
-        --yVelocity = yVelocity * scale
     end
 
     self.runSound = self.attachedLedge.runSound
