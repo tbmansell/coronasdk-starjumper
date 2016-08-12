@@ -2,7 +2,7 @@ local json = require("json")
 
 local state = {
     -- filename for autosaved game
-    autosave_filename = "autosave.dat",
+    autosaveFilename = "autosave.dat",
 
     -- change this to redirect to a different scene after the current cutscene is completed
     sceneAfterCutScene = "scenes.select-zone",
@@ -944,7 +944,7 @@ end
 
 -- Gets the full filename for the autosave file
 function state:autoSaveFile()
-    return system.pathForFile(self.autosave_filename, system.DocumentsDirectory)
+    return system.pathForFile(self.autosaveFilename, system.DocumentsDirectory)
 end
 
 
