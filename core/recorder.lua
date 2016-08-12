@@ -8,7 +8,7 @@ local recorder = {
     baseSaveDir = system.DocumentsDirectory,
     baseLoadDir = system.ResourceDirectory,
     demoDir     = "demos",
-    numberDemos = 8,
+    numberDemos = 3,
 	
 	-- The number of milliseconds since game started
 	time      = nil,
