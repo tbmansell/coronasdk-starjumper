@@ -86,7 +86,7 @@ end
 function scene:createItems()
     newBackground(self.view, "select-player/bgr")
     newButton(self.view, 55,  50,  "back",   scene.exitPlayerSelect)
-    newButton(self.view, 700, 410, "select", scene.changeToPlayer, 0, "no")
+    newButton(self.view, 715, 420, "select", scene.changeToPlayer, 0, "no")
 
     -- Delays for a moment to give the scene a chance to display before the heavy player loading is done
     self.characters = {}
@@ -207,7 +207,7 @@ function scene:selectPlayer(event, playSound)
         self.model       = self.characters[player]
         self.stats       = display.newGroup()
 
-        newText(self.stats, char.name,      690, 120, 0.7,  char.color, "CENTER")
+        newText(self.stats, char.name,      715, 120, 0.7,  char.color, "CENTER")
         newText(self.stats, person.grade,   755, 185, 0.35, char.color, "LEFT")
         newText(self.stats, person.home,    755, 210, 0.35, char.color, "LEFT")
         newText(self.stats, person.age,     755, 235, 0.35, char.color, "LEFT")

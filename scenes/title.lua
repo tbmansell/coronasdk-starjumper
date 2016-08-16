@@ -28,7 +28,7 @@ function scene:create(event)
         newText(group, "version "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
     end
 
-    local options = newImage(group, "title/settings2", 25, 610)
+    local options = newImage(group, "title/settings2", 25, 590)
     options:addEventListener("tap", scene.showSettings)
 
     self.menuX   = 665

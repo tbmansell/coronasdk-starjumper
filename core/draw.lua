@@ -410,7 +410,7 @@ local function newLockedPopupGeneral(group, title, description, buymode, planet,
     state.inappPurchaseType = "planet"
     if type == "gear" then state.inappPurchaseType = "gear" end
 
-    newImage(group, "locking/popup-advert"..planet, 700, 300)
+    newImage(group, "locking/popup-advert"..planet, 700, 295)
 end
 
 
