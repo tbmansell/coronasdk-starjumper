@@ -230,28 +230,34 @@ function scene:buildPages()
 
     self:buildPlanetPage(planetGroup)
     self:buildGearPage(gearGroup)
+    self:buildComingSoonPage(specialGroup)
 end
 
 
-function scene:buildPlanetPage(planetGroup)
-    newImage(planetGroup, "inapp-purchases/planet-text", centerX, 560)
+function scene:buildPlanetPage(group)
+    newImage(group, "inapp-purchases/planet-text", centerX, 560)
 
-    self:newPlanetBuyer(planetGroup, 1, true,  190)
-    self:newPlanetBuyer(planetGroup, 2, true,  centerX)
-    self:newPlanetBuyer(planetGroup, 3, false, 770)
+    self:newPlanetBuyer(group, 1, true,  190)
+    self:newPlanetBuyer(group, 2, true,  centerX)
+    self:newPlanetBuyer(group, 3, false, 770)
 end
 
 
-function scene:buildGearPage(gearGroup)
-    newImage(gearGroup, "inapp-purchases/iap-gear-jump", 190,     280)
-    newImage(gearGroup, "inapp-purchases/iap-gear-air",  centerX, 280)
-    newImage(gearGroup, "inapp-purchases/iap-gear-land", 800,     280)
-    newImage(gearGroup, "inapp-purchases/iap-gear-all",  centerX, 540)
+function scene:buildGearPage(group)
+    newImage(group, "inapp-purchases/iap-gear-jump", 190,     280)
+    newImage(group, "inapp-purchases/iap-gear-air",  centerX, 280)
+    newImage(group, "inapp-purchases/iap-gear-land", 800,     280)
+    newImage(group, "inapp-purchases/iap-gear-all",  centerX, 540)
 
-    self:newGearBuyers(gearGroup, 130, 335, productIds.gearPackJumpSmall, productIds.gearPackJumpLarge)
-    self:newGearBuyers(gearGroup, 425, 335, productIds.gearPackAirSmall,  productIds.gearPackAirLarge)
-    self:newGearBuyers(gearGroup, 740, 335, productIds.gearPackLandSmall, productIds.gearPackLandLarge)
-    self:newGearBuyers(gearGroup, 750, 535, productIds.gearPackAllSmall,  productIds.gearPackAllLarge)
+    self:newGearBuyers(group, 130, 335, productIds.gearPackJumpSmall, productIds.gearPackJumpLarge)
+    self:newGearBuyers(group, 425, 335, productIds.gearPackAirSmall,  productIds.gearPackAirLarge)
+    self:newGearBuyers(group, 740, 335, productIds.gearPackLandSmall, productIds.gearPackLandLarge)
+    self:newGearBuyers(group, 750, 535, productIds.gearPackAllSmall,  productIds.gearPackAllLarge)
+end
+
+
+function scene:buildComingSoonPage(group)
+    newImage(group, "inapp-purchases/coming-soon", centerX, 350)
 end
 
 

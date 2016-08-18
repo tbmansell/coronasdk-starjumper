@@ -39,7 +39,7 @@ local state = {
     -- Used for when loading a demo game: a table of actions that need to be performed in sequence
     demoActions = nil,
 
-    -- This table contains all the app state that needs saving to file
+    -- SAVED DATA: This table contains all the app state that needs saving to file
     data = {
         buildVersion   = globalBuildVersion,  -- used to determine data transforms for later versions
         playerModel    = nil,   -- int const for the player selected: eg characterNewton 
@@ -118,99 +118,105 @@ local state = {
         tutorialsAcknowledged = {},
         -- A simple list of permanent purchases (planet packs, special features) the player has made: a simple list of each product id.
         permanentPurchases    = {},
-
-        -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
-        -- This is the starting structure when nothing is unlocked.
-       --[[ unlocked = {
-            -- list of characters unlocked
-            characters = { characterNewton },
-            -- list of gear that is unlocked
-            gear = {},
-            -- list of planets that are unlocked
-            planets = {
-                [1] = {
-                    -- list of zones in planet that are unlocked
-                    zones = { 1 },
-                    -- list of game modes for planet that are unlocked
-                    games = { gameTypeStory },
-                },
-            },
-        },]]
-        -- TEST UNLOCK STRUCTURE
-        unlocked = {
-            characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
-            gear       = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
-            planets = {
-                [1] = {
-                    zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25},
-                    games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
-                },
-                [2] = {
-                    zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25},
-                    games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
-                },
-            }
-        },
-    }
-
-    -- Methods:
-    -----------
-    -- newScene()
-    -- backScene()
-    -- currentScene()
-    -- showStory()
-    -- showTutorial()
-    -- saveStoryViewed()
-    -- addHolocubes()
-    -- addGear()
-    -- useGear()
-    -- gear()
-    -- addNegable()
-    -- useNegable()
-    -- negable()
-    -- getZones()
-    -- zoneState()
-    -- currentZone()
-    -- numberZones()
-    -- numberZonesPlayable()
-    -- numberZonesCompleted()
-    -- numberZonesCompletedAs
-    -- totalStoryZonesCompleted()
-    -- highestZonesCompleted()
-    -- numberFuzziesCollected()
-    -- numberAwardsCollected()
-    -- planetStarRanking()
-    -- completeZone()
-    -- completeZoneUnlockCheck()
-    -- saveZoneFailedRace()
-    -- updateZoneRacePositions()
-    -- characterUnlocked()
-    -- gearUnlocked()
-    -- planetUnlocked()
-    -- zoneUnlocked()
-    -- gameUnlocked()
-    -- unlockCharacter()
-    -- lockCharacter()
-    -- unlockGear()
-    -- unlockPlanet()
-    -- unlockZone()
-    -- lockZone()
-    -- unlockGame()
-    -- addPurchase()
-    -- hasPurchased()
-    -- removePurchase()
-    -- initialiseData()
-    -- setupNewPlanet()
-    -- autoSaveFile()
-    -- checkForSavedGame()
-    -- saveGame()
-    -- loadSavedGame()    
-    -- resetSavedGame()
-    -- validateSavedGame()
+    }   -- end saved data
 }
 
 
+-----  SETUP THE UNLOCKED STRUCTURE -----
+
+if globalDebugGame then
+    -- TEST UNLOCK STRUCTURE
+    state.data.unlocked = {
+        characters = { characterNewton, characterSkyanna, characterKranio, characterHammer, characterReneGrey, characterRobocop },
+        gear       = { gearJetpack, gearParachute, gearGlider, gearReverseJump, gearTrajectory, gearSpringShoes, gearShield, gearFreezeTime, gearGloves, gearGrappleHook },
+        planets = {
+            [1] = {
+                zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26},
+                games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
+            },
+            [2] = {
+                zones = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26},
+                games = { gameTypeStory, gameTypeSurvival, gameTypeTimeAttack, gameTypeTimeRunner, gameTypeClimbChase }
+            },
+        }
+    }
+else
+    -- LIVE UNLOCK STRUCTURE which holds all items that player has unlocked. Anything that does not appear in here is automatically locked
+    -- This is the starting structure when nothing is unlocked.
+    state.data.unlocked = {
+        -- list of characters unlocked
+        characters = { characterNewton },
+        -- list of gear that is unlocked
+        gear = {},
+        -- list of planets that are unlocked
+        planets = {
+            [1] = {
+                -- list of zones in planet that are unlocked
+                zones = { 1 },
+                -- list of game modes for planet that are unlocked
+                games = { gameTypeStory },
+            },
+        },
+    }
+end
+
+
 ---------- MANAGE SCENE CHANGE ----------
+
+-- Methods:
+-----------
+-- newScene()
+-- backScene()
+-- currentScene()
+-- showStory()
+-- showTutorial()
+-- saveStoryViewed()
+-- addHolocubes()
+-- addGear()
+-- useGear()
+-- gear()
+-- addNegable()
+-- useNegable()
+-- negable()
+-- getZones()
+-- zoneState()
+-- currentZone()
+-- numberZones()
+-- numberZonesPlayable()
+-- numberZonesCompleted()
+-- numberZonesCompletedAs
+-- totalStoryZonesCompleted()
+-- highestZonesCompleted()
+-- numberFuzziesCollected()
+-- numberAwardsCollected()
+-- planetStarRanking()
+-- completeZone()
+-- completeZoneUnlockCheck()
+-- saveZoneFailedRace()
+-- updateZoneRacePositions()
+-- characterUnlocked()
+-- gearUnlocked()
+-- planetUnlocked()
+-- zoneUnlocked()
+-- gameUnlocked()
+-- unlockCharacter()
+-- lockCharacter()
+-- unlockGear()
+-- unlockPlanet()
+-- unlockZone()
+-- lockZone()
+-- unlockGame()
+-- addPurchase()
+-- hasPurchased()
+-- removePurchase()
+-- initialiseData()
+-- setupNewPlanet()
+-- autoSaveFile()
+-- checkForSavedGame()
+-- saveGame()
+-- loadSavedGame()    
+-- resetSavedGame()
+-- validateSavedGame()
 
 
 -- Adds a new scene name to the scene list, if it is not the current scene (so avoids sequential dups)
