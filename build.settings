@@ -34,6 +34,24 @@ settings = {
 			CFBundleDisplayName         = "Star Jumper",
             CFBundleName                = "Star Jumper",
             --CFBundleIconFiles           = {},  -- Required
+             CFBundleIconFile = "Icon.png",           
+              CFBundleIconFiles = {
+                "Icon@2x.png", 
+                "Icon.png", 
+                "Icon-xhdpi.png", 
+                "Icon-mdpi.png", 
+                "Icon-ldpi.png", 
+                "Icon-hdpi.png", 
+                "Icon-120.png", 
+                "Icon-76@2x.png", 
+                "Icon-76.png", 
+                "Icon-72@2x.png", 
+                "Icon-72.png", 
+                "Icon-60@2x", 
+            },
+ 
+
+
             --UILaunchImages              = {},  -- Required
             UIApplicationExitsOnSuspend = false,
             --UIPrerenderedIcon           = true,
