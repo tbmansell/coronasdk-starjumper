@@ -1,5 +1,7 @@
 local json = require("json")
 
+require("core.aeslua")
+
 local state = {
     -- filename for autosaved game
     autosaveFilename = "autosave.dat",
@@ -975,10 +977,11 @@ end
 -- NOTE: doesnt save while a demo is running: otherwise it allows you to bypass our unlock system to be characters recorded
 function state:saveGame()
     if self.demoActions == nil then
-        local data = json.encode(self.data)
-        local file = io.open(self:autoSaveFile(), "w")
+        local jsonData     = json.encode(self.data)
+        local encrypedData = aeslua.encrypt("H83#'[923456btsPQ!-e", jsonData)
+        local file         = io.open(self:autoSaveFile(), "w")
 
-        file:write(data)
+        file:write(encrypedData)
         io.close(file)
         file = nil
     end
@@ -987,14 +990,16 @@ end
 
 -- Loads the autosave file and replaces self.data with the contents
 function state:loadSavedGame()
-    local file = io.open(self:autoSaveFile(), "r")
-    local savedData = file:read("*a")
+    local file          = io.open(self:autoSaveFile(), "r")
+    local encryptedData = file:read("*a")
 
-    if savedData then
-        local decodedData = json.decode(savedData, 1, nil)
-        -- TODO: validate
-        if decodedData then
-            self.data = decodedData
+    if encryptedData then
+        local jsonData = aeslua.encrypt("H83#'[923456btsPQ!-e", encryptedData)
+        local gameData = json.decode(jsonData, 1, nil)
+
+        -- TODO: validate here for version changes
+        if gameData then
+            self.data = gameData
         end
     end
 
