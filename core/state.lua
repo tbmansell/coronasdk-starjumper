@@ -987,7 +987,7 @@ function state:saveGame()
         local encrypedData = aeslua.encrypt(self:getKey(), jsonData)
         local file         = io.open(self:autoSaveFile(), "wb")
 
-        file:write(data)
+        file:write(encrypedData)
         io.close(file)
         file = nil
     end
