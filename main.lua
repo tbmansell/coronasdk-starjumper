@@ -1,11 +1,15 @@
 -- Global label used for buld version
-globalBuildVersion = "0.99"
+globalBuildVersion = "0.101"
 globalDebugGame    = false
 
 -- Define global constants
 require("constants.globals")
 
 -- Define global objects
+--bit     = require("aeslua.bitlib")
+bit     = require("plugin.bit")
+
+
 state   = require("core.state")
 track   = require("core.track")
 sounds  = require("core.sounds")

@@ -30,12 +30,11 @@ settings = {
 	{
 		plist=
 		{
-            
-			CFBundleDisplayName         = "Star Jumper",
-            CFBundleName                = "Star Jumper",
-            --CFBundleIconFiles           = {},  -- Required
-             CFBundleIconFile = "Icon.png",           
-              CFBundleIconFiles = {
+            CFBundleShortVersionString = "1.0",
+			CFBundleDisplayName        = "Star Jumper",
+            CFBundleName               = "Star Jumper",
+            CFBundleIconFile           = "Icon.png",           
+            CFBundleIconFiles          = {
                 "Icon@2x.png", 
                 "Icon.png", 
                 "Icon-xhdpi.png", 
@@ -49,17 +48,10 @@ settings = {
                 "Icon-72.png", 
                 "Icon-60@2x", 
             },
- 
-
-
-            --UILaunchImages              = {},  -- Required
-            UIApplicationExitsOnSuspend = false,
-            --UIPrerenderedIcon           = true,
-            UIStatusBarHidden           = true,
-            MinimumOSVersion            = "7.0",
-            NSAppTransportSecurity      = { NSAllowsArbitraryLoads=true },
-            NSLocationAlwaysUsageDescription = { "" },
+            UIApplicationExitsOnSuspend         = false,
             NSLocationWhenInUseUsageDescription = { "" },
+            UIPrerenderedIcon                   = true,            
+            UIStatusBarHidden                   = true,
 		},
 	},
 	androidPermissions = 
@@ -82,6 +74,11 @@ settings = {
     },
     plugins = 
     {
+        ["plugin.bit"] =
+        {
+            publisherId = "com.coronalabs",
+            supportedPlatforms = { iphone=true, android=true, osx=true, win32=true }
+        },
         ["plugin.flurry.analytics"] =
         {
             publisherId = "com.coronalabs",

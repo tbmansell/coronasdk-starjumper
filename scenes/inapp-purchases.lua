@@ -576,10 +576,15 @@ end
 
 function scene:unlockPlanetPack(planet, specialCharacter)
     state:unlockPlanet(planet)
-    state:unlockZone(planet, 22)
-    state:unlockZone(planet, 23)
-    state:unlockZone(planet, 24)
-    state:unlockZone(planet, 25)
+
+    local data      = planetData[planet]
+    local startZone = data.normalZones + 1
+    local endZone   = data.normalZones + data.secretZones
+
+    for zone = startZone, endZone do
+        state:unlockZone(planet, zone)
+    end
+
     state:unlockGame(planet, gameTypeTimeAttack)
     state:unlockGame(planet, gameTypeSurvival)
     state:unlockGame(planet, gameTypeRace)
