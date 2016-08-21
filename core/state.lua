@@ -1,6 +1,6 @@
-local json = require("json")
-
 require("core.aeslua")
+
+local json = require("json")
 
 local state = {
     -- filename for autosaved game
@@ -215,6 +215,7 @@ end
 -- setupNewPlanet()
 -- autoSaveFile()
 -- checkForSavedGame()
+-- getKey()
 -- saveGame()
 -- loadSavedGame()    
 -- resetSavedGame()
@@ -973,13 +974,18 @@ function state:checkForSavedGame()
 end
 
 
+function state:getKey()
+    return "H8w-!l2s"..system.getInfo("deviceID")
+end
+
+
 -- Saves the current self.data table into the autosave file replacing its current contents
 -- NOTE: doesnt save while a demo is running: otherwise it allows you to bypass our unlock system to be characters recorded
 function state:saveGame()
     if self.demoActions == nil then
         local jsonData     = json.encode(self.data)
-        local encrypedData = aeslua.encrypt("H83#'[923456btsPQ!-e", jsonData)
-        local file         = io.open(self:autoSaveFile(), "w")
+        local encrypedData = aeslua.encrypt(self:getKey(), jsonData)
+        local file         = io.open(self:autoSaveFile(), "wb")
 
         file:write(encrypedData)
         io.close(file)
@@ -990,16 +996,21 @@ end
 
 -- Loads the autosave file and replaces self.data with the contents
 function state:loadSavedGame()
-    local file          = io.open(self:autoSaveFile(), "r")
+    local file          = io.open(self:autoSaveFile(), "rb")
     local encryptedData = file:read("*a")
 
     if encryptedData then
-        local jsonData = aeslua.encrypt("H83#'[923456btsPQ!-e", encryptedData)
-        local gameData = json.decode(jsonData, 1, nil)
+        local jsonData = aeslua.decrypt(self:getKey(), encryptedData)
 
-        -- TODO: validate here for version changes
-        if gameData then
-            self.data = gameData
+        if jsonData then
+            local gameData = json.decode(jsonData, 1, nil)
+
+            -- TODO: validate here for version changes
+            if gameData then
+                self.data = gameData
+            end
+        else
+            print("ERROR: could not decrypt saved data")
         end
     end
 
