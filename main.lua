@@ -1,5 +1,5 @@
 -- Global label used for buld version
-globalBuildVersion = "0.102"
+globalBuildVersion = "1.0"
 globalDebugGame    = false
 
 -- Define global constants

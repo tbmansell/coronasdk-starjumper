@@ -188,10 +188,9 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
         state:saveZoneFailedRace(state.data.zoneSelected, self.raceCompletedAs)
     end
     
-    -- Delay saving the game, due to slow encryption speeds, so there is not an immediate    
-    after(1500, function() state:saveGame() end)
     recorder:saveGame()
     
+    self:removeGearFoundInLevel()
     self:hideGameHud()
     self:endLevelBasics(false)
     self:endLevelTip()
@@ -204,6 +203,9 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
     end
 
     self:endLevelSequenceStart()
+
+    -- Delay saving the game, due to slow encryption speeds, so there is not an immediate    
+    after(1500, function() state:saveGame() end)
 end
 
 
@@ -219,7 +221,7 @@ function hud:levelCompleteSequence(passGuard)
     hud.level:finishCustomEvents()
 
     state.data.game = levelOverComplete
-
+    
     local game = state.data.gameSelected
 
     -- Race Games - Check if they lost the race and then make them fail
@@ -238,6 +240,7 @@ function hud:levelCompleteSequence(passGuard)
     if hud.timerHandle then timer.cancel(hud.timerHandle) end
     play(sounds.levelComplete)
 
+    hud:removeGearFoundInLevel()
     hud:setStartZoneStats()
     hud:saveLevelScore()
     hud:saveLevelCubes()

@@ -47,7 +47,7 @@ end
 
 
 function hud:replayLevel()
-    self:removeGearFoundInLevel(true)
+    self:removeGearFoundInLevel()
 
     -- Race - save the updated race positions since plaer landed
     if state.data.gameSelected == gameTypeRace then
