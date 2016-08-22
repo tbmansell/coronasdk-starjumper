@@ -473,14 +473,13 @@ end
 
 -- Determines if all player gear found in level that has not been used, should be removed from the player
 -- optional @always param overrides other logic
-function hud:removeGearFoundInLevel(always)
+function hud:removeGearFoundInLevel()
     local gameType = state.data.gameSelected
+    local zone     = state:currentZone()
 
-    if always or
-       state.data.game ~= levelOverComplete or  -- if aborting before completion or replying
-       gameType == gameTypeTimeAttack or
-       gameType == gameTypeSurvival or
-       gameType == gameTypeRace
+    if gameType        ~= gameTypeStory or      -- only keep gear in story mode
+       state.data.game ~= levelOverComplete or  -- only keep gear if completing the level
+       zone.plays      >  1                     -- only keep gear if completing first time
     then
         for i=1, #self.gearFoundInLevel do
             local gear     = self.gearFoundInLevel[1]
