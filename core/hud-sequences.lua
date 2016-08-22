@@ -188,7 +188,8 @@ function hud:levelFailedSequence(skipProgressBar, passGuard)
         state:saveZoneFailedRace(state.data.zoneSelected, self.raceCompletedAs)
     end
     
-    state:saveGame()
+    -- Delay saving the game, due to slow encryption speeds, so there is not an immediate    
+    after(1500, function() state:saveGame() end)
     recorder:saveGame()
     
     self:hideGameHud()
@@ -240,7 +241,6 @@ function hud:levelCompleteSequence(passGuard)
     hud:setStartZoneStats()
     hud:saveLevelScore()
     hud:saveLevelCubes()
-    state:saveGame()
     recorder:saveGame()
     
     -- Kick off level end sequence    
@@ -263,6 +263,8 @@ function hud:levelCompleteSequence(passGuard)
         hud:endLevelButtons(true)
         hud:endLevelSequenceStart()
     end)
+    -- Delay saving the game, due to slow encryption speeds, so there is not an immediate    
+    after(1500, function() state:saveGame() end)
 end
 
 

@@ -149,6 +149,8 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:create(event)
+    logAnalyticsStart()
+    
     local game = state.data.gameSelected
     state.infiniteRunner = (game == gameTypeArcadeRacer or game == gameTypeTimeRunner or game == gameTypeClimbChase)
 
@@ -183,11 +185,8 @@ end
 
 
 function scene:init()
-    logAnalyticsStart()
     clearSceneTransition()
-    -- Save game state so when restored we can know which zone was selected
     state:newScene("play-zone")
-    state:saveGame()
 
     setMovementStyleSpeeds()  -- repeat this to reset movements if scene already created
     scene.playerCancelledDemo = false
