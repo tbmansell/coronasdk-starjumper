@@ -25,7 +25,7 @@ function scene:create(event)
     if globalDebugGame then
         newText(group, "debug version "..globalBuildVersion, 50, 600, 0.5, "red", "LEFT")
     else
-        newText(group, "version "..globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
+        newText(group, globalBuildVersion, 50, 600, 0.35, "white", "LEFT")
     end
 
     local options = newImage(group, "title/settings2", 25, 590)
