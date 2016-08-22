@@ -85,14 +85,15 @@ function scene:showSettings()
     local bgrSoundOption = display.newRect(group, 220, 255, 360, 80)
     local musicOption    = display.newRect(group, 740, 125, 360, 80)
     local storyOption    = display.newRect(group, 740, 255, 360, 80)
-    local creditOption   = display.newRect(group, 480, 355, 200, 65)
+    local creditOption   = display.newRect(group, 305, 360, 200, 65)
+    local purchaseOption = display.newRect(group, 660, 360, 200, 65)
 
     scene:createSettingStatus("bgrImage", settings.backgroundImages, 360, 120)
     scene:createSettingStatus("bgrSound", settings.backgroundSounds, 360, 255)
     scene:createSettingStatus("music",    settings.music,            880, 120)
-    newButton(group, 55, 45, "back", scene.closeSettings)
+    newButton(group, 55, 45, "back",      scene.closeSettings)
 
-    bgrImageOption.alpha, bgrSoundOption.alpha, storyOption.alpha, musicOption.alpha, creditOption.alpha = 0.01, 0.01, 0.01, 0.01, 0.01
+    bgrImageOption.alpha, bgrSoundOption.alpha, storyOption.alpha, musicOption.alpha, creditOption.alpha, purchaseOption.alpha = 0.01, 0.01, 0.01, 0.01, 0.01, 0.01
 
     background:addEventListener("tap", function() return true end)
 
@@ -136,6 +137,13 @@ function scene:showSettings()
     creditOption:addEventListener("tap", function() 
         play(sounds.generalClick)
         scene:rollCredits()
+    end)
+
+    purchaseOption:addEventListener("tap", function() 
+        play(sounds.generalClick)
+        state.inappPurchaseType = "planet"
+        scene:closeSettings()
+        composer.gotoScene("scenes.inapp-purchases")
     end)
 end
 
