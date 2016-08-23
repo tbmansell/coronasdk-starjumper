@@ -1,5 +1,5 @@
 local levelData = {
-    name             = "no on can hear you scream",
+    name             = "no one can hear you scream",
     timeBonusSeconds = 29,
     ceiling          = -1000,
     startLedge       = 1,

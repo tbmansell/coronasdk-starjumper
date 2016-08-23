@@ -51,8 +51,10 @@ settings = {
                 "Icon-72.png",
                 "Icon-60@2x", 
             },
-            NSLocationWhenInUseUsageDescription = { "" },
             UIApplicationExitsOnSuspend         = false,
+            NSAppTransportSecurity              = { NSAllowsArbitraryLoads=true },
+            NSLocationAlwaysUsageDescription    = { "" },
+            NSLocationWhenInUseUsageDescription = { "" },
             UIPrerenderedIcon                   = true,
             UIStatusBarHidden                   = true,
 
