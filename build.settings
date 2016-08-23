@@ -21,8 +21,6 @@ settings = {
             "com.android.vending.CHECK_LICENSE",
             "android.permission.INTERNET",
             "android.permission.ACCESS_NETWORK_STATE",
-            "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
-            "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
             "android.permission.WRITE_EXTERNAL_STORAGE"
         },
     },
@@ -33,7 +31,7 @@ settings = {
             CFBundleShortVersionString = "1.0",
 			CFBundleDisplayName        = "Star Jumper",
             CFBundleName               = "Star Jumper",
-            CFBundleIconFile           = "Icon.png",           
+            CFBundleIconFile           = "Icon.png",
             CFBundleIconFiles          = {
                 "Icon@2x.png", 
                 "Icon.png", 
@@ -45,28 +43,26 @@ settings = {
                 "Icon-76@2x.png", 
                 "Icon-76.png", 
                 "Icon-72@2x.png", 
-                "Icon-72.png", 
+                "Icon-72.png",
                 "Icon-60@2x", 
             },
             UIApplicationExitsOnSuspend         = false,
             NSAppTransportSecurity              = { NSAllowsArbitraryLoads=true },
             NSLocationAlwaysUsageDescription    = { "" },
             NSLocationWhenInUseUsageDescription = { "" },
-            UIPrerenderedIcon                   = true,            
+            -- UIPrerenderedIcon                   = true,
             UIStatusBarHidden                   = true,
+            --UILaunchImages                      = {},
+            --MinimumOSVersion                    = "7.0",
 		},
 	},
 	androidPermissions = 
 	{
         "android.permission.INTERNET",
-        "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
-        "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
     },
     usesPermissions = 
     {
         "android.permission.INTERNET",
-        "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
-        "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
     },
     usesFeatures = 
     {

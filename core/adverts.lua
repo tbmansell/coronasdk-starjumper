@@ -14,14 +14,17 @@ local adverts = {
 	-- config settings for the corona ads account
 	corona = {
 		initialised = false,
-		--apiKey      = "5223c2c3-cf81-4c43-ae41-2d4ed16552bc"  :default test key
+		-- default corona key
+		--apiKey      = "5223c2c3-cf81-4c43-ae41-2d4ed16552bc"
+		-- toby@digitalprospective.com corona key
 		apiKey      = "a69eadfe-d8e2-424f-8c2f-41a6ac3b9e79"
 	},
 	-- config settings for the vungle ads account
 	vungle = {
+	    -- toby@digitalprospective.com
 		--["Android"]   = "57158296f49eec2152000024",
 		--["iPhone OS"] = "57644672a6d78e284600006f",
-
+        -- info@star-jumper.com
 		["Android"]   = "57bc8040fe9781a65a00007a",
 		["iPhone OS"] = "57bc7ef6392ef9505e000044",
 	},
