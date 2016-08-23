@@ -27,7 +27,7 @@ function sharedScene:loadFruityMachine(scene)
 
 	                after(4000, function() scene.blockInput = false end)
 
-	                adverts:loadRewardVideoAdvert(function() composer.gotoScene("scenes.fruit-machine") end)
+	                adverts:loadRewardVideoAdvert()
 	            end
 	        end
 

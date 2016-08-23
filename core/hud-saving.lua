@@ -88,9 +88,7 @@ end
 
 
 function hud:playVideoToSkipZone()
-    adverts:loadRewardVideoAdvert(function()
-        self:nextLevel()
-    end)
+    adverts:loadRewardVideoAdvert()
 end
 
 

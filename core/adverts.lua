@@ -1,3 +1,4 @@
+local composer  = require("composer")
 local coronaAds = require("plugin.coronaAds")
 local vungleAds = require("ads")
 
@@ -73,18 +74,18 @@ end
 
 
 -- Show a full-screen video advert
-function adverts:loadVideoAdvert()
+--[[function adverts:loadVideoAdvert()
 	return self:loadVungleAdvert("interstitial")
-end
+end]]
 
 
 -- Show a full screen video advert which triggers a callback if the video is fully viewed
-function adverts:loadRewardVideoAdvert(successCallback)
-	return self:loadVungleAdvert("incentivized", successCallback)
+function adverts:loadRewardVideoAdvert()
+	return self:loadVungleAdvert("incentivized")
 end
 
 
-function adverts:loadVungleAdvert(advertType, successCallback)
+function adverts:loadVungleAdvert(advertType)
 	local appId = self.vungle[system.getInfo("platformName")]
 
 	if appId then
@@ -93,8 +94,13 @@ function adverts:loadVungleAdvert(advertType, successCallback)
 	    	for property, value in pairs(event) do
 	    		self:debugAdvertEvent(event)
 
-	            if property == "isCompletedView" and (value == true or value == "true") and successCallback then
-	            	successCallback()
+	            if property == "isCompletedView" and (value == true or value == "true") then
+	            	-- We dont pass a callback in as this listeneer gets cached and will repeat the same callback as first used
+	            	if composer.getSceneName("current") == "scenes.play-zone" then
+	            		hud:nextLevel()
+	            	else
+	            		composer.gotoScene("scenes.fruit-machine")
+	            	end
 	            end
 	        end
 	    end
