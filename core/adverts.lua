@@ -19,8 +19,11 @@ local adverts = {
 	},
 	-- config settings for the vungle ads account
 	vungle = {
-		["Android"]   = "57158296f49eec2152000024",
-		["iPhone OS"] = "57644672a6d78e284600006f",
+		--["Android"]   = "57158296f49eec2152000024",
+		--["iPhone OS"] = "57644672a6d78e284600006f",
+
+		["Android"]   = "57bc8040fe9781a65a00007a",
+		["iPhone OS"] = "57bc7ef6392ef9505e000044",
 	},
 }
 
