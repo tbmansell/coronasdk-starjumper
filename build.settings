@@ -3,6 +3,9 @@
 -- Copyright 2012 . All Rights Reserved.
 
 settings = {
+    build = {
+        neverStripDebugInfo = true,
+    },
 	orientation =
 	{
 		default = "landscapeRight",
@@ -33,7 +36,7 @@ settings = {
             CFBundleShortVersionString = "1.0",
 			CFBundleDisplayName        = "Star Jumper",
             CFBundleName               = "Star Jumper",
-            CFBundleIconFile           = "Icon.png",           
+            CFBundleIconFile           = "Icon.png",
             CFBundleIconFiles          = {
                 "Icon@2x.png", 
                 "Icon.png", 
@@ -45,13 +48,16 @@ settings = {
                 "Icon-76@2x.png", 
                 "Icon-76.png", 
                 "Icon-72@2x.png", 
-                "Icon-72.png", 
+                "Icon-72.png",
                 "Icon-60@2x", 
             },
-            UIApplicationExitsOnSuspend         = false,
             NSLocationWhenInUseUsageDescription = { "" },
-            UIPrerenderedIcon                   = true,            
+            UIApplicationExitsOnSuspend         = false,
+            UIPrerenderedIcon                   = true,
             UIStatusBarHidden                   = true,
+
+            UILaunchImages                      = {},
+            MinimumOSVersion                    = "7.0",
 		},
 	},
 	androidPermissions = 
