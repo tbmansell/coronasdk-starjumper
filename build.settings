@@ -49,6 +49,8 @@ settings = {
                 "Icon-60@2x", 
             },
             UIApplicationExitsOnSuspend         = false,
+            NSAppTransportSecurity              = { NSAllowsArbitraryLoads=true },
+            NSLocationAlwaysUsageDescription    = { "" },
             NSLocationWhenInUseUsageDescription = { "" },
             UIPrerenderedIcon                   = true,            
             UIStatusBarHidden                   = true,
