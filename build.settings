@@ -3,9 +3,6 @@
 -- Copyright 2012 . All Rights Reserved.
 
 settings = {
-    build = {
-        neverStripDebugInfo = true,
-    },
 	orientation =
 	{
 		default = "landscapeRight",
@@ -55,11 +52,10 @@ settings = {
             NSAppTransportSecurity              = { NSAllowsArbitraryLoads=true },
             NSLocationAlwaysUsageDescription    = { "" },
             NSLocationWhenInUseUsageDescription = { "" },
-            UIPrerenderedIcon                   = true,
+            -- UIPrerenderedIcon                   = true,
             UIStatusBarHidden                   = true,
-
-            UILaunchImages                      = {},
-            MinimumOSVersion                    = "7.0",
+            --UILaunchImages                      = {},
+            --MinimumOSVersion                    = "7.0",
 		},
 	},
 	androidPermissions = 
