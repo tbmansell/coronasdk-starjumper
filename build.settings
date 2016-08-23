@@ -59,14 +59,10 @@ settings = {
 	androidPermissions = 
 	{
         "android.permission.INTERNET",
-        "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
-        "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
     },
     usesPermissions = 
     {
         "android.permission.INTERNET",
-        "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
-        "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
     },
     usesFeatures = 
     {
