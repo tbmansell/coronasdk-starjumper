@@ -21,8 +21,6 @@ settings = {
             "com.android.vending.CHECK_LICENSE",
             "android.permission.INTERNET",
             "android.permission.ACCESS_NETWORK_STATE",
-            "android.permission.ACCESS_FINE_LOCATION",    --fetches location via GPS
-            "android.permission.ACCESS_COARSE_LOCATION",  --fetches location via WiFi or cellular service
             "android.permission.WRITE_EXTERNAL_STORAGE"
         },
     },
