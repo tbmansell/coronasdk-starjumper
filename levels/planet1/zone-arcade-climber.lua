@@ -3,7 +3,6 @@ local levelData = {
     tip              = "buy items to improve your jumping ability",
     floor            = display.contentHeight,
     ceiling          = -display.contentHeight*20,
-    startAtNight     = true,
     lavaChase        = true,
 
     backgroundOrder = {

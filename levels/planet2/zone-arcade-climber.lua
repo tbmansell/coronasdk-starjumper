@@ -13,12 +13,11 @@ local sharedRules = {
 
 
 local levelData = {
-    name         = "escape the apocalypsoid singularity",
-    tip          = "buy items to improve your jumping ability",
-    floor        = display.contentHeight,
-    ceiling      = -display.contentHeight*20,
-    startAtNight = true,
-    warpChase    = true,
+    name        = "escape the apocalypsoid singularity",
+    tip         = "buy items to improve your jumping ability",
+    floor       = display.contentHeight,
+    ceiling     = -display.contentHeight*20,
+    warpChase   = true,
 
     backgroundOrder = {
         [bgrFront] = {},
