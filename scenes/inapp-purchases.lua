@@ -430,8 +430,8 @@ function scene:storeTransaction(event)
         play(sounds.shopCantBuy)
         logAnalyticsEvent("iap:failed", {product=tostring(pid), store=tostring(storeName), error=tostring(event.errorType).." "..tostring(event.errorString)})
         updateDebugPanel("Purchase failed: "..tostring(pid).." => "..tostring(event.errorType).." "..tostring(event.errorString))
-    else
-        play(sounds.shopCantBuy)
+    --else
+        --play(sounds.shopCantBuy)
     end
 
     if store then

@@ -418,22 +418,28 @@ end
 function newLockedPopup(sceneGroup, id, type, title, callback, description)
     local group = display.newGroup()
     local seq1, seq2, seq3 = nil, nil, nil
+    local action = false
 
     local exitHandler = function()
-        seq:destroy()
-        stopSparkles()
-        group:removeSelf()
+        if not action then
+            action = true
+            seq:destroy()
+            stopSparkles()
+            group:removeSelf()
 
-        if callback then callback() end
-
+            if callback then callback() end
+        end
         return true
     end
 
     local buyHandler = function()
-        seq:destroy()
-        stopSparkles()
-        group:removeSelf()
-        composer.gotoScene("scenes.inapp-purchases")
+        if not action then
+            action = true
+            seq:destroy()
+            stopSparkles()
+            group:removeSelf()
+            composer.gotoScene("scenes.inapp-purchases")
+        end
         return true
     end
 
