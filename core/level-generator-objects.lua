@@ -13,7 +13,7 @@ local firstFrom   = utils.firstFrom
 local newObjectsLoader = {}
 
 
-function newObjectsLoader:load(levelGenerator)
+function newObjectsLoader:load(levelGenerator, level)
 	---------- CREATE NEW LEDGES ----------
 
 	function levelGenerator:newLedge(specialType, isRouteEnd)
@@ -132,7 +132,7 @@ function newObjectsLoader:load(levelGenerator)
 		local length = self:percentRule("obstacles deathslide length")
 		local speed  = self:randomRule("obstacles deathslide speed")
 		local xpos   = self:randomRule("obstacles deathslide distance x")
-		local ypos   = self:randomRule("obstacles deathslide distance x")
+		local ypos   = self:randomRule("obstacles deathslide distance y")
 
 		return {object="obstacle", type="deathslide", x=xpos, y=ypos, length=length, speed=speed}
 	end
@@ -399,7 +399,9 @@ function newObjectsLoader:load(levelGenerator)
 	---------- CREATE NEW SCENERY ----------
 
 	function levelGenerator:newObstruction(from, to)
-		if not to or not from.isLedge or not to.isLedge or from.movement or to.movement or (tostring(from.route) ~= tostring(to.route)) then
+		local preFrom = level:nextJumpObject(from.zoneRouteIndex - 2)
+		-- Dont place an obstacle if the item before the from ledge is an onstacle as will likely get in the way of the obstacle (being lower than the from ledge typically)
+		if (preFrom and preFrom.isObstacle) or not to or not from.isLedge or not to.isLedge or from.movement or to.movement or (tostring(from.route) ~= tostring(to.route)) then
 			return nil
 		end
 

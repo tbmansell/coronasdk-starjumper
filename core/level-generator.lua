@@ -545,16 +545,20 @@ end
 
 
 function levelGenerator:generateClimbRouteEnd(lastLedge)
+	local preLastLedge = level:getLastLedge(1)
+	-- set for left alignment
 	local exitX  = -200
 	local nextX  = 700
 	local flip   = "x"
+	local ufoDir = left
 	local target = "ufoboss-"..globalInfiniteStage
 	local color  = globalInfiniteStage + 1
 
-	if self.lastJumpDir == right then
-		exitX = -exitX
-		nextX = -nextX
-		flip  = nil
+	if preLastLedge:x() < lastLedge:x() then
+		exitX  = 200
+		nextX  = -700
+		flip   = nil
+		ufoDir = right
 	end
 
 	if color > blue then color = blue end
@@ -563,7 +567,7 @@ function levelGenerator:generateClimbRouteEnd(lastLedge)
 		{object="scenery", type="climb-chase-exit", x=-100, theme="rocky", onLedge=true, flip=flip, layer=4},
 
 		{object="ledge", type="finish", style="finish-middle", x=exitX, y=0, collideWithWarp=true},
-	        {object="friend", x=0, y=-150, type="ufoboss", size=0.7, direction=self.lastJumpDir, layer=2, targetName=target, collideWithWarp=true,
+	        {object="friend", x=0, y=-150, type="ufoboss", size=0.7, direction=ufoDir, layer=2, targetName=target, collideWithWarp=true,
 	        	movement={speed=1, pause=10000, distance=10, pauseStyle=moveStyleWaveBig, pattern=movePatternVertical}
 	        },
 
@@ -764,7 +768,7 @@ end
 
 
 -- Load functions to generate specific objects from another file (too large otherwise)
-objectsLoader:load(levelGenerator)
+objectsLoader:load(levelGenerator, level)
 
 
 return levelGenerator

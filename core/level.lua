@@ -67,6 +67,26 @@ local check_moving_players       = function()end
 local check_chase_movement       = function()end
 
 
+-- Useful for level generation debugging
+local function debugPrint(orig)
+    local orig_type = type(orig)
+    local copy
+    
+    if orig_type == 'table' then
+        copy = "{"
+        for orig_key, orig_value in next, orig, nil do
+            copy = copy..orig_key.."="..debugPrint(orig_value).." "
+        end
+        copy = copy.."}"
+    elseif orig_type == 'string' then
+        copy = "\""..orig.."\""
+    else
+        copy = tostring(orig)
+    end
+    return copy
+end
+
+
 -- Creates a new level: loading in all the required zone an planet files
 function level:new(cameraRef, gameMode, planetNumber, zoneNumber)
     local planet = "planet"..planetNumber

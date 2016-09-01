@@ -90,14 +90,14 @@ function newObjectsLoader:load(level)
 
 
     -- gets the ID of the levels last ledge
-    function level:lastLedgeId()
-        return allLedges[#allLedges].id
+    function level:lastLedgeId(backfrom)
+        return allLedges[#allLedges - (backfrom or 0)].id
     end
 
 
     -- gets the last ledge
-    function level:getLastLedge()
-        return self:getLedge(self:lastLedgeId())
+    function level:getLastLedge(backfrom)
+        return self:getLedge(self:lastLedgeId(backfrom))
     end
 
 
