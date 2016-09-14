@@ -10,6 +10,7 @@ local play = globalSoundPlayer
 -- Stop the phone back button from exiting the game
 local function sceneKeyEvent(event)
     if event.keyName == "back" and event.phase == "up" then
+        native.requestExit()
         return true
     end
 end
