@@ -141,6 +141,8 @@ function scene:loadProductFromStore()
     displayDebugPanel("loadProductsFromStore")
 
     if self:initStore() then
+        updateDebugPanel("Store init: "..tostring(storeName))
+
         store.init(storeName, function(event) scene:storeTransaction(event) end)
 
         if store.canLoadProducts then
@@ -167,17 +169,19 @@ end
 
 
 function scene:initStore()
-    if system.getInfo("platformName") == "Android" then
-        store       = require("plugin.google.iap.v3")
-        storeName   = "google"
-        googleIAP   = true
+    storeName = system.getInfo("targetAppStore")
+
+    if storeName == "google" then
+        store = require("plugin.google.iap.v3")
+        googleIAP = true
         return true
-    elseif (system.getInfo("platformName") == "iPhone OS") then
-        store       = require("store")
-        storeName   = "apple"
+    elseif storeName == "apple" then
+        store = require("store")
+        return true
+    elseif storeName == "amazon" then
+        store = require("plugin.amazon.iap")
         return true
     else
-        storeName   = "unknown"
         updateDebugPanel("In-app purchases are not supported in the Corona Simulator")
         return false
     end
