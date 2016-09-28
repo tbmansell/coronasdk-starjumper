@@ -141,9 +141,7 @@ function scene:loadProductFromStore()
     displayDebugPanel("loadProductsFromStore")
 
     if self:initStore() then
-        updateDebugPanel("Store init: "..tostring(storeName))
-
-        store.init(storeName, function(event) scene:storeTransaction(event) end)
+        store.init(function(event) scene:storeTransaction(event) end)
 
         if store.canLoadProducts then
             -- attempt to read product lists from the inapp store
@@ -381,16 +379,18 @@ end
 
 -- Use for Real Transactions
 function scene:purchase(product)
+    displayDebugPanel("purchase: "..tostring(product.id))
+
     if store then
         if store.canMakePurchases then
             transactionProduct = product
 
-            if googleIAP then
-                -- calls storeTransaction() 
-                store.purchase(product.id)
-            else
+            if storeName == "apple" then
                 -- calls storeTransaction() 
                 store.purchase({product.id})
+            else
+                -- calls storeTransaction() 
+                store.purchase(product.id)
             end
         else
             updateDebugPanel("Store purchases have been disabled in phone settings")
@@ -415,6 +415,8 @@ function scene:storeTransaction(event)
     local transaction = event.transaction
     local state       = transaction.state
     local pid         = transaction.productIdentifier
+
+    updateDebugPanel("Purchase: "..tostring(pid).." state="..tostring(state).." => "..tostring(event.errorType).." "..tostring(event.errorString))
 
     if state ~= "failed" then
         logAnalyticsEvent("iap:"..tostring(state), {product=tostring(pid), store=tostring(storeName)})
