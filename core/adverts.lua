@@ -102,7 +102,7 @@ end
 -- Show a full-screen non video advert
 function adverts:showStaticAdvert()
     displayDebugPanel("show corona advert: "..self.corona.apiKey)
-   	coronaAds.show(advertId, true)
+   	coronaAds.show("interstitial-1", true)
 end
 
 
