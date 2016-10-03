@@ -5,8 +5,8 @@ local messages  = require("core.messages")
 local scene     = composer.newScene()
 
 -- Local vars:
+local storeName          = system.getInfo("targetAppStore")
 local store              = nil
-local storeName          = nil
 local transactionProduct = nil
 local googleIAP          = false
 local restoreChecked     = false
@@ -24,6 +24,15 @@ local productIds = {
     gearPackAllLarge  = "iap_gear_pack_everything_large",
 }
 
+
+local function getProductId(id)
+    if storeName == "apple" then
+        return "apple_"..id
+    end
+    return id
+end
+
+
 local productData = {
     -- how many of each gear is purchased for pack sizes
     quantitySmall = 5,
@@ -31,16 +40,16 @@ local productData = {
 
     -- costs listed here are static costs for when we cannot connect to the store - but they may not reflect the real prices
     iap = {
-        [productIds.planetPack1]       = { cost=0.99, planet=1 },
-        [productIds.planetPack2]       = { cost=0.99, planet=2 },
-        [productIds.gearPackJumpSmall] = { cost=0.50, gear=jump,  size="small" },
-        [productIds.gearPackAirSmall]  = { cost=0.50, gear=air,   size="small" },
-        [productIds.gearPackLandSmall] = { cost=0.50, gear=land,  size="small" },
-        [productIds.gearPackJumpLarge] = { cost=0.85, gear=jump,  size="large" },
-        [productIds.gearPackAirLarge]  = { cost=0.85, gear=air,   size="large" },
-        [productIds.gearPackLandLarge] = { cost=0.85, gear=land,  size="large" },
-        [productIds.gearPackAllSmall]  = { cost=1.00, gear="all", size="small" },
-        [productIds.gearPackAllLarge]  = { cost=1.79, gear="all", size="large" },
+        [getProductId(productIds.planetPack1)]       = { cost=0.99, planet=1 },
+        [getProductId(productIds.planetPack2)]       = { cost=0.99, planet=2 },
+        [getProductId(productIds.gearPackJumpSmall)] = { cost=0.50, gear=jump,  size="small" },
+        [getProductId(productIds.gearPackAirSmall)]  = { cost=0.50, gear=air,   size="small" },
+        [getProductId(productIds.gearPackLandSmall)] = { cost=0.50, gear=land,  size="small" },
+        [getProductId(productIds.gearPackJumpLarge)] = { cost=0.85, gear=jump,  size="large" },
+        [getProductId(productIds.gearPackAirLarge)]  = { cost=0.85, gear=air,   size="large" },
+        [getProductId(productIds.gearPackLandLarge)] = { cost=0.85, gear=land,  size="large" },
+        [getProductId(productIds.gearPackAllSmall)]  = { cost=1.00, gear="all", size="small" },
+        [getProductId(productIds.gearPackAllLarge)]  = { cost=1.79, gear="all", size="large" },
     }
 }
 
@@ -167,8 +176,6 @@ end
 
 
 function scene:initStore()
-    storeName = system.getInfo("targetAppStore")
-
     if storeName == "google" then
         store = require("plugin.google.iap.v3")
         googleIAP = true
@@ -251,10 +258,10 @@ function scene:buildGearPage(group)
     newImage(group, "inapp-purchases/iap-gear-land", 800,     280)
     newImage(group, "inapp-purchases/iap-gear-all",  centerX, 540)
 
-    self:newGearBuyers(group, 130, 335, productIds.gearPackJumpSmall, productIds.gearPackJumpLarge)
-    self:newGearBuyers(group, 425, 335, productIds.gearPackAirSmall,  productIds.gearPackAirLarge)
-    self:newGearBuyers(group, 740, 335, productIds.gearPackLandSmall, productIds.gearPackLandLarge)
-    self:newGearBuyers(group, 750, 535, productIds.gearPackAllSmall,  productIds.gearPackAllLarge)
+    self:newGearBuyers(group, 130, 335, getProductId(productIds.gearPackJumpSmall), getProductId(productIds.gearPackJumpLarge))
+    self:newGearBuyers(group, 425, 335, getProductId(productIds.gearPackAirSmall),  getProductId(productIds.gearPackAirLarge))
+    self:newGearBuyers(group, 740, 335, getProductId(productIds.gearPackLandSmall), getProductId(productIds.gearPackLandLarge))
+    self:newGearBuyers(group, 750, 535, getProductId(productIds.gearPackAllSmall),  getProductId(productIds.gearPackAllLarge))
 end
 
 

@@ -1,5 +1,4 @@
 local composer = require("composer")
-local adverts  = require("core.adverts")
 
 
 -- Items the scenes can dynamically load in, where they are used in multiple scenes
@@ -27,7 +26,7 @@ function sharedScene:loadFruityMachine(scene)
 
 	                after(4000, function() scene.blockInput = false end)
 
-	                adverts:loadRewardVideoAdvert()
+	                adverts:showRewardAdvert()
 	            end
 	        end
 

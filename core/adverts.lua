@@ -26,6 +26,61 @@ local adverts = {
 }
 
 
+
+function adverts:init()
+	self:initCorona()
+	self:initVungle()
+end
+
+
+-- Show a full-screen non video advert
+function adverts:initCorona()
+    local function adListener(event)
+    	self:debugAdvertEvent(event)
+    	
+        if event.phase == "init" then
+        	-- Only show the first time this is called (after init)
+        	if self.corona.initialised == false then
+        	    self.corona.initialised = true
+        	else
+            	coronaAds.show("interstitial-1", true)
+            	self.forcedAdsChecks = 0
+            end
+        end
+    end
+
+    coronaAds.init(self.corona.apiKey, adListener)
+    self.forcedAdsChecks = 0
+end
+
+
+function adverts:initVungle()
+	local appId = self.vungle[system.getInfo("platformName")]
+
+	if appId then
+		-- listener triggered by ad provider
+	    local function adListener(event)
+	    	for property, value in pairs(event) do
+	    		self:debugAdvertEvent(event)
+
+	            if property == "isCompletedView" and (value == true or value == "true") then
+	            	-- We dont pass a callback in as this listeneer gets cached and will repeat the same callback as first used
+	            	if composer.getSceneName("current") == "scenes.play-zone" then
+	            		hud:nextLevel()
+	            	else
+	            		composer.gotoScene("scenes.fruit-machine")
+	            	end
+	            end
+	        end
+	    end
+
+	    vungleAds.init("vungle", appId, adListener)
+		self.attempts = 0
+	end
+end
+
+
+
 -- Force user to view an advert and track that we've shown them one
 function adverts:forceAdvert()
 	self.forcedAdsShown = self.forcedAdsShown + 1
@@ -46,75 +101,18 @@ end
 
 -- Show a full-screen non video advert
 function adverts:showStaticAdvert()
-	local advertId = "interstitial-1"
-
-    local function adListener(event)
-    	self:debugAdvertEvent(event)
-    	
-        if event.phase == "init" then
-        	-- Only show the first time this is called (after init)
-        	if self.corona.initialised == false then
-        	    self.corona.initialised = true
-        	    self.forcedAdsChecks    = 0
-
-            	coronaAds.show(advertId, true)
-            end
-        end
-    end
-
-    displayDebugPanel("show static advert: "..advertId.." api-key: "..self.corona.apiKey)
-
-    if self.corona.initialised then
-    	coronaAds.show(advertId, true)
-    	self.forcedAdsChecks = 0
-    else
-    	coronaAds.init(self.corona.apiKey, adListener)
-    end
-    
+    displayDebugPanel("show corona advert: "..self.corona.apiKey)
+   	coronaAds.show(advertId, true)
 end
 
 
--- Show a full-screen video advert
---[[function adverts:loadVideoAdvert()
-	return self:loadVungleAdvert("interstitial")
-end]]
-
-
--- Show a full screen video advert which triggers a callback if the video is fully viewed
-function adverts:loadRewardVideoAdvert()
-	return self:loadVungleAdvert("incentivized")
-end
-
-
-function adverts:loadVungleAdvert(advertType)
+function adverts:showRewardAdvert()
 	local appId = self.vungle[system.getInfo("platformName")]
 
 	if appId then
-		-- listener triggered by ad provider
-	    local function adListener(event)
-	    	for property, value in pairs(event) do
-	    		self:debugAdvertEvent(event)
-
-	            if property == "isCompletedView" and (value == true or value == "true") then
-	            	-- We dont pass a callback in as this listeneer gets cached and will repeat the same callback as first used
-	            	if composer.getSceneName("current") == "scenes.play-zone" then
-	            		hud:nextLevel()
-	            	else
-	            		composer.gotoScene("scenes.fruit-machine")
-	            	end
-	            end
-	        end
-	    end
-
-	    displayDebugPanel("init video advert: "..appId)
-
-	    vungleAds.init("vungle", appId, adListener)
-		
-		self.attempts = 0
-		self:checkVungleAdvert(advertType)
-		return true
-	else
-		return false
+	    displayDebugPanel("show video advert: "..appId)
+	    self.attempts = 0
+		self:checkVungleAdvert("incentivized")
 	end
 end
 

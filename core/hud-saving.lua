@@ -1,6 +1,5 @@
 local composer = require("composer")
 local recorder = require("core.recorder")
-local adverts  = require("core.adverts")
 
 
 -- Aliases
@@ -88,7 +87,7 @@ end
 
 
 function hud:playVideoToSkipZone()
-    adverts:loadRewardVideoAdvert()
+    adverts:showRewardAdvert()
 end
 
 

@@ -3,7 +3,6 @@ local anim         = require("core.animations")
 local soundEngine  = require("core.sound-engine")
 local messages     = require("core.messages")
 local recorder     = require("core.recorder")
-local adverts      = require("core.adverts")
 local TextCandy    = require("text_candy.lib_text_candy")
 local spineStore   = require("level-objects.collections.spine-store")
 

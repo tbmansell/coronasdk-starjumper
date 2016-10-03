@@ -1,6 +1,5 @@
 local composer    = require("composer")
 local sharedScene = require("scenes.shared")
-local adverts     = require("core.adverts")
 local anim        = require("core.animations")
 local particles   = require("core.particles")
 local builder     = require("level-objects.builders.builder")

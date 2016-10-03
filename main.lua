@@ -1,6 +1,6 @@
 -- Global label used for buld version
 globalBuildVersion = "1.0.4"
-globalDebugGame    = false
+globalDebugGame    = true
 
 -- Define global constants
 require("constants.globals")
@@ -12,6 +12,7 @@ track   = require("core.track")
 sounds  = require("core.sounds")
 curve   = require("core.curve")
 hud     = require("core.hud")
+adverts = require("core.adverts")
 
 -- Define global functions
 require("core.draw")
@@ -41,12 +42,14 @@ end
 -- Load in key game sounds that always need to be in memory
 sounds:loadStaticSounds()
 sounds:loadRandomSounds()
+-- Preload adverts
+adverts:init()
 
 
 -- Global debug game logic
 if globalDebugGame then
 	-- Testing: display hidden external calls from inapp and advert calls
-	----globalDebugStatus = false
+	globalDebugStatus = true
     -- Testing: provide 20 lives instead of 2
     ----globalPlayerLives = 20
     -- Testing: add 100 holocubes
