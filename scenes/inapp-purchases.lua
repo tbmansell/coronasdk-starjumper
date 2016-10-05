@@ -271,7 +271,7 @@ end
 
 
 function scene:newPlanetBuyer(planetGroup, planet, available, xpos)
-    local productId = "planet_pack"..planet
+    local productId = getProductId("planet_pack"..planet)
     local product   = productData.iap[productId]
 
     newImage(planetGroup, "inapp-purchases/iap-planet"..planet, xpos, 280)
