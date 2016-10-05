@@ -480,6 +480,11 @@ function scene:startPlaying(player)
         hud:showStory("intro-planet"..state.data.planetSelected.."-zone"..state.data.zoneSelected)
         hud:showStory("intro-character-"..characterData[state.data.playerModel].name)
         hud:showTutorial(level.data.tutorial)
+
+        -- bypass tutorial for first level and use quick hint system and give them infinite lives
+        if level.data.splashTutorial then
+            after(3000, function() hud:showTutorialSplash() end)
+        end
     end
     
     hud:startTimer()

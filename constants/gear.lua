@@ -86,8 +86,9 @@ gearUnlocks = {
     [gearParachute]     = {unlockAfter=6,  buyMode="both"},
     [gearJetpack]       = {unlockAfter=7,  buyMode="both"},
     [gearReverseJump]   = {unlockAfter=8,  buyMode="both"},
-    [gearMagnet]        = {unlockAfter=9,  buyMode="both"},
-    [gearDestroyer]     = {unlockAfter=10, buyMode="both"},
-    [gearGrappleHook]   = {unlockAfter=11, buyMode="both"},
-    [gearGloves]        = {unlockAfter=12, buyMode="both"},
+    [gearGrappleHook]   = {unlockAfter=9,  buyMode="both"},
+    [gearGloves]        = {unlockAfter=10, buyMode="both"},
+    [gearMagnet]        = {unlockAfter=999, buyMode="both"},  -- dont unlock these as not built
+    [gearDestroyer]     = {unlockAfter=999, buyMode="both"},  -- dont unlock these as not built
+    
 }

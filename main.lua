@@ -1,6 +1,6 @@
 -- Global label used for buld version
 globalBuildVersion = "1.0.5"
-globalDebugGame    = true
+globalDebugGame    = false
 
 -- Define global constants
 require("constants.globals")
@@ -49,7 +49,7 @@ adverts:init()
 -- Global debug game logic
 if globalDebugGame then
 	-- Testing: display hidden external calls from inapp and advert calls
-	globalDebugStatus = true
+	----globalDebugStatus = false
     -- Testing: provide 20 lives instead of 2
     ----globalPlayerLives = 20
     -- Testing: add 100 holocubes
@@ -61,7 +61,7 @@ end
 
 -- Fire off the start scene
 local composer = require("composer")
-local mode     = "game"
+local mode     = "zone"
 
 -- game    play the full game as normal from the title screen
 -- cut     load the cutscene with custom params
@@ -74,7 +74,7 @@ if mode == "zone" or mode == "record" then
 
 	sounds:loadPlayer(state.data.playerModel)
 	state.data.planetSelected = 1
-	state.data.zoneSelected   = 7
+	state.data.zoneSelected   = 1
 	state.data.gameSelected   = gameTypeStory
 	composer.gotoScene("scenes.play-zone")
 

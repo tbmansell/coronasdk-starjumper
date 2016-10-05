@@ -211,6 +211,11 @@ function hud:destroy()
         hud.startedSequenceRan = true
     end
 
+    if self.splash then
+        self.splash:removeSelf()
+        self.splash = nil
+    end
+
     hud.group:removeSelf()
     hud.group               = nil
     hud.pauseGameHandler    = nil
@@ -820,6 +825,15 @@ function hud:removeNotification(note)
 end
 
 
+function hud:showTutorialSplash()
+    self.splash = display.newImage("images/message-tabs/tutorial-splash.png", centerX-50, centerY)
+    self.splash:addEventListener("tap", function()
+        self.splash:removeSelf()
+        self.splash = nil
+    end)
+end
+
+
 function hud:animateScoreText(scoreadd, scoreCategory, textX, textY)
     local color = "white"
     if     scoreCategory == scoreCategoryFirst  then color = "green"
@@ -891,6 +905,11 @@ end
 function hud:reset(player)
     if player.main then
         self.level:reset(player)
+
+        -- show splash tutorial when player dies
+        if self.level.data.splashTutorial then
+            self:showTutorialSplash()
+        end
     elseif player.ai then
         self.level:resetForAi(player)
     end
