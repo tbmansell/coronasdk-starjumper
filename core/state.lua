@@ -154,9 +154,9 @@ else
         planets = {
             [1] = {
                 -- list of zones in planet that are unlocked
-                zones = { 1 },
+                zones = { 1, 2, 3, 4, 5 },
                 -- list of game modes for planet that are unlocked
-                games = { gameTypeStory },
+                games = { gameTypeStory, gameTypeTimeRunner },
             },
         },
     }

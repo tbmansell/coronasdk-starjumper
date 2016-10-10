@@ -1,7 +1,7 @@
 local planetData = {
     name         = "organia",
     gameUnlocks  = {
-        [gameTypeTimeRunner]  = {stars=20},  -- lower than normal to treat like a trial
+        [gameTypeTimeRunner]  = {stars=0},  -- were now giving it away as its a run away success  -- lower than normal to treat like a trial
         [gameTypeClimbChase]  = {stars=50},
         [gameTypeArcadeRacer] = {stars=60},
         [gameTypeSurvival]    = {fuzzies=7},

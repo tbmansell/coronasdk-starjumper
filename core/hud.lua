@@ -827,6 +827,10 @@ end
 
 function hud:showTutorialSplash()
     self.splash = display.newImage("images/message-tabs/tutorial-splash.png", centerX-50, centerY)
+
+    -- block touch event
+    self.splash:addEventListener("touch", function() return true end)
+
     self.splash:addEventListener("tap", function()
         self.splash:removeSelf()
         self.splash = nil
@@ -905,11 +909,6 @@ end
 function hud:reset(player)
     if player.main then
         self.level:reset(player)
-
-        -- show splash tutorial when player dies
-        if self.level.data.splashTutorial then
-            self:showTutorialSplash()
-        end
     elseif player.ai then
         self.level:resetForAi(player)
     end

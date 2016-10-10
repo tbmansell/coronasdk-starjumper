@@ -483,7 +483,7 @@ function scene:startPlaying(player)
 
         -- bypass tutorial for first level and use quick hint system and give them infinite lives
         if level.data.splashTutorial then
-            after(3000, function() hud:showTutorialSplash() end)
+            hud:showTutorialSplash()
         end
     end
     

@@ -28,7 +28,7 @@ settings = {
 	{
 		plist=
 		{
-            CFBundleShortVersionString = "1.0.5",
+            CFBundleShortVersionString = "1.0.6",
 			CFBundleDisplayName        = "Star Jumper",
             CFBundleName               = "Star Jumper",
             CFBundleIconFile           = "Icon.png",

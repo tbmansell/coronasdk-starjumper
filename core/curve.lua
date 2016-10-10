@@ -116,12 +116,12 @@ function curve:drawTrajectory(camera, jumpX, jumpY, pullX, pullY)
     local velx, vely = curve:calcVelocity(jumpX-pullX, jumpY-pullY)
     local startVelX, startVelY = velx, vely
 
-    for i=1,40 do
+    for i=1,50 do
         local pointX, pointY = self:getTrajectoryPoint(jumpX, jumpY, startVelX, startVelY, i)
 
         local circle = new_circle(trajectory, pointX, pointY, 5)
         circle:setFillColor(1,0.2,0.2)
-        circle.alpha = 0.2
+        circle.alpha = 0.5
     end
 
     camera:add(trajectory, 2)

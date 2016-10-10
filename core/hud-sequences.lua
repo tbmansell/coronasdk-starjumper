@@ -471,8 +471,8 @@ function hud:endLevelButtons(success)
         seq5:add("pulse", {time=1500, scale=0.05})
         seq5:start()
 
-        -- display reward video skipper if next level is LOCKED but is not the last normal zone or a secret one
-        if game == gameTypeStory and not nextZoneUnlocked and (zoneNum+1) < lastZone then
+        -- display reward video skipper if next level is not the last normal zone or a secret one
+        if game == gameTypeStory and (zoneNum+1) < lastZone then
             local skipVideo    = display.newGroup()
             local skipVideoBgr = newImage(skipVideo, "message-tabs/skipvideo-messagebox", 650, 350)
             local btnSkip, btnSkipOverlay = self:createButtonSkipZone(skipVideo, 800, 370)
